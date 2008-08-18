@@ -1,0 +1,60 @@
+//
+// C++ Interface: contact
+//
+// Description:
+//
+//
+// Author: Andrew Smith <espadav8@gmail.com>, (C) 2008
+//
+// Copyright: See COPYING file that comes with this distribution
+//
+//
+#ifndef CONTACT_H
+#define CONTACT_H
+
+#include <QObject>
+
+/**
+	@author Andrew Smith <espadav8@gmail.com>
+*/
+class Contact : public QObject
+{
+    Q_OBJECT
+    public:
+        Contact(QObject *parent = 0);
+        ~Contact();
+
+        QString     getNickname();
+        QString     getStatusline();
+        unsigned long long    getID();
+        unsigned long long    getGroup();
+        int         getOnlineStatus();
+        int         getBridgeType();
+        int         getDeviceType();
+        bool        getIsContact();
+
+        void        setNickname( QString );
+        void        setStatusline( QString );
+        void        setID( unsigned long long );
+        void        setGroup( unsigned long long );
+        void        setOnlineStatus( int );
+        void        setBridgeType( int );
+        void        setDeviceType( int );
+        void        setIsContact( bool );
+
+    signals:
+        void        updateNickname( QString );
+
+    private:
+        QString     nickname;
+        QString     statusline;
+        unsigned long long    id;
+        unsigned long long    group;
+        int         onlineStatus;
+        int         bridgeType;
+        int         deviceType;
+        bool        isContact;
+
+};
+
+#endif

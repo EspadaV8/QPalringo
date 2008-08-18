@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/contacts/" >
+        <file alias="pcContactIcon.png">../images/32px_PC.png</file>
+        <file alias="mobileContactIcon.png">../images/32px_Mobile.png</file>
+        <file alias="botContactIcon.png">../images/32px_Bot.png</file>
+        <file alias="offlineContactIcon.png">../images/32px_Offline.png</file>
+    </qresource>
+
+    <qresource prefix="/services/" >
+        <file alias="aimService.png">../images/AIM.png</file>
+        <file alias="ggService.png">../images/GG.png</file>
+        <file alias="icqService.png">../images/ICQ.png</file>
+        <file alias="msnService.png">../images/MSN.png</file>
+        <file alias="xmppService.png">../images/XMPP.png</file>
+        <file alias="yahooService.png">../images/Yahoo.png</file>
+        <file alias="palringoService.png">../images/Palringo.png</file>
+    </qresource>
+
+    <qresource prefix="/misc/" >
+        <file alias="downarrow.png">../images/downarrow.png</file>
+        <file alias="rightarrow.png">../images/rightarrow.png</file>
+        <file alias="overview.png">../images/overviewIcon.png</file>
+        <file alias="sysTrayIcon.png">../images/sysTrayIcon.png</file>
+    </qresource>
+
+    <qresource prefix="/styles/" >
+        <file alias="QPalringo.css">../qss/qpalringo.css</file>
+        <file alias="ListItem.css">../qss/listitem.css</file>
+        <file alias="MessageItem.css">../qss/messageitem.css</file>
+    </qresource>
+
+    <qresource prefix="/messageTypes/" >
+        <file alias="text.png">../images/text.png</file>
+        <file alias="voice.png">../images/voice.png</file>
+        <file alias="image.png">../images/image.png</file>
+    </qresource>
+</RCC>
