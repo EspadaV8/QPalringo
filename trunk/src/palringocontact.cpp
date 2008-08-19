@@ -66,13 +66,13 @@ int PalringoContact::getContactOnlineStatus()
 
 QString PalringoContact::getContainerGroup()
 {
-    if( this->contact->getOnlineStatus() == 0 )
+    if( this->contact->getOnlineStatus() > 0 )
     {
-        return "Offline";
+        return "Online";
     }
     else
     {
-        return "Online";
+        return "Offline";
     }
 }
 
@@ -99,11 +99,7 @@ void PalringoContact::CreateChatWindow()
 QString PalringoContact::getContactIcon()
 {
     QString iconName;
-    if ( this->contact->getOnlineStatus() == 0 )
-    {
-        iconName = ":/contacts/offlineContactIcon.png";
-    }
-    else
+    if ( this->contact->getOnlineStatus() > 0 )
     {
         switch( this->contact->getDeviceType() )
         {
@@ -118,6 +114,10 @@ QString PalringoContact::getContactIcon()
                 iconName = ":/contacts/pcContactIcon.png";
                 break;
         }
+    }
+    else
+    {
+        iconName = ":/contacts/offlineContactIcon.png";
     }
     return iconName;
 }
