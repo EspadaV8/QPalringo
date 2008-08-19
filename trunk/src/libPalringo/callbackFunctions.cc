@@ -298,6 +298,11 @@ PalringoConnection::onGroupDetailReceived(headers_t& headers,
   {
     group.name_ = groupDataPtr->name_;
   }
+  
+  if (groupDataPtr->desc_.size())
+  {
+      group.desc_ = groupDataPtr->desc_;
+  }
 
   for (size_t i = 0; i<body.size()/8; ++i)
   {
