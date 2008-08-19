@@ -4,6 +4,7 @@
         <file alias="mobileContactIcon.png">../images/32px_Mobile.png</file>
         <file alias="botContactIcon.png">../images/32px_Bot.png</file>
         <file alias="offlineContactIcon.png">../images/32px_Offline.png</file>
+        <file alias="groupIcon.png">../images/32px_Group.png</file>
     </qresource>
 
     <qresource prefix="/services/" >
