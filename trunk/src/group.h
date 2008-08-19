@@ -24,11 +24,12 @@ class Group : public QObject
     public:
         Group(QObject *parent = 0);
         ~Group();
-        
-        QString         getName();
-        QString         getDescription();
-        unsigned long long        getID();
-        QSet<unsigned long long>  getContacts();
+
+        QString                     getName();
+        QString                     getDescription();
+        unsigned long long          getID();
+        QSet<unsigned long long>    getContacts();
+        bool                        hasContact( unsigned long long id );
 
         void            setName( QString name );
         void            setDescription( QString description );
