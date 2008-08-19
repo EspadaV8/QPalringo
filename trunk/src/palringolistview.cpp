@@ -19,9 +19,11 @@
  ***************************************************************************/
 #include "palringolistview.h"
 
-PalringoListView::PalringoListView( QWidget *parent )
+PalringoListView::PalringoListView( QWidget *parent, Group *group )
     : QScrollArea( parent )
 {
+    this->group = group;
+
     QWidget *w = new QWidget;
     w->setObjectName( "ListViewBackground" );
 
@@ -69,7 +71,7 @@ void PalringoListView::addLayoutsToSelf()
 
 void PalringoListView::updateWidget( int x )
 {
-    ListItem *l = this->list.at( x );
+    ListItem *l = this->contactList.at( x );
     ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( l->getContainerGroup() ) );
     if ( lvc != NULL )
         lvc->appendWidget( l );
@@ -79,13 +81,13 @@ void PalringoListView::updateWidget( int x )
 
 void PalringoListView::setList( QList<ListItem *> list )
 {
-    this->list = list;
+    this->contactList = list;
 
     // we now go through each item
-    for ( int i = 0; i < this->list.size(); i++ )
+    for ( int i = 0; i < this->contactList.size(); i++ )
     {
         // get the list item
-        ListItem *l = this->list.at( i );
+        ListItem *l = this->contactList.at( i );
         // do something?
         ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( l->getContainerGroup() ) );
         if ( lvc != NULL )
@@ -113,10 +115,25 @@ void PalringoListView::mousePressEvent( QMouseEvent *event )
     // qDebug( "got a mouse event" );
     event->accept();
     // if we get a mouse event then check the contacts to see which one wants to be selected
-    for( int i = 0; i < this->list.size(); i++ )
+    for( int i = 0; i < this->contactList.size(); i++ )
     {
-        ListItem *l = this->list.at( i );
+        ListItem *l = this->contactList.at( i );
         l->setSelected( l->getToSelect() );
+    }
+}
+
+void PalringoListView::contactReceived( Contact *contact )
+{
+    if( ( this->group == NULL ) || ( this->group->hasContact( contact->getID() ) ) )
+    {
+        PalringoContact *pc = new PalringoContact( this, contact );
+        this->contactList.append( pc );
+
+        ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( pc->getContainerGroup() ) );
+        if ( lvc != NULL )
+            lvc->appendWidget( pc );
+        else
+            qDebug( "lvc is null - %s", qPrintable( pc->getContainerGroup() ) );
     }
 }
 

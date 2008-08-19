@@ -29,6 +29,8 @@
 #include <QList>
 #include "listviewcontainer.h"
 #include "listitem.h"
+#include "contact.h"
+#include "group.h"
 #include "palringocontact.h"
 #include "serviceitem.h"
 
@@ -36,7 +38,7 @@ class PalringoListView : public QScrollArea
 {
     Q_OBJECT
     public:
-        PalringoListView( QWidget *parent = 0 );
+        PalringoListView( QWidget *parent = 0, Group *group = NULL );
         ~PalringoListView();
 
         void setList( QList<ListItem *> contacts );
@@ -45,10 +47,15 @@ class PalringoListView : public QScrollArea
         void setupContactList();
         void setupGroupList();
 
+    public slots:
+        void contactReceived( Contact *contact );
+
     protected:
         void mousePressEvent( QMouseEvent *event );
 
     private:
+        Group *group;
+
         void addLayoutsToSelf();
         int  getContainerPosition( QString containerName );
 
@@ -61,7 +68,7 @@ class PalringoListView : public QScrollArea
         QPixmap *rightarrow;
 
         bool isGroup;
-        QList<ListItem *> list;
+        QList<ListItem *> contactList;
         QList<ListViewContainer *> listViewContainers;
 };
 
