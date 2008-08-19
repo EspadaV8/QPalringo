@@ -26,7 +26,7 @@ QPalringoConnection::QPalringoConnection(QString login,
 {
     qDebug( "creating a connection" );
     PalringoConnection::connectClient();
-    
+
     //connect( this,      SIGNAL( logonSuccessful() ), tools_, SLOT( logonSuccessful() ) );
     connect( this,      SIGNAL( gotContacts() ),tools_, SLOT( updateContacts() ) );
     connect( this,      SIGNAL( messageReceived( QString, unsigned long long, unsigned long long, QString ) ),
@@ -66,25 +66,6 @@ int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::str
     PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
     emit( logonSuccessful() );
 
-    QMap<int, contact_t> m( this->contacts_ );
-    qDebug( "number of contacts %d", m.count() );
-
-    QMapIterator<int, contact_t> i(m);
-    while (i.hasNext())
-    {
-        i.next();
-
-        Contact *contact = new Contact;
-        contact->setNickname( QString::fromStdString( i.value().nickname_ ) );
-        contact->setStatusline( QString::fromStdString( i.value().status_ ) );
-        contact->setOnlineStatus( i.value().onlineStatus_ );
-        contact->setIsContact( i.value().isContact_ );
-        contact->setDeviceType( i.value().deviceType_ );
-        contact->setID( i.key() );
-        tools_->addNewContact( contact );
-    }
-    emit( gotContacts() );
-
     return 1;
 }
 
@@ -92,7 +73,42 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
                                                std::string& body,
                                                GenericData *data)
 {
-    return PalringoConnection::onContactDetailReceived( headers, body, data );
+    ContactData contactData;
+    if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
+    {
+
+        qDebug( "got a contact - %s - %d", qPrintable( QString::fromStdString( contactData.nickname_ ) ), contactData.onlineStatus_ );
+
+        Contact *contact = new Contact;
+        contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
+        contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+        contact->setOnlineStatus( contactData.onlineStatus_ );
+        contact->setIsContact( contactData.isContact_ );
+        contact->setDeviceType( contactData.deviceType_ );
+        contact->setID( contactData.contactId_ );
+        tools_->addNewContact( contact );
+
+        /*
+        QMap<int, contact_t> m( this->contacts_ );
+        qDebug( "number of contacts %d", m.count() );
+
+        QMapIterator<int, contact_t> i(m);
+        while (i.hasNext())
+        {
+            i.next();
+
+            Contact *contact = new Contact;
+            contact->setNickname( QString::fromStdString( i.value().nickname_ ) );
+            contact->setStatusline( QString::fromStdString( i.value().status_ ) );
+            contact->setOnlineStatus( i.value().onlineStatus_ );
+            contact->setIsContact( i.value().isContact_ );
+            contact->setDeviceType( i.value().deviceType_ );
+            contact->setID( i.key() );
+            tools_->addNewContact( contact );
+        }
+        */
+        // emit( gotContact() );
+    }
 }
 
 int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
@@ -104,23 +120,23 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
     {
         QString groupName = QString::fromStdString( groupData.name_ );
         qDebug( "got some group data - %s", qPrintable( groupName ) );
-        
+
         group_t &group_ = groups_[groupData.groupId_];
         std::set<uint64_t>::iterator it;
-        
+
         QSet<unsigned long long> group_contacts;
-        
+
         for( it = group_.contacts_.begin(); it != group_.contacts_.end(); it++)
         {
             group_contacts.insert( *it );
         }
-        
+
         Group *group = new Group;
         group->setID( groupData.groupId_ );
         group->setName( QString::fromStdString( group_.name_ ) );
         group->setDescription( QString::fromStdString( group_.desc_ ) );
         group->setContacts( group_contacts );
-        
+
         tools_->addGroup( group );
     }
     return 0;
