@@ -34,7 +34,7 @@ PalringoWindow::PalringoWindow()
 
     setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
-    
+
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
 }
 
@@ -115,6 +115,7 @@ void PalringoWindow::SetupTabs()
 
     contactList = new PalringoListView( mainTabs );
     contactList->setupContactList();
+    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), contactList, SLOT( contactReceived( Contact* ) ) );
 
     QPixmap *p = new QPixmap( ":/misc/overview.png" );
 
@@ -183,7 +184,8 @@ void PalringoWindow::updateContacts()
 
 void PalringoWindow::newGroupAdded( Group *group )
 {
-    PalringoListView *groupTab = new PalringoListView( mainTabs );
+    PalringoListView *groupTab = new PalringoListView( mainTabs, group );
     groupTab->setupGroupList();
+    connect( tools_, SIGNAL( contactDetailReceived( Contact* ) ), groupTab, SLOT( contactReceived( Contact* ) ) );
     mainTabs->addTab( groupTab, group->getName() );
 }
