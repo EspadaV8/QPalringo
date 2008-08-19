@@ -144,7 +144,7 @@ PalringoConnection::onAuthReceived(headers_t& headers,
     reconnectChallenge.append(body);
     newBody = crypto::md5(reconnectChallenge);
     char tmp[64];
-    sprintf(tmp, "%llu", --packetSeq_);
+    sprintf(tmp, "%lu", --packetSeq_);
     headers["PS"] = tmp;
     loggedOn_ = true;
     receivedData_ = 0;
@@ -239,7 +239,7 @@ PalringoConnection::onContactDetailReceived(headers_t& headers,
   {
     contact.deviceType_ = contactDataPtr->deviceType_;
   }
-  
+
   if (contactDataPtr->isContact_)
   {
       contact.isContact_ = contactDataPtr->isContact_;
@@ -260,7 +260,7 @@ PalringoConnection::onContactAddReceived(headers_t& headers,
   headers.clear();
   headers["ACCEPTED"] = "1";
   char tmp1[32];
-  sprintf(tmp1, "%llu", contactDataPtr->sourceId_);
+  sprintf(tmp1, "%lu", contactDataPtr->sourceId_);
   headers["SOURCE-ID"] = tmp1;
   char tmp2[32];
   sprintf(tmp2, "%d", ++mesg_id_);
