@@ -42,18 +42,21 @@ class Tools : public QObject
 
         void sendMessage( Contact *contact, Message *message );
 
-        void addNewContact( Contact *newcontact );
+        void addNewContact( Contact *contact );
         QHash<unsigned long long, Contact*> getContacts();
-        
+
         void addGroup( Group *group );
 
     public slots:
         void updateContacts();
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
-        
+
     signals:
         void newGroupAdded( Group *group );
-        void newContact( Contact *contact);
+        void newContact( Contact *contact );
+
+        void userContactReceived( Contact *contact );
+        void contactDetailReceived( Contact *contact );
 
     private:
         PalringoWindow *mainWindow ;

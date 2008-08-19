@@ -83,9 +83,15 @@ void Tools::sendMessage( Contact *contact, Message *message )
     this->connection->sendMessage( contact->getID(), message );
 }
 
-void Tools::addNewContact( Contact *newcontact )
+void Tools::addNewContact( Contact *contact )
 {
-    this->contacts.insert( newcontact->getID(),  newcontact );
+    this->contacts.insert( contact->getID(),  contact );
+
+    if( contact->getIsContact() )
+    {
+        emit( userContactReceived( contact ) );
+    }
+    emit( contactDetailReceived( contact ) );
 }
 
 QHash<unsigned long long, Contact*> Tools::getContacts()
