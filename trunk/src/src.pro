@@ -48,3 +48,6 @@ RESOURCES += ../resources/qpalringo.qrc
 DISTFILES += ../qss/qpalringo.css \
  ../qss/listitem.qss \
  ../qss/messageitem.css
+
+MOC_DIR     = ../tmp
+OBJECTS_DIR = ../tmp

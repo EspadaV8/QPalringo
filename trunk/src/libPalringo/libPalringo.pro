@@ -20,3 +20,6 @@ HEADERS += DataMap.h \
  md5.h \
  my_oldpassword.h \
  salsa20.h
+
+MOC_DIR     = ../../tmp
+OBJECTS_DIR = ../../tmp
