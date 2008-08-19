@@ -1,7 +1,7 @@
 //
 // C++ Implementation: group
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andrew Smith <espadav8@gmail.com>, (C) 2008
@@ -40,6 +40,11 @@ unsigned long long        Group::getID()
 QSet<unsigned long long>  Group::getContacts()
 {
     return this->contacts;
+}
+
+bool Group::hasContact( unsigned long long id )
+{
+    return this->contacts.contains( id );
 }
 
 void            Group::setName( QString name )
