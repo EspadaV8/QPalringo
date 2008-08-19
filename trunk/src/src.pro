@@ -13,7 +13,8 @@ SOURCES += main.cpp \
  signinwindow.cpp \
  connection.cpp \
  contact.cpp \
- group.cpp
+ group.cpp \
+ grouplistitem.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -39,7 +40,8 @@ HEADERS += palringowindow.h \
  signinwindow.h \
  connection.h \
  contact.h \
- group.h
+ group.h \
+ grouplistitem.h
 
 LIBS += -LlibPalringo -lPalringo -lssl
 
@@ -49,5 +51,5 @@ DISTFILES += ../qss/qpalringo.css \
  ../qss/listitem.qss \
  ../qss/messageitem.css
 
-MOC_DIR     = ../tmp
+MOC_DIR = ../tmp
 OBJECTS_DIR = ../tmp
