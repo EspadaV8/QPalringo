@@ -24,7 +24,7 @@
  @author Andrew Smith <espadav8@gmail.com>
 */
 
-#include <QtGui>
+#include <QWidget>
 #include "listitem.h"
 #include "contact.h"
 
