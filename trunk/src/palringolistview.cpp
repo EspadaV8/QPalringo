@@ -18,6 +18,7 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 #include "palringolistview.h"
+#include "grouplistitem.h"
 
 PalringoListView::PalringoListView( QWidget *parent, Group *group )
     : QScrollArea( parent )
@@ -49,6 +50,11 @@ void PalringoListView::setupOverview()
 void PalringoListView::setupGroupList()
 {
     this->listViewContainers.append( new ListViewContainer( this, "Group Chat" ) );
+    
+    GroupListItem *gli = new GroupListItem( this, this->group );
+    
+    ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( gli->getContainerGroup() ) );
+    lvc->appendWidget( gli );
 
     setupContactList();
 }
