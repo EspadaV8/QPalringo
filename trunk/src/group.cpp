@@ -54,7 +54,14 @@ void            Group::setName( QString name )
 
 void            Group::setDescription( QString description )
 {
-    this->description = description;
+    if( description == "" )
+    {
+        this->description = "Group Chat";
+    }
+    else
+    {
+        this->description = description;
+    }
 }
 
 void            Group::setID( unsigned long long id )
