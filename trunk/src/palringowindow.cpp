@@ -161,27 +161,6 @@ void PalringoWindow::loginService()
     this->showSigninWindow();
 }
 
-void PalringoWindow::updateContacts()
-{
-    qDebug( "updating contacts" );
-
-    QHashIterator<unsigned long long, Contact*> i( tools_->getContacts() );
-
-    while( i.hasNext() )
-    {
-        i.next();
-
-        if( i.value()->getIsContact() )
-        {
-            PalringoContact *pc = new PalringoContact( 0, i.value() );
-            usersContacts.append( pc );
-        }
-    }
-
-    contactList->setList( usersContacts );
-    this->update();
-}
-
 void PalringoWindow::newGroupAdded( Group *group )
 {
     PalringoListView *groupTab = new PalringoListView( mainTabs, group );

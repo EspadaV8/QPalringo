@@ -46,7 +46,6 @@ class PalringoWindow : public QMainWindow
     public slots:
         void showSigninWindow();
         void loginService();
-        void updateContacts();
         void newGroupAdded( Group *group );
 
     private:

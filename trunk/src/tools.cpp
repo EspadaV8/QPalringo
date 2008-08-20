@@ -72,11 +72,6 @@ void Tools::openPalringoConnection( QString email, QString password )
     }
 }
 
-void Tools::updateContacts()
-{
-    this->mainWindow->updateContacts();
-}
-
 void Tools::sendMessage( Contact *contact, Message *message )
 {
     qDebug( "sending message..." );

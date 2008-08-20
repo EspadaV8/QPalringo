@@ -44,7 +44,6 @@ class Tools : public QObject
         QHash<unsigned long long, Contact*> getContacts();
 
     public slots:
-        void updateContacts();
         void addGroup( Group *group );
         void addContact( Contact *contact );
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
