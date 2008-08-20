@@ -104,6 +104,34 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
     return this->contacts;
 }
 
+QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long groupID )
+{
+    QHash<unsigned long long, Contact*> groupContacts;
+    if( groupID == 0 )
+    {
+        foreach( Contact *contact, this->contacts )
+        {
+            if( contact->getIsContact() )
+            {
+                groupContacts.insert( contact->getID(), contact );
+            }
+        }
+    }
+    else
+    {
+        Group *group = this->groups.value( groupID );
+        foreach( Contact *contact, this->contacts )
+        {
+            if( group->hasContact( contact->getID() ) )
+            {
+                groupContacts.insert( contact->getID(), contact );
+            }
+        }
+    }
+    
+    return groupContacts;
+}
+
 void Tools::addGroup( Group *group )
 {
     this->groups.insert( group->getID(),  group );

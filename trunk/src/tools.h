@@ -42,6 +42,7 @@ class Tools : public QObject
 
         void sendMessage( Contact *contact, Message *message );
         QHash<unsigned long long, Contact*> getContacts();
+        QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
 
     public slots:
         void logonSuccessful();
