@@ -12,10 +12,7 @@
 #include <QHash>
 #include <QMap>
 #include <QSet>
-#include <arpa/inet.h>
 #include "qpalringoconnection.h"
-#include "contact.h"
-#include "group.h"
 #include "tools.h"
 
 QPalringoConnection::QPalringoConnection(QString login,
@@ -29,8 +26,10 @@ QPalringoConnection::QPalringoConnection(QString login,
 
     //connect( this,      SIGNAL( logonSuccessful() ), tools_, SLOT( logonSuccessful() ) );
     connect( this,      SIGNAL( gotContacts() ),tools_, SLOT( updateContacts() ) );
+    connect( this,      SIGNAL( gotGroupDetails( Group* ) ), tools_, SLOT  ( addGroup( Group* ) ) );
+    connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT  ( addContact( Contact* ) ) );
     connect( this,      SIGNAL( messageReceived( QString, unsigned long long, unsigned long long, QString ) ),
-             tools_,    SLOT  ( messageReceived( QString, unsigned long long, unsigned long long, QString ) ) );
+             tools_, SLOT  ( messageReceived( QString, unsigned long long, unsigned long long, QString ) ) );
 }
 
 int QPalringoConnection::poll()
@@ -86,7 +85,8 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
         contact->setIsContact( contactData.isContact_ );
         contact->setDeviceType( contactData.deviceType_ );
         contact->setID( contactData.contactId_ );
-        tools_->addNewContact( contact );
+        
+        emit( gotContactDetails( contact ) );
 
         /*
         QMap<int, contact_t> m( this->contacts_ );
@@ -136,8 +136,8 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
         group->setName( QString::fromStdString( group_.name_ ) );
         group->setDescription( QString::fromStdString( group_.desc_ ) );
         group->setContacts( group_contacts );
-
-        tools_->addGroup( group );
+        
+        emit( gotGroupDetails( group ) );
     }
     return 0;
 }

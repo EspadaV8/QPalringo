@@ -14,6 +14,8 @@
 
 #include <QObject>
 #include "libPalringo/libPalringo.h"
+#include "contact.h"
+#include "group.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -29,6 +31,8 @@ class QPalringoConnection : public QObject, public PalringoConnection
                               unsigned long long senderID,
                               unsigned long long groupID,
                               QString ct );
+        void gotContactDetails( Contact *contact );
+        void gotGroupDetails( Group *group );
 
     public:
         QPalringoConnection(QString login = "",
