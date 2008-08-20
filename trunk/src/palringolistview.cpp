@@ -75,15 +75,25 @@ void PalringoListView::addLayoutsToSelf()
 
 bool PalringoListView::addWidgetToView( ListItem *item )
 {
-    ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( item->getContainerGroup() ) );
-    if ( lvc != NULL )
+    QString containerGroup = item->getContainerGroup();
+    int containerPosition = this->getContainerPosition( containerGroup );
+    if( containerPosition >= 0 )
     {
-        lvc->appendWidget( item );
-        return true;
+        ListViewContainer *lvc = this->listViewContainers.at( containerPosition );
+        if ( lvc != NULL )
+        {
+            lvc->appendWidget( item );
+            return true;
+        }
+        else
+        {
+            qDebug( "lvc is null - %s", qPrintable( item->getContainerGroup() ) );
+            return false;
+        }
     }
     else
     {
-        qDebug( "lvc is null - %s", qPrintable( item->getContainerGroup() ) );
+        qDebug( "invalid containerPosition - %d", containerPosition );
         return false;
     }
 }
