@@ -107,10 +107,7 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
 void Tools::addGroup( Group *group )
 {
     this->groups.insert( group->getID(),  group );
-    if( this->loggedIn )
-    {
-        emit( newGroupAdded( group ) );
-    }
+    emit( newGroupAdded( group ) );
 }
 
 void Tools::logonSuccessful()
