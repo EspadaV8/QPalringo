@@ -58,6 +58,7 @@ class PalringoListView : public QScrollArea
 
         void addLayoutsToSelf();
         int  getContainerPosition( QString containerName );
+        bool addWidgetToView( ListItem *item );
 
         QVBoxLayout *listLayout;
 

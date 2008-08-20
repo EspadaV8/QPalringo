@@ -52,9 +52,7 @@ void PalringoListView::setupGroupList()
     this->listViewContainers.append( new ListViewContainer( this, "Group Chat" ) );
     
     GroupListItem *gli = new GroupListItem( this, this->group );
-    
-    ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( gli->getContainerGroup() ) );
-    lvc->appendWidget( gli );
+    this->addWidgetToView( gli );
 
     setupContactList();
 }
@@ -75,14 +73,25 @@ void PalringoListView::addLayoutsToSelf()
     this->listLayout->addStretch( 1 );
 }
 
+bool PalringoListView::addWidgetToView( ListItem *item )
+{
+    ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( item->getContainerGroup() ) );
+    if ( lvc != NULL )
+    {
+        lvc->appendWidget( item );
+        return true;
+    }
+    else
+    {
+        qDebug( "lvc is null - %s", qPrintable( item->getContainerGroup() ) );
+        return false;
+    }
+}
+
 void PalringoListView::updateWidget( int x )
 {
     ListItem *l = this->contactList.at( x );
-    ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( l->getContainerGroup() ) );
-    if ( lvc != NULL )
-        lvc->appendWidget( l );
-    else
-        qDebug( "lvc is null - %s", qPrintable( l->getContainerGroup() ) );
+    this->addWidgetToView( l );
 }
 
 void PalringoListView::setList( QList<ListItem *> list )
@@ -95,11 +104,7 @@ void PalringoListView::setList( QList<ListItem *> list )
         // get the list item
         ListItem *l = this->contactList.at( i );
         // do something?
-        ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( l->getContainerGroup() ) );
-        if ( lvc != NULL )
-            lvc->appendWidget( l );
-        else
-            qDebug( "lvc is null - %s", qPrintable( l->getContainerGroup() ) );
+        this->addWidgetToView( l );
     }
 }
 
@@ -134,12 +139,7 @@ void PalringoListView::contactReceived( Contact *contact )
     {
         PalringoContact *pc = new PalringoContact( this, contact );
         this->contactList.append( pc );
-
-        ListViewContainer *lvc = this->listViewContainers.at( getContainerPosition( pc->getContainerGroup() ) );
-        if ( lvc != NULL )
-            lvc->appendWidget( pc );
-        else
-            qDebug( "lvc is null - %s", qPrintable( pc->getContainerGroup() ) );
+        this->addWidgetToView( pc );
     }
 }
 
