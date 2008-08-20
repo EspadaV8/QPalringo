@@ -8,7 +8,7 @@ TEMPLATE = lib
 CONFIG += warn_on debug
 TARGET = libPalringo.a
 
-QT = -core -gui
+QT -= core gui
 
 HEADERS += DataMap.h \
  MiscFunctions.h \
