@@ -71,6 +71,9 @@ class PalringoListView : public QScrollArea
         bool isGroup;
         QList<ListItem *> contactList;
         QList<ListViewContainer *> listViewContainers;
+        
+    private slots:
+        void getContacts();
 };
 
 #endif

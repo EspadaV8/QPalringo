@@ -17,12 +17,14 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+#include "tools.h"
 #include "palringolistview.h"
 #include "grouplistitem.h"
 
 PalringoListView::PalringoListView( QWidget *parent, Group *group )
     : QScrollArea( parent )
 {
+    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
     this->group = group;
 
     QWidget *w = new QWidget;
@@ -150,6 +152,20 @@ void PalringoListView::contactReceived( Contact *contact )
         PalringoContact *pc = new PalringoContact( this, contact );
         this->contactList.append( pc );
         this->addWidgetToView( pc );
+    }
+}
+
+void PalringoListView::getContacts()
+{
+    unsigned long long groupID = ( this->group == NULL ) ? 0 : this->group->getID();
+    QHash<unsigned long long, Contact*> contacts = tools_->getContacts( groupID );
+    
+    if( contacts.size() > 0 )
+    {
+        foreach( Contact *contact, contacts )
+        {
+            this->contactReceived( contact );
+        }
     }
 }
 
