@@ -16,6 +16,7 @@ Tools::Tools( PalringoWindow *mainWindow )
 {
     this->mainWindow = mainWindow;
     this->connection = NULL;
+    this->loggedIn = false;
 }
 
 Tools::~Tools() { }
@@ -80,13 +81,22 @@ void Tools::sendMessage( Contact *contact, Message *message )
 
 void Tools::addContact( Contact *contact )
 {
-    this->contacts.insert( contact->getID(),  contact );
-
-    if( contact->getIsContact() )
+    if( !this->contacts.contains( contact->getID() ) )
     {
-        emit( userContactReceived( contact ) );
+        this->contacts.insert( contact->getID(),  contact );
+        
+        if( this->loggedIn )
+        {
+            if( contact->getIsContact() )
+            {
+                emit( userContactReceived( contact ) );
+            }
+            emit( contactDetailReceived( contact ) );
+        }
     }
-    emit( contactDetailReceived( contact ) );
+    else
+    {
+    }
 }
 
 QHash<unsigned long long, Contact*> Tools::getContacts()
@@ -97,5 +107,14 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
 void Tools::addGroup( Group *group )
 {
     this->groups.insert( group->getID(),  group );
-    emit( newGroupAdded( group ) );
+    if( this->loggedIn )
+    {
+        emit( newGroupAdded( group ) );
+    }
+}
+
+void Tools::logonSuccessful()
+{
+    this->loggedIn = true;
+    emit( connected() );
 }

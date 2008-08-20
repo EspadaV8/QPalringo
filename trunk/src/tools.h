@@ -44,11 +44,13 @@ class Tools : public QObject
         QHash<unsigned long long, Contact*> getContacts();
 
     public slots:
+        void logonSuccessful();
         void addGroup( Group *group );
         void addContact( Contact *contact );
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
 
     signals:
+        void connected();
         void newGroupAdded( Group *group );
         void newContact( Contact *contact );
 
@@ -56,6 +58,7 @@ class Tools : public QObject
         void contactDetailReceived( Contact *contact );
 
     private:
+        bool loggedIn;
         PalringoWindow *mainWindow ;
         Connection *connection;
 

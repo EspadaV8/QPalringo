@@ -24,7 +24,7 @@ QPalringoConnection::QPalringoConnection(QString login,
     qDebug( "creating a connection" );
     PalringoConnection::connectClient();
 
-    //connect( this,      SIGNAL( logonSuccessful() ), tools_, SLOT( logonSuccessful() ) );
+    connect( this,      SIGNAL( logonSuccessful() ), tools_, SLOT( logonSuccessful() ) );
     connect( this,      SIGNAL( gotGroupDetails( Group* ) ), tools_, SLOT  ( addGroup( Group* ) ) );
     connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT  ( addContact( Contact* ) ) );
     connect( this,      SIGNAL( messageReceived( QString, unsigned long long, unsigned long long, QString ) ),
