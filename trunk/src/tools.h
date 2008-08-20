@@ -41,14 +41,12 @@ class Tools : public QObject
         void openPalringoConnection( QString email, QString password );
 
         void sendMessage( Contact *contact, Message *message );
-
-        void addNewContact( Contact *contact );
         QHash<unsigned long long, Contact*> getContacts();
-
-        void addGroup( Group *group );
 
     public slots:
         void updateContacts();
+        void addGroup( Group *group );
+        void addContact( Contact *contact );
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
 
     signals:

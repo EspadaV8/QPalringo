@@ -83,7 +83,7 @@ void Tools::sendMessage( Contact *contact, Message *message )
     this->connection->sendMessage( contact->getID(), message );
 }
 
-void Tools::addNewContact( Contact *contact )
+void Tools::addContact( Contact *contact )
 {
     this->contacts.insert( contact->getID(),  contact );
 
