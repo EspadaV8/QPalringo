@@ -14,7 +14,8 @@ SOURCES += main.cpp \
  connection.cpp \
  contact.cpp \
  group.cpp \
- grouplistitem.cpp
+ grouplistitem.cpp \
+ target.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -41,7 +42,8 @@ HEADERS += palringowindow.h \
  connection.h \
  contact.h \
  group.h \
- grouplistitem.h
+ grouplistitem.h \
+ target.h
 
 LIBS += -LlibPalringo -lPalringo -lssl
 
