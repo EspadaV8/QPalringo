@@ -26,3 +26,4 @@ HEADERS += DataMap.h \
 
 MOC_DIR     = ../../tmp
 OBJECTS_DIR = ../../tmp
+RCC_DIR = ../../tmp
