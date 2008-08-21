@@ -12,13 +12,13 @@
 #ifndef GROUP_H
 #define GROUP_H
 
-#include <QObject>
+#include "target.h"
 #include <QSet>
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-class Group : public QObject
+class Group : public Target
 {
     Q_OBJECT
     public:
@@ -37,7 +37,6 @@ class Group : public QObject
         void            setContacts( QSet<unsigned long long> );
 
     private:
-        unsigned long long        id;
         QString         name;
         QString         description;
         QSet<unsigned long long>  contacts;

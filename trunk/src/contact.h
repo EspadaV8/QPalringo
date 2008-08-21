@@ -12,12 +12,12 @@
 #ifndef CONTACT_H
 #define CONTACT_H
 
-#include <QObject>
+#include "target.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-class Contact : public QObject
+class Contact : public Target
 {
     Q_OBJECT
     public:
@@ -48,7 +48,6 @@ class Contact : public QObject
     private:
         QString     nickname;
         QString     statusline;
-        unsigned long long    id;
         unsigned long long    group;
         int         onlineStatus;
         int         bridgeType;
