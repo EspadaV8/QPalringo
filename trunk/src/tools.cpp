@@ -26,7 +26,6 @@ bool Tools::checkChatWindowOpen( Contact *contact )
     return ( this->openWindows.value( contact ) != NULL );
 }
 
-
 void Tools::openChatWindow( Contact *contact )
 {
     if ( this->checkChatWindowOpen( contact ) )
@@ -47,6 +46,33 @@ void Tools::removeChatWindow( Contact *contact )
 {
     qDebug( "removing chat window" );
     this->openWindows.remove( contact );
+}
+
+bool Tools::checkChatWindowOpen( Group *group )
+{
+    return ( this->openGroupWindows.value( group ) != NULL );
+}
+
+void Tools::openChatWindow( Group *group )
+{
+    if ( this->checkChatWindowOpen( group ) )
+    {
+        ChatWindow *w = this->openGroupWindows.value( group );
+        w->raise();
+        w->activateWindow();
+    }
+    else
+    {
+        ChatWindow *w = new ChatWindow( this->mainWindow, group );
+        this->openGroupWindows[ group ] = w;
+        w->show();
+    }
+}
+
+void Tools::removeChatWindow( Group *group )
+{
+    qDebug( "removing group chat window" );
+    this->openGroupWindows.remove( group );
 }
 
 void Tools::messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType )

@@ -38,6 +38,9 @@ class Tools : public QObject
         void openChatWindow( Contact *contact );
         void removeChatWindow( Contact *contact );
 
+        void openChatWindow( Group *grouo );
+        void removeChatWindow( Group *group );
+
         void openPalringoConnection( QString email, QString password );
 
         void sendMessage( Contact *contact, Message *message );
@@ -66,8 +69,10 @@ class Tools : public QObject
         Connection *connection;
 
         bool checkChatWindowOpen( Contact *contact );
+        bool checkChatWindowOpen( Group *group );
 
         QHash<Contact *, ChatWindow *> openWindows;
+        QHash<Group *, ChatWindow *> openGroupWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message*> unreadMessages;
