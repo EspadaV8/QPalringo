@@ -51,12 +51,8 @@ class PalringoContact : public ListItem
         void mouseDoubleClickEvent( QMouseEvent *event );
 
     private:
-        void CreateChatWindow();
-
         Contact *contact;
         bool openChatWindow;
-
-        QWidget *chatWindow;
 };
 
 #endif

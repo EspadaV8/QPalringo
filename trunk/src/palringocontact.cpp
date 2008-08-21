@@ -25,7 +25,6 @@ PalringoContact::PalringoContact( QWidget *parent, Contact *contact )
 {
     this->contact = contact;
     this->openChatWindow = false;
-    this->chatWindow = NULL;
 
     this->setFirstLine( this->contact->getNickname() );
     this->setSecondLine( this->contact->getStatusline() );
@@ -89,11 +88,6 @@ void PalringoContact::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-}
-
-void PalringoContact::CreateChatWindow()
-{
-    this->chatWindow = new QWidget( this, Qt::Window );
 }
 
 QString PalringoContact::getContactIcon()
