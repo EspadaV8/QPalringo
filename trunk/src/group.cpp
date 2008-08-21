@@ -58,11 +58,6 @@ void            Group::setDescription( QString description )
     }
 }
 
-void            Group::setID( unsigned long long id )
-{
-    this->id = id;
-}
-
 void            Group::setContacts( QSet<unsigned long long> contacts )
 {
     this->contacts = contacts;
