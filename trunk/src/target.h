@@ -24,6 +24,9 @@ class Target : public QObject
         Target(QObject *parent = 0);
         ~Target();
 
+        unsigned long long getID();
+        void setID( unsigned long long );
+
     protected:
         unsigned long long id;
 

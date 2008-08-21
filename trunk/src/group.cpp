@@ -16,11 +16,9 @@ Group::Group(QObject *parent)
 {
 }
 
-
 Group::~Group()
 {
 }
-
 
 QString         Group::getName()
 {
@@ -32,10 +30,6 @@ QString         Group::getDescription()
     return this->description;
 }
 
-unsigned long long        Group::getID()
-{
-    return this->id;
-}
 
 QSet<unsigned long long>  Group::getContacts()
 {

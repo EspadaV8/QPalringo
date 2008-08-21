@@ -26,7 +26,6 @@ class Contact : public Target
 
         QString     getNickname();
         QString     getStatusline();
-        unsigned long long    getID();
         unsigned long long    getGroup();
         int         getOnlineStatus();
         int         getBridgeType();
@@ -35,7 +34,6 @@ class Contact : public Target
 
         void        setNickname( QString );
         void        setStatusline( QString );
-        void        setID( unsigned long long );
         void        setGroup( unsigned long long );
         void        setOnlineStatus( int );
         void        setBridgeType( int );

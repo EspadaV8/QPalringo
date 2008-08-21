@@ -27,13 +27,11 @@ class Group : public Target
 
         QString                     getName();
         QString                     getDescription();
-        unsigned long long          getID();
         QSet<unsigned long long>    getContacts();
         bool                        hasContact( unsigned long long id );
 
         void            setName( QString name );
         void            setDescription( QString description );
-        void            setID( unsigned long long );
         void            setContacts( QSet<unsigned long long> );
 
     private:

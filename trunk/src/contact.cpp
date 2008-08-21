@@ -31,11 +31,6 @@ void Contact::setStatusline( QString statusline )
     this->statusline = statusline;
 }
 
-void Contact::setID( unsigned long long id )
-{
-    this->id = id;
-}
-
 void Contact::setGroup( unsigned long long group )
 {
     this->group = group;
