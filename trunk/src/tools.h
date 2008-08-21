@@ -16,8 +16,7 @@
 #include <QHash>
 #include <QMultiMap>
 #include "palringowindow.h"
-#include "contact.h"
-#include "group.h"
+#include "target.h"
 #include "messageitem.h"
 #include "chatwindow.h"
 #include "connection.h"
@@ -35,16 +34,12 @@ class Tools : public QObject
         Tools( PalringoWindow *parent = 0 );
         ~Tools();
 
-        void openChatWindow( Contact *contact );
-        void removeChatWindow( Contact *contact );
-
-        void openChatWindow( Group *grouo );
-        void removeChatWindow( Group *group );
+        void openChatWindow( Target *target );
+        void removeChatWindow( Target *target );
 
         void openPalringoConnection( QString email, QString password );
 
-        void sendMessage( Contact *contact, Message *message );
-        void sendMessage( Group *group, Message *message );
+        void sendMessage( Target *target, bool isGroup, Message *message );
 
         QHash<unsigned long long, Contact*> getContacts();
         QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
@@ -68,11 +63,9 @@ class Tools : public QObject
         PalringoWindow *mainWindow ;
         Connection *connection;
 
-        bool checkChatWindowOpen( Contact *contact );
-        bool checkChatWindowOpen( Group *group );
+        bool checkChatWindowOpen( Target *target );
 
-        QHash<Contact *, ChatWindow *> openWindows;
-        QHash<Group *, ChatWindow *> openGroupWindows;
+        QHash<Target*, ChatWindow *> openWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message*> unreadMessages;

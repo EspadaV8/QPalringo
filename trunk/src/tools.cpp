@@ -21,63 +21,37 @@ Tools::Tools( PalringoWindow *mainWindow )
 
 Tools::~Tools() { }
 
-bool Tools::checkChatWindowOpen( Contact *contact )
+bool Tools::checkChatWindowOpen( Target *target )
 {
-    return ( this->openWindows.value( contact ) != NULL );
+    return ( this->openWindows.value( target ) != NULL );
 }
 
-void Tools::openChatWindow( Contact *contact )
+void Tools::openChatWindow( Target *target )
 {
-    if ( this->checkChatWindowOpen( contact ) )
+    if ( this->checkChatWindowOpen( target ) )
     {
-        ChatWindow *w = this->openWindows.value( contact );
+        ChatWindow *w = this->openWindows.value( target );
         w->raise();
         w->activateWindow();
     }
     else
     {
-        ChatWindow *w = new ChatWindow( this->mainWindow, contact );
-        this->openWindows[ contact ] = w;
+        ChatWindow *w = new ChatWindow( this->mainWindow, target );
+        this->openWindows[ target ] = w;
         w->show();
     }
 }
 
-void Tools::removeChatWindow( Contact *contact )
+void Tools::removeChatWindow( Target *target )
 {
     qDebug( "removing chat window" );
-    this->openWindows.remove( contact );
-}
-
-bool Tools::checkChatWindowOpen( Group *group )
-{
-    return ( this->openGroupWindows.value( group ) != NULL );
-}
-
-void Tools::openChatWindow( Group *group )
-{
-    if ( this->checkChatWindowOpen( group ) )
-    {
-        ChatWindow *w = this->openGroupWindows.value( group );
-        w->raise();
-        w->activateWindow();
-    }
-    else
-    {
-        ChatWindow *w = new ChatWindow( this->mainWindow, group );
-        this->openGroupWindows[ group ] = w;
-        w->show();
-    }
-}
-
-void Tools::removeChatWindow( Group *group )
-{
-    qDebug( "removing group chat window" );
-    this->openGroupWindows.remove( group );
+    this->openWindows.remove( target );
 }
 
 void Tools::messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType )
 {
     Contact *contact = this->contacts.value( senderID );
+
     if( group == 0)
     {
         if( !this->checkChatWindowOpen( contact ) )
@@ -85,6 +59,16 @@ void Tools::messageReceived( QString message, unsigned long long senderID, unsig
             this->openChatWindow( contact );
         }
         ChatWindow *w = this->openWindows.value( contact );
+        w->appendMessage( message, contact, contentType );
+    }
+    else
+    {
+        Group* group_ = this->groups.value( group );
+        if( !this->checkChatWindowOpen( group_ ) )
+        {
+            this->openChatWindow( group_ );
+        }
+        ChatWindow *w = this->openWindows.value( group_ );
         w->appendMessage( message, contact, contentType );
     }
 }
@@ -99,16 +83,10 @@ void Tools::openPalringoConnection( QString email, QString password )
     }
 }
 
-void Tools::sendMessage( Contact *contact, Message *message )
+void Tools::sendMessage( Target *target, bool isGroup, Message *message )
 {
     qDebug( "sending message..." );
-    this->connection->sendMessage( contact->getID(), message );
-}
-
-void Tools::sendMessage( Group *group, Message *message )
-{
-    qDebug( "sending message..." );
-    this->connection->sendToGroup( group->getID(), message );
+    this->connection->sendMessage( target->getID(), isGroup, message );
 }
 
 void Tools::addContact( Contact *contact )
