@@ -77,9 +77,9 @@ void Tools::removeChatWindow( Group *group )
 
 void Tools::messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType )
 {
+    Contact *contact = this->contacts.value( senderID );
     if( group == 0)
     {
-        Contact *contact = this->contacts.value( senderID );
         if( !this->checkChatWindowOpen( contact ) )
         {
             this->openChatWindow( contact );
