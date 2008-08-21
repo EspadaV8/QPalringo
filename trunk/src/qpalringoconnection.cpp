@@ -162,3 +162,16 @@ bool QPalringoConnection::sendToGroup(QByteArray msg,
                                             groupID,
                                             contentType.toStdString());
 }
+
+bool QPalringoConnection::sendMessage(QByteArray msg,
+                                      QString contentType,
+                                      unsigned long long targetID,
+                                      bool isGroup )
+{
+    qDebug( "about to send message" );
+    return PalringoConnection::sendMessage( msg.data(),
+                                            msg.size(),
+                                            contentType.toStdString(),
+                                            targetID,
+                                            (isGroup) ? 1 : 0);
+}
