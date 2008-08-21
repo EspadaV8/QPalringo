@@ -84,7 +84,7 @@ void Tools::addContact( Contact *contact )
     if( !this->contacts.contains( contact->getID() ) )
     {
         this->contacts.insert( contact->getID(),  contact );
-        
+
         if( this->loggedIn )
         {
             if( contact->getIsContact() )
@@ -120,15 +120,13 @@ QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long group
     else
     {
         Group *group = this->groups.value( groupID );
-        foreach( Contact *contact, this->contacts )
+        QSet<unsigned long long> groupContactIDs = group->getContacts();
+        foreach( unsigned long long contactID, groupContactIDs )
         {
-            if( group->hasContact( contact->getID() ) )
-            {
-                groupContacts.insert( contact->getID(), contact );
-            }
+            Contact* contact = this->contacts.value( contactID );
+            groupContacts.insert( contactID, contact );
         }
     }
-    
     return groupContacts;
 }
 
