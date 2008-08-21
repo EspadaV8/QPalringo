@@ -36,6 +36,11 @@ QSet<unsigned long long>  Group::getContacts()
     return this->contacts;
 }
 
+QString Group::getTitle()
+{
+    return this->getName();
+}
+
 bool Group::hasContact( unsigned long long id )
 {
     return this->contacts.contains( id );

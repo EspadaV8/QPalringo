@@ -29,6 +29,7 @@ class Group : public Target
         QString                     getDescription();
         QSet<unsigned long long>    getContacts();
         bool                        hasContact( unsigned long long id );
+        virtual QString getTitle();
 
         void            setName( QString name );
         void            setDescription( QString description );

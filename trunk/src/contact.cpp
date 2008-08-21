@@ -56,6 +56,11 @@ void Contact::setIsContact( bool isContact )
     this->isContact = isContact;
 }
 
+QString Contact::getTitle()
+{
+    return this->getNickname();
+}
+
 QString  Contact::getNickname()
 {
     return this->nickname;

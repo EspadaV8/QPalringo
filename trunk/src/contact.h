@@ -31,6 +31,7 @@ class Contact : public Target
         int         getBridgeType();
         int         getDeviceType();
         bool        getIsContact();
+        virtual QString getTitle();
 
         void        setNickname( QString );
         void        setStatusline( QString );
