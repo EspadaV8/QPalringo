@@ -2,11 +2,14 @@ SOURCES += DataMap.cc \
  MiscFunctions.cc \
  callbackFunctions.cc \
  crypto.cc \
- libPalringo.cc
+ libPalringo.cc \
+ md5.c \
+ my_oldpassword.c \
+ salsa20.c
 
 TEMPLATE = lib
-CONFIG += warn_on debug
-TARGET = libPalringo.a
+CONFIG += warn_on debug staticlib
+TARGET = Palringo
 
 QT -= core gui
 
