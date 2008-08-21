@@ -4,29 +4,29 @@
  *
  * Original author: Eric Sellin
  * Extended version author: Xabier Eizmendi
- * 
+ *
  *
  *
  * This program is free software (with dual license);
- * You can redistribute it and/or modify it under the terms of 
- * the GNU General Public License version 2 as published by the 
+ * You can redistribute it and/or modify it under the terms of
+ * the GNU General Public License version 2 as published by the
  * Free Software Foundation and in terms of Palringo Closed Source License
- * If you want to use it in a closed source program you must contact 
+ * If you want to use it in a closed source program you must contact
  * Palringo Ltd.
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU Library General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
  */
 #ifndef LIBPALRINGO_H
 #define LIBPALRINGO_H
- 
- 
+
+
 
 #include <string>
 #include <map>
@@ -219,7 +219,7 @@ getAttribute(headers_t& header,
 template <>
 inline void
 getAttribute<std::string, true>(headers_t& header,
-    std::string& key, 
+    std::string& key,
     std::string& attribute)
 {
   headers_t::iterator it(header.find(key));
@@ -241,7 +241,7 @@ getAttribute(headers_t& header,
 template <>
 inline void
 getAttribute<std::string>(headers_t& header,
-    std::string& key, 
+    std::string& key,
     std::string& attribute)
 {
   attribute = header[key];
@@ -272,7 +272,7 @@ getAttribute(headers_t& header,
 template <>
 inline void
 getAttribute<std::string, true>(headers_t& header,
-    const char *key, 
+    const char *key,
     std::string& attribute)
 {
   headers_t::iterator it(header.find(key));
@@ -285,7 +285,7 @@ getAttribute<std::string, true>(headers_t& header,
 template <class T>
 inline void
 getAttribute(headers_t& header,
-    const char *key, 
+    const char *key,
     T& attribute)
 {
   attribute = static_cast<T>(strtoul(header[key].c_str(), NULL, 10));
@@ -294,7 +294,7 @@ getAttribute(headers_t& header,
 template <>
 inline void
 getAttribute<std::string>(headers_t& header,
-    const char *key, 
+    const char *key,
     std::string& attribute)
 {
   attribute = header[key];
@@ -313,13 +313,13 @@ std::string hexDump(std::string &data);
 std::string hexDump(const void *data, size_t size);
 
 // Capabilities
-const uint64_t SEND_VOICE (0x00000001); 
-const uint64_t SEND_PICTURE(0x00000002); 
-const uint64_t RECV_VOICE (0x00000004); 
-const uint64_t RECV_PICTURE(0x00000008); 
-const uint64_t ONLINE_MESG (0x00000010); 
-const uint64_t OFFLINE_MESG(0x00000020); 
-const uint64_t LOCATION (0x00000040); 
+const uint64_t SEND_VOICE (0x00000001);
+const uint64_t SEND_PICTURE(0x00000002);
+const uint64_t RECV_VOICE (0x00000004);
+const uint64_t RECV_PICTURE(0x00000008);
+const uint64_t ONLINE_MESG (0x00000010);
+const uint64_t OFFLINE_MESG(0x00000020);
+const uint64_t LOCATION (0x00000040);
 
 
 
@@ -490,7 +490,7 @@ protected:
 
   CmdCallbackFunctionsMap inCallbackFunctions_;
   CmdCallbackFunctionsMap outCallbackFunctions_;
-  
+
   /**
    * @brief User login.
   */
@@ -506,12 +506,12 @@ protected:
   crypto::SalsaCipher *salsa_;
 
   crypto::DiffieHellman *dh_;
-  
+
   /**
    * @brief Server hostname.
   */
   const std::string host_;
-  
+
   /**
    * @brief Server port.
   */
@@ -541,7 +541,7 @@ protected:
    * @brief Word Size as returned by the server in the AUTH command.
   */
   int32_t wordSize_;
-  
+
   /**
    * @brief User ID.
    *
@@ -551,7 +551,7 @@ protected:
 
   /**
    * @brief Nickname.
-   * 
+   *
    * User nickname.
   */
   std::string nickname_;
@@ -571,7 +571,7 @@ protected:
   /**
    * @brief Active reconnection key
    *
-   * It's the reconnection key used when the connections is lost. 
+   * It's the reconnection key used when the connections is lost.
    * If it's size is 0, it does a full connection.
    */
   std::string RK_;
@@ -585,7 +585,7 @@ protected:
    * @brief List of contacts we know about.
   */
   contacts_t contacts_;
-  
+
   /**
    * @brief Parts of messages.
   */
@@ -595,10 +595,10 @@ protected:
    * @brief Initialize callback functions
    */
   virtual void initCallbackFunctions();
-  
+
   /**
    * @brief Send a command to the server, any type of body
-   * 
+   *
    * It sends a command to the server.
    * Body can be of binary type.
    * The message is pushed into the output buffer and sent later using pollWrite().
@@ -615,11 +615,11 @@ protected:
   virtual bool sendCmd (const std::string& cmd,
       headers_t& headers,
       const char *body,
-      uint32_t length);	
+      uint32_t length);
 
   /**
    * @brief Send a command to the server, body is a string
-   * 
+   *
    * It sends a command to the server.
    * Body is of type string.
    * The message is pushed into the output buffer and sent later using pollWrite().
@@ -635,14 +635,14 @@ protected:
   virtual bool sendCmd(const std::string& cmd,
       headers_t& headers,
       const std::string& body = "");
-  
+
   /**
    * @brief Parse commands from received data.
    *
    * This is an internal function, used to parse commands from the received data
    * @param cmd is the command name.
    * @param headers is the headers of the command.
-   * @param body is the body of the command. 
+   * @param body is the body of the command.
    * @return True if a full command was parsed from the received data.
    * */
   bool parseCmd(std::string& cmd,
@@ -651,13 +651,13 @@ protected:
 
   /**
    * @brief Read data from the socket
-   * @return number of bytes read 
+   * @return number of bytes read
    */
   int readCmd();
 
 // Incoming Callback Functions
 
- 
+
    virtual int onPingReceived(headers_t& headers,
        std::string& body,
        GenericData *data);
@@ -668,7 +668,7 @@ protected:
 
   /**
    * @brief On Logon Succesful Event callback function
-   * 
+   *
    * This function is called if the log on process is successful.
    * @see onLogonFailed()
    * @see poll()
@@ -679,7 +679,7 @@ protected:
 
   /**
    * @brief On Logon Failed Event callback function
-   * 
+   *
    * This function is called if the log on process fails.
    * @param reason is the reason why the log on has failed.
    * @see onLogonSuccessful()
@@ -691,7 +691,7 @@ protected:
 
   /**
    *@brief  On Ghosted Received Event callback function
-   * 
+   *
    * This function is called if the a GHOSTED command is received.
    * @see pollRead()
    * @see poll()
@@ -699,14 +699,14 @@ protected:
    virtual int onGhostedReceived(headers_t& headers,
        std::string& body,
        GenericData *data);
-   
+
    virtual int onContactDetailReceived(headers_t& headers,
        std::string& body,
        GenericData *data);
 
   /**
    * @brief On Contact Add Received Event callback function
-   * 
+   *
    * This function is called if a CONTACT ADD command is received.
    * @param msg is the message sent by the adder.
    * @param contact is the user ID of the adder
@@ -734,7 +734,7 @@ protected:
 			     GenericData *data);
   /**
    * @brief On Response Received Event callback function
-   * 
+   *
    * This function is called if RESPONSE command is received.
    * @param what is the type of command the response is referring to.
    * @param mesgId is the message ID the response is referring to.
@@ -749,7 +749,7 @@ protected:
 
   /**
    * @brief On Message Received Event callback function, string message
-   * 
+   *
    * This function is called if a message is received and is of string type.
    * @param msg is the message received.
    * @param contact is the id of the group that sent the message.
@@ -850,7 +850,7 @@ protected:
    * @brief Sent data buffer (Output Buffer)
    */
   std::string outStream_;
-  
+
   /**
    * @brief Messages in Output buffer
    */
@@ -861,7 +861,7 @@ protected:
    * @see readCmd()
    */
   ssize_t sofar_;
-  
+
   /**
    * @brief This is set to true if the connection is Ghosted
    * @see isGhosted()
@@ -874,24 +874,24 @@ protected:
    * This variable increments every time we send a command.
    */
   int32_t mesg_id_;
-	
+
   /**
    * @brief If true accept contacts automatically.
    * @see setAutoAcceptContacts()
    */
   bool auto_accept_contacts_;
-  
+
   /**
    * @brief If true it's logged on
    * @see isLoggedOn()
    */
   bool loggedOn_;
-  
+
   /**
    * @brief If true the connection is non blocking
    */
   bool nonBlocking_;
-  
+
   /**
    * @brief If true the connection is ready
    */
@@ -902,10 +902,10 @@ protected:
    * @see ConnectionStatus
    */
   ConnectionStatus connectionStatus_;
-  
+
   /**
    * @brief Send a string type message
-   * 
+   *
    * The message is stored in a string.
    * @param msg is the string containing the message.
    * @param contentType is the content type of the message.
@@ -920,10 +920,10 @@ protected:
       std::string& contentType,
       uint64_t id,
       int32_t type /* 0 for contact, 1 for group */);
-  
+
   /**
    * @brief Send any type of message
-   * 
+   *
    * The message is stored in a buffer called msg.
    * @param msg is the buffer containing the message.
    * @param length is the length of the message.
@@ -937,10 +937,10 @@ protected:
    */
   virtual bool sendMessage(char* msg,
       uint32_t length,
-      std::string& contentType,
+      std::string contentType,
       uint64_t id,
       int32_t type /* 0 for contact, 1 for group */);
-  
+
 public:
 
   /**
@@ -955,7 +955,7 @@ public:
    * @param protocolVersion is the protocol version used, valid values 1 or 2
    * @param encryption if true encryption is active
    * @return
-   */  
+   */
   PalringoConnection(const std::string& host,
 		     uint32_t port,
 		     const std::string& login,
@@ -965,7 +965,7 @@ public:
 		     int protocolVersion = 1,
 		     bool encryption = false);
 
-  
+
   /**
    * @brief Object destructor
    */
@@ -973,7 +973,7 @@ public:
 
   void createSocket();
   void setSocketOptions();
-  
+
   /**
    * @brief Connect the client to the server
    * @param soft if true, it tries to connect using the reconnection key
@@ -990,9 +990,9 @@ public:
    * @brief Register a subscriber to Palringo
    */
   virtual int registerClient();
-  
+
   bool connectionReady();
-  
+
   /**
    * @brief Poll the connection (read and write)
    *
@@ -1009,33 +1009,33 @@ public:
    * @param soft if true, it tries to reconnect using the reconnection key
    */
   virtual int reConnect(bool soft = false);
-  
-  
+
+
   /**
    * @brief Get the userId of the bot, 0 if it's still not logged on
    * @return userId of the connection, 0 if not logged on
    */
   uint64_t getUserId();
-  
-  
+
+
   /**
    * @brief Get the file descriptor
    * @return file descriptor of the connection
    */
   int getFd();
-  
+
   /**
    * @brief Tells if the connection has been ghosted
    * @return True if ghosted, false if not
    */
   bool isGhosted();
-  
+
   /**
    * @brief Tells if the connection is ready to send messages
    * @return True if logged on, false if not
    */
   bool isLoggedOn();
-  
+
   /**
    * @brief Get number of messages in output buffer
    * @return number of messages in output buffer
@@ -1064,7 +1064,7 @@ public:
   {
     port_ = port;
   }
-  
+
   /**
    * @brief Read next incoming command.
    *
@@ -1086,7 +1086,7 @@ public:
    * 0 if there wasn't any command in the.
    */
   int pollWrite();
-  
+
   /**
    * @brief Check if the fd set is ready for read and/or write.
    *
@@ -1112,7 +1112,7 @@ public:
 
   /**
    * @brief Send a string type message to a contact
-   * 
+   *
    * The message is stored in a string.
    * @param msg is the string containing the message.
    * @param contact is the ID of the contact.
@@ -1129,7 +1129,7 @@ public:
 
   /**
    * @brief Send any type of message to a contact
-   * 
+   *
    * The message is stored in a buffer called msg.
    * @param msg is the buffer containing the message.
    * @param length is the length of the message.
@@ -1148,7 +1148,7 @@ public:
 
   /**
    * @brief Send a string type message to a group
-   * 
+   *
    * The message is stored in a string.
    * @param msg is the string containing the message.
    * @param group is the ID of the group.
@@ -1162,10 +1162,10 @@ public:
   virtual bool sendToGroup(const std::string& msg,
       uint64_t group,
       std::string contentType = "text/plain");
-  
+
   /**
    * @brief Send any type of message to a group
-   * 
+   *
    * The message is stored in a buffer called msg.
    * @param msg is the buffer containing the message.
    * @param length is the length of the message.
@@ -1189,7 +1189,7 @@ public:
 
   /**
    * @brief Gets contact details
-   * 
+   *
    * Gets contact details using the ID.
    * @param id is the ID of the contact.
    * @return An structure with contact details
@@ -1198,21 +1198,21 @@ public:
 
   /**
    * @brief Gets group details
-   * 
+   *
    * Gets group details using the ID.
    * @param id is the ID of the group.
    * @return An structure with group details
    */
-  int getGroup(uint64_t id, group_t& group); 
+  int getGroup(uint64_t id, group_t& group);
 
   /**
    * @brief Get a copy of the list of groups
    */
   void getGroups(groups_t& groups);
-	
+
   /**
    * @brief Set the Auto Accept Contacts configuration
-   * 
+   *
    * If you set it to true, it auto accepts any contact add command received
    * @param accept
    */

@@ -1110,7 +1110,7 @@ PalringoConnection::readCmd()
     return nb;
 }
 
-uint64_t 
+uint64_t
 PalringoConnection::ntohll (uint64_t data)
 {
   // Run-time test to determine our endianess
@@ -1120,17 +1120,17 @@ PalringoConnection::ntohll (uint64_t data)
   {
     return data;
   }
-  
+
   uint32_t upperword = ntohl(data >> 32);
   uint32_t lowerword = ntohl(data & 0xffff);
-  
+
   return upperword | lowerword << 32;
 }
 
 int
 PalringoConnection::pollRead()
 {
-  
+
   std::string cmd, body;
   headers_t headers;
   int32_t res = readCmd();
@@ -1184,7 +1184,7 @@ PalringoConnection::pollRead()
     std::cout << "Pong!" << std::endl;
     if (protocolVersion_ == 2)
     {
-      pheaders["PS"] = toString(packetSeq_); 
+      pheaders["PS"] = toString(packetSeq_);
     }
     sendCmd(pCommand::PING, pheaders, "");
     receivedData_ = 0;
@@ -1195,7 +1195,7 @@ PalringoConnection::pollRead()
   sofar_ = 0;
   return 1;
 }
-    
+
 
 int
 PalringoConnection::processUnknownIncoming(const std::string& cmd,
@@ -1221,14 +1221,14 @@ PalringoConnection::poll()
 {
   fd_set fdSetRead;
   fd_set fdSetWrite;
-  
+
   FD_ZERO(&fdSetRead);
   FD_ZERO(&fdSetWrite);
   FD_SET(fd_,&fdSetRead);
   FD_SET(fd_,&fdSetWrite);
-  
+
   int32_t selRes(0);
-  
+
   if ((selRes = checkFd(fd_+1, fdSetRead, fdSetWrite)) > 0)
   {
     if(FD_ISSET(fd_, &fdSetWrite))
@@ -1236,10 +1236,10 @@ PalringoConnection::poll()
       if (outStream_.size())
       {
         DBGOUT << "Sending Output" << std::endl;
-        
+
         if(pollWrite() < 0)
         {
-          return -1; 
+          return -1;
         }
       }
     }
@@ -1251,7 +1251,7 @@ PalringoConnection::poll()
   }
   else if(selRes < 0)
   {
-    DBGOUT << "Error checking file descriptor status" 
+    DBGOUT << "Error checking file descriptor status"
       << strerror(errno) << std::endl;
     //throw errno;
     return -1;
@@ -1267,7 +1267,7 @@ PalringoConnection::checkFd(int32_t max, fd_set &fdSetRead, fd_set &fdSetWrite)
   return select(max+1, &fdSetRead, &fdSetWrite, NULL, &tv);
 }
 
-uint32_t 
+uint32_t
 PalringoConnection::getRandPort(uint32_t min, uint32_t max)
 {
   return((rand() % (max - min)) + min);
@@ -1279,7 +1279,7 @@ PalringoConnection::sendMessage(const std::string& msg,
                                 uint64_t id,
                                 int32_t type)
 {
-  
+
   headers_t headers;
   MsgData data;
   data.targetId_ = id;
@@ -1292,7 +1292,7 @@ PalringoConnection::sendMessage(const std::string& msg,
     data.setData(headers, const_cast<std::string&>(msg));
     sendCmd(pCommand::MESG, headers, std::string(cmsg, 512));
 
-    data.correlationId_ = data.mesgId_; 
+    data.correlationId_ = data.mesgId_;
 
     size_t i(512);
 
@@ -1321,7 +1321,7 @@ PalringoConnection::sendMessage(const std::string& msg,
 bool
 PalringoConnection::sendMessage(char* msg,
                                 uint32_t length,
-                                std::string& contentType,
+                                std::string contentType,
                                 uint64_t id,
                                 int32_t type)
 {
@@ -1329,7 +1329,7 @@ PalringoConnection::sendMessage(char* msg,
   msgStr.append(msg, length);
 
   return sendMessage(msgStr, contentType, id, type);
-  
+
 }
 
 bool
@@ -1371,8 +1371,8 @@ PalringoConnection::sendToGroup(char* msg,
 }
 
 void
-PalringoConnection::getMesgHist(int32_t count, 
-				uint32_t timestamp, 
+PalringoConnection::getMesgHist(int32_t count,
+				uint32_t timestamp,
 				uint64_t sourceId,
 				int32_t type)
 {
