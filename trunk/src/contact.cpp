@@ -56,8 +56,6 @@ void Contact::setIsContact( bool isContact )
     this->isContact = isContact;
 }
 
-
-
 QString  Contact::getNickname()
 {
     return this->nickname;
@@ -66,11 +64,6 @@ QString  Contact::getNickname()
 QString  Contact::getStatusline()
 {
     return this->statusline;
-}
-
-unsigned long long Contact::getID()
-{
-    return this->id;
 }
 
 unsigned long long Contact::getGroup()
