@@ -46,13 +46,15 @@ void PalringoListView::setupOverview()
     this->listViewContainers.append( new ListViewContainer( this, "Services" ) );
     this->listViewContainers.append( new ListViewContainer( this, "Messages" ) );
 
+    disconnect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
+
     this->addLayoutsToSelf();
 }
 
 void PalringoListView::setupGroupList()
 {
     this->listViewContainers.append( new ListViewContainer( this, "Group Chat" ) );
-    
+
     GroupListItem *gli = new GroupListItem( this, this->group );
     this->addWidgetToView( gli );
 
@@ -159,7 +161,7 @@ void PalringoListView::getContacts()
 {
     unsigned long long groupID = ( this->group == NULL ) ? 0 : this->group->getID();
     QHash<unsigned long long, Contact*> contacts = tools_->getContacts( groupID );
-    
+
     if( contacts.size() > 0 )
     {
         foreach( Contact *contact, contacts )
