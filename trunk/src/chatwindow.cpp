@@ -19,8 +19,9 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->setWindowFlags ( Qt::Window );
     this->parent = parent;
     this->target = target;
+    this->isGroup = isGroup;
 
-    this->setWindowTitle ( this->target->getTitle() );
+    this->setWindowTitle( this->target->getTitle() );
     // this->setWindowIcon ( *new QPixmap ( this->contact->getContactIcon() ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
@@ -60,7 +61,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
 
 ChatWindow::~ChatWindow()
 {
-    tools_->removeChatWindow ( this->contact );
+    tools_->removeChatWindow ( this->target );
 }
 
 void ChatWindow::checkMessageInput()
@@ -74,14 +75,7 @@ void ChatWindow::checkMessageInput()
     m->Timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
     m->Sender = "me";
 
-    if( this->contact == NULL )
-    {
-        tools_->sendMessage( this->group, m );
-    }
-    else
-    {
-        tools_->sendMessage( this->contact, m );
-    }
+    tools_->sendMessage( this->target, this->isGroup, m );
     this->messageList->addMessage( m );
     this->messageInput->clear();
 }

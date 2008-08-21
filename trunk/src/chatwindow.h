@@ -29,7 +29,7 @@ class ChatWindow : public QWidget
 {
 Q_OBJECT
     public:
-        ChatWindow(PalringoWindow *parent = 0, Target *target = NULL );
+        ChatWindow(PalringoWindow *parent = 0, Target *target = NULL, bool isGroup = false );
         ~ChatWindow();
 
         void appendMessage( QString message, Contact *contact, QString contentType );
@@ -40,6 +40,7 @@ Q_OBJECT
     private:
         PalringoWindow *parent;
         Target *target;
+        bool isGroup;
 
         QVBoxLayout *layout;
         QHBoxLayout *hbox;
