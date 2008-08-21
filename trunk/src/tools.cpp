@@ -79,6 +79,12 @@ void Tools::sendMessage( Contact *contact, Message *message )
     this->connection->sendMessage( contact->getID(), message );
 }
 
+void Tools::sendMessage( Group *group, Message *message )
+{
+    qDebug( "sending message..." );
+    this->connection->sendToGroup( group->getID(), message );
+}
+
 void Tools::addContact( Contact *contact )
 {
     if( !this->contacts.contains( contact->getID() ) )

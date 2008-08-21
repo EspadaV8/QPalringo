@@ -41,6 +41,8 @@ class Tools : public QObject
         void openPalringoConnection( QString email, QString password );
 
         void sendMessage( Contact *contact, Message *message );
+        void sendMessage( Group *group, Message *message );
+
         QHash<unsigned long long, Contact*> getContacts();
         QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
 
