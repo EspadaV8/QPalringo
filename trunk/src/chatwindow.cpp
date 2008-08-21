@@ -58,6 +58,52 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Contact *contact )
     this->setLayout ( this->layout );
 }
 
+ChatWindow::ChatWindow ( PalringoWindow *parent, Group *group )
+{
+    qDebug ( "in chat window" );
+    this->setWindowFlags ( Qt::Window );
+    this->parent = parent;
+    this->group = group;
+    this->contact = NULL;
+
+    this->setWindowTitle ( this->group->getName() );
+    // this->setWindowIcon ( *new QPixmap ( this->contact->getContactIcon() ) );
+    this->setAttribute ( Qt::WA_DeleteOnClose, true );
+
+    // Create all the layouts
+    this->layout = new QVBoxLayout();
+    this->hbox = new QHBoxLayout();
+
+    // set up all the widgets
+    this->historyButton = new QPushButton ( "History", this );
+    this->messageList = new MessageList( this );
+    this->messageInput = new QLineEdit( this );
+    this->voiceButton = new QPushButton ( "" );
+    this->imageButton = new QPushButton ( "" );
+
+    // connect to the return key, so we can send a message
+    connect( this->messageInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
+
+    // add the icons to the buttons
+    QPixmap *p = new QPixmap( ":/messageTypes/voice.png" );
+    this->voiceButton->setIcon( *p );
+    this->voiceButton->setToolTip( "Press and hold to record voice message" );
+    p = new QPixmap( ":/messageTypes/image.png" );
+    this->imageButton->setIcon( *p );
+
+    // add the items to the bottom layout
+    this->hbox->addWidget( this->messageInput );
+    this->hbox->addWidget( this->voiceButton );
+    this->hbox->addWidget( this->imageButton );
+
+    // add everything to the window
+    this->layout->addWidget ( this->historyButton );
+    this->layout->addWidget ( this->messageList );
+    this->layout->addLayout ( this->hbox );
+
+    this->setLayout ( this->layout );
+}
+
 ChatWindow::~ChatWindow()
 {
     tools_->removeChatWindow ( this->contact );
@@ -74,7 +120,14 @@ void ChatWindow::checkMessageInput()
     m->Timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
     m->Sender = "me";
 
-    tools_->sendMessage( this->contact, m );
+    if( this->contact == NULL )
+    {
+        tools_->sendMessage( this->group, m );
+    }
+    else
+    {
+        tools_->sendMessage( this->contact, m );
+    }
     this->messageList->addMessage( m );
     this->messageInput->clear();
 }
