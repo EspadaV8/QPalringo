@@ -29,3 +29,8 @@ void Target::setID( unsigned long long id )
 {
     this->id = id;
 }
+
+QString Target::getTitle()
+{
+    return "QPalringo";
+}
