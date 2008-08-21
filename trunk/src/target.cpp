@@ -1,7 +1,7 @@
 //
 // C++ Implementation: target
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andrew Smith <espadav8@gmail.com>, (C) 2008
@@ -16,9 +16,16 @@ Target::Target(QObject *parent)
 {
 }
 
-
 Target::~Target()
 {
 }
 
+unsigned long long Target::getID()
+{
+    return this->id;
+}
 
+void Target::setID( unsigned long long id )
+{
+    this->id = id;
+}
