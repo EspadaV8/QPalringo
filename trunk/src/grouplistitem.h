@@ -1,7 +1,7 @@
 //
 // C++ Interface: grouplistitem
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andrew Smith <espadav8@gmail.com>, (C) 2008
@@ -25,11 +25,14 @@ class GroupListItem : public ListItem
     public:
         GroupListItem( QWidget *parent = 0, Group *group = NULL );
         ~GroupListItem();
-        
+
         virtual QString getContainerGroup();
-        
+
     private:
         Group *group;
+
+    protected:
+        void mouseDoubleClickEvent( QMouseEvent *event );
 
 };
 
