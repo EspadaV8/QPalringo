@@ -79,7 +79,7 @@ void PalringoContact::mouseDoubleClickEvent( QMouseEvent *event )
 {
     // qDebug( "Double click on contact" );
     event->accept();
-    tools_->openChatWindow( this->getContact() );
+    tools_->openChatWindow( this->contact );
 }
 
 void PalringoContact::paintEvent(QPaintEvent *)
