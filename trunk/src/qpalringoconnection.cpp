@@ -84,7 +84,7 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
         contact->setIsContact( contactData.isContact_ );
         contact->setDeviceType( contactData.deviceType_ );
         contact->setID( contactData.contactId_ );
-        
+
         emit( gotContactDetails( contact ) );
 
         /*
@@ -135,7 +135,7 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
         group->setName( QString::fromStdString( group_.name_ ) );
         group->setDescription( QString::fromStdString( group_.desc_ ) );
         group->setContacts( group_contacts );
-        
+
         emit( gotGroupDetails( group ) );
     }
     return 0;
@@ -150,4 +150,15 @@ bool QPalringoConnection::sendToContact(QByteArray msg,
                                                   msg.size(),
                                                   receiverID,
                                                   contentType.toStdString());
+}
+
+bool QPalringoConnection::sendToGroup(QByteArray msg,
+                                      QString contentType,
+                                      unsigned long long groupID )
+{
+    qDebug( "about to send message" );
+    return PalringoConnection::sendToGroup( msg.data(),
+                                            msg.size(),
+                                            groupID,
+                                            contentType.toStdString());
 }

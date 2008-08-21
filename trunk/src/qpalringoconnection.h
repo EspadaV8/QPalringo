@@ -44,6 +44,9 @@ class QPalringoConnection : public QObject, public PalringoConnection
         bool sendToContact( QByteArray msg,
                             QString contentType,
                             unsigned long long receiverID );
+        bool sendToGroup( QByteArray msg,
+                          QString contentType,
+                          unsigned long long groupID );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,
