@@ -34,6 +34,7 @@ class Connection : public QThread
 
         void run();
         void sendMessage( unsigned long long receiverID, Message *message );
+        void sendToGroup( unsigned long long groupID, Message *message );
 
     private:
         QString emailAddress;

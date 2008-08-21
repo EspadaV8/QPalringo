@@ -19,9 +19,9 @@ Connection::Connection( QString emailAddress, QString password, QString host, in
     this->password = password;
     this->host = host;
     this->port = port;
-    
+
     qDebug("connecting to: %s as %s %s", qPrintable(this->host), qPrintable(this->emailAddress), qPrintable(this->password));
-    
+
     this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port );
 }
 
@@ -50,4 +50,10 @@ void Connection::sendMessage( unsigned long long receiverID, Message *message )
 {
     qDebug( "connection is sending message" );
     this->conn->sendToContact( message->Payload, message->Type, receiverID );
+}
+
+void Connection::sendToGroup( unsigned long long groupID, Message *message )
+{
+    qDebug( "connection is sending message" );
+    this->conn->sendToGroup( message->Payload, message->Type, groupID );
 }
