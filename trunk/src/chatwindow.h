@@ -19,8 +19,7 @@
 #include <QLineEdit>
 #include <QSplitter>
 #include "palringowindow.h"
-#include "palringocontact.h"
-#include "group.h"
+#include "target.h"
 #include "messagelist.h"
 
 /**
@@ -30,8 +29,7 @@ class ChatWindow : public QWidget
 {
 Q_OBJECT
     public:
-        ChatWindow(PalringoWindow *parent = 0, Contact *contact = NULL );
-        ChatWindow(PalringoWindow *parent = 0, Group *group = NULL );
+        ChatWindow(PalringoWindow *parent = 0, Target *target = NULL );
         ~ChatWindow();
 
         void appendMessage( QString message, Contact *contact, QString contentType );
@@ -41,8 +39,7 @@ Q_OBJECT
 
     private:
         PalringoWindow *parent;
-        Contact *contact;
-        Group *group;
+        Target *target;
 
         QVBoxLayout *layout;
         QHBoxLayout *hbox;
