@@ -46,14 +46,8 @@ void Connection::run()
     }
 }
 
-void Connection::sendMessage( unsigned long long receiverID, Message *message )
+void Connection::sendMessage( unsigned long long receiverID, bool isGroup, Message *message )
 {
     qDebug( "connection is sending message" );
-    this->conn->sendToContact( message->Payload, message->Type, receiverID );
-}
-
-void Connection::sendToGroup( unsigned long long groupID, Message *message )
-{
-    qDebug( "connection is sending message" );
-    this->conn->sendToGroup( message->Payload, message->Type, groupID );
+    this->conn->sendMessage( message->Payload, message->Type, receiverID, isGroup );
 }
