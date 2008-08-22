@@ -57,6 +57,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->layout->addLayout ( this->hbox );
 
     this->setLayout ( this->layout );
+    this->resize( 492, 323 );
 }
 
 ChatWindow::~ChatWindow()
