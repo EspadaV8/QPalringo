@@ -17,8 +17,8 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#ifndef PALRINGOCONTACT_H
-#define PALRINGOCONTACT_H
+#ifndef CONTACTLISTITEM_H
+#define CONTACTLISTITEM_H
 
 /**
  @author Andrew Smith <espadav8@gmail.com>
@@ -28,12 +28,12 @@
 #include "listitem.h"
 #include "contact.h"
 
-class PalringoContact : public ListItem
+class ContactListItem : public ListItem
 {
     Q_OBJECT
     public:
-        PalringoContact( QWidget *parent = 0, Contact *contact = NULL );
-        ~PalringoContact();
+        ContactListItem( QWidget *parent = 0, Contact *contact = NULL );
+        ~ContactListItem();
 
         Contact* getContact();
 

@@ -31,7 +31,7 @@
 #include "listitem.h"
 #include "contact.h"
 #include "group.h"
-#include "palringocontact.h"
+#include "contactlistitem.h"
 #include "serviceitem.h"
 
 class PalringoListView : public QScrollArea
@@ -71,7 +71,7 @@ class PalringoListView : public QScrollArea
         bool isGroup;
         QList<ListItem *> contactList;
         QList<ListViewContainer *> listViewContainers;
-        
+
     private slots:
         void getContacts();
 };

@@ -1,7 +1,7 @@
 SOURCES += main.cpp \
  palringowindow.cpp \
  palringolistview.cpp \
- palringocontact.cpp \
+ contactlistitem.cpp \
  listviewcontainer.cpp \
  listitem.cpp \
  serviceitem.cpp \
@@ -29,7 +29,7 @@ FORMS = ui/signinwindow.ui
 QT += gui
 HEADERS += palringowindow.h \
  palringolistview.h \
- palringocontact.h \
+ contactlistitem.h \
  listviewcontainer.h \
  listitem.h \
  serviceitem.h \

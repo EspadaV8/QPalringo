@@ -151,7 +151,7 @@ void PalringoListView::contactReceived( Contact *contact )
 {
     if( ( this->group == NULL ) || ( this->group->hasContact( contact->getID() ) ) )
     {
-        PalringoContact *pc = new PalringoContact( this, contact );
+        ContactListItem *pc = new ContactListItem( this, contact );
         this->contactList.append( pc );
         this->addWidgetToView( pc );
     }

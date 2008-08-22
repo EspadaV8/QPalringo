@@ -17,10 +17,10 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
-#include "palringocontact.h"
+#include "contactlistitem.h"
 #include "tools.h"
 
-PalringoContact::PalringoContact( QWidget *parent, Contact *contact )
+ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     : ListItem( parent )
 {
     this->contact = contact;
@@ -34,18 +34,18 @@ PalringoContact::PalringoContact( QWidget *parent, Contact *contact )
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
 }
 
-void PalringoContact::setContactNickname( QString nickname )
+void ContactListItem::setContactNickname( QString nickname )
 {
     this->contact->setNickname( nickname );
 }
 
-void PalringoContact::setContactStatusline( QString statusline )
+void ContactListItem::setContactStatusline( QString statusline )
 {
     this->contact->setStatusline( statusline );
     // this->setSecondLine( this->contact->Statusline  );
 }
 
-void PalringoContact::setContactOnlineStatus( int onlinestatus )
+void ContactListItem::setContactOnlineStatus( int onlinestatus )
 {
     this->contact->setOnlineStatus( onlinestatus );
 
@@ -53,17 +53,17 @@ void PalringoContact::setContactOnlineStatus( int onlinestatus )
     //this->setIcon( this->getContactIcon() );
 }
 
-Contact* PalringoContact::getContact()
+Contact* ContactListItem::getContact()
 {
     return this->contact;
 }
 
-int PalringoContact::getContactOnlineStatus()
+int ContactListItem::getContactOnlineStatus()
 {
     return this->contact->getOnlineStatus();
 }
 
-QString PalringoContact::getContainerGroup()
+QString ContactListItem::getContainerGroup()
 {
     if( this->contact->getOnlineStatus() > 0 )
     {
@@ -75,14 +75,14 @@ QString PalringoContact::getContainerGroup()
     }
 }
 
-void PalringoContact::mouseDoubleClickEvent( QMouseEvent *event )
+void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     // qDebug( "Double click on contact" );
     event->accept();
     tools_->openChatWindow( this->contact );
 }
 
-void PalringoContact::paintEvent(QPaintEvent *)
+void ContactListItem::paintEvent(QPaintEvent *)
 {
     QStyleOption opt;
     opt.init(this);
@@ -90,7 +90,7 @@ void PalringoContact::paintEvent(QPaintEvent *)
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
-QString PalringoContact::getContactIcon()
+QString ContactListItem::getContactIcon()
 {
     QString iconName;
     if ( this->contact->getOnlineStatus() > 0 )
@@ -116,4 +116,4 @@ QString PalringoContact::getContactIcon()
     return iconName;
 }
 
-PalringoContact::~PalringoContact() { }
+ContactListItem::~ContactListItem() { }
