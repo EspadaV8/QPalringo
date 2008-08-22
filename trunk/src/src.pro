@@ -24,7 +24,8 @@ CONFIG += warn_on \
           debug
 TARGET = ../bin/qpalringo
 
-FORMS = ui/signinwindow.ui
+FORMS = ui/signinwindow.ui \
+ ui/listitem.ui
 
 QT += gui
 HEADERS += palringowindow.h \
