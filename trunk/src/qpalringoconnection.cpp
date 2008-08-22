@@ -47,7 +47,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         if( msgData.contentType_ == "text/plain" )
         {
             unsigned long long senderID = msgData.sourceId_;
-            unsigned long long groupID  = msgData.targetId_ || 0;
+            unsigned long long groupID  = msgData.targetId_ | 0;
             QString ct = "text/plain";
             QString message = QString::fromStdString( body );
 
