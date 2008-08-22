@@ -1,11 +1,11 @@
 <ui version="4.0" >
- <class>Form</class>
- <widget class="QWidget" name="Form" >
+ <class>listitem</class>
+ <widget class="QWidget" name="listitem" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>120</width>
+    <width>123</width>
     <height>57</height>
    </rect>
   </property>
@@ -14,7 +14,7 @@
   </property>
   <layout class="QHBoxLayout" >
    <item>
-    <widget class="QLabel" name="onlineStatus" >
+    <widget class="QLabel" name="iconLabel" >
      <property name="sizePolicy" >
       <sizepolicy vsizetype="Minimum" hsizetype="Minimum" >
        <horstretch>0</horstretch>
@@ -44,7 +44,7 @@
    <item>
     <layout class="QVBoxLayout" >
      <item>
-      <widget class="QLabel" name="nickname" >
+      <widget class="QLabel" name="firstLine" >
        <property name="font" >
         <font>
          <weight>75</weight>
@@ -52,14 +52,14 @@
         </font>
        </property>
        <property name="text" >
-        <string>Nickname</string>
+        <string>firstLine</string>
        </property>
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="statusline" >
+      <widget class="QLabel" name="secondLine" >
        <property name="text" >
-        <string>Statusline</string>
+        <string>secondLine</string>
        </property>
       </widget>
      </item>
