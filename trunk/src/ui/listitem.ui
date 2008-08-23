@@ -1,11 +1,11 @@
 <ui version="4.0" >
- <class>listitem</class>
- <widget class="QWidget" name="listitem" >
+ <class>ListItem</class>
+ <widget class="QWidget" name="ListItem" >
   <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>123</width>
+    <width>124</width>
     <height>57</height>
    </rect>
   </property>

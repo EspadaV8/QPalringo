@@ -24,8 +24,9 @@
 #include <QPainter>
 #include <QFile>
 #include <QMouseEvent>
+#include "ui_listitem.h"
 
-class ListItem : public QWidget
+class ListItem : public QWidget, public Ui::ListItem
 {
     Q_OBJECT
     public:
@@ -50,9 +51,6 @@ class ListItem : public QWidget
         void mousePressEvent( QMouseEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
 
-        QLabel *firstLine;
-        QLabel *secondLine;
-        QLabel *iconLabel;
         QPixmap *icon;
         virtual void ReloadStyleSheet();
 

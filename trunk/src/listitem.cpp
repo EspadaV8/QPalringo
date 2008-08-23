@@ -12,34 +12,13 @@
 #include "listitem.h"
 
 ListItem::ListItem( QWidget *parent )
-    : QWidget( parent )
+    : QWidget( parent ), Ui::ListItem()
 {
+    setupUi( this );
     ReloadStyleSheet();
     
     this->parent = parent;
-
-    QHBoxLayout *hbox = new QHBoxLayout( this );
-
     this->icon = new QPixmap();
-    this->iconLabel = new QLabel( "" );
-    this->iconLabel->setPixmap( *this->icon );
-
-    QVBoxLayout *vbox = new QVBoxLayout();
-
-    this->firstLine = new QLabel( "" );
-    this->firstLine->setObjectName( "firstLine" );
-
-    this->secondLine = new QLabel( "" );
-    this->secondLine->setObjectName( "secondLine" );
-
-    vbox->addWidget( this->firstLine );
-    vbox->addWidget( this->secondLine );
-
-    hbox->addWidget( this->iconLabel );
-    hbox->addLayout( vbox, 1 );
-
-    setAutoFillBackground( false );
-    setLayout( hbox );
 
     this->toSelect = false;
     this->selected = false;
