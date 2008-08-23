@@ -34,8 +34,11 @@ class Tools : public QObject
         Tools( PalringoWindow *parent = 0 );
         ~Tools();
 
-        void openChatWindow( Target *target );
+        void openChatWindow( Target *target, bool isGroup = false );
         void removeChatWindow( Target *target );
+        
+        void openChatWindow( Contact *contact );
+        void openChatWindow( Group *group );
 
         void openPalringoConnection( QString email, QString password );
 

@@ -26,7 +26,7 @@ bool Tools::checkChatWindowOpen( Target *target )
     return ( this->openWindows.value( target ) != NULL );
 }
 
-void Tools::openChatWindow( Target *target )
+void Tools::openChatWindow( Target *target, bool isGroup )
 {
     if ( this->checkChatWindowOpen( target ) )
     {
@@ -36,10 +36,20 @@ void Tools::openChatWindow( Target *target )
     }
     else
     {
-        ChatWindow *w = new ChatWindow( this->mainWindow, target );
+        ChatWindow *w = new ChatWindow( this->mainWindow, target, isGroup );
         this->openWindows[ target ] = w;
         w->show();
     }
+}
+
+void Tools::openChatWindow( Contact *contact )
+{
+    this->openChatWindow( contact, false );
+}
+
+void Tools::openChatWindow( Group *group )
+{
+    this->openChatWindow( group, true );
 }
 
 void Tools::removeChatWindow( Target *target )
