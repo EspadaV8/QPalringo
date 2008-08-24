@@ -43,17 +43,25 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
     MsgData msgData;
     if( PalringoConnection::onMesgReceived( headers, body, &msgData ) )
     {
-        qDebug( "got a message" );
-        if( msgData.contentType_ == "text/plain" )
+        QString contentType = QString::fromStdString( msgData.contentType_ );
+        if( contentType == "text/plain" )
         {
+            qDebug( "got a text message" );
             unsigned long long senderID = msgData.sourceId_;
             unsigned long long groupID  = msgData.targetId_ | 0;
-            QString ct = "text/plain";
             QString message = QString::fromStdString( body );
 
             qDebug( "Contact ID %llu said: `%s` in group: %llu", senderID, qPrintable( message ), groupID );
 
-            emit( messageReceived( message, senderID, groupID, ct ) );
+            emit( messageReceived( message, senderID, groupID, contentType ) );
+        }
+        else if( contentType.startsWith( "image" ))
+        {
+            qDebug( "got an image message" );
+            unsigned long long senderID = msgData.sourceId_;
+            unsigned long long groupID  = msgData.targetId_ | 0;
+            QString ct = "text/plain";
+            QString message = QString::fromStdString( body );
         }
     }
     return 0;
