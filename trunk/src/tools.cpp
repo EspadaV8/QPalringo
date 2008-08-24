@@ -17,6 +17,7 @@ Tools::Tools( PalringoWindow *mainWindow )
     this->mainWindow = mainWindow;
     this->connection = NULL;
     this->loggedIn = false;
+    this->user = new User;
 }
 
 Tools::~Tools() { }
@@ -189,4 +190,12 @@ void Tools::logonSuccessful()
 {
     this->loggedIn = true;
     emit( connected() );
+}
+
+void Tools::setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline )
+{
+    this->user->userID = userID;
+    this->user->nickname = nickname;
+    this->user->status = status;
+    this->user->lastOnline = lastOnline;
 }

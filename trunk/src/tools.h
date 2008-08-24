@@ -21,6 +21,14 @@
 #include "chatwindow.h"
 #include "connection.h"
 
+struct User
+{
+    unsigned long long userID;
+    QString nickname;
+    QString status;
+    QString lastOnline;
+};
+
 class Tools;
 extern Tools *tools_;
 
@@ -47,6 +55,9 @@ class Tools : public QObject
         Contact* getContact( unsigned long long contactID );
         QHash<unsigned long long, Contact*> getContacts();
         QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
+        
+        User *user;
+        void setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline );
 
     public slots:
         void logonSuccessful();
