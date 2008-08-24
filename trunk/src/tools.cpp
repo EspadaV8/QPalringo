@@ -124,6 +124,11 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
     return this->contacts;
 }
 
+Contact* Tools::getContact( unsigned long long contactID )
+{
+    return this->contacts.value( contactID );
+}
+
 QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long groupID )
 {
     QHash<unsigned long long, Contact*> groupContacts;

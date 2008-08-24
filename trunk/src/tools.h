@@ -44,6 +44,7 @@ class Tools : public QObject
 
         void sendMessage( Target *target, bool isGroup, Message *message );
 
+        Contact* getContact( unsigned long long contactID );
         QHash<unsigned long long, Contact*> getContacts();
         QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
 
