@@ -83,6 +83,30 @@ void Tools::messageReceived( QString message, unsigned long long senderID, unsig
     }
 }
 
+void Tools::messageReceived( Message* message )
+{
+    if( message->groupID == 0 )
+    {
+        Contact *contact = this->contacts.value( message->senderID );
+        if( !this->checkChatWindowOpen( contact ) )
+        {
+            this->openChatWindow( contact );
+        }
+        ChatWindow *w = this->openWindows.value( contact );
+        w->appendMessage( message );
+    }
+    else
+    {
+        Group* group = this->groups.value( message->groupID );
+        if( !this->checkChatWindowOpen( group ) )
+        {
+            this->openChatWindow( group );
+        }
+        ChatWindow *w = this->openWindows.value( group );
+        w->appendMessage( message );
+    }
+}
+
 void Tools::openPalringoConnection( QString email, QString password )
 {
     if( this->connection == NULL )
