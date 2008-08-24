@@ -35,6 +35,18 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
         this->messageText->setText( QString( this->message->payload ) );
         messageTypeIcon = ":/messageTypes/text.png";
     }
+    else if( this->message->type.startsWith( "image" ) )
+    {
+        QPixmap* p = new QPixmap();
+        p->loadFromData( this->message->payload );
+        this->messageText->setPixmap( *p );
+        messageTypeIcon = ":/messageTypes/image.png";
+    }
+    else if( this->message->type.startsWith( "audio" ) )
+    {
+        this->messageText->setText( "Audio not supported" );
+        messageTypeIcon = ":/messageTypes/voice.png";
+    }
     
     QPixmap *p = new QPixmap( messageTypeIcon );
     this->messageIcon->setPixmap( *p );
