@@ -92,6 +92,13 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
 int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::string &body, GenericData *data )
 {
     PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
+    
+    unsigned long long userID = userId_;
+    QString nickname = QString::fromStdString( nickname_ );
+    QString status = QString::fromStdString( status_ );
+    QString lastOnline = QString::fromStdString( lastOnline_ );
+    
+    tools_->setUser( userID , nickname, status, lastOnline );
     emit( logonSuccessful() );
 
     return 1;
