@@ -44,7 +44,8 @@ HEADERS += palringowindow.h \
  contact.h \
  group.h \
  grouplistitem.h \
- target.h
+ target.h \
+ message.h
 
 LIBS += -LlibPalringo -lPalringo -lssl
 
