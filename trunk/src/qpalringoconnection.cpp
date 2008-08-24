@@ -113,17 +113,36 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
     {
 
         qDebug( "got a contact - %s - %d", qPrintable( QString::fromStdString( contactData.nickname_ ) ), contactData.onlineStatus_ );
-
-        Contact *contact = new Contact;
-        contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
-        contact->setStatusline( QString::fromStdString( contactData.status_ ) );
-        contact->setOnlineStatus( contactData.onlineStatus_ );
-        contact->setIsContact( contactData.isContact_ );
-        contact->setDeviceType( contactData.deviceType_ );
-        contact->setID( contactData.contactId_ );
-
-        emit( gotContactDetails( contact ) );
-
+        if( tools_->getContact( contactData.contactId_ ) )
+        {
+            Contact* contact = tools_->getContact( contactData.contactId_ );
+            qDebug( "contact update" );
+            
+            if( contactData.nickname_.size() )
+            {
+                contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
+            }
+            if( contactData.status_.size() )
+            {
+                contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+            }
+            if( contactData.onlineStatus_ > -1 )
+            {
+                contact->setOnlineStatus( contactData.onlineStatus_ );
+            }
+        }
+        else
+        {
+            Contact *contact = new Contact;
+            contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
+            contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+            contact->setOnlineStatus( contactData.onlineStatus_ );
+            contact->setIsContact( contactData.isContact_ );
+            contact->setDeviceType( contactData.deviceType_ );
+            contact->setID( contactData.contactId_ );
+    
+            emit( gotContactDetails( contact ) );
+        }
         /*
         QMap<int, contact_t> m( this->contacts_ );
         qDebug( "number of contacts %d", m.count() );
