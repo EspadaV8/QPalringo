@@ -10,27 +10,29 @@
 //
 //
 #include "messageitem.h"
+#include "contact.h"
+#include "tools.h"
 
 MessageItem::MessageItem( QWidget *parent, Message *message ) :
         QWidget( parent )
 {
+    Contact* contact = tools_->getContact( message->senderID );
+    
     this->message = message;
 
     this->messageIcon = new QLabel( "" );
+    this->messageText = new QLabel( "" );
 
-    this->sender = new QLabel( this->message->Sender );
+    this->sender = new QLabel( contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
 
-    this->timestamp = new QLabel( this->message->Timestamp );
+    this->timestamp = new QLabel( this->message->timestamp );
     this->timestamp->setAlignment( Qt::AlignRight );
 
     QString messageTypeIcon;
-    if( this->message->Type == "" )
+    if( this->message->type == "text/plain" )
     {
-    }
-    else
-    {
-        this->messageText = new QLabel( QString( this->message->Payload ) );
+        this->messageText->setText( QString( this->message->payload ) );
         messageTypeIcon = ":/messageTypes/text.png";
     }
     
