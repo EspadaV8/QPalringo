@@ -33,6 +33,7 @@ Q_OBJECT
         ~ChatWindow();
 
         void appendMessage( QString message, Contact *contact, QString contentType );
+        void appendMessage( Message* message );
 
     private slots:
         void checkMessageInput();

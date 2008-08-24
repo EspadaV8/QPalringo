@@ -71,10 +71,10 @@ void ChatWindow::checkMessageInput()
     qDebug( "Message input has changed - %s", qPrintable( message ) );
 
     Message *m = new Message;
-    m->Payload = message.toUtf8();
-    m->Type = "text/plain";
-    m->Timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
-    m->Sender = "me";
+    m->payload.append( message );
+    m->type = "text/plain";
+    m->timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
+    m->senderID = tools_->user->userID;
 
     tools_->sendMessage( this->target, this->isGroup, m );
     this->messageList->addMessage( m );
@@ -84,10 +84,15 @@ void ChatWindow::checkMessageInput()
 void ChatWindow::appendMessage( QString message, Contact *contact, QString contentType )
 {
     Message *m = new Message;
-    m->Payload = message.toUtf8();
-    m->Type = contentType;
-    m->Timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
-    m->Sender = contact->getNickname();
+    m->payload = message.toUtf8();
+    m->type = contentType;
+    m->timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
+    m->senderID = 1; //contact->getNickname();
 
     this->messageList->addMessage( m );
+}
+
+void ChatWindow::appendMessage( Message* message )
+{
+    this->messageList->addMessage( message );
 }
