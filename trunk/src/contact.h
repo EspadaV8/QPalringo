@@ -43,6 +43,8 @@ class Contact : public Target
 
     signals:
         void        updateNickname( QString );
+        void        updateStatusline( QString );
+        void        updateOnlineStatus( int );
 
     private:
         QString     nickname;

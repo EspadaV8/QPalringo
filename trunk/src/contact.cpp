@@ -29,6 +29,7 @@ void Contact::setNickname( QString nickname )
 void Contact::setStatusline( QString statusline )
 {
     this->statusline = statusline;
+    emit( updateStatusline( this->statusline ) );
 }
 
 void Contact::setGroup( unsigned long long group )
@@ -39,6 +40,7 @@ void Contact::setGroup( unsigned long long group )
 void Contact::setOnlineStatus( int onlineStatus )
 {
     this->onlineStatus = onlineStatus;
+    emit( updateOnlineStatus( this->onlineStatus ) );
 }
 
 void Contact::setBridgeType( int bridgeType )
