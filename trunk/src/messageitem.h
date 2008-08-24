@@ -21,14 +21,7 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFile>
-
-struct Message
-{
-    QString Type;
-    QByteArray Payload;
-    QString Sender;
-    QString Timestamp;
-};
+#include "message.h"
 
 class MessageItem : public QWidget
 {
