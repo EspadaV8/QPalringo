@@ -49,5 +49,5 @@ void Connection::run()
 void Connection::sendMessage( unsigned long long receiverID, bool isGroup, Message *message )
 {
     qDebug( "connection is sending message" );
-    this->conn->sendMessage( message->Payload, message->Type, receiverID, isGroup );
+    this->conn->sendMessage( message->payload, message->type, receiverID, isGroup );
 }
