@@ -32,6 +32,8 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     this->setIcon( this->getContactIcon() );
 
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
+    connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
+    connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
 }
 
 void ContactListItem::setContactNickname( QString nickname )
@@ -47,8 +49,9 @@ void ContactListItem::setContactStatusline( QString statusline )
 
 void ContactListItem::setContactOnlineStatus( int onlinestatus )
 {
-    this->contact->setOnlineStatus( onlinestatus );
-
+    // this->contact->setOnlineStatus( onlinestatus );
+    this->setIcon( this->getContactIcon() );
+    
     //this->setSecondLine( this->contact->Statusline );
     //this->setIcon( this->getContactIcon() );
 }
