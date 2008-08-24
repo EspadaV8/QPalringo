@@ -13,9 +13,11 @@
 #define QPALRINGOCONNECTION_H
 
 #include <QObject>
+#include <QMap>
 #include "libPalringo/libPalringo.h"
 #include "contact.h"
 #include "group.h"
+#include "message.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -30,6 +32,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
                               unsigned long long senderID,
                               unsigned long long groupID,
                               QString ct );
+        void messageReceived( Message *message );
         void gotContactDetails( Contact *contact );
         void gotGroupDetails( Group *group );
 
@@ -66,6 +69,9 @@ class QPalringoConnection : public QObject, public PalringoConnection
         virtual int onGroupDetailReceived(headers_t&,
                                           std::string&,
                                           GenericData*);
+        
+    private:
+        QMap<unsigned long long, Message*> unfinishedMessages;
 };
 
 #endif

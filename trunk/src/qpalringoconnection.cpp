@@ -24,11 +24,10 @@ QPalringoConnection::QPalringoConnection(QString login,
     qDebug( "creating a connection" );
     PalringoConnection::connectClient();
 
-    connect( this,      SIGNAL( logonSuccessful() ), tools_, SLOT( logonSuccessful() ) );
-    connect( this,      SIGNAL( gotGroupDetails( Group* ) ), tools_, SLOT  ( addGroup( Group* ) ) );
-    connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT  ( addContact( Contact* ) ) );
-    connect( this,      SIGNAL( messageReceived( QString, unsigned long long, unsigned long long, QString ) ),
-             tools_, SLOT  ( messageReceived( QString, unsigned long long, unsigned long long, QString ) ) );
+    connect( this,      SIGNAL( logonSuccessful() ),             tools_, SLOT( logonSuccessful() ) );
+    connect( this,      SIGNAL( gotGroupDetails( Group* ) ),     tools_, SLOT( addGroup( Group* ) ) );
+    connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT( addContact( Contact* ) ) );
+    connect( this,      SIGNAL( messageReceived( Message* ) ),   tools_, SLOT( messageReceived( Message* ) ) );
 }
 
 int QPalringoConnection::poll()
@@ -41,23 +40,53 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
                                          GenericData *data)
 {
     MsgData msgData;
-    if( PalringoConnection::onMesgReceived( headers, body, &msgData ) )
+    PalringoConnection::onMesgReceived( headers, body, &msgData );
+    
+    Message* message;
+    bool last = msgData.last_;
+    unsigned long long correlationID = msgData.correlationId_;
+    unsigned long long messageID = msgData.mesgId_;
+    if( !last )
     {
-        QString contentType = QString::fromStdString( msgData.contentType_ );
-        unsigned long long senderID = msgData.sourceId_;
-        unsigned long long groupID  = msgData.targetId_ | 0;
-        
-        if( contentType == "text/plain" )
+        if( correlationID > 0 )
         {
-            qDebug( "got a text message" );
-            QString message = QString::fromStdString( body );
-
-            qDebug( "Contact ID %llu said: `%s` in group: %llu", senderID, qPrintable( message ), groupID );
-
-            emit( messageReceived( message, senderID, groupID, contentType ) );
+            Message *message = unfinishedMessages.value( correlationID );
+            QString tmp = QString::fromStdString( body );
+            message->payload.append( tmp );
+            unfinishedMessages.remove( correlationID );
+            unfinishedMessages.insert( correlationID, message );
         }
+        else if( !unfinishedMessages.contains( messageID ) )
+        {
+            message = new Message;
+            message->type = QString::fromStdString( msgData.contentType_ );
+            message->senderID = msgData.sourceId_;
+            message->groupID  = msgData.targetId_ | 0;
+            QString tmp = QString::fromStdString( body );
+            message->payload.append( tmp );
+            unfinishedMessages.insert( messageID, message );
+        }
+        return 0;
     }
-    return 0;
+    else if( correlationID > 0 )
+    {
+        message = unfinishedMessages.value( correlationID );
+        QString tmp = QString::fromStdString( body );
+        message->payload.append( tmp );
+        unfinishedMessages.remove( correlationID );
+    }
+    else
+    {
+        message = new Message;
+        message->type = QString::fromStdString( msgData.contentType_ );
+        message->senderID = msgData.sourceId_;
+        message->groupID  = msgData.targetId_ | 0;
+        QString tmp = QString::fromStdString( body );
+        message->payload.append( tmp );
+    }
+    
+    emit( messageReceived( message ) );
+    return 1;
 }
 
 int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::string &body, GenericData *data )
