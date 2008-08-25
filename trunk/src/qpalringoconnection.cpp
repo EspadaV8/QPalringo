@@ -105,12 +105,9 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
     ContactData contactData;
     if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
     {
-
-        qDebug( "got a contact - %s - %d", qPrintable( QString::fromStdString( contactData.nickname_ ) ), contactData.onlineStatus_ );
         if( tools_->getContact( contactData.contactId_ ) )
         {
             Contact* contact = tools_->getContact( contactData.contactId_ );
-            qDebug( "contact update" );
             
             if( contactData.nickname_.size() )
             {
@@ -168,7 +165,6 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
     if( PalringoConnection::onGroupDetailReceived( headers, body, &groupData ) )
     {
         QString groupName = QString::fromStdString( groupData.name_ );
-        qDebug( "got some group data - %s", qPrintable( groupName ) );
 
         group_t &group_ = groups_[groupData.groupId_];
         std::set<uint64_t>::iterator it;
