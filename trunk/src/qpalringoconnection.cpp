@@ -50,11 +50,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
     {
         if( correlationID > 0 )
         {
-            Message *message = unfinishedMessages.value( correlationID );
-            QString tmp = QString::fromStdString( body );
-            message->payload.append( tmp );
-            unfinishedMessages.remove( correlationID );
-            unfinishedMessages.insert( correlationID, message );
+            // don't really need to do anything
         }
         else if( !unfinishedMessages.contains( messageID ) )
         {
@@ -62,8 +58,6 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
             message->type = QString::fromStdString( msgData.contentType_ );
             message->senderID = msgData.sourceId_;
             message->groupID  = msgData.targetId_ | 0;
-            QString tmp = QString::fromStdString( body );
-            message->payload.append( tmp );
             unfinishedMessages.insert( messageID, message );
         }
         return 0;
