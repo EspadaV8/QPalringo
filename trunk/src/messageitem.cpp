@@ -37,9 +37,12 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     }
     else if( this->message->type.startsWith( "image" ) )
     {
-        QPixmap* p = new QPixmap();
-        p->loadFromData( this->message->payload );
-        this->messageText->setPixmap( *p );
+        QImage* im = new QImage();
+        im->loadFromData( this->message->payload );
+        QImage scaled = im->scaled( 100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+        
+        QPixmap pi = QPixmap::fromImage( scaled );
+        this->messageText->setPixmap( pi );
         messageTypeIcon = ":/messageTypes/image.png";
     }
     else if( this->message->type.startsWith( "audio" ) )
