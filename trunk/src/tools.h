@@ -58,6 +58,8 @@ class Tools : public QObject
         
         User *user;
         void setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline );
+        
+        QString tagURLs( QString text );
 
     public slots:
         void logonSuccessful();

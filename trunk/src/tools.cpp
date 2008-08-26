@@ -199,3 +199,90 @@ void Tools::setUser( unsigned long long userID, QString nickname, QString status
     this->user->status = status;
     this->user->lastOnline = lastOnline;
 }
+
+/*
+ Taken from Konversation
+ Copyright (C) 2004 Peter Simonsson <psn@linux.se>
+ Copyright (C) 2006-2008 Eike Hein <hein@kde.org>
+
+ Modified by Andrew Smith for Qt4
+ Copyright (C) 2008 Andrew Smith <andrew@palringo.com>
+*/
+QString Tools::tagURLs( QString text )
+{
+    QRegExp urlPattern("((www\\.(?!\\.)|((f|sf|ht)tp(|s))://)(\\.?[\\d\\w/,\\':~\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)]|&)+)|([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})", Qt::CaseInsensitive, QRegExp::RegExp);
+    QString link = "<u><a href=\"%1%2\">%3</a></u>";
+    QString filteredLine = text;
+    QString insertText;
+    QString href;
+    QString protocol;
+    int pos = 0;
+    int urlLen = 0;
+    
+    while((pos = urlPattern.indexIn(filteredLine, pos)) >= 0)
+    {
+        QString append;
+
+        // check if the matched text is already replaced as a channel
+        if ( filteredLine.lastIndexOf( "<a", pos ) > filteredLine.lastIndexOf( "</a>", pos ) )
+        {
+            ++pos;
+            continue;
+        }
+
+        protocol = "";
+        urlLen = urlPattern.matchedLength();
+        href = filteredLine.mid( pos, urlLen );
+
+        // Don't consider trailing comma part of link.
+        if (href.right(1) == ",")
+        {
+            href.truncate(href.length()-1);
+            append = ',';
+        }
+
+        // Don't consider trailing semicolon part of link.
+        if (href.right(1) == ";")
+        {
+            href.truncate(href.length()-1);
+            append = ';';
+        }
+
+        // Don't consider trailing closing parenthesis part of link when
+        // there's an opening parenthesis preceding the beginning of the
+        // URL or there is no opening parenthesis in the URL at all.
+        if (href.right(1) == ")" && (filteredLine.mid(pos-1,1) == "(" || !href.contains("(")))
+        {
+            href.truncate(href.length()-1);
+            append.prepend(")");
+        }
+
+        // Qt doesn't support (?<=pattern) so we do it here
+        if((pos > 0) && filteredLine[pos-1].isLetterOrNumber())
+        {
+            pos++;
+            continue;
+        }
+
+        if (urlPattern.cap(1).startsWith("www.", Qt::CaseInsensitive))
+        {
+            protocol = "http://";
+        }
+        else if (urlPattern.cap(1).isEmpty())
+        {
+            protocol = "mailto:";
+        }
+
+        // Use \x0b as a placeholder for & so we can readd them after changing all & in the normal text to &amp;
+        // HACK Replace % with \x03 in the url to keep Qt from doing stupid things
+        insertText = link.arg(protocol, QString(href).replace('&', "\x0b").replace('%', "\x03"), href) + append;
+        filteredLine.replace(pos, urlLen, insertText);
+        pos += insertText.length();
+    }
+
+    // Change & to &amp; to prevent html entities to do strange things to the text
+    filteredLine.replace('&', "&amp;");
+    filteredLine.replace("\x0b", "&");
+
+    return filteredLine;
+}
