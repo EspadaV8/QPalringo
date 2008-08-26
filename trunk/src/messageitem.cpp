@@ -36,7 +36,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     QString messageTypeIcon;
     if( this->message->type == "text/plain" )
     {
-        this->messageText->setText( tools_->tagURLs( QString( this->message->payload ) ) );
+        this->messageText->setText( tools_->tagURLs( QString::fromUtf8( this->message->payload ) ) );
         messageTypeIcon = ":/messageTypes/text.png";
     }
     else if( this->message->type.startsWith( "image" ) )

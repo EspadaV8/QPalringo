@@ -67,7 +67,7 @@ ChatWindow::~ChatWindow()
 
 void ChatWindow::checkMessageInput()
 {
-    QString message = this->messageInput->text();
+    QString message = this->messageInput->text().toUtf8();
     qDebug( "Message input has changed - %s", qPrintable( message ) );
 
     Message *m = new Message;
