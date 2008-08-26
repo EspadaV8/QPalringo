@@ -22,6 +22,9 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
 
     this->messageIcon = new QLabel( "" );
     this->messageText = new QLabel( "" );
+    this->messageText->setWordWrap( true );
+    this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
+    this->messageText->setOpenExternalLinks( true );
 
     this->sender = new QLabel( contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
