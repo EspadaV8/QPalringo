@@ -23,6 +23,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     this->messageIcon = new QLabel( "" );
     this->messageText = new QLabel( "" );
     this->messageText->setWordWrap( true );
+    this->messageText->setTextFormat( Qt::RichText );
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->messageText->setOpenExternalLinks( true );
 
@@ -35,7 +36,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     QString messageTypeIcon;
     if( this->message->type == "text/plain" )
     {
-        this->messageText->setText( QString( this->message->payload ) );
+        this->messageText->setText( tools_->tagURLs( QString( this->message->payload ) ) );
         messageTypeIcon = ":/messageTypes/text.png";
     }
     else if( this->message->type.startsWith( "image" ) )
