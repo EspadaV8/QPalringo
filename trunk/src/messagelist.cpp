@@ -10,6 +10,7 @@
 //
 //
 #include "messagelist.h"
+#include <QScrollBar>
 
 MessageList::MessageList(QWidget *parent)
     : QScrollArea(parent)
@@ -20,6 +21,8 @@ MessageList::MessageList(QWidget *parent)
     w->setLayout( vbox );
     this->setWidgetResizable( true );
     this->setWidget( w );
+
+    this->atBottom = true;
 }
 
 
@@ -29,7 +32,20 @@ MessageList::~MessageList()
 
 void MessageList::addMessage( Message *message )
 {
+    this->atBottom = ( this->verticalScrollBar()->sliderPosition() == this->verticalScrollBar()->maximum() );
+
     MessageItem *m = new MessageItem( this, message );
     this->messages.append( m );
     this->vbox->insertWidget( ( this->vbox->count() - 1 ), m );
+    m->show();
+
+    QMetaObject::invokeMethod(this, "setScrollbarPos", Qt::QueuedConnection);
+}
+
+void MessageList::setScrollbarPos()
+{
+    if( atBottom )
+    {
+        this->ensureWidgetVisible( this->messages.last() );
+    }
 }

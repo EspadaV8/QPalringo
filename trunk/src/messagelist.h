@@ -32,7 +32,10 @@ class MessageList : public QScrollArea
         private:
             QVBoxLayout *vbox;
             QList<MessageItem *> messages;
+            bool atBottom;
 
+        private slots:
+            void setScrollbarPos();
     };
 
 #endif
