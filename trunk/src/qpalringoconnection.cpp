@@ -41,7 +41,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
 {
     MsgData msgData;
     PalringoConnection::onMesgReceived( headers, body, &msgData );
-    
+
     Message* message;
     bool last = msgData.last_;
     unsigned long long correlationID = msgData.correlationId_;
@@ -78,7 +78,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         QString tmp = QString::fromStdString( body );
         message->payload.append( tmp );
     }
-    
+
     emit( messageReceived( message ) );
     return 1;
 }
@@ -86,12 +86,12 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
 int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::string &body, GenericData *data )
 {
     PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
-    
+
     unsigned long long userID = userId_;
     QString nickname = QString::fromStdString( nickname_ );
     QString status = QString::fromStdString( status_ );
     QString lastOnline = QString::fromStdString( lastOnline_ );
-    
+
     tools_->setUser( userID , nickname, status, lastOnline );
     emit( logonSuccessful() );
 
@@ -108,7 +108,7 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
         if( tools_->getContact( contactData.contactId_ ) )
         {
             Contact* contact = tools_->getContact( contactData.contactId_ );
-            
+
             if( contactData.nickname_.size() )
             {
                 contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
@@ -131,30 +131,11 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
             contact->setIsContact( contactData.isContact_ );
             contact->setDeviceType( contactData.deviceType_ );
             contact->setID( contactData.contactId_ );
-    
+
             emit( gotContactDetails( contact ) );
         }
-        /*
-        QMap<int, contact_t> m( this->contacts_ );
-        qDebug( "number of contacts %d", m.count() );
-
-        QMapIterator<int, contact_t> i(m);
-        while (i.hasNext())
-        {
-            i.next();
-
-            Contact *contact = new Contact;
-            contact->setNickname( QString::fromStdString( i.value().nickname_ ) );
-            contact->setStatusline( QString::fromStdString( i.value().status_ ) );
-            contact->setOnlineStatus( i.value().onlineStatus_ );
-            contact->setIsContact( i.value().isContact_ );
-            contact->setDeviceType( i.value().deviceType_ );
-            contact->setID( i.key() );
-            tools_->addNewContact( contact );
-        }
-        */
-        // emit( gotContact() );
     }
+    return 1;
 }
 
 int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
