@@ -151,7 +151,11 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
 
 Contact* Tools::getContact( unsigned long long contactID )
 {
-    return this->contacts.value( contactID );
+    if( this->contacts.contains( contactID ) )
+    {
+        return this->contacts.value( contactID );
+    }
+    return NULL;
 }
 
 QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long groupID )
@@ -218,7 +222,7 @@ QString Tools::tagURLs( QString text )
     QString protocol;
     int pos = 0;
     int urlLen = 0;
-    
+
     while((pos = urlPattern.indexIn(filteredLine, pos)) >= 0)
     {
         QString append;
