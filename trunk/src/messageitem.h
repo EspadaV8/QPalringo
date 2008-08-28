@@ -30,6 +30,9 @@ class MessageItem : public QWidget
         MessageItem ( QWidget *parent = 0, Message *message = NULL );
         ~MessageItem();
 
+        bool getToSelect();
+        void setSelected( bool selected );
+
     private:
         Message *message;
 
@@ -42,6 +45,18 @@ class MessageItem : public QWidget
         QVBoxLayout *leftside;
         QVBoxLayout *rightside;
         QHBoxLayout *headers;
+
+        bool toSelect;
+        bool selected;
+
+    signals:
+        void doubleClick();
+
+    protected:
+        void paintEvent( QPaintEvent *event );
+        void mousePressEvent( QMouseEvent *event );
+        void mouseDoubleClickEvent( QMouseEvent *event );
+        virtual void ReloadStyleSheet();
 };
 
 #endif

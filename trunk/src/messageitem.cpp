@@ -77,6 +77,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     this->layout->addLayout( this->leftside );
     this->layout->addLayout( this->rightside, 1 );
     this->setLayout( layout );
+    ReloadStyleSheet();
 }
 
 
@@ -84,3 +85,49 @@ MessageItem::~MessageItem()
 {
 }
 
+
+void MessageItem::mousePressEvent( QMouseEvent *event )
+{
+    this->toSelect = true;
+    event->ignore();
+}
+
+void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
+{
+    emit( doubleClick() );
+    event->accept();
+}
+
+bool MessageItem::getToSelect()
+{
+    return this->toSelect;
+}
+
+void MessageItem::setSelected( bool b )
+{
+    this->toSelect = false;
+    this->setProperty( "selected", b );
+    ReloadStyleSheet();
+}
+
+void MessageItem::ReloadStyleSheet()
+{
+    QFile sheet ( ":/styles/MessageItem.css" );
+
+    if ( ! sheet.open ( QIODevice::ReadOnly ) )
+    {
+        qDebug( "failed to read the stylesheet resource: %s", qPrintable( sheet.fileName() ) );
+    }
+    else
+    {
+        this->setStyleSheet ( sheet.readAll() );
+    }
+}
+
+void MessageItem::paintEvent(QPaintEvent *)
+{
+    QStyleOption opt;
+    opt.init(this);
+    QPainter p(this);
+    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
