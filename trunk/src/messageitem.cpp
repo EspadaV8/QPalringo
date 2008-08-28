@@ -17,7 +17,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
         QWidget( parent )
 {
     Contact* contact = tools_->getContact( message->senderID );
-    
+
     this->message = message;
 
     this->messageIcon = new QLabel( "" );
@@ -36,7 +36,8 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     QString messageTypeIcon;
     if( this->message->type == "text/plain" )
     {
-        this->messageText->setText( tools_->tagURLs( QString::fromUtf8( this->message->payload ) ) );
+        QString formattedText = tools_->formatMessageText( this->message->payload  );
+        this->messageText->setText( formattedText );
         messageTypeIcon = ":/messageTypes/text.png";
     }
     else if( this->message->type.startsWith( "image" ) )
@@ -44,7 +45,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
         QImage* im = new QImage();
         im->loadFromData( this->message->payload );
         QImage scaled = im->scaled( 100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-        
+
         QPixmap pi = QPixmap::fromImage( scaled );
         this->messageText->setPixmap( pi );
         messageTypeIcon = ":/messageTypes/image.png";
@@ -54,7 +55,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
         this->messageText->setText( "Audio not supported" );
         messageTypeIcon = ":/messageTypes/voice.png";
     }
-    
+
     QPixmap *p = new QPixmap( messageTypeIcon );
     this->messageIcon->setPixmap( *p );
     this->layout = new QHBoxLayout();
@@ -82,5 +83,4 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
 MessageItem::~MessageItem()
 {
 }
-
 

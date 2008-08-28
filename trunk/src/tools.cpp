@@ -290,3 +290,13 @@ QString Tools::tagURLs( QString text )
 
     return filteredLine;
 }
+
+QString Tools::formatMessageText( QByteArray messagePayload )
+{
+    QString message = QString::fromUtf8( messagePayload );
+
+    message = Qt::convertFromPlainText( message );
+    message = this->tagURLs( message );
+
+    return message;
+}

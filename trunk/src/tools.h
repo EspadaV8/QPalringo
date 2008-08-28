@@ -44,7 +44,7 @@ class Tools : public QObject
 
         void openChatWindow( Target *target, bool isGroup = false );
         void removeChatWindow( Target *target );
-        
+
         void openChatWindow( Contact *contact );
         void openChatWindow( Group *group );
 
@@ -55,10 +55,11 @@ class Tools : public QObject
         Contact* getContact( unsigned long long contactID );
         QHash<unsigned long long, Contact*> getContacts();
         QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
-        
+
         User *user;
         void setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline );
-        
+
+        QString formatMessageText( QByteArray messagePayload );
         QString tagURLs( QString text );
 
     public slots:
