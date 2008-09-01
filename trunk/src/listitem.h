@@ -38,6 +38,8 @@ class ListItem : public QWidget, public Ui::ListItem
         bool getToSelect();
         void setSelected( bool selected );
 
+        QString getFirstLine();
+
     public slots:
         void setFirstLine( QString text );
         void setSecondLine( QString text );

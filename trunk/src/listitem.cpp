@@ -16,7 +16,7 @@ ListItem::ListItem( QWidget *parent )
 {
     setupUi( this );
     ReloadStyleSheet();
-    
+
     this->parent = parent;
     this->icon = new QPixmap();
 
@@ -42,6 +42,11 @@ void ListItem::setIcon( QString iconFilename )
         *this->icon = this->icon->scaled( MAX_ICON_SIZE, MAX_ICON_SIZE, Qt::KeepAspectRatio, Qt::SmoothTransformation );
     }
     this->iconLabel->setPixmap( *this->icon );
+}
+
+QString ListItem::getFirstLine()
+{
+    return this->firstLine->text();
 }
 
 QString ListItem::getContainerGroup()
