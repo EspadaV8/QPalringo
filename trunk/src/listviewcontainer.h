@@ -27,7 +27,7 @@ public:
 
     ~ListViewContainer();
 
-    void appendWidget( ListItem *widget );
+    void appendWidget( ListItem *widget, bool sorted = true );
     void removeWidget( ListItem *widget );
     QString getName();
 

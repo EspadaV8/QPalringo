@@ -48,9 +48,29 @@ void ListViewContainer::buttonClicked()
     }
 }
 
-void ListViewContainer::appendWidget( ListItem *widget )
+void ListViewContainer::appendWidget( ListItem *widget, bool sorted )
 {
-    innerLayout->addWidget( widget );
+    if( ( !sorted ) || ( innerLayout->count() == 0 ) )
+    {
+        innerLayout->addWidget( widget );
+    }
+    else
+    {
+        int i = 0;
+        for( i = 0; i < innerLayout->count(); ++i )
+        {
+            ListItem *li = (ListItem*)innerLayout->itemAt( i )->widget();
+            if( li->getFirstLine() < widget->getFirstLine() )
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+        innerLayout->insertWidget( i, widget );
+    }
 }
 
 void ListViewContainer::removeWidget( ListItem *widget )
