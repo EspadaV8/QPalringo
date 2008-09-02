@@ -126,6 +126,7 @@ void Tools::sendMessage( Target *target, bool isGroup, Message *message )
 
 void Tools::addContact( Contact *contact )
 {
+    this->contactLock.lockForWrite();
     if( !this->contacts.contains( contact->getID() ) )
     {
         this->contacts.insert( contact->getID(),  contact );
@@ -142,6 +143,7 @@ void Tools::addContact( Contact *contact )
     else
     {
     }
+    this->contactLock.unlock();
 }
 
 QHash<unsigned long long, Contact*> Tools::getContacts()
@@ -151,10 +153,13 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
 
 Contact* Tools::getContact( unsigned long long contactID )
 {
+    this->contactLock.lockForRead();
     if( this->contacts.contains( contactID ) )
     {
+        this->contactLock.unlock();
         return this->contacts.value( contactID );
     }
+    this->contactLock.unlock();
     return NULL;
 }
 

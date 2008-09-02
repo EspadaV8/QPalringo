@@ -15,6 +15,7 @@
 #include <QObject>
 #include <QHash>
 #include <QMultiMap>
+#include <QReadWriteLock>
 #include "palringowindow.h"
 #include "target.h"
 #include "messageitem.h"
@@ -91,6 +92,8 @@ class Tools : public QObject
 
         QHash<unsigned long long, Contact* > contacts;
         QHash<unsigned long long, Group* > groups;
+
+        QReadWriteLock contactLock;
 };
 
 #endif
