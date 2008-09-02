@@ -153,14 +153,14 @@ QHash<unsigned long long, Contact*> Tools::getContacts()
 
 Contact* Tools::getContact( unsigned long long contactID )
 {
+    Contact* c = NULL;
     this->contactLock.lockForRead();
     if( this->contacts.contains( contactID ) )
     {
-        this->contactLock.unlock();
-        return this->contacts.value( contactID );
+        c = this->contacts.value( contactID );
     }
     this->contactLock.unlock();
-    return NULL;
+    return c;
 }
 
 QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long groupID )
