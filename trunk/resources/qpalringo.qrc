@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/contacts/" >
-        <file alias="pcContactIcon.png">../images/32px_PC.png</file>
-        <file alias="mobileContactIcon.png">../images/32px_Mobile.png</file>
-        <file alias="botContactIcon.png">../images/32px_Bot.png</file>
-        <file alias="offlineContactIcon.png">../images/32px_Offline.png</file>
-        <file alias="groupIcon.png">../images/32px_Group.png</file>
+        <file alias="pcContactIcon.png">../images/32px/PC.png</file>
+        <file alias="mobileContactIcon.png">../images/32px/Mobile.png</file>
+        <file alias="botContactIcon.png">../images/32px/Bot.png</file>
+        <file alias="offlineContactIcon.png">../images/32px/Offline.png</file>
+        <file alias="groupIcon.png">../images/32px/Group.png</file>
     </qresource>
 
     <qresource prefix="/services/" >
@@ -21,7 +21,7 @@
         <file alias="downarrow.png">../images/downarrow.png</file>
         <file alias="rightarrow.png">../images/rightarrow.png</file>
         <file alias="overview.png">../images/overviewIcon.png</file>
-        <file alias="sysTrayIcon.png">../images/sysTrayIcon.png</file>
+        <file alias="sysTrayIcon.png">../images/32px/sysTrayIcon.png</file>
     </qresource>
 
     <qresource prefix="/styles/" >
@@ -31,8 +31,8 @@
     </qresource>
 
     <qresource prefix="/messageTypes/" >
-        <file alias="text.png">../images/text.png</file>
-        <file alias="voice.png">../images/voice.png</file>
-        <file alias="image.png">../images/image.png</file>
+        <file alias="text.png">../images/32px/text.png</file>
+        <file alias="voice.png">../images/32px/voice.png</file>
+        <file alias="image.png">../images/32px/image.png</file>
     </qresource>
 </RCC>
