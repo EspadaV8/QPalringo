@@ -60,7 +60,7 @@ void ListViewContainer::appendWidget( ListItem *widget, bool sorted )
         for( i = 0; i < innerLayout->count(); ++i )
         {
             ListItem *li = (ListItem*)innerLayout->itemAt( i )->widget();
-            if( li->getFirstLine() < widget->getFirstLine() )
+            if( li->getFirstLine().toLower() < widget->getFirstLine().toLower() )
             {
                 continue;
             }
