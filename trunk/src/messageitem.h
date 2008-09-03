@@ -22,6 +22,7 @@
 #include <QVBoxLayout>
 #include <QFile>
 #include "message.h"
+#include "contact.h"
 
 class MessageItem : public QWidget
 {
@@ -35,6 +36,7 @@ class MessageItem : public QWidget
 
     private:
         Message *message;
+        Contact* contact;
 
         QLabel *messageIcon;
         QLabel *sender;

@@ -10,13 +10,12 @@
 //
 //
 #include "messageitem.h"
-#include "contact.h"
 #include "tools.h"
 
 MessageItem::MessageItem( QWidget *parent, Message *message ) :
         QWidget( parent )
 {
-    Contact* contact = tools_->getContact( message->senderID );
+    this->contact = tools_->getContact( message->senderID );
 
     this->message = message;
 
@@ -27,7 +26,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->messageText->setOpenExternalLinks( true );
 
-    this->sender = new QLabel( contact->getNickname() );
+    this->sender = new QLabel( this->contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
 
     this->timestamp = new QLabel( this->message->timestamp );
