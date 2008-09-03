@@ -94,6 +94,21 @@ void MessageItem::mousePressEvent( QMouseEvent *event )
 
 void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
+    if( this->message->type.startsWith( "image" ) )
+    {
+        QPixmap* p = new QPixmap();
+        p->loadFromData( this->message->payload );
+
+        QLabel* l = new QLabel( "" );
+        l->setPixmap( *p );
+
+        QVBoxLayout *v = new QVBoxLayout();
+        v->addWidget( l );
+
+        QWidget* w = new QWidget( this, Qt::Window );
+        w->setLayout( v );
+        w->show();
+    }
     emit( doubleClick() );
     event->accept();
 }
