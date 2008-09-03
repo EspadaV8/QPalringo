@@ -95,6 +95,7 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     if( this->message->type.startsWith( "image" ) )
     {
+        QString t = "Image from " + this->contact->getNickname();
         QPixmap* p = new QPixmap();
         p->loadFromData( this->message->payload );
 
@@ -106,6 +107,7 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
 
         QWidget* w = new QWidget( this, Qt::Window );
         w->setLayout( v );
+        w->setWindowTitle( t );
         w->show();
     }
     emit( doubleClick() );
