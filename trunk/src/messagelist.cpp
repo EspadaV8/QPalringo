@@ -46,6 +46,7 @@ void MessageList::setScrollbarPos()
 {
     if( atBottom )
     {
-        this->ensureWidgetVisible( this->messages.last() );
+        this->verticalScrollBar()->setSliderPosition( this->verticalScrollBar()->maximum() );
+        this->horizontalScrollBar()->setSliderPosition( 0 );
     }
 }
