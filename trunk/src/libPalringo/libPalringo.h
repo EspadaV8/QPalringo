@@ -372,6 +372,9 @@ protected:
       // last part of the message
       bool last_;
       uint32_t totalLength_;
+
+      // time the message was sent
+      std::string timestamp_;
   };
 
   class LogonData : public GenericData
