@@ -37,6 +37,7 @@ Q_OBJECT
 
     private slots:
         void checkMessageInput();
+        void askForHistory();
 
     private:
         PalringoWindow *parent;

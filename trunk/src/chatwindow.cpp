@@ -31,6 +31,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
 
     // set up all the widgets
     this->historyButton = new QPushButton ( "History", this );
+    connect( this->historyButton, SIGNAL( clicked() ), this, SLOT( askForHistory() ) );
     this->messageList = new MessageList( this );
     this->messageInput = new QLineEdit( this );
     this->voiceButton = new QPushButton ( "" );
@@ -95,4 +96,9 @@ void ChatWindow::appendMessage( QString message, Contact *contact, QString conte
 void ChatWindow::appendMessage( Message* message )
 {
     this->messageList->addMessage( message );
+}
+
+void ChatWindow::askForHistory()
+{
+    qDebug( "time to get some history" );
 }
