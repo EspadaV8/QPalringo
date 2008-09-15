@@ -16,6 +16,7 @@
  @author Andrew Smith <espadav8@gmail.com>
 */
 
+#include <phonon>
 #include <QWidget>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -51,6 +52,10 @@ class MessageItem : public QWidget
         bool toSelect;
         bool selected;
 
+        Phonon::MediaObject *mediaObject;
+
+        void handleAudioClip();
+
     signals:
         void doubleClick();
 
@@ -59,6 +64,10 @@ class MessageItem : public QWidget
         void mousePressEvent( QMouseEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
         virtual void ReloadStyleSheet();
+
+    private slots:
+        void showMetaData();
+        void finished();
 };
 
 #endif

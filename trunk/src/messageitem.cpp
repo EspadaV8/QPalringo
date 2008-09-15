@@ -9,8 +9,11 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <QFile>
+#include <QStringList>
 #include "messageitem.h"
 #include "tools.h"
+#include "speexdecoder.h"
 
 MessageItem::MessageItem( QWidget *parent, Message *message ) :
         QWidget( parent )
@@ -51,7 +54,8 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     }
     else if( this->message->type.startsWith( "audio" ) )
     {
-        this->messageText->setText( "Audio not supported" );
+        QPixmap *p = new QPixmap( ":/misc/rightarrow.png" );
+        this->messageText->setPixmap( *p );
         messageTypeIcon = ":/messageTypes/voice.png";
     }
 
@@ -110,8 +114,116 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
         w->setWindowTitle( t );
         w->show();
     }
+    else if( this->message->type.startsWith( "audio" ) )
+    {
+        this->handleAudioClip();
+    }
+
     emit( doubleClick() );
     event->accept();
+}
+
+void MessageItem::handleAudioClip()
+{
+    /*
+    QStringList l = Phonon::BackendCapabilities::availableMimeTypes();
+    for( int i = 0; i < l.size(); ++i )
+    {
+        qDebug() << l.at(i);
+    }
+
+    QList<Phonon::AudioOutputDevice> audioOutputDevices = Phonon::BackendCapabilities::availableAudioOutputDevices();
+    for( int i = 0; i < audioOutputDevices.size(); ++i )
+    {
+        qDebug() << audioOutputDevices.at(i).name();
+    }
+    */
+
+    SpeexDecoder* sd = new SpeexDecoder( this );
+
+    char* data = this->message->payload.data();
+    int size = this->message->payload.size();
+    QByteArray decodedData = sd->decode( data, size );
+
+    qDebug() << "dataSize - " << this->message->payload.size() << " decodedData.size() - " << decodedData.size();
+
+    qDebug( "Creating audio buffer" );
+    QBuffer* audio = new QBuffer( &decodedData );//&this->message->payload );
+    audio->open( QIODevice::ReadWrite );
+
+    QFile decodedFile( "decodedData.wav" );
+    if( decodedFile.open( QIODevice::ReadWrite ) )
+    {
+        decodedFile.write( decodedData );
+    }
+
+    tools_->HeaderWrite( &decodedData, false, 16, 0, 16000 );
+
+    QFile headerFile( "withHeaderData.wav" );
+    if( headerFile.open( QIODevice::ReadWrite ) )
+    {
+        headerFile.write( decodedData );
+    }
+
+    // QSound::play( "withHeaderData.wav" );
+
+    /*
+    qDebug( "Creating MediaObject" );
+    mediaObject = Phonon::createPlayer( Phonon::NoCategory, Phonon::MediaSource( decodedData ) ) ;
+
+    qDebug( "Playing" );
+    mediaObject->play();
+
+    qDebug() << mediaObject->errorString();
+    */
+    /*
+    qDebug( "Creating MediaObject" );
+    mediaObject = new Phonon::MediaObject(this);
+    connect( mediaObject, SIGNAL(metaDataChanged()), this, SLOT(showMetaData()) );
+    connect( mediaObject, SIGNAL(aboutToFinish()), this, SLOT(finished()) );
+
+    qDebug( "Creating MediaSource" );
+    Phonon::MediaSource *ms = new Phonon::MediaSource( &headerFile );// "/home/andrew/downloads/Music/ss.mp3" );//audio );
+
+    qDebug( "Setting source" );
+    mediaObject->setCurrentSource( *ms );
+
+    qDebug( "Creating AudioOutput" );
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+
+    qDebug( "Creating Path" );
+    Phonon::Path path = Phonon::createPath(mediaObject, audioOutput);
+
+    qDebug( "Playing" );
+    mediaObject->play();
+    */
+
+    /*
+    Phonon::MediaObject m;
+
+    qDebug( "Setting source" );
+    m.setCurrentSource( audio );
+
+    qDebug( "Playing" );
+    m.play();
+    */
+}
+
+void MessageItem::showMetaData()
+{
+    QMultiMap<QString, QString> mm = mediaObject->metaData();
+    qDebug() << "metaData size - " << mm.size();
+    QMapIterator<QString, QString> i(mm);
+    while (i.hasNext())
+    {
+        i.next();
+        qDebug() << i.key() << ": " << i.value();
+    }
+}
+
+void MessageItem::finished()
+{
+    qDebug() << "finished - " << mediaObject->errorString();
 }
 
 bool MessageItem::getToSelect()
