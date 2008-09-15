@@ -63,6 +63,8 @@ class Tools : public QObject
         QString formatMessageText( QByteArray messagePayload );
         QString tagURLs( QString text );
 
+        void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
+
     public slots:
         void logonSuccessful();
         void addGroup( Group *group );
