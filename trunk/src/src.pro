@@ -15,7 +15,8 @@ SOURCES += main.cpp \
  contact.cpp \
  group.cpp \
  grouplistitem.cpp \
- target.cpp
+ target.cpp \
+ speexdecoder.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -27,7 +28,7 @@ TARGET = ../bin/qpalringo
 FORMS = ui/signinwindow.ui \
  ui/listitem.ui
 
-QT += gui
+QT += gui phonon
 HEADERS += palringowindow.h \
  palringolistview.h \
  contactlistitem.h \
@@ -45,9 +46,10 @@ HEADERS += palringowindow.h \
  group.h \
  grouplistitem.h \
  target.h \
- message.h
+ message.h \
+ speexdecoder.h
 
-LIBS += -LlibPalringo -lPalringo -lssl
+LIBS += -LlibPalringo -lPalringo -lssl -lspeex
 
 RESOURCES += ../resources/qpalringo.qrc
 
