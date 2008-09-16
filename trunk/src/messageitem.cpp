@@ -165,17 +165,13 @@ void MessageItem::handleAudioClip()
     QBuffer* audio = new QBuffer( &decodedData );//&this->message->payload );
     audio->open( QIODevice::ReadOnly );
 
-    // QSound::play( "withHeaderData.wav" );
 
-    /*
     qDebug( "Creating MediaObject" );
-    mediaObject = Phonon::createPlayer( Phonon::NoCategory, Phonon::MediaSource( decodedData ) ) ;
+    mediaObject = Phonon::createPlayer( Phonon::CommunicationCategory, Phonon::MediaSource( audio ) ) ;
 
     qDebug( "Playing" );
     mediaObject->play();
 
-    qDebug() << mediaObject->errorString();
-    */
     /*
     qDebug( "Creating MediaObject" );
     mediaObject = new Phonon::MediaObject(this);
