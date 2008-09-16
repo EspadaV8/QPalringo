@@ -147,10 +147,6 @@ void MessageItem::handleAudioClip()
 
     qDebug() << "dataSize - " << this->message->payload.size() << " decodedData.size() - " << decodedData.size();
 
-    qDebug( "Creating audio buffer" );
-    QBuffer* audio = new QBuffer( &decodedData );//&this->message->payload );
-    audio->open( QIODevice::ReadWrite );
-
     QFile decodedFile( "decodedData.wav" );
     if( decodedFile.open( QIODevice::ReadWrite ) )
     {
@@ -164,6 +160,10 @@ void MessageItem::handleAudioClip()
     {
         headerFile.write( decodedData );
     }
+
+    qDebug( "Creating audio buffer" );
+    QBuffer* audio = new QBuffer( &decodedData );//&this->message->payload );
+    audio->open( QIODevice::ReadOnly );
 
     // QSound::play( "withHeaderData.wav" );
 
