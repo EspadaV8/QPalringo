@@ -49,7 +49,7 @@ HEADERS += palringowindow.h \
  message.h \
  speexdecoder.h
 
-LIBS += -LlibPalringo -lPalringo -lssl -lspeex
+LIBS += -LlibPalringo -lPalringo -lssl -lspeex -lz
 
 RESOURCES += ../resources/qpalringo.qrc
 
