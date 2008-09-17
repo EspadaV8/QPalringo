@@ -199,9 +199,10 @@ bool QPalringoConnection::sendMessage(QByteArray msg,
 {
     qDebug( "about to send message" );
     int targetType = (isGroup) ? 1 : 0;
+    std::string cT = contentType.toStdString();
     return PalringoConnection::sendMessage( msg.data(),
                                             msg.size(),
-                                            contentType.toStdString(),
+                                            cT,
                                             targetID,
                                             targetType );
 }
