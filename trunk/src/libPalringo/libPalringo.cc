@@ -133,11 +133,13 @@ PalringoConnection::PalringoConnection(const std::string& host,
                                        const std::string& sourceIP,
                                        bool nonBlocking,
 				       int protocolVersion,
-				       bool encryption) :
+				       bool encryption,
+				       int compression) :
   login_(login), password_(password), salsa_(NULL), dh_(NULL),
   host_(host), port_(port),
   protocolVersion_(protocolVersion), encryption_(encryption),
-  packetSeq_(0), receivedData_(0), sourceIP_(sourceIP), userId_(0),
+  compression_(compression),
+  packetSeq_(0), receivedData_(0), sourceIP_(sourceIP), userId_(0), 
   outMessageCount_(0), sofar_(0), ghosted_(false),
   mesg_id_(0), auto_accept_contacts_(true), loggedOn_(false),
   nonBlocking_(nonBlocking), connectionReady_(false),
@@ -734,9 +736,14 @@ PalringoConnection::connectClient(bool soft)
       headers["SUB-ID"] = toString(userId_);
     }
 
-    if (!RK_.size())
+    if (!soft || !RK_.size())
     {
       packetSeq_ = 0;
+    }
+
+    if (compression_)
+    {
+      headers["COMPRESSION"] = toString(compression_);
     }
   }
 
@@ -1111,7 +1118,7 @@ PalringoConnection::readCmd()
     return nb;
 }
 
-uint64_t
+uint64_t 
 PalringoConnection::ntohll (uint64_t data)
 {
   // Run-time test to determine our endianess
@@ -1371,6 +1378,15 @@ PalringoConnection::sendToGroup(char* msg,
   return sendMessage(msgStr, contentType, group, 1 /* group */);
 }
 
+bool
+PalringoConnection::sendPls(DataMap &data)
+{
+  headers_t headers;
+  std::string body = data.getData();
+  headers["MESG-ID"] = toString(getMesgId());
+  return sendCmd("PLS SUBMIT", headers, body);
+}
+
 void
 PalringoConnection::getMesgHist(int32_t count,
 				uint32_t timestamp,
@@ -1398,6 +1414,17 @@ PalringoConnection::getMesgHist(int32_t count,
   sendCmd(pCommand::MESG_HIST, headers, "");
 }
 
+void
+PalringoConnection::setLogin(const std::string &login)
+{
+  login_.assign(login);
+}
+
+void
+PalringoConnection::setPassword(const std::string &password)
+{
+  password_.assign(password);
+}
 
 int
 PalringoConnection::getContact(uint64_t id, contact_t& contact)

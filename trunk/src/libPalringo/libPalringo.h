@@ -497,12 +497,12 @@ protected:
   /**
    * @brief User login.
   */
-  const std::string login_;
+  std::string login_;
 
   /**
    * @brief User password.
   */
-  const std::string password_;
+  std::string password_;
 
   std::string passwordMD5_;
 
@@ -523,6 +523,8 @@ protected:
   const int protocolVersion_;
 
   bool encryption_;
+
+  int compression_;
 
   uint64_t packetSeq_;
 
@@ -598,46 +600,6 @@ protected:
    * @brief Initialize callback functions
    */
   virtual void initCallbackFunctions();
-
-  /**
-   * @brief Send a command to the server, any type of body
-   *
-   * It sends a command to the server.
-   * Body can be of binary type.
-   * The message is pushed into the output buffer and sent later using pollWrite().
-   * @param cmd is the command name.
-   * @param headers is a map that includes all the headers for the command.
-   * @param body is a pointer to the buffer where the body of the message is stored.
-   * @param length is the length of the message.
-   * @see pollWrite()
-   * @see sendMessage()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @return True if the message was successfully pushed in the buffer and false if not.
-   */
-  virtual bool sendCmd (const std::string& cmd,
-      headers_t& headers,
-      const char *body,
-      uint32_t length);
-
-  /**
-   * @brief Send a command to the server, body is a string
-   *
-   * It sends a command to the server.
-   * Body is of type string.
-   * The message is pushed into the output buffer and sent later using pollWrite().
-   * @param cmd is the command name.
-   * @param headers is a map that includes all the headers for the command.
-   * @param body is a string where the body of the message is stored.
-   * @see pollWrite()
-   * @see sendMessage()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @return True if the message was successfully pushed in the buffer and false if not.
-   */
-  virtual bool sendCmd(const std::string& cmd,
-      headers_t& headers,
-      const std::string& body = "");
 
   /**
    * @brief Parse commands from received data.
@@ -906,44 +868,6 @@ protected:
    */
   ConnectionStatus connectionStatus_;
 
-  /**
-   * @brief Send a string type message
-   *
-   * The message is stored in a string.
-   * @param msg is the string containing the message.
-   * @param contentType is the content type of the message.
-   * @param id is the ID of the contact or group.
-   * @param type is the destination type (0 for contact and 1 for group).
-   * @see sendCmd()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @see pollWrite()
-   */
-  virtual bool sendMessage(const std::string& msg,
-      std::string& contentType,
-      uint64_t id,
-      int32_t type /* 0 for contact, 1 for group */);
-
-  /**
-   * @brief Send any type of message
-   *
-   * The message is stored in a buffer called msg.
-   * @param msg is the buffer containing the message.
-   * @param length is the length of the message.
-   * @param contentType is the content type of the message.
-   * @param id is the ID of the contact or group.
-   * @param type is the destination type (0 for contact and 1 for group).
-   * @see sendCmd()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @see pollWrite()
-   */
-  virtual bool sendMessage(char* msg,
-      uint32_t length,
-      std::string contentType,
-      uint64_t id,
-      int32_t type /* 0 for contact, 1 for group */);
-
 public:
 
   /**
@@ -966,7 +890,8 @@ public:
 		     const std::string& sourceIP = "",
 		     bool nonBlocking = false,
 		     int protocolVersion = 1,
-		     bool encryption = false);
+		     bool encryption = false,
+		     int compression = 0);
 
 
   /**
@@ -1052,6 +977,10 @@ public:
   {
     return login_;
   }
+  inline std::string getPassword()
+  {
+    return password_;
+  }
 
   inline std::string getHost()
   {
@@ -1112,6 +1041,84 @@ public:
    * @brief Convert a 64 bit network integer to host type one
    */
   static uint64_t ntohll (uint64_t data);
+
+  /**
+   * @brief Send a command to the server, any type of body
+   * 
+   * It sends a command to the server.
+   * Body can be of binary type.
+   * The message is pushed into the output buffer and sent later using pollWrite().
+   * @param cmd is the command name.
+   * @param headers is a map that includes all the headers for the command.
+   * @param body is a pointer to the buffer where the body of the message is stored.
+   * @param length is the length of the message.
+   * @see pollWrite()
+   * @see sendMessage()
+   * @see sendToContact()
+   * @see sendToGroup()
+   * @return True if the message was successfully pushed in the buffer and false if not.
+   */
+  virtual bool sendCmd (const std::string& cmd,
+      headers_t& headers,
+      const char *body,
+      uint32_t length);	
+
+  /**
+   * @brief Send a command to the server, body is a string
+   * 
+   * It sends a command to the server.
+   * Body is of type string.
+   * The message is pushed into the output buffer and sent later using pollWrite().
+   * @param cmd is the command name.
+   * @param headers is a map that includes all the headers for the command.
+   * @param body is a string where the body of the message is stored.
+   * @see pollWrite()
+   * @see sendMessage()
+   * @see sendToContact()
+   * @see sendToGroup()
+   * @return True if the message was successfully pushed in the buffer and false if not.
+   */
+  virtual bool sendCmd(const std::string& cmd,
+      headers_t& headers,
+      const std::string& body = "");
+
+  /**
+   * @brief Send a string type message
+   * 
+   * The message is stored in a string.
+   * @param msg is the string containing the message.
+   * @param contentType is the content type of the message.
+   * @param id is the ID of the contact or group.
+   * @param type is the destination type (0 for contact and 1 for group).
+   * @see sendCmd()
+   * @see sendToContact()
+   * @see sendToGroup()
+   * @see pollWrite()
+   */
+  virtual bool sendMessage(const std::string& msg,
+      std::string& contentType,
+      uint64_t id,
+      int32_t type /* 0 for contact, 1 for group */);
+  
+  /**
+   * @brief Send any type of message
+   * 
+   * The message is stored in a buffer called msg.
+   * @param msg is the buffer containing the message.
+   * @param length is the length of the message.
+   * @param contentType is the content type of the message.
+   * @param id is the ID of the contact or group.
+   * @param type is the destination type (0 for contact and 1 for group).
+   * @see sendCmd()
+   * @see sendToContact()
+   * @see sendToGroup()
+   * @see pollWrite()
+   */
+  virtual bool sendMessage(char* msg,
+      uint32_t length,
+      std::string& contentType,
+      uint64_t id,
+      int32_t type /* 0 for contact, 1 for group */);
 
   /**
    * @brief Send a string type message to a contact
@@ -1185,10 +1192,15 @@ public:
       uint64_t group,
       std::string contentType = "text/plain");
 
+  virtual bool sendPls(DataMap &data);
+
   virtual void getMesgHist(int32_t count,
                            uint32_t timestamp,
 			   uint64_t sourceId,
                            int32_t type);
+
+  void setLogin(const std::string &login);
+  void setPassword(const std::string &password);
 
   /**
    * @brief Gets contact details

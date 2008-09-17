@@ -69,14 +69,14 @@ PalringoConnection::onAuthReceived(headers_t& headers,
     else if (authDataPtr->encryptionType_ == 1)
     {
       std::string challenge(body.substr(0, 16));
-      std::cout << "Challenge:\n" << hexDump(challenge) << std::endl;
+      DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
       std::string IV(body.substr(16, 8));
-      std::cout << "IV:\n" << hexDump(IV) << std::endl;
+      DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
       std::string keyBundle(passwordMD5_ + IV);
       std::string keyStr(crypto::md5(keyBundle));
-      std::cout << "passwordMD5_:\n" << hexDump(passwordMD5_) << std::endl;
-      std::cout << "passwordMD5_ + IV:\n" << hexDump(keyBundle) << std::endl;
-      std::cout << "keyStr:\n" << hexDump(keyStr) << std::endl;
+      DBGOUT << "passwordMD5_:\n" << hexDump(passwordMD5_) << std::endl;
+      DBGOUT << "passwordMD5_ + IV:\n" << hexDump(keyBundle) << std::endl;
+      DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
 
       crypto::SalsaCipher salsa(IV, keyStr);
       uint32_t randomness[4];
@@ -88,11 +88,11 @@ PalringoConnection::onAuthReceived(headers_t& headers,
       std::string beforeEncrypt(challenge + randStr);
       salsa.encrypt(beforeEncrypt, newBody);
 
-      std::cout << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
-      std::cout << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
+      DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
+      DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
 
       std::string newKey(crypto::md5(passwordMD5_ + randStr));
-      std::cout << "newKey:\n" << hexDump(newKey) << std::endl;
+      DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
 
       delete salsa_;
       salsa_ = new crypto::SalsaCipher(IV, newKey);
@@ -102,15 +102,15 @@ PalringoConnection::onAuthReceived(headers_t& headers,
     else if (authDataPtr->encryptionType_ == 2)
     {
       std::string challenge(body.substr(0, 16));
-      std::cout << "Challenge:\n" << hexDump(challenge) << std::endl;
+      DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
       std::string IV(body.substr(16, 8));
-      std::cout << "IV:\n" << hexDump(IV) << std::endl;
+      DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
       std::string oldPass(crypto::oldPassword(password_));
       std::string keyBundle(oldPass + IV);
       std::string keyStr(crypto::md5(keyBundle));
-      std::cout << "oldPass:\n" << hexDump(oldPass) << std::endl;
-      std::cout << "oldPass + IV:\n" << hexDump(keyBundle) << std::endl;
-      std::cout << "keyStr:\n" << hexDump(keyStr) << std::endl;
+      DBGOUT << "oldPass:\n" << hexDump(oldPass) << std::endl;
+      DBGOUT << "oldPass + IV:\n" << hexDump(keyBundle) << std::endl;
+      DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
 
       crypto::SalsaCipher salsa(IV, keyStr);
       uint32_t randomness[4];
@@ -124,11 +124,11 @@ PalringoConnection::onAuthReceived(headers_t& headers,
 			       password_ +
 			       std::string(50 - password_.size(), '\0'));
       salsa.encrypt(beforeEncrypt, newBody);
-      std::cout << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
-      std::cout << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
+      DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
+      DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
 
       std::string newKey(crypto::md5(passwordMD5_ + randStr));
-      std::cout << "newKey:\n" << hexDump(newKey) << std::endl;
+      DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
 
       delete salsa_;
       salsa_ = new crypto::SalsaCipher(IV, newKey);
@@ -244,6 +244,7 @@ PalringoConnection::onContactDetailReceived(headers_t& headers,
   {
       contact.isContact_ = contactDataPtr->isContact_;
   }
+
   return 1;
 }
 
@@ -298,7 +299,7 @@ PalringoConnection::onGroupDetailReceived(headers_t& headers,
   {
     group.name_ = groupDataPtr->name_;
   }
-  
+
   if (groupDataPtr->desc_.size())
   {
       group.desc_ = groupDataPtr->desc_;
@@ -478,6 +479,7 @@ PalringoConnection::onMesgReceived(headers_t& headers,
     std::string& body,
     GenericData *data)
 {
+  std::cout << "in PalringoConnection::onMesgReceived" << std::endl;
   MsgData msgData;
   MsgData *msgDataPtr = getDataPtr<PalringoConnection::MsgData>(data,
       &msgData);
@@ -543,35 +545,60 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
     std::string encRK;
     std::string msgBody;
     std::string IV;
+
+    if(compression_ && headers.count("COMPRESSION"))
+    {
+      DBGOUT << "Decompressing body" << std::endl;
+      body.assign(zlibDecompress(body));
+    }
+
     if (encryption_)
     {
-      std::cout << "Body:\n" << hexDump(body) << std::endl;
-      size_t RKsize = strtoul(headers["RK"].c_str(), NULL, 10);
-      size_t IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
-      std::cout << "IV = " << headers["IV"] << "\nIVsize: " << IVsize << std::endl;
-      encRK.append(body.substr(body.size() - RKsize, RKsize));
-      msgBody.append(body.substr(IVsize, body.size() - RKsize - IVsize));
-      IV.append(body.substr(0, IVsize));
-      std::cout << "IV:\n" << hexDump(IV) << std::endl;
-      salsa_->setIV(IV);
-      salsa_->encrypt(encRK, RK_);
-      std::cout << "encRK:\n" << hexDump(encRK) << std::endl;
-      std::cout << "RK:\n" << hexDump(RK_) << std::endl;
-      std::string keyStr(salsa_->getKey());
-      std::cout << "Key:\n" << hexDump(keyStr) << std::endl;
+//DBGOUT << "Body:\n" << hexDump(body) << std::endl;
+      size_t RKsize = 0;
+      if (headers.count("RK"))
+      {
+	RKsize = strtoul(headers["RK"].c_str(), NULL, 10);
+        DBGOUT << "\nRKsize: " << RKsize << std::endl;
+      }
+
+      size_t IVsize = 0;
+      if (headers.count("IV"))
+      {
+	IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
+	DBGOUT << "\nIVsize: " << IVsize << std::endl;
+      }
+      if (RKsize && IVsize)
+      {
+	encRK.assign(body.substr(body.size() - RKsize, RKsize));
+	msgBody.assign(body.substr(IVsize, body.size() - RKsize - IVsize));
+	IV.assign(body.substr(0, IVsize));
+	DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
+	salsa_->setIV(IV);
+	salsa_->encrypt(encRK, RK_);
+	DBGOUT << "encRK:\n" << hexDump(encRK) << std::endl;
+	DBGOUT << "RK:\n" << hexDump(RK_) << std::endl;
+	std::string keyStr(salsa_->getKey());
+	DBGOUT << "Key:\n" << hexDump(keyStr) << std::endl;
+      }
+      else
+      {
+	return 1;
+      }
     }
 
     LogonData logonData;
     LogonData *logonDataPtr =
       getDataPtr<PalringoConnection::LogonData>(data, &logonData);
 
-    logonDataPtr->getData(headers, encryption_ ? msgBody : body);
+
+    logonDataPtr->getData(headers, msgBody.size() ? msgBody : body);
 
     if(!logonDataPtr->dataMap_->parse())
     {
-      std::cout << "Wrong datamap!\n"
-		<< hexDump(encryption_ ? msgBody : body)
-		<< std::endl;
+//DBGOUT << "Wrong datamap!\n"
+		//<< hexDump(encryption_ ? msgBody : body)
+		//<< std::endl;
       return 0;
     }
     else

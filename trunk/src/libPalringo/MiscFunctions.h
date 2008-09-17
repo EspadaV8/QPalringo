@@ -9,6 +9,9 @@ std::string hexDump(std::string &data);
 
 std::string hexDump(const char *data, size_t size);
 
+std::string zlibCompress(const std::string &data, int level = -1);
+std::string zlibDecompress(const std::string &data);
+
 std::string toString(char num);
 std::string toString(unsigned char num);
 
@@ -24,4 +27,6 @@ std::string toString(unsigned long num);
 
 std::string toString(long long num);
 std::string toString(unsigned long long num);
+
+std::string toString(double);
 #endif

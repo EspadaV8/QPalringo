@@ -3,7 +3,16 @@
 #include <iostream>
 #include <iomanip>
 #include <sstream>
+#include <zlib.h>
 #include "MiscFunctions.h"
+
+#ifdef DEBUG
+#define DBGOUT std::cout
+#else 
+#define DBGOUT if (0) std::cout
+#endif
+
+const int ZLIB_CHUNK(256 * 1024);
 
 std::string 
 hexDump(std::string &data)
@@ -87,6 +96,120 @@ hexDump(const char *data, size_t size)
   return ost.str();
 }
 
+std::string
+zlibCompress(const std::string &data, int level)
+{
+  const unsigned char 
+    *begin(reinterpret_cast<const unsigned char*>(data.data()));
+  std::string compressed;
+  z_stream    strm;
+
+  /* allocate deflate state */
+  strm.zalloc = Z_NULL;
+  strm.zfree  = Z_NULL;
+  strm.opaque = Z_NULL;
+
+  if (deflateInit(&strm, level) == Z_OK)
+  {        
+    int available(data.size());
+
+    unsigned char out[ZLIB_CHUNK];
+
+    strm.avail_in = available;
+    strm.next_in  = const_cast<unsigned char*>(begin);
+
+    do 
+    {
+      strm.avail_out = ZLIB_CHUNK;
+      strm.next_out  = out;
+
+      if (deflate(&strm, (available <= ZLIB_CHUNK
+	      ?
+	      Z_FINISH 
+	      : 
+	      Z_NO_FLUSH)) == Z_STREAM_ERROR)
+      {
+	compressed.clear();
+
+	break;
+      }
+      else
+      {
+	compressed.append(reinterpret_cast<char*>(out), 
+	    ZLIB_CHUNK - strm.avail_out);
+      }
+    } 
+    while (strm.avail_out == 0);
+
+    deflateEnd(&strm);
+  }
+
+  return compressed;
+}
+
+std::string
+zlibDecompress(const std::string &data)
+{
+  std::string decompressed;
+
+  // This variable will contain the errors if any
+  int ret;
+  z_stream strm;
+  const unsigned char *in(reinterpret_cast<const unsigned char*>(data.data()));
+  unsigned char out[ZLIB_CHUNK];
+
+  /* allocate inflate state */
+  strm.zalloc = Z_NULL;
+  strm.zfree = Z_NULL;
+  strm.opaque = Z_NULL;
+  strm.avail_in = 0;
+  strm.next_in = Z_NULL;
+
+  /* decompress until deflate stream ends or end of file */
+  if((ret = inflateInit(&strm)) == Z_OK)
+  {
+    strm.avail_in = data.size(); 
+
+    if (strm.avail_in == 0)
+    {
+      DBGOUT << "Nothing to inflate" << std::endl;
+      return decompressed;
+    }
+
+    strm.next_in = const_cast<unsigned char*>(in);
+    /* run inflate() on input until output buffer not full */
+    do
+    {
+      strm.avail_out = ZLIB_CHUNK;
+      strm.next_out = out;
+      ret = inflate(&strm, Z_NO_FLUSH);
+      if(ret == Z_STREAM_ERROR)
+      {
+	DBGOUT << "Z_STREAM_ERROR while inflating" << std::endl;
+	break;
+      }
+      switch (ret)
+      {
+	case Z_NEED_DICT:
+	  DBGOUT << "Z_NEED_DICT while inflating" << std::endl;
+	  ret = Z_DATA_ERROR;     /* and fall through */
+	case Z_DATA_ERROR:
+	  DBGOUT << "Z_DATA_ERROR while inflating" << std::endl;
+	case Z_MEM_ERROR:
+	  DBGOUT << "Z_MEM_ERROR while inflating" << std::endl;
+	  (void)inflateEnd(&strm);
+	  decompressed.clear();
+	  return decompressed;
+      }
+      decompressed.append(reinterpret_cast<char*>(out), ZLIB_CHUNK - strm.avail_out);
+    } while (strm.avail_out == 0);
+    /* done when inflate() says it's done */
+    (void)inflateEnd(&strm);
+  }
+
+  ret = ret == Z_STREAM_END ? Z_OK : Z_DATA_ERROR;
+  return decompressed;
+}
 
 std::string toString(char num)
 {
@@ -155,5 +278,12 @@ std::string toString(unsigned long long num)
 {
   char tmp[64];
   sprintf(tmp, "%llu", num);
+  return std::string(tmp);
+}
+
+std::string toString(double num)
+{
+  char tmp[64];
+  sprintf(tmp, "%.4lf", num);
   return std::string(tmp);
 }
