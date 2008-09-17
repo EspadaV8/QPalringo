@@ -1329,7 +1329,7 @@ PalringoConnection::sendMessage(const std::string& msg,
 bool
 PalringoConnection::sendMessage(char* msg,
                                 uint32_t length,
-                                std::string contentType,
+                                std::string& contentType,
                                 uint64_t id,
                                 int32_t type)
 {
