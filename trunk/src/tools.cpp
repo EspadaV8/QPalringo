@@ -306,13 +306,7 @@ QString Tools::formatMessageText( QByteArray messagePayload )
     return message;
 }
 
-void Tools::HeaderWrite(
-                        /*ref System.IO.BinaryWriter writer,
-                        Boolean _stereo,
-                        int _bitsPerSample,
-                        int _numberOfSamples,
-                        int _sampleRate*/
-                        QByteArray* data,
+void Tools::HeaderWrite(QByteArray* data,
                         bool        stereo,
                         short       bitsPerSample, // 16
                         int         numberOfSamples,
@@ -320,23 +314,18 @@ void Tools::HeaderWrite(
                        )
 {
     short numberOfChannels = (short)(stereo ? 2 : 1);
+    int dataSize = ( numberOfSamples * bitsPerSample * numberOfChannels / 8 );
+    int chunkSize = 36 + dataSize;
+    int chunk1Size = 16;
+    int byteRate = ( sampleRate * numberOfChannels * bitsPerSample / 8 );
+    short blockAlign = ( numberOfChannels * bitsPerSample / 8 );
 
     if( numberOfSamples == 0 )
     {
         numberOfSamples = data->size() / 2; // ( (16000 * 2) / 8 );
     }
 
-    qDebug() << "data->size() - " << data->size() << " : stereo - " << numberOfChannels << " : bps - " << bitsPerSample << " : numberOfSamples - " << numberOfSamples << " : sampleRate - " << sampleRate;
-
-    int dataSize = ( numberOfSamples * bitsPerSample * numberOfChannels / 8 );
-    int chunkSize = 36 + dataSize;
-    int chunk1Size = 16;
-
-
-    int byteRate = ( sampleRate * numberOfChannels * bitsPerSample / 8 );
-    short blockAlign = ( numberOfChannels * bitsPerSample / 8 );
-
-    qDebug() << "chunkSize - " << chunkSize;
+    qDebug( "size - %d : stero - %s : bps - %d : numberOfSamples - %d : sampleRate - %d : chunkSize - ", data->size(), numberOfChannels, bitsPerSample, numberOfSamples, sampleRate, chunkSize );
 
     union _WAV_UN
     {
@@ -361,7 +350,6 @@ void Tools::HeaderWrite(
         char buffer[sizeof(_WAVE_HEADER)];
     };
 
-
     _WAV_UN waveHeader;
     _WAV_UN::_WAVE_HEADER* pHeader = &waveHeader.wave_header;
     pHeader->riffHeader     = 0x46464952;
@@ -380,48 +368,10 @@ void Tools::HeaderWrite(
     pHeader->dataHeader     = 0x61746164;
     pHeader->dataSize       = dataSize;
 
+    QByteArray t;
 
-     QByteArray t;
+    for(unsigned int index=0;index<sizeof(_WAV_UN);index++)
+        t.append(waveHeader.buffer[index]);
 
-     for(unsigned int index=0;index<sizeof(_WAV_UN);index++)
-         t.append(waveHeader.buffer[index]);
-
-//     t.append("RIFF"); // main header
-//     t.append( ( chunkSize ) ); // size of chunk (whole thing)
-//     t.append( ( chunkSize >> 8 ) ); // size of chunk (whole thing)
-//     t.append( ( chunkSize >> 16) ); // size of chunk (whole thing)
-//     t.append( ( chunkSize >> 24) ); // size of chunk (whole thing)
-//     t.append("WAVE");
-//     t.append("fmt ");
-//     t.append( 16 ); // size of WAVE sub-chunk
-//     t.append(( ( 1 << 16 ) | stereo ));
-//     t.append( bitsPerSample );
-//     t.append( bitsPerSample * _stereo * ( bitsPerSample / 8) );
-//     t.append((short)(_stereo * bitsPerSample / 8));
-//     t.append(bitsPerSample);
-//
-//     t.append("data"); // "data" in ASCII
-//     t.append((int)(numberOfSamples * bitsPerSample * _stereo / 8)); // size of data sub-chunk
-
-//    qDebug() << waveHeader.buffer;
-//    data->prepend( waveHeader.buffer );
-     data->prepend( t );
-
-    /*
-    writer.Write(0x46464952); // "RIFF" in ASCII
-    writer.Write((int)(44 + (_numberOfSamples * _bitsPerSample * (_stereo ? 2 : 1) / 8)) - 8);
-    writer.Write(0x45564157); // "WAVE" in ASCII
-
-    writer.Write(0x20746d66); // "fmt " in ASCII
-    writer.Write(16);
-    writer.Write((short)1);
-    writer.Write((short)(_stereo ? 2 : 1));
-    writer.Write(_bitsPerSample);
-    writer.Write(_bitsPerSample * (_stereo ? 2 : 1) * _bitsPerSample / 8);
-    writer.Write((short)((_stereo ? 2 : 1) * _bitsPerSample / 8));
-    writer.Write(_bitsPerSample);
-
-    writer.Write(0x61746164); // "data" in ASCII
-    writer.Write((int)(_numberOfSamples * _bitsPerSample * (_stereo ? 2 : 1) / 8)); // size of data sub-chunk
-    */
+    data->prepend( t );
 }
