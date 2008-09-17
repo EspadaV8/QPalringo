@@ -50,7 +50,7 @@
 #endif
 
 namespace pCommand
-{
+  {
   const std::string PING("P");
   const std::string BYE("BYE");
   const std::string AUTH("AUTH");
@@ -132,18 +132,18 @@ PalringoConnection::PalringoConnection(const std::string& host,
                                        const std::string& password,
                                        const std::string& sourceIP,
                                        bool nonBlocking,
-				       int protocolVersion,
-				       bool encryption,
-				       int compression) :
-  login_(login), password_(password), salsa_(NULL), dh_(NULL),
-  host_(host), port_(port),
-  protocolVersion_(protocolVersion), encryption_(encryption),
-  compression_(compression),
-  packetSeq_(0), receivedData_(0), sourceIP_(sourceIP), userId_(0), 
-  outMessageCount_(0), sofar_(0), ghosted_(false),
-  mesg_id_(0), auto_accept_contacts_(true), loggedOn_(false),
-  nonBlocking_(nonBlocking), connectionReady_(false),
-  connectionStatus_(CONN_OFFLINE)
+                                       int protocolVersion,
+                                       bool encryption,
+                                       int compression) :
+    login_(login), password_(password), salsa_(NULL), dh_(NULL),
+    host_(host), port_(port),
+    protocolVersion_(protocolVersion), encryption_(encryption),
+    compression_(compression),
+    packetSeq_(0), receivedData_(0), sourceIP_(sourceIP), userId_(0),
+    outMessageCount_(0), sofar_(0), ghosted_(false),
+    mesg_id_(0), auto_accept_contacts_(true), loggedOn_(false),
+    nonBlocking_(nonBlocking), connectionReady_(false),
+    connectionStatus_(CONN_OFFLINE)
 {
   initCallbackFunctions();
   passwordMD5_ = crypto::md5(password_);
@@ -159,160 +159,160 @@ void
 PalringoConnection::initCallbackFunctions()
 {
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::PING,
-	&PalringoConnection::onPingReceived));
+                              CmdCallbackFunction>(
+                                pCommand::PING,
+                                &PalringoConnection::onPingReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::AUTH,
-	&PalringoConnection::onAuthReceived));
+                              CmdCallbackFunction>(
+                                pCommand::AUTH,
+                                &PalringoConnection::onAuthReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::LOGON_SUCCESSFUL,
-	&PalringoConnection::onLogonSuccessfulReceived));
+                              CmdCallbackFunction>(
+                                pCommand::LOGON_SUCCESSFUL,
+                                &PalringoConnection::onLogonSuccessfulReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::LOGON_FAILED,
-	&PalringoConnection::onLogonFailedReceived));
+                              CmdCallbackFunction>(
+                                pCommand::LOGON_FAILED,
+                                &PalringoConnection::onLogonFailedReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GHOSTED,
-	&PalringoConnection::onGhostedReceived));
+                              CmdCallbackFunction>(
+                                pCommand::GHOSTED,
+                                &PalringoConnection::onGhostedReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::CONTACT_DETAIL,
-	&PalringoConnection::onContactDetailReceived));
+                              CmdCallbackFunction>(
+                                pCommand::CONTACT_DETAIL,
+                                &PalringoConnection::onContactDetailReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::CONTACT_ADD,
-	&PalringoConnection::onContactAddReceived));
+                              CmdCallbackFunction>(
+                                pCommand::CONTACT_ADD,
+                                &PalringoConnection::onContactAddReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_DETAIL,
-	&PalringoConnection::onGroupDetailReceived));
+                              CmdCallbackFunction>(
+                                pCommand::GROUP_DETAIL,
+                                &PalringoConnection::onGroupDetailReceived));
 
   if (protocolVersion_ == 1)
-  {
-    inCallbackFunctions_.insert(std::pair<std::string,
-	CmdCallbackFunction>(
-	  pCommand::GROUP_UPDATE,
-	  &PalringoConnection::onGroupUpdateReceived));
-  }
+    {
+      inCallbackFunctions_.insert(std::pair<std::string,
+                                  CmdCallbackFunction>(
+                                    pCommand::GROUP_UPDATE,
+                                    &PalringoConnection::onGroupUpdateReceived));
+    }
 
   else if (protocolVersion_ == 2)
-  {
-    inCallbackFunctions_.insert(std::pair<std::string,
-	CmdCallbackFunction>(
-	  pCommand::GROUP_UPDATE,
-	  &PalringoConnection::onGroupUpdateReceivedV2));
-  }
+    {
+      inCallbackFunctions_.insert(std::pair<std::string,
+                                  CmdCallbackFunction>(
+                                    pCommand::GROUP_UPDATE,
+                                    &PalringoConnection::onGroupUpdateReceivedV2));
+    }
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::REG,
-	&PalringoConnection::onRegReceived));
+                              CmdCallbackFunction>(
+                                pCommand::REG,
+                                &PalringoConnection::onRegReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::RESPONSE,
-	&PalringoConnection::onResponseReceived));
+                              CmdCallbackFunction>(
+                                pCommand::RESPONSE,
+                                &PalringoConnection::onResponseReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::MESG,
-	&PalringoConnection::onMesgReceived));
+                              CmdCallbackFunction>(
+                                pCommand::MESG,
+                                &PalringoConnection::onMesgReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::SESSION_END,
-	&PalringoConnection::onSessionEndReceived));
+                              CmdCallbackFunction>(
+                                pCommand::SESSION_END,
+                                &PalringoConnection::onSessionEndReceived));
 
   inCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::SUB_PROFILE,
-	&PalringoConnection::onSubProfileReceived));
+                              CmdCallbackFunction>(
+                                pCommand::SUB_PROFILE,
+                                &PalringoConnection::onSubProfileReceived));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::PING,
-        &PalringoConnection::onPingSent));
+                               CmdCallbackFunction>(
+                                 pCommand::PING,
+                                 &PalringoConnection::onPingSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::LOGON,
-	&PalringoConnection::onLogonSent));
-
-    outCallbackFunctions_.insert(std::pair<std::string,
-	CmdCallbackFunction>(
-	  pCommand::BYE,
-	  &PalringoConnection::onByeSent));
+                               CmdCallbackFunction>(
+                                 pCommand::LOGON,
+                                 &PalringoConnection::onLogonSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::AUTH,
-	&PalringoConnection::onAuthSent));
+                               CmdCallbackFunction>(
+                                 pCommand::BYE,
+                                 &PalringoConnection::onByeSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::CONTACT_UPDATE,
-	&PalringoConnection::onContactUpdateSent));
+                               CmdCallbackFunction>(
+                                 pCommand::AUTH,
+                                 &PalringoConnection::onAuthSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::CONTACT_ADD_RESP,
-	&PalringoConnection::onContactAddRespSent));
+                               CmdCallbackFunction>(
+                                 pCommand::CONTACT_UPDATE,
+                                 &PalringoConnection::onContactUpdateSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_SUBSCRIBE,
-	&PalringoConnection::onGroupSubscribeSent));
+                               CmdCallbackFunction>(
+                                 pCommand::CONTACT_ADD_RESP,
+                                 &PalringoConnection::onContactAddRespSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_UNSUB,
-	&PalringoConnection::onGroupUnsubSent));
+                               CmdCallbackFunction>(
+                                 pCommand::GROUP_SUBSCRIBE,
+                                 &PalringoConnection::onGroupSubscribeSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_CREATE,
-	&PalringoConnection::onGroupCreateSent));
+                               CmdCallbackFunction>(
+                                 pCommand::GROUP_UNSUB,
+                                 &PalringoConnection::onGroupUnsubSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_INVITE,
-	&PalringoConnection::onGroupInviteSent));
+                               CmdCallbackFunction>(
+                                 pCommand::GROUP_CREATE,
+                                 &PalringoConnection::onGroupCreateSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::GROUP_ADMIN,
-	&PalringoConnection::onGroupAdminSent));
+                               CmdCallbackFunction>(
+                                 pCommand::GROUP_INVITE,
+                                 &PalringoConnection::onGroupInviteSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::MESG,
-	&PalringoConnection::onMesgSent));
+                               CmdCallbackFunction>(
+                                 pCommand::GROUP_ADMIN,
+                                 &PalringoConnection::onGroupAdminSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::MESG_STORED,
-	&PalringoConnection::onMesgStoredSent));
+                               CmdCallbackFunction>(
+                                 pCommand::MESG,
+                                 &PalringoConnection::onMesgSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::MESG_HIST,
-	&PalringoConnection::onMesgHistSent));
+                               CmdCallbackFunction>(
+                                 pCommand::MESG_STORED,
+                                 &PalringoConnection::onMesgStoredSent));
 
   outCallbackFunctions_.insert(std::pair<std::string,
-      CmdCallbackFunction>(
-	pCommand::REG,
-	&PalringoConnection::onRegSent));
+                               CmdCallbackFunction>(
+                                 pCommand::MESG_HIST,
+                                 &PalringoConnection::onMesgHistSent));
+
+  outCallbackFunctions_.insert(std::pair<std::string,
+                               CmdCallbackFunction>(
+                                 pCommand::REG,
+                                 &PalringoConnection::onRegSent));
 }
 
 PalringoConnection::GenericData::GenericData() : mesgId_(0)
@@ -324,14 +324,14 @@ PalringoConnection::GenericData::~GenericData()
 }
 
 PalringoConnection::MsgData::MsgData() : GenericData(),
-  sourceId_(0), targetId_(0), mesgTarget_(0), correlationId_(0),
-  contentLength_(0), last_(false), totalLength_(0)
+    sourceId_(0), targetId_(0), mesgTarget_(0), correlationId_(0),
+    contentLength_(0), last_(false), totalLength_(0)
 {
 }
 
 void
 PalringoConnection::MsgData::getData(headers_t& headers,
-    std::string& body)
+                                     std::string& body)
 {
   getAttribute<uint32_t>(headers, "MESG-ID", mesgId_);
   getAttribute<uint64_t, true>(headers, "SOURCE-ID", sourceId_);
@@ -349,41 +349,41 @@ PalringoConnection::MsgData::getData(headers_t& headers,
 
 void
 PalringoConnection::MsgData::setData(headers_t& headers,
-    std::string& body)
+                                     std::string& body)
 {
   headers["MESG-ID"] = toString(mesgId_);
 
   if (targetId_)
-  {
-    headers["TARGET-ID"] = toString(targetId_);
-  }
+    {
+      headers["TARGET-ID"] = toString(targetId_);
+    }
 
   headers["MESG-TARGET"] = toString(mesgTarget_);
 
   if (correlationId_)
-  {
-    headers["CORRELATION-ID"] = toString(correlationId_);
-  }
+    {
+      headers["CORRELATION-ID"] = toString(correlationId_);
+    }
 
   if (contentType_.size())
-  {
-    headers["CONTENT-TYPE"] = contentType_;
-  }
+    {
+      headers["CONTENT-TYPE"] = contentType_;
+    }
 
   if (contentLength_)
-  {
-    headers["CONTENT-LENGTH"] = toString(contentLength_);
-  }
+    {
+      headers["CONTENT-LENGTH"] = toString(contentLength_);
+    }
 
   if (last_)
-  {
-    headers["LAST"] = "T";
-  }
+    {
+      headers["LAST"] = "T";
+    }
 }
 
 PalringoConnection::LogonData::LogonData() : GenericData(),
-  subId_(0),
-  dataMap_(NULL)
+    subId_(0),
+    dataMap_(NULL)
 {
 }
 
@@ -394,7 +394,7 @@ PalringoConnection::LogonData::~LogonData()
 
 void
 PalringoConnection::LogonData::getData(headers_t& headers,
-    std::string& body)
+                                       std::string& body)
 {
   dataMap_ = new DataMap(body);
   getAttribute<uint64_t, true>(headers, "SUB-ID", subId_);
@@ -408,20 +408,20 @@ PalringoConnection::LogonData::getData(headers_t& headers,
 
 void
 PalringoConnection::LogonData::setData(headers_t& headers,
-    std::string& body)
+                                       std::string& body)
 {
 }
 
 PalringoConnection::AuthData::AuthData() : GenericData(),
-  encryptionType_(-1), wordSize_(0),
-  onlineStatus_(static_cast<OnlineStatus>(-1)),
-  ghost_(-1), contentLength_(0)
+    encryptionType_(-1), wordSize_(0),
+    onlineStatus_(static_cast<OnlineStatus>(-1)),
+    ghost_(-1), contentLength_(0)
 {
 }
 
 void
 PalringoConnection::AuthData::getData(headers_t& headers,
-    std::string& body)
+                                      std::string& body)
 {
   getAttribute<uint32_t, true>(headers, "WORD-SIZE", wordSize_);
   getAttribute<int32_t, true>(headers, "ENCRYPTION-TYPE", encryptionType_);
@@ -429,29 +429,29 @@ PalringoConnection::AuthData::getData(headers_t& headers,
 
 void
 PalringoConnection::AuthData::setData(headers_t& headers,
-    std::string& body)
+                                      std::string& body)
 {
   if (encryptionType_ > -1)
-  {
-    headers["ENCRYPTION-TYPE"] = toString(encryptionType_);
-  }
+    {
+      headers["ENCRYPTION-TYPE"] = toString(encryptionType_);
+    }
 
   if (name_.size())
-  {
-    headers["NAME"] = name_;
-  }
+    {
+      headers["NAME"] = name_;
+    }
 
   if (onlineStatus_ > -1)
-  {
-    headers["ONLINE-STATUS"] = toString(onlineStatus_);
-  }
+    {
+      headers["ONLINE-STATUS"] = toString(onlineStatus_);
+    }
 }
 
 PalringoConnection::ContactData::ContactData() : GenericData(),
-  contactId_(0), onlineStatus_(static_cast<OnlineStatus>(-1)),
-  deviceType_(static_cast<DeviceType>(0)),
-  remove_(false), block_(false), capabilities_(0),
-  sourceId_(0), targetId_(0), contentLength_(0)
+    contactId_(0), onlineStatus_(static_cast<OnlineStatus>(-1)),
+    deviceType_(static_cast<DeviceType>(0)),
+    remove_(false), block_(false), capabilities_(0),
+    sourceId_(0), targetId_(0), contentLength_(0)
 {
 }
 
@@ -482,15 +482,15 @@ PalringoConnection::ContactData::setData(headers_t& headers,
 }
 
 PalringoConnection::GroupData::GroupData() : GenericData(),
-  groupId_(0), contentLength_(0), contactId_(0),
-  type_(1),
-  targetId_(0), action_(static_cast<GroupStatus>(-1))
+    groupId_(0), contentLength_(0), contactId_(0),
+    type_(1),
+    targetId_(0), action_(static_cast<GroupStatus>(-1))
 {
 }
 
 void
 PalringoConnection::GroupData::getData(headers_t& headers,
-    std::string& body)
+                                       std::string& body)
 {
   getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
   getAttribute<uint64_t, true>(headers, "GROUP-ID", groupId_);
@@ -507,13 +507,13 @@ PalringoConnection::GroupData::getData(headers_t& headers,
 
 void
 PalringoConnection::GroupData::setData(headers_t& headers,
-    std::string& body)
+                                       std::string& body)
 {
 }
 
 PalringoConnection::ResponseData::ResponseData() : GenericData(),
-  what_(static_cast<What>(-1)),
-  errorCode_(static_cast<ErrorCode>(-1)), type_(-1), contentLength_(-1)
+    what_(static_cast<What>(-1)),
+    errorCode_(static_cast<ErrorCode>(-1)), type_(-1), contentLength_(-1)
 {
 }
 
@@ -527,14 +527,14 @@ PalringoConnection::ResponseData::getData(headers_t& headers,
   getAttribute<uint32_t>(headers, "CONTENT_LENGTH", contentLength_);
 
   if (type_)
-  {
-    errorMessage_ = body;
-  }
+    {
+      errorMessage_ = body;
+    }
   else
-  {
-    errorCode_ = static_cast<ErrorCode>(ntohl(
-	  *reinterpret_cast<const int*>(body.data() + 4)));
-  }
+    {
+      errorCode_ = static_cast<ErrorCode>(ntohl(
+                                            *reinterpret_cast<const int*>(body.data() + 4)));
+    }
 }
 
 void
@@ -548,11 +548,11 @@ PalringoConnection::createSocket()
 {
   fd_ = socket(PF_INET, SOCK_STREAM, 0);
   if (fd_ < 0)
-  {
-    DBGOUT << "socket() failed with " << errno << ": "
+    {
+      DBGOUT << "socket() failed with " << errno << ": "
       << strerror(errno) << std::endl;
-    //throw errno;
-  }
+      //throw errno;
+    }
 
 }
 
@@ -561,191 +561,193 @@ PalringoConnection::setSocketOptions()
 {
   int reuseOptVal(1);
   if (setsockopt(fd_,
-             SOL_SOCKET,
-             SO_REUSEADDR,
-             static_cast<void*>(&reuseOptVal),
-             sizeof(reuseOptVal)) != 0)
-  {
-    DBGOUT << "setsockopt() failed with " << errno << ": "
+                 SOL_SOCKET,
+                 SO_REUSEADDR,
+                 static_cast<void*>(&reuseOptVal),
+                 sizeof(reuseOptVal)) != 0)
+    {
+      DBGOUT << "setsockopt() failed with " << errno << ": "
       << strerror(errno) << std::endl;
-    //throw errno;
-  }
+      //throw errno;
+    }
 
   if (nonBlocking_)
-  {
-    long arg;
-    // Set non-blocking
-    if ((arg = fcntl(fd_, F_GETFL, NULL)) < 0) {
-      DBGOUT << "Error fcntl(..., F_GETFL) " << strerror(errno) << std::endl;
-      //throw errno;
+    {
+      long arg;
+      // Set non-blocking
+      if ((arg = fcntl(fd_, F_GETFL, NULL)) < 0)
+        {
+          DBGOUT << "Error fcntl(..., F_GETFL) " << strerror(errno) << std::endl;
+          //throw errno;
+        }
+      arg |= O_NONBLOCK;
+      if (fcntl(fd_, F_SETFL, arg) < 0)
+        {
+          DBGOUT << "Error fcntl(..., F_SETFL) " << strerror(errno) << std::endl;
+          //throw errno;
+        }
+      connectionReady_ = false;
     }
-    arg |= O_NONBLOCK;
-    if(fcntl(fd_, F_SETFL, arg) < 0) {
-      DBGOUT << "Error fcntl(..., F_SETFL) " << strerror(errno) << std::endl;
-      //throw errno;
-    }
-    connectionReady_ = false;
-  }
 
 }
 
 int
 PalringoConnection::connectClient(bool soft)
 {
-  if(ghosted_)
+  if (ghosted_)
     ghosted_ = false;
-  while(1)
-  {
-    createSocket();
-    setSocketOptions();
-
-    if (sourceIP_.size() > 0)
+  while (1)
     {
-      struct sockaddr_in my_addr;
-      my_addr.sin_family = AF_INET;
-      my_addr.sin_port = htons(getRandPort(1025, 65535));
-      DBGOUT << "Using IP:PORT - "
-	<< sourceIP_ << ":"
-	<< ntohs(my_addr.sin_port) << std::endl;
-      //my_addr.sin_port = 0;
-      if(!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
-      {
-	std::cout << "Wrong IP" << std::endl;
-      }
+      createSocket();
+      setSocketOptions();
 
-      int32_t count = 60000;
-      while(count)
-      {
-	if (bind (fd_, (struct sockaddr *)&my_addr, sizeof(my_addr)) < 0)
-	{
-	  if (errno == EADDRINUSE)
-	  {
-	    close(fd_);
-	    createSocket();
-	    setSocketOptions();
+      if (sourceIP_.size() > 0)
+        {
+          struct sockaddr_in my_addr;
+          my_addr.sin_family = AF_INET;
+          my_addr.sin_port = htons(getRandPort(1025, 65535));
+          DBGOUT << "Using IP:PORT - "
+          << sourceIP_ << ":"
+          << ntohs(my_addr.sin_port) << std::endl;
+          //my_addr.sin_port = 0;
+          if (!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
+            {
+              std::cout << "Wrong IP" << std::endl;
+            }
 
-	    my_addr.sin_family = AF_INET;
-	    my_addr.sin_port = htons(getRandPort(1025, 65535));
-	    if(!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
-	    {
-	      std::cout << "Wrong IP" << std::endl;
-	    }
-	    count--;
-	    continue;
-	  }
+          int32_t count = 60000;
+          while (count)
+            {
+              if (bind (fd_, (struct sockaddr *)&my_addr, sizeof(my_addr)) < 0)
+                {
+                  if (errno == EADDRINUSE)
+                    {
+                      close(fd_);
+                      createSocket();
+                      setSocketOptions();
 
-	  else
-	  {
-	    DBGOUT << "bind() failed with " << errno << ": "
-	      << strerror (errno) << std::endl;
-	    close (fd_);
-	    //throw errno;
-	    return -1;
-	  }
-	}
-	else
-	{
-	  break;
-	}
-      }
-      if (!count)
-      {
-	errno = EADDRINUSE;
-	return -1;
-      }
-    }
+                      my_addr.sin_family = AF_INET;
+                      my_addr.sin_port = htons(getRandPort(1025, 65535));
+                      if (!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
+                        {
+                          std::cout << "Wrong IP" << std::endl;
+                        }
+                      count--;
+                      continue;
+                    }
+
+                  else
+                    {
+                      DBGOUT << "bind() failed with " << errno << ": "
+                      << strerror (errno) << std::endl;
+                      close (fd_);
+                      //throw errno;
+                      return -1;
+                    }
+                }
+              else
+                {
+                  break;
+                }
+            }
+          if (!count)
+            {
+              errno = EADDRINUSE;
+              return -1;
+            }
+        }
 
 
-    const struct hostent* hp = gethostbyname(host_.c_str());
-    if (hp == 0)
-    {
-      DBGOUT << "gethostbyname() failed with " << errno << ": "
-	<< strerror(errno) << std::endl;
-      close(fd_);
-      return -1;
-      //throw errno;
-    }
+      const struct hostent* hp = gethostbyname(host_.c_str());
+      if (hp == 0)
+        {
+          DBGOUT << "gethostbyname() failed with " << errno << ": "
+          << strerror(errno) << std::endl;
+          close(fd_);
+          return -1;
+          //throw errno;
+        }
 
-    struct sockaddr_in remote_addr;
-    remote_addr.sin_family = AF_INET;
-    remote_addr.sin_port = htons (port_);
-    (void) memcpy(&remote_addr.sin_addr.s_addr,
-		  hp->h_addr_list [0],
-		  sizeof (remote_addr.sin_addr.s_addr));
+      struct sockaddr_in remote_addr;
+      remote_addr.sin_family = AF_INET;
+      remote_addr.sin_port = htons (port_);
+      (void) memcpy(&remote_addr.sin_addr.s_addr,
+                    hp->h_addr_list [0],
+                    sizeof (remote_addr.sin_addr.s_addr));
 
-    int32_t res(0);
-    if ((res = connect(fd_, (struct sockaddr *)&remote_addr, sizeof(remote_addr))) < 0)
-    {
-      if ((errno == EINPROGRESS) && nonBlocking_)
-      {
-	connectionStatus_ = CONN_CONNECTING;
-	DBGOUT << "Using non blocking connection" << std::endl;
-	connectionReady_ = false;
-	break;
-      }
-      if (errno == EADDRNOTAVAIL)
-      {
-	close(fd_);
-	continue;
-      }
+      int32_t res(0);
+      if ((res = connect(fd_, (struct sockaddr *)&remote_addr, sizeof(remote_addr))) < 0)
+        {
+          if ((errno == EINPROGRESS) && nonBlocking_)
+            {
+              connectionStatus_ = CONN_CONNECTING;
+              DBGOUT << "Using non blocking connection" << std::endl;
+              connectionReady_ = false;
+              break;
+            }
+          if (errno == EADDRNOTAVAIL)
+            {
+              close(fd_);
+              continue;
+            }
+          else
+            {
+              DBGOUT << "connect() failed with " << errno << ": "
+              << strerror(errno) << std::endl;
+              close(fd_);
+              return -1;
+            }
+        }
       else
-      {
-	DBGOUT << "connect() failed with " << errno << ": "
-	  << strerror(errno) << std::endl;
-	close(fd_);
-	return -1;
-      }
+        {
+          connectionStatus_ = CONN_CONNECTED;
+        }
+      break;
     }
-    else
-    {
-      connectionStatus_ = CONN_CONNECTED;
-    }
-    break;
-  }
 
   if (connectionStatus_ == CONN_CONNECTING)
-  {
-    DBGOUT << "Connection in progress..." << std::endl;
-  }
+    {
+      DBGOUT << "Connection in progress..." << std::endl;
+    }
 
   else if (connectionStatus_ == CONN_CONNECTED)
-  {
-    DBGOUT << "Object Connected" << std::endl;
-  }
+    {
+      DBGOUT << "Object Connected" << std::endl;
+    }
 
   // Send logon message to the queue;
   headers_t headers;
 
-  if(protocolVersion_ == 1)
-  {
-    DBGOUT << "Using protocol v1" << std::endl;
-    headers["Protocol-Version"] = "1.0";
-  }
-
-  else if(protocolVersion_ == 2)
-  {
-    DBGOUT << "Using protocol v2" << std::endl;
-    headers["Protocol-Version"] = "2.0";
-    if (encryption_)
+  if (protocolVersion_ == 1)
     {
-      headers["NAME"] = login_;
+      DBGOUT << "Using protocol v1" << std::endl;
+      headers["Protocol-Version"] = "1.0";
     }
 
-    if (soft && RK_.size())
+  else if (protocolVersion_ == 2)
     {
-      headers["SUB-ID"] = toString(userId_);
-    }
+      DBGOUT << "Using protocol v2" << std::endl;
+      headers["Protocol-Version"] = "2.0";
+      if (encryption_)
+        {
+          headers["NAME"] = login_;
+        }
 
-    if (!soft || !RK_.size())
-    {
-      packetSeq_ = 0;
-    }
+      if (soft && RK_.size())
+        {
+          headers["SUB-ID"] = toString(userId_);
+        }
 
-    if (compression_)
-    {
-      headers["COMPRESSION"] = toString(compression_);
+      if (!soft || !RK_.size())
+        {
+          packetSeq_ = 0;
+        }
+
+      if (compression_)
+        {
+          headers["COMPRESSION"] = toString(compression_);
+        }
     }
-  }
 
 
   headers["App-Type"] = "Bot";
@@ -780,48 +782,48 @@ PalringoConnection::registerClient()
   setSocketOptions();
   const struct hostent* hp = gethostbyname(host_.c_str());
   if (hp == 0)
-  {
-    DBGOUT << "gethostbyname() failed with " << errno << ": "
+    {
+      DBGOUT << "gethostbyname() failed with " << errno << ": "
       << strerror(errno) << std::endl;
-    close(fd_);
-    return -1;
-    //throw errno;
-  }
+      close(fd_);
+      return -1;
+      //throw errno;
+    }
 
   struct sockaddr_in remote_addr;
   remote_addr.sin_family = AF_INET;
   remote_addr.sin_port = htons (port_);
   (void) memcpy(&remote_addr.sin_addr.s_addr,
-		hp->h_addr_list [0],
-		sizeof (remote_addr.sin_addr.s_addr));
+                hp->h_addr_list [0],
+                sizeof (remote_addr.sin_addr.s_addr));
 
   int32_t res(0);
   if ((res = connect(fd_, (struct sockaddr *)&remote_addr, sizeof(remote_addr))) < 0)
-  {
-    if ((errno == EINPROGRESS) && nonBlocking_)
     {
-      connectionStatus_ = CONN_CONNECTING;
-      DBGOUT << "Using non blocking connection" << std::endl;
-      connectionReady_ = false;
+      if ((errno == EINPROGRESS) && nonBlocking_)
+        {
+          connectionStatus_ = CONN_CONNECTING;
+          DBGOUT << "Using non blocking connection" << std::endl;
+          connectionReady_ = false;
+        }
+      else
+        {
+          DBGOUT << "connect() failed with " << errno << ": "
+          << strerror(errno) << std::endl;
+          close(fd_);
+          return -1;
+        }
     }
-    else
-    {
-      DBGOUT << "connect() failed with " << errno << ": "
-	<< strerror(errno) << std::endl;
-      close(fd_);
-      return -1;
-    }
-  }
   else
-  {
-    connectionStatus_ = CONN_CONNECTED;
-  }
+    {
+      connectionStatus_ = CONN_CONNECTED;
+    }
 
   headers_t headers;
   std::string prime(dh_->getPrime());
   std::string A(dh_->getPublic());
   DBGOUT << "prime.size(): " << prime.size()
-	 << ", A.size(): " << A.size() << std::endl;
+  << ", A.size(): " << A.size() << std::endl;
   headers["P"] = prime;
   headers["A"] = A;
   sendCmd(pCommand::REG, headers, "");
@@ -832,25 +834,25 @@ bool
 PalringoConnection::connectionReady()
 {
   if (connectionReady_)
-  {
-    return true;
-  }
-  else
-  {
-    fd_set fdSetWrite;
-    FD_ZERO(&fdSetWrite);
-    FD_SET(fd_,&fdSetWrite);
-    timeval tv = {0, 1000};
-    if(select(fd_+1, NULL, &fdSetWrite, NULL, &tv) > 0)
     {
-      connectionReady_ = true;
       return true;
     }
-    else
+  else
     {
-      return false;
+      fd_set fdSetWrite;
+      FD_ZERO(&fdSetWrite);
+      FD_SET(fd_,&fdSetWrite);
+      timeval tv = {0, 1000};
+      if (select(fd_+1, NULL, &fdSetWrite, NULL, &tv) > 0)
+        {
+          connectionReady_ = true;
+          return true;
+        }
+      else
+        {
+          return false;
+        }
     }
-  }
 }
 
 
@@ -914,21 +916,22 @@ PalringoConnection::sendCmd (const std::string& cmd,
   headerStr.append("\n");
 
   // Headers
-  for(headers_t::const_iterator it = headers.begin();
-      it != headers.end (); ++it)
-  {
-    headerStr.append(it->first);
-    headerStr.append(": ");
-    headerStr.append(it->second);
-    headerStr.append("\n");
-  } // end for
+  for (headers_t::const_iterator it = headers.begin();
+       it != headers.end (); ++it)
+    {
+      headerStr.append(it->first);
+      headerStr.append(": ");
+      headerStr.append(it->second);
+      headerStr.append("\n");
+    } // end for
 
   // Content-Length
-  if (body.size() > 0) {
-    headerStr.append("CONTENT-LENGTH: ");
-    headerStr.append(toString(body.size()));
-    headerStr.append("\n");
-  }
+  if (body.size() > 0)
+    {
+      headerStr.append("CONTENT-LENGTH: ");
+      headerStr.append(toString(body.size()));
+      headerStr.append("\n");
+    }
 
   // End of headers
   headerStr.append("\n");
@@ -943,14 +946,14 @@ PalringoConnection::sendCmd (const std::string& cmd,
   CmdCallbackFunctionsMap::iterator fit(outCallbackFunctions_.find(cmd));
 
   if (fit != outCallbackFunctions_.end())
-  {
-    (this->*fit->second)(headers, const_cast<std::string&>(body), NULL);
-  }
+    {
+      (this->*fit->second)(headers, const_cast<std::string&>(body), NULL);
+    }
 
   else
-  {
-    processUnknownOutgoing(cmd, headers, const_cast<std::string&>(body));
-  }
+    {
+      processUnknownOutgoing(cmd, headers, const_cast<std::string&>(body));
+    }
   return true;
 }
 
@@ -959,51 +962,51 @@ PalringoConnection::pollWrite()
 {
   uint32_t length(0);
   if ((length = outStream_.size()))
-  {
-    DBGOUT << "Sending data in outStream_:\n"
+    {
+      DBGOUT << "Sending data in outStream_:\n"
       << hexDump(outStream_)
       << std::endl;
-    const char *outBuf = outStream_.data();
+      const char *outBuf = outStream_.data();
 
-    int32_t wBytes(0);
-    uint32_t seekPos(0);
+      int32_t wBytes(0);
+      uint32_t seekPos(0);
 
-    //while(seekPos < length)
-    //{
+      //while(seekPos < length)
+      //{
       //DBGOUT << "Writing " << length - seekPos
       //<< " bytes in fd_" << std::endl;
       wBytes=write(fd_,outBuf + seekPos,length-seekPos);
       // If something went wrong while writing return -1
-      if(wBytes < 0)
-      {
-	if (errno == EAGAIN)
-	{
-	  wBytes = 0;
-	}
-	else
-	{
-	  std::cout << "Error writing in fd_ "<< errno << " "
-	    << strerror(errno) << std::endl;
-	  return -1;
-	}
-      }
+      if (wBytes < 0)
+        {
+          if (errno == EAGAIN)
+            {
+              wBytes = 0;
+            }
+          else
+            {
+              std::cout << "Error writing in fd_ "<< errno << " "
+              << strerror(errno) << std::endl;
+              return -1;
+            }
+        }
       DBGOUT << wBytes << " bytes written in fd_" << std::endl;
       seekPos += wBytes;
-    //}
+      //}
 
-    //DBGOUT << "Sent " << outMessageCount_ << " messages" << std::endl;
-    outMessageCount_ = 0;
-    //outStream_.clear();
-    if (wBytes)
-    {
-      outStream_.erase(0,wBytes);
+      //DBGOUT << "Sent " << outMessageCount_ << " messages" << std::endl;
+      outMessageCount_ = 0;
+      //outStream_.clear();
+      if (wBytes)
+        {
+          outStream_.erase(0,wBytes);
+        }
+      return 1;
     }
-    return 1;
-  }
   else
-  {
-    return 0;
-  }
+    {
+      return 0;
+    }
 }
 
 bool
@@ -1019,28 +1022,28 @@ PalringoConnection::parseCmd(std::string& cmd,
   // length found in the headers or without
   const char* const crlfcrlf = strstr(inBuf, "\r\n\r\n");
   if (crlfcrlf != 0)
-  {
-    const char* const cl = strstr(inBuf, "CONTENT-LENGTH: ");
-    if (cl != 0 && cl < crlfcrlf)
     {
-      if (endBuf >= crlfcrlf + 4 + atoi(cl + 16))
-      {
-	eom = crlfcrlf + 4 + atoi(cl + 16);
-      }
+      const char* const cl = strstr(inBuf, "CONTENT-LENGTH: ");
+      if (cl != 0 && cl < crlfcrlf)
+        {
+          if (endBuf >= crlfcrlf + 4 + atoi(cl + 16))
+            {
+              eom = crlfcrlf + 4 + atoi(cl + 16);
+            }
+          else
+            {
+              return false;
+            }
+        }
       else
-      {
-	return false;
-      }
+        {
+          eom = crlfcrlf + 4;
+        }
     }
-    else
-    {
-      eom = crlfcrlf + 4;
-    }
-  }
   else
-  {
-    return false;
-  }
+    {
+      return false;
+    }
   // Extract command
   const char* const crlf = strstr(inBuf, "\r\n");
   cmd = std::string(inBuf, crlf - inBuf);
@@ -1049,23 +1052,23 @@ PalringoConnection::parseCmd(std::string& cmd,
   headers.clear();
   const char* header = crlf + 2;
   while (true)
-  {
-    if (strncmp(header, "\r\n", 2) == 0)
     {
-      header += 2;
-      break;
+      if (strncmp(header, "\r\n", 2) == 0)
+        {
+          header += 2;
+          break;
+        }
+      const char* const cs = strstr(header, ": ");
+      const char* const crlf = strstr(header, "\r\n");
+      if (cs == 0 || crlf == 0)
+        {
+          std::cout << "Should never happen!" << std::endl;
+          return false; // Should never happen!
+        }
+      headers[std::string (header, cs - header)] =
+        std::string (cs + 2, crlf - cs - 2);
+      header = crlf + 2;
     }
-    const char* const cs = strstr(header, ": ");
-    const char* const crlf = strstr(header, "\r\n");
-    if (cs == 0 || crlf == 0)
-    {
-      std::cout << "Should never happen!" << std::endl;
-      return false; // Should never happen!
-    }
-    headers[std::string (header, cs - header)] =
-      std::string (cs + 2, crlf - cs - 2);
-    header = crlf + 2;
-  }
 
   // And the rest is the body (if any)
   body = std::string(header, eom - header);
@@ -1077,57 +1080,57 @@ PalringoConnection::parseCmd(std::string& cmd,
 int
 PalringoConnection::readCmd()
 {
-    char readBuf[IN_BUFFER_SIZE];
-    ssize_t nb = read(fd_, readBuf, IN_BUFFER_SIZE);
-    if (nb == 0)
+  char readBuf[IN_BUFFER_SIZE];
+  ssize_t nb = read(fd_, readBuf, IN_BUFFER_SIZE);
+  if (nb == 0)
     {
       std::cout << "LOST CONNECTION!" << std::endl;
       close(fd_);
       return -1;
     }
 
-    else if (nb < 0)
+  else if (nb < 0)
     {
       if (errno == EAGAIN)
-      {
-	return 0;
-      }
+        {
+          return 0;
+        }
       else if (errno == ECONNREFUSED)
-      {
-	std::cout << "Error while reading: "
-	  << errno << " " << strerror(errno)
-	  << std::endl;
-	//throw(errno);
+        {
+          std::cout << "Error while reading: "
+          << errno << " " << strerror(errno)
+          << std::endl;
+          //throw(errno);
 
-	return -1;
-      }
+          return -1;
+        }
       else
-      {
-	std::cout << "Error while reading: "
-	  << errno << " " << strerror(errno)
-	  << std::endl;
-	//throw(errno);
+        {
+          std::cout << "Error while reading: "
+          << errno << " " << strerror(errno)
+          << std::endl;
+          //throw(errno);
 
-	return -1;
-      }
+          return -1;
+        }
     }
-    DBGOUT << "Read bytes: " << nb << std::endl;
-    inStream_.append(readBuf,nb);
-    DBGOUT << "inStream_ Size: " << inStream_.size() << std::endl;
-    DBGOUT << "inStream_ content:\n" << hexDump(inStream_) << std::endl;
-    return nb;
+  DBGOUT << "Read bytes: " << nb << std::endl;
+  inStream_.append(readBuf,nb);
+  DBGOUT << "inStream_ Size: " << inStream_.size() << std::endl;
+  DBGOUT << "inStream_ content:\n" << hexDump(inStream_) << std::endl;
+  return nb;
 }
 
-uint64_t 
+uint64_t
 PalringoConnection::ntohll (uint64_t data)
 {
   // Run-time test to determine our endianess
   static char endianTest[2] = {0, 1};
   static bool bigEndian = (*(short *)endianTest == 1);
   if (bigEndian)
-  {
-    return data;
-  }
+    {
+      return data;
+    }
 
   uint32_t upperword = ntohl(data >> 32);
   uint32_t lowerword = ntohl(data & 0xffff);
@@ -1144,59 +1147,59 @@ PalringoConnection::pollRead()
   int32_t res = readCmd();
 
   if (res < 1)
-  {
-    return res;
-  }
+    {
+      return res;
+    }
 
   receivedData_ += res;
 
   while (parseCmd(cmd, headers, body))
-  {
-#ifdef DEBUG
-    DBGOUT << "Received command " << cmd << std::endl;
-    for (headers_t::const_iterator it = headers.begin();
-	 it != headers.end(); ++it)
     {
-      DBGOUT << "  " << it->first << ": " << it->second << std::endl;
-    }
+#ifdef DEBUG
+      DBGOUT << "Received command " << cmd << std::endl;
+      for (headers_t::const_iterator it = headers.begin();
+           it != headers.end(); ++it)
+        {
+          DBGOUT << "  " << it->first << ": " << it->second << std::endl;
+        }
 #endif
 
-    headers_t::iterator it(headers.find("MESG-ID"));
-    if (it != headers.end())
-    {
-      int32_t mesg_id = atoi(it->second.c_str());
-      if (mesg_id > 0)
-      {
-	mesg_id_ = mesg_id;
-      }
+      headers_t::iterator it(headers.find("MESG-ID"));
+      if (it != headers.end())
+        {
+          int32_t mesg_id = atoi(it->second.c_str());
+          if (mesg_id > 0)
+            {
+              mesg_id_ = mesg_id;
+            }
+        }
+
+      packetSeq_++;
+
+      CmdCallbackFunctionsMap::iterator fit(inCallbackFunctions_.find(cmd));
+
+      if (fit != inCallbackFunctions_.end())
+        {
+          (this->*fit->second)(headers, body, NULL);
+        }
+
+      else
+        {
+          processUnknownIncoming(cmd, headers, body);
+        }
     }
 
-    packetSeq_++;
-
-    CmdCallbackFunctionsMap::iterator fit(inCallbackFunctions_.find(cmd));
-
-    if (fit != inCallbackFunctions_.end())
+  if (receivedData_ > DATA_LIMIT)
     {
-      (this->*fit->second)(headers, body, NULL);
+      headers_t pheaders;
+      std::cout << "Pong!" << std::endl;
+      if (protocolVersion_ == 2)
+        {
+          pheaders["PS"] = toString(packetSeq_);
+        }
+      sendCmd(pCommand::PING, pheaders, "");
+      receivedData_ = 0;
     }
-
-    else
-    {
-      processUnknownIncoming(cmd, headers, body);
-    }
-  }
-
-  if(receivedData_ > DATA_LIMIT)
-  {
-    headers_t pheaders;
-    std::cout << "Pong!" << std::endl;
-    if (protocolVersion_ == 2)
-    {
-      pheaders["PS"] = toString(packetSeq_);
-    }
-    sendCmd(pCommand::PING, pheaders, "");
-    receivedData_ = 0;
-  }
 
   DBGOUT << "Erasing " << sofar_ << " bytes from buffer" << std::endl;
   inStream_.erase(0, sofar_);
@@ -1216,9 +1219,9 @@ PalringoConnection::processUnknownIncoming(const std::string& cmd,
 
 int
 PalringoConnection::processUnknownOutgoing(
-    const std::string& cmd,
-    headers_t& headers,
-    std::string& body)
+  const std::string& cmd,
+  headers_t& headers,
+  std::string& body)
 {
   DBGOUT << "Unknown command received: " << cmd << std::endl;
   return 1;
@@ -1238,39 +1241,42 @@ PalringoConnection::poll()
   int32_t selRes(0);
 
   if ((selRes = checkFd(fd_+1, fdSetRead, fdSetWrite)) > 0)
-  {
-    if(FD_ISSET(fd_, &fdSetWrite))
     {
-      if (outStream_.size())
-      {
-        DBGOUT << "Sending Output" << std::endl;
-
-        if(pollWrite() < 0)
+      if (FD_ISSET(fd_, &fdSetWrite))
         {
-          return -1;
+          if (outStream_.size())
+            {
+              DBGOUT << "Sending Output" << std::endl;
+
+              if (pollWrite() < 0)
+                {
+                  return -1;
+                }
+            }
         }
-      }
+      if (FD_ISSET(fd_, &fdSetRead))
+        {
+          DBGOUT << "Reading command" << std::endl;
+          return pollRead();
+        }
     }
-    if(FD_ISSET(fd_, &fdSetRead))
+  else if (selRes < 0)
     {
-      DBGOUT << "Reading command" << std::endl;
-      return pollRead();
-    }
-  }
-  else if(selRes < 0)
-  {
-    DBGOUT << "Error checking file descriptor status"
+      DBGOUT << "Error checking file descriptor status"
       << strerror(errno) << std::endl;
-    //throw errno;
-    return -1;
-  }
+      //throw errno;
+      return -1;
+    }
   return 0;
 }
 
 int
 PalringoConnection::checkFd(int32_t max, fd_set &fdSetRead, fd_set &fdSetWrite)
 {
-  struct timeval tv = {0, 1000};
+  struct timeval tv =
+    {
+      0, 1000
+    };
 
   return select(max+1, &fdSetRead, &fdSetWrite, NULL, &tv);
 }
@@ -1295,35 +1301,35 @@ PalringoConnection::sendMessage(const std::string& msg,
   data.mesgId_ = ++mesg_id_;
   data.contentType_ = contentType;
   if (msg.size() > 512)
-  {
-    const char *cmsg = msg.c_str();
-    data.setData(headers, const_cast<std::string&>(msg));
-    sendCmd(pCommand::MESG, headers, std::string(cmsg, 512));
-
-    data.correlationId_ = data.mesgId_;
-
-    size_t i(512);
-
-    for(i=512; i < (msg.size() - (msg.size() % 512)); i+=512)
     {
-      data.mesgId_ = ++mesg_id_;
+      const char *cmsg = msg.c_str();
       data.setData(headers, const_cast<std::string&>(msg));
-      sendCmd(pCommand::MESG, headers, std::string(cmsg + i, 512));
+      sendCmd(pCommand::MESG, headers, std::string(cmsg, 512));
+
+      data.correlationId_ = data.mesgId_;
+
+      size_t i(512);
+
+      for (i=512; i < (msg.size() - (msg.size() % 512)); i+=512)
+        {
+          data.mesgId_ = ++mesg_id_;
+          data.setData(headers, const_cast<std::string&>(msg));
+          sendCmd(pCommand::MESG, headers, std::string(cmsg + i, 512));
+        }
+
+      data.mesgId_ = ++mesg_id_;
+      data.last_ = true;
+      data.setData(headers, const_cast<std::string&>(msg));
+      return sendCmd(pCommand::MESG, headers,std::string(cmsg + i, msg.size() - i));
     }
-
-    data.mesgId_ = ++mesg_id_;
-    data.last_ = true;
-    data.setData(headers, const_cast<std::string&>(msg));
-    return sendCmd(pCommand::MESG, headers,std::string(cmsg + i, msg.size() - i));
-  }
   else
-  {
-    data.last_ = true;
+    {
+      data.last_ = true;
 
-    data.setData(headers, const_cast<std::string&>(msg));
+      data.setData(headers, const_cast<std::string&>(msg));
 
-    return sendCmd(pCommand::MESG, headers, msg);
-  }
+      return sendCmd(pCommand::MESG, headers, msg);
+    }
 }
 
 bool
@@ -1389,9 +1395,9 @@ PalringoConnection::sendPls(DataMap &data)
 
 void
 PalringoConnection::getMesgHist(int32_t count,
-				uint32_t timestamp,
-				uint64_t sourceId,
-				int32_t type)
+                                uint32_t timestamp,
+                                uint64_t sourceId,
+                                int32_t type)
 {
   headers_t headers;
   headers["MESG-ID"] = toString(++mesg_id_);
@@ -1402,14 +1408,14 @@ PalringoConnection::getMesgHist(int32_t count,
   timestampStr.append(".0");
 
   if (type == 0)
-  {
-    headers["FROM-PRIVATE"] = timestampStr;
-  }
+    {
+      headers["FROM-PRIVATE"] = timestampStr;
+    }
 
   else if (type == 1)
-  {
-    headers["FROM-GROUP"] = timestampStr;
-  }
+    {
+      headers["FROM-GROUP"] = timestampStr;
+    }
 
   sendCmd(pCommand::MESG_HIST, headers, "");
 }
@@ -1431,18 +1437,18 @@ PalringoConnection::getContact(uint64_t id, contact_t& contact)
 {
   contacts_t::iterator it(contacts_.find(id));
   if (it != contacts_.end())
-  {
-    contact_t res = it->second;
-    contact.onlineStatus_ = res.onlineStatus_;
-    contact.status_ = res.status_;
-    contact.nickname_ = res.nickname_;
-    contact.isContact_ = res.isContact_;
-    return 1;
-  }
+    {
+      contact_t res = it->second;
+      contact.onlineStatus_ = res.onlineStatus_;
+      contact.status_ = res.status_;
+      contact.nickname_ = res.nickname_;
+      contact.isContact_ = res.isContact_;
+      return 1;
+    }
   else
-  {
-    return 0;
-  }
+    {
+      return 0;
+    }
 }
 
 
@@ -1451,14 +1457,14 @@ PalringoConnection::getGroup(uint64_t id, group_t& group)
 {
   groups_t::iterator it(groups_.find(id));
   if (it != groups_.end())
-  {
-    group = it->second;
-    return 1;
-  }
+    {
+      group = it->second;
+      return 1;
+    }
   else
-  {
-    return 0;
-  }
+    {
+      return 0;
+    }
 }
 
 void
