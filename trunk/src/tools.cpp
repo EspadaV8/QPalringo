@@ -325,7 +325,7 @@ void Tools::HeaderWrite(QByteArray* data,
         numberOfSamples = data->size() / 2; // ( (16000 * 2) / 8 );
     }
 
-    qDebug( "size - %d : stero - %s : bps - %d : numberOfSamples - %d : sampleRate - %d : chunkSize - ", data->size(), numberOfChannels, bitsPerSample, numberOfSamples, sampleRate, chunkSize );
+    qDebug( "size - %d : numberOfChannels - %d : bps - %d : numberOfSamples - %d : sampleRate - %d : chunkSize - %d", data->size(), numberOfChannels, bitsPerSample, numberOfSamples, sampleRate, chunkSize );
 
     union _WAV_UN
     {
