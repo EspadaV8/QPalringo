@@ -34,6 +34,7 @@ class MessageItem : public QWidget
 
         bool getToSelect();
         void setSelected( bool selected );
+        Message getMessage();
 
     private:
         Message *message;
