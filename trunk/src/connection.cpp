@@ -51,3 +51,8 @@ void Connection::sendMessage( unsigned long long receiverID, bool isGroup, Messa
     qDebug( "connection is sending message" );
     this->conn->sendMessage( message->payload, message->type, receiverID, isGroup );
 }
+
+void Connection::getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp )
+{
+    this->conn->getHistoryMessage( target, isGroup, timestamp );
+}
