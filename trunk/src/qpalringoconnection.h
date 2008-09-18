@@ -54,12 +54,12 @@ class QPalringoConnection : public QObject, public PalringoConnection
                           QString contentType,
                           unsigned long long groupID,
                           bool isGroup );
+        bool getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,
                                                std::string&,
                                                GenericData* );
-
         virtual int onMesgReceived( headers_t&,
                                      std::string&,
                                      GenericData*);
@@ -69,7 +69,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
         virtual int onGroupDetailReceived(headers_t&,
                                           std::string&,
                                           GenericData*);
-        
+
     private:
         QMap<unsigned long long, Message*> unfinishedMessages;
 };
