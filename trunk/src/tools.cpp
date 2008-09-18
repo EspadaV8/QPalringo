@@ -124,6 +124,12 @@ void Tools::sendMessage( Target *target, bool isGroup, Message *message )
     this->connection->sendMessage( target->getID(), isGroup, message );
 }
 
+void Tools::getHistoryMessage( Target *target, bool isGroup, qint32 timestamp )
+{
+    qDebug( "getting history..." );
+    this->connection->getHistoryMessage( target->getID(), isGroup, timestamp );
+}
+
 void Tools::addContact( Contact *contact )
 {
     this->contactLock.lockForWrite();
