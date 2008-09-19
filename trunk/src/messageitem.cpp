@@ -32,7 +32,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     this->sender = new QLabel( this->contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
 
-    this->timestamp = new QLabel( this->message->timestamp );
+    this->timestamp = new QLabel( QString::number( this->message->timestamp ) );
     this->timestamp->setAlignment( Qt::AlignRight );
 
     QString messageTypeIcon;
