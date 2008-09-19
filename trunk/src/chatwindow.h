@@ -43,6 +43,7 @@ Q_OBJECT
         PalringoWindow *parent;
         Target *target;
         bool isGroup;
+        qint32 earliestTimestamp;
 
         QVBoxLayout *layout;
         QHBoxLayout *hbox;

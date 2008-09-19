@@ -20,6 +20,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->parent = parent;
     this->target = target;
     this->isGroup = isGroup;
+    this->earliestTimestamp = QDateTime::currentDateTime().toTime_t();
 
     this->setWindowTitle( this->target->getTitle() );
     // this->setWindowIcon ( *new QPixmap ( this->contact->getContactIcon() ) );
@@ -74,7 +75,7 @@ void ChatWindow::checkMessageInput()
     Message *m = new Message;
     m->payload.append( message );
     m->type = "text/plain";
-    m->timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
+    m->timestamp = QDateTime::currentDateTime().toTime_t();
     m->senderID = tools_->user->userID;
 
     tools_->sendMessage( this->target, this->isGroup, m );
@@ -87,7 +88,7 @@ void ChatWindow::appendMessage( QString message, Contact *contact, QString conte
     Message *m = new Message;
     m->payload = message.toUtf8();
     m->type = contentType;
-    m->timestamp = QDateTime::currentDateTime().toString( "hh:mm:ss" );
+    m->timestamp = QDateTime::currentDateTime().toTime_t();
     m->senderID = 1; //contact->getNickname();
 
     this->messageList->addMessage( m );
@@ -95,6 +96,10 @@ void ChatWindow::appendMessage( QString message, Contact *contact, QString conte
 
 void ChatWindow::appendMessage( Message* message )
 {
+    if( message->timestamp < this->earliestTimestamp )
+    {
+        this->earliestTimestamp = message->timestamp;
+    }
     this->messageList->addMessage( message );
 }
 
