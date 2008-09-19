@@ -32,11 +32,44 @@ MessageList::~MessageList()
 
 void MessageList::addMessage( Message *message )
 {
+    qint64 pos = 0;
+    if( this->messages.count() == 0 )
+    {
+        pos = -1;
+    }
+    else
+    {
+        for( pos; pos < this->messages.count(); pos++ )
+        {
+            MessageItem *mi = (MessageItem*)this->vbox->itemAt( pos )->widget();
+            if( mi->getMessage().timestamp < message->timestamp )
+            {
+                continue;
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+    this->insertMessage( pos, message );
+}
+
+void MessageList::insertMessage( qint64 pos, Message *message )
+{
+    MessageItem *m = new MessageItem( this, message );
     this->atBottom = ( this->verticalScrollBar()->sliderPosition() == this->verticalScrollBar()->maximum() );
 
-    MessageItem *m = new MessageItem( this, message );
-    this->messages.append( m );
-    this->vbox->insertWidget( ( this->vbox->count() - 1 ), m );
+    if( pos == -1 )
+    {
+        this->messages.append( m );
+        this->vbox->insertWidget( this->vbox->count() - 1, m );
+    }
+    else
+    {
+        this->messages.insert( pos, m );
+        this->vbox->insertWidget( pos, m );
+    }
     m->show();
 
     QMetaObject::invokeMethod(this, "setScrollbarPos", Qt::QueuedConnection);
