@@ -106,4 +106,5 @@ void ChatWindow::appendMessage( Message* message )
 void ChatWindow::askForHistory()
 {
     qDebug( "time to get some history" );
+    tools_->getHistoryMessage( this->target, this->isGroup,  this->earliestTimestamp );
 }
