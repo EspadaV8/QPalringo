@@ -1,7 +1,7 @@
 //
 // C++ Interface: message
 //
-// Description: 
+// Description:
 //
 //
 // Author: Andrew Smith <espadav8@gmail.com>, (C) 2008
@@ -21,7 +21,7 @@ struct Message
     QByteArray payload;
     unsigned long long senderID;
     unsigned long long groupID;
-    QString timestamp;
+    qint32 timestamp;
 };
 
 #endif
