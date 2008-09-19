@@ -1403,7 +1403,7 @@ PalringoConnection::getMesgHist(int32_t count,
   headers["MESG-ID"] = toString(++mesg_id_);
   headers["COUNT"] = toString(count);
   headers["SOURCE-ID"] = toString(sourceId);
-  std::string timestampStr("-");
+  std::string timestampStr("");
   timestampStr.append(toString(timestamp));
   timestampStr.append(".0");
 
