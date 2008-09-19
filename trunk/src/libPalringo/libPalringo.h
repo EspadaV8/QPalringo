@@ -374,7 +374,7 @@ protected:
       uint32_t totalLength_;
 
       // time the message was sent
-      std::string timestamp_;
+      uint32_t timestamp_;
   };
 
   class LogonData : public GenericData
@@ -1044,7 +1044,7 @@ public:
 
   /**
    * @brief Send a command to the server, any type of body
-   * 
+   *
    * It sends a command to the server.
    * Body can be of binary type.
    * The message is pushed into the output buffer and sent later using pollWrite().
@@ -1061,11 +1061,11 @@ public:
   virtual bool sendCmd (const std::string& cmd,
       headers_t& headers,
       const char *body,
-      uint32_t length);	
+      uint32_t length);
 
   /**
    * @brief Send a command to the server, body is a string
-   * 
+   *
    * It sends a command to the server.
    * Body is of type string.
    * The message is pushed into the output buffer and sent later using pollWrite().
@@ -1084,7 +1084,7 @@ public:
 
   /**
    * @brief Send a string type message
-   * 
+   *
    * The message is stored in a string.
    * @param msg is the string containing the message.
    * @param contentType is the content type of the message.
@@ -1099,10 +1099,10 @@ public:
       std::string& contentType,
       uint64_t id,
       int32_t type /* 0 for contact, 1 for group */);
-  
+
   /**
    * @brief Send any type of message
-   * 
+   *
    * The message is stored in a buffer called msg.
    * @param msg is the buffer containing the message.
    * @param length is the length of the message.

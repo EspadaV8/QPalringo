@@ -344,7 +344,7 @@ PalringoConnection::MsgData::getData(headers_t& headers,
   getAttribute<std::string, true>(headers, "NAME", name_);
   getAttribute<bool>(headers, "LAST", last_);
   getAttribute<uint32_t, true>(headers, "TOTAL-LENGTH", totalLength_);
-  getAttribute<std::string, true>(headers, "TIMESTAMP", timestamp_);
+  getAttribute<uint32_t, true>(headers, "TIMESTAMP", timestamp_);
 }
 
 void
