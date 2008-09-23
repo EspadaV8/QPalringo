@@ -72,6 +72,7 @@ class Tools : public QObject
         void addContact( Contact *contact );
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
         void messageReceived( Message* message );
+        void historyMessageReceived( Message* message );
 
     signals:
         void connected();
@@ -97,6 +98,11 @@ class Tools : public QObject
         QHash<unsigned long long, Group* > groups;
 
         QReadWriteLock contactLock;
+
+        // history tracking
+        bool gettingHistory;
+        Target* historyTarget;
+        bool historyTargetIsGroup;
 };
 
 #endif

@@ -18,6 +18,11 @@ Tools::Tools( PalringoWindow *mainWindow )
     this->connection = NULL;
     this->loggedIn = false;
     this->user = new User;
+
+    // used for tracking history requests
+    this->gettingHistory = false;
+    this->historyTarget = NULL;
+    this->historyTargetIsGroup = false;
 }
 
 Tools::~Tools() { }
@@ -84,6 +89,23 @@ void Tools::messageReceived( QString message, unsigned long long senderID, unsig
     }
 }
 
+void Tools::historyMessageReceived( Message* message )
+{
+    qDebug() << "got a history message";
+
+    if( this->gettingHistory )
+    {
+        ChatWindow *w = this->openWindows.value( this->historyTarget );
+        w->appendMessage( message );
+
+        this->gettingHistory = false;
+        this->historyTarget = NULL;
+        this->historyTargetIsGroup = false;
+
+
+    }
+}
+
 void Tools::messageReceived( Message* message )
 {
     if( message->groupID == 0 )
@@ -127,7 +149,15 @@ void Tools::sendMessage( Target *target, bool isGroup, Message *message )
 void Tools::getHistoryMessage( Target *target, bool isGroup, qint32 timestamp )
 {
     qDebug( "getting history..." );
-    this->connection->getHistoryMessage( target->getID(), isGroup, timestamp );
+
+    if( !this->gettingHistory )
+    {
+        this->gettingHistory = true;
+        this->historyTarget = target;
+        this->historyTargetIsGroup = isGroup;
+
+        this->connection->getHistoryMessage( target->getID(), isGroup, timestamp );
+    }
 }
 
 void Tools::addContact( Contact *contact )
