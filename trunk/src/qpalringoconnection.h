@@ -33,6 +33,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
                               unsigned long long groupID,
                               QString ct );
         void messageReceived( Message *message );
+        void historyMessageReceived( Message *message );
         void gotContactDetails( Contact *contact );
         void gotGroupDetails( Group *group );
 

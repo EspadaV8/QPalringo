@@ -28,6 +28,7 @@ QPalringoConnection::QPalringoConnection(QString login,
     connect( this,      SIGNAL( gotGroupDetails( Group* ) ),     tools_, SLOT( addGroup( Group* ) ) );
     connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT( addContact( Contact* ) ) );
     connect( this,      SIGNAL( messageReceived( Message* ) ),   tools_, SLOT( messageReceived( Message* ) ) );
+    connect( this,      SIGNAL( historyMessageReceived( Message* ) ),   tools_, SLOT( historyMessageReceived( Message* ) ) );
 }
 
 int QPalringoConnection::poll()
@@ -59,6 +60,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
             message->senderID = msgData.sourceId_;
             message->groupID  = msgData.targetId_ | 0;
             message->timestamp = msgData.timestamp_;
+            message->hist = msgData.hist_;
             unfinishedMessages.insert( messageID, message );
         }
         return 0;
@@ -77,11 +79,19 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         message->senderID = msgData.sourceId_;
         message->groupID  = msgData.targetId_ | 0;
         message->timestamp = msgData.timestamp_;
+        message->hist = msgData.hist_;
         QString tmp = QString::fromStdString( body );
         message->payload.append( tmp );
     }
 
-    emit( messageReceived( message ) );
+    if( message->hist == true )
+    {
+        emit( historyMessageReceived( message ) );
+    }
+    else
+    {
+        emit( messageReceived( message ) );
+    }
     return 1;
 }
 
