@@ -375,6 +375,8 @@ protected:
 
       // time the message was sent
       uint32_t timestamp_;
+      // is the message a requested history one?
+      bool hist_;
   };
 
   class LogonData : public GenericData
