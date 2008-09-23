@@ -221,7 +221,7 @@ bool QPalringoConnection::getHistoryMessage( qint64 target, bool isGroup, qint32
 
 {
     int targetType = (isGroup) ? 1 : 0;
-    int count = 1;
+    int count = -1;
 
     PalringoConnection::getMesgHist( count, timestamp, target, targetType );
     return true;
