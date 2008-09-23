@@ -22,6 +22,7 @@ struct Message
     unsigned long long senderID;
     unsigned long long groupID;
     qint32 timestamp;
+    bool hist;
 };
 
 #endif
