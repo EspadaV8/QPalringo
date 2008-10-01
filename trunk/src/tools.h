@@ -16,6 +16,7 @@
 #include <QHash>
 #include <QMultiMap>
 #include <QReadWriteLock>
+#include <QDateTime>
 #include "palringowindow.h"
 #include "target.h"
 #include "messageitem.h"
@@ -66,8 +67,11 @@ class Tools : public QObject
 
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
+        QDateTime getServerTimestamp();
+
     public slots:
         void logonSuccessful();
+        void logonSuccessful( QString timestamp );
         void addGroup( Group *group );
         void addContact( Contact *contact );
         void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
@@ -103,6 +107,9 @@ class Tools : public QObject
         bool gettingHistory;
         Target* historyTarget;
         bool historyTargetIsGroup;
+
+        // The timestamp of the server
+        QDateTime serverTimestamp;
 };
 
 #endif

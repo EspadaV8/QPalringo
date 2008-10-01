@@ -23,6 +23,8 @@ Tools::Tools( PalringoWindow *mainWindow )
     this->gettingHistory = false;
     this->historyTarget = NULL;
     this->historyTargetIsGroup = false;
+
+    //this->serverTimestamp = new QDateTime();
 }
 
 Tools::~Tools() { }
@@ -235,6 +237,20 @@ void Tools::logonSuccessful()
 {
     this->loggedIn = true;
     emit( connected() );
+}
+
+void Tools::logonSuccessful( QString timestamp )
+{
+    int timestampSecs = (timestamp.left( timestamp.indexOf( "." ) ) ).toInt();
+    this->serverTimestamp = QDateTime::fromTime_t( timestampSecs );
+    qDebug() << serverTimestamp.toString( "dd-MM-yy, hh:mm:ss" );
+    this->loggedIn = true;
+    emit( connected() );
+}
+
+QDateTime Tools::getServerTimestamp()
+{
+    return this->serverTimestamp;
 }
 
 void Tools::setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline )
