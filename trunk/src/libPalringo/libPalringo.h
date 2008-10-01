@@ -374,7 +374,7 @@ protected:
       uint32_t totalLength_;
 
       // time the message was sent
-      uint32_t timestamp_;
+      std::string timestamp_;
       // is the message a requested history one?
       bool hist_;
   };
