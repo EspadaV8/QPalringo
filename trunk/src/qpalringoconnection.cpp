@@ -59,7 +59,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
             message->type = QString::fromStdString( msgData.contentType_ );
             message->senderID = msgData.sourceId_;
             message->groupID  = msgData.targetId_ | 0;
-            message->timestamp = msgData.timestamp_;
+            message->timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ) );
             message->hist = msgData.hist_;
             unfinishedMessages.insert( messageID, message );
         }
@@ -78,7 +78,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         message->type = QString::fromStdString( msgData.contentType_ );
         message->senderID = msgData.sourceId_;
         message->groupID  = msgData.targetId_ | 0;
-        message->timestamp = msgData.timestamp_;
+        message->timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ) );
         message->hist = msgData.hist_;
         QString tmp = QString::fromStdString( body );
         message->payload.append( tmp );
