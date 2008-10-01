@@ -18,6 +18,7 @@
 #include <QPushButton>
 #include <QLineEdit>
 #include <QSplitter>
+#include <QDateTime>
 #include "palringowindow.h"
 #include "target.h"
 #include "messagelist.h"
@@ -43,7 +44,7 @@ Q_OBJECT
         PalringoWindow *parent;
         Target *target;
         bool isGroup;
-        qint32 earliestTimestamp;
+        QDateTime earliestTimestamp;
 
         QVBoxLayout *layout;
         QHBoxLayout *hbox;
