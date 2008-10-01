@@ -172,6 +172,8 @@ PalringoConnection::onLogonSuccessfulReceived(headers_t& headers,
   nickname_ = logonDataPtr->nickname_;
   status_ = logonDataPtr->status_;
   lastOnline_ = logonDataPtr->lastOnline_;
+  serverTimestamp_ = logonDataPtr->timestamp_;
+
   DBGOUT << "Logon successful" << std::endl;
   loggedOn_ = true;
   return 1;

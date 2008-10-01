@@ -576,6 +576,11 @@ protected:
   std::string lastOnline_;
 
   /**
+   * @brief Servers timestamp
+   */
+  std::string serverTimestamp_;
+
+  /**
    * @brief Active reconnection key
    *
    * It's the reconnection key used when the connections is lost.
