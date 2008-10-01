@@ -53,7 +53,7 @@ class Tools : public QObject
         void openPalringoConnection( QString email, QString password );
 
         void sendMessage( Target *target, bool isGroup, Message *message );
-        void getHistoryMessage( Target *target, bool isGroup, qint32 timestamp );
+        void getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp );
 
         Contact* getContact( unsigned long long contactID );
         QHash<unsigned long long, Contact*> getContacts();
@@ -67,6 +67,7 @@ class Tools : public QObject
 
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
+        QDateTime convertTimestampToQDateTime( QString timestamp );
         QDateTime getServerTimestamp();
 
     public slots:

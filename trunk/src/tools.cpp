@@ -148,7 +148,7 @@ void Tools::sendMessage( Target *target, bool isGroup, Message *message )
     this->connection->sendMessage( target->getID(), isGroup, message );
 }
 
-void Tools::getHistoryMessage( Target *target, bool isGroup, qint32 timestamp )
+void Tools::getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp )
 {
     qDebug( "getting history..." );
 
@@ -158,7 +158,7 @@ void Tools::getHistoryMessage( Target *target, bool isGroup, qint32 timestamp )
         this->historyTarget = target;
         this->historyTargetIsGroup = isGroup;
 
-        this->connection->getHistoryMessage( target->getID(), isGroup, timestamp );
+        this->connection->getHistoryMessage( target->getID(), isGroup, timestamp.toTime_t() );
     }
 }
 
@@ -241,9 +241,7 @@ void Tools::logonSuccessful()
 
 void Tools::logonSuccessful( QString timestamp )
 {
-    int timestampSecs = (timestamp.left( timestamp.indexOf( "." ) ) ).toInt();
-    this->serverTimestamp = QDateTime::fromTime_t( timestampSecs );
-    qDebug() << serverTimestamp.toString( "dd-MM-yy, hh:mm:ss" );
+    this->serverTimestamp = this->convertTimestampToQDateTime( timestamp );
     this->loggedIn = true;
     emit( connected() );
 }
@@ -426,4 +424,13 @@ void Tools::HeaderWrite(QByteArray* data,
         t.append(waveHeader.buffer[index]);
 
     data->prepend( t );
+}
+
+
+QDateTime Tools::convertTimestampToQDateTime( QString timestamp )
+{
+    int timestampSecs = timestamp.left( timestamp.indexOf( "." ) ).toInt();
+    QDateTime msgTimestamp = QDateTime::fromTime_t( timestampSecs );
+
+    return msgTimestamp;
 }
