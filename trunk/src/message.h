@@ -12,6 +12,9 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <QString>
+#include <QByteArray>
+#include <QDateTime>
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
@@ -21,7 +24,7 @@ struct Message
     QByteArray payload;
     unsigned long long senderID;
     unsigned long long groupID;
-    qint32 timestamp;
+    QDateTime timestamp;
     bool hist;
 };
 
