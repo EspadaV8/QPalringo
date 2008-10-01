@@ -28,6 +28,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
 
     signals:
         int logonSuccessful();
+        int logonSuccessful( QString timestamp );
         void messageReceived( QString message,
                               unsigned long long senderID,
                               unsigned long long groupID,

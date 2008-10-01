@@ -24,7 +24,7 @@ QPalringoConnection::QPalringoConnection(QString login,
     qDebug( "creating a connection" );
     PalringoConnection::connectClient();
 
-    connect( this,      SIGNAL( logonSuccessful() ),             tools_, SLOT( logonSuccessful() ) );
+    connect( this,      SIGNAL( logonSuccessful( QString ) ),    tools_, SLOT( logonSuccessful( QString ) ) );
     connect( this,      SIGNAL( gotGroupDetails( Group* ) ),     tools_, SLOT( addGroup( Group* ) ) );
     connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT( addContact( Contact* ) ) );
     connect( this,      SIGNAL( messageReceived( Message* ) ),   tools_, SLOT( messageReceived( Message* ) ) );
@@ -103,9 +103,10 @@ int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::str
     QString nickname = QString::fromStdString( nickname_ );
     QString status = QString::fromStdString( status_ );
     QString lastOnline = QString::fromStdString( lastOnline_ );
+    QString serverTimestamp = QString::fromStdString( serverTimestamp_ );
 
     tools_->setUser( userID , nickname, status, lastOnline );
-    emit( logonSuccessful() );
+    emit( logonSuccessful( serverTimestamp ) );
 
     return 1;
 }
