@@ -39,6 +39,7 @@ Q_OBJECT
     private slots:
         void checkMessageInput();
         void askForHistory();
+        void loadImageFile();
 
     private:
         PalringoWindow *parent;

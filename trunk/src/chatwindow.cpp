@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <QFileDialog>
 #include "chatwindow.h"
 #include "tools.h"
 
@@ -47,6 +48,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
     p = new QPixmap( ":/messageTypes/image.png" );
     this->imageButton->setIcon( *p );
+    connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
     this->hbox->addWidget( this->messageInput );
@@ -65,6 +67,35 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
 ChatWindow::~ChatWindow()
 {
     tools_->removeChatWindow ( this->target );
+}
+
+void ChatWindow::loadImageFile()
+{
+    QString fileName = "";
+    fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.gif)"));
+    
+    if( fileName != "" )
+    {
+        QImage *image = new QImage( fileName );
+        
+        if ( image )
+        {
+            Message *m = new Message;
+            
+            
+            QBuffer buffer(&m->payload);
+            buffer.open(QIODevice::WriteOnly);
+            image->save(&buffer, "jpg");
+            
+            m->type = "image/jpeg";
+            m->timestamp = QDateTime::currentDateTime();
+            m->senderID = tools_->user->userID;
+
+            tools_->sendMessage( this->target, this->isGroup, m );
+            this->messageList->addMessage( m );
+        }
+    }
+    
 }
 
 void ChatWindow::checkMessageInput()
