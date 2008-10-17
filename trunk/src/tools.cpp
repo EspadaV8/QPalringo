@@ -241,14 +241,14 @@ void Tools::logonSuccessful()
 
 void Tools::logonSuccessful( QString timestamp )
 {
-    this->serverTimestamp = this->convertTimestampToQDateTime( timestamp );
+    this->calcServerTimestampDifference( timestamp );
     this->loggedIn = true;
     emit( connected() );
 }
 
-QDateTime Tools::getServerTimestamp()
+quint32 Tools::getTimestampDifference()
 {
-    return this->serverTimestamp;
+    return this->timestampDifference;
 }
 
 void Tools::setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline )
@@ -433,4 +433,15 @@ QDateTime Tools::convertTimestampToQDateTime( QString timestamp )
     QDateTime msgTimestamp = QDateTime::fromTime_t( timestampSecs );
 
     return msgTimestamp;
+}
+
+void Tools::calcServerTimestampDifference( QString timestamp )
+{
+    quint32 timestampSecs  = timestamp.left( timestamp.indexOf( "." ) ).toInt();
+    quint32 timestampUSecs = timestamp.right( timestamp.indexOf( "." ) ).toInt();
+    
+    QDateTime qdt = QDateTime::currentDateTime();
+    quint32 currentSecs = qdt.toTime_t();
+    
+    this->timestampDifference = currentSecs - timestampSecs;
 }
