@@ -427,9 +427,15 @@ void Tools::HeaderWrite(QByteArray* data,
 }
 
 
-QDateTime Tools::convertTimestampToQDateTime( QString timestamp )
+QDateTime Tools::convertTimestampToQDateTime( QString timestamp, bool receivedMessage )
 {
-    int timestampSecs = timestamp.left( timestamp.indexOf( "." ) ).toInt();
+    qint32 timestampSecs = timestamp.left( timestamp.indexOf( "." ) ).toInt();
+    
+    if ( receivedMessage )
+    {
+        timestampSecs += this->getTimestampDifference();
+    }
+    
     QDateTime msgTimestamp = QDateTime::fromTime_t( timestampSecs );
 
     return msgTimestamp;

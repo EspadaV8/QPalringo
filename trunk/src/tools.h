@@ -67,7 +67,7 @@ class Tools : public QObject
 
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
-        QDateTime convertTimestampToQDateTime( QString timestamp );
+        QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
         quint32 getTimestampDifference();
 
     public slots:
