@@ -68,7 +68,7 @@ class Tools : public QObject
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
         QDateTime convertTimestampToQDateTime( QString timestamp );
-        QDateTime getServerTimestamp();
+        quint32 getTimestampDifference();
 
     public slots:
         void logonSuccessful();
@@ -110,7 +110,8 @@ class Tools : public QObject
         bool historyTargetIsGroup;
 
         // The timestamp of the server
-        QDateTime serverTimestamp;
+        qint32 timestampDifference;
+        void calcServerTimestampDifference( QString timestamp );
 };
 
 #endif
