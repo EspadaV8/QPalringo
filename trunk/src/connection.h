@@ -43,6 +43,9 @@ class Connection : public QThread
         int     port;
 
         QPalringoConnection *conn;
+    
+    signals:
+        void disconnected();
 };
 
 #endif

@@ -426,3 +426,8 @@ void Tools::calcServerTimestampDifference( QString timestamp )
     
     this->timestampDifference = currentSecs - timestampSecs;
 }
+
+void Tools::disconnected()
+{
+    qDebug( "Tools::disconnected() - Not implemented" );
+}

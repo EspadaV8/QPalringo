@@ -77,6 +77,7 @@ class Tools : public QObject
         void addContact( Contact *contact );
         void messageReceived( Message* message );
         void historyMessageReceived( Message* message );
+        void disconnected();
 
     signals:
         void connected();

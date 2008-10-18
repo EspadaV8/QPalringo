@@ -19,17 +19,12 @@ Connection::Connection( QString emailAddress, QString password, QString host, in
     this->password = password;
     this->host = host;
     this->port = port;
-
-    qDebug("connecting to: %s as %s %s", qPrintable(this->host), qPrintable(this->emailAddress), qPrintable(this->password));
-
     this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port );
+    
+    connect( this, SIGNAL( disconnected() ), tools_, SLOT( disconnected() ) );
 }
 
-
-Connection::~Connection()
-{
-}
-
+Connection::~Connection() { }
 
 void Connection::run()
 {
@@ -39,6 +34,7 @@ void Connection::run()
         {
             msleep( 42 );
         }
+        emit( disconnected() );
     }
     catch (int error)
     {
@@ -48,7 +44,6 @@ void Connection::run()
 
 void Connection::sendMessage( unsigned long long receiverID, bool isGroup, Message *message )
 {
-    qDebug( "connection is sending message" );
     this->conn->sendMessage( message->payload, message->type, receiverID, isGroup );
 }
 
