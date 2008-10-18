@@ -30,7 +30,6 @@ QString GroupListItem::getContainerGroup()
 
 void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    // qDebug( "Double click on contact" );
     event->accept();
     tools_->openChatWindow( this->group );
 }

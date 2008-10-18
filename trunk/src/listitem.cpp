@@ -64,14 +64,12 @@ void ListItem::paintEvent(QPaintEvent *)
 
 void ListItem::mousePressEvent( QMouseEvent *event )
 {
-    //qDebug( "toSelect set" );
     this->toSelect = true;
     event->ignore();
 }
 
 void ListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    //qDebug( "Double click" );
     emit( doubleClick() );
     event->accept();
 }

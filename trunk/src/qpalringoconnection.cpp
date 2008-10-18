@@ -21,7 +21,6 @@ QPalringoConnection::QPalringoConnection(QString login,
                                          unsigned int port) :
         PalringoConnection(host.toStdString(), port, login.toStdString(), password.toStdString(), "", false, 1, true )
 {
-    qDebug( "creating a connection" );
     PalringoConnection::connectClient();
 
     connect( this,      SIGNAL( logonSuccessful( QString ) ),    tools_, SLOT( logonSuccessful( QString ) ) );
@@ -185,7 +184,6 @@ bool QPalringoConnection::sendToContact(QByteArray msg,
                                         QString contentType,
                                         unsigned long long receiverID )
 {
-    qDebug( "about to send message" );
     return PalringoConnection::sendToContact( msg.data(),
                                                   msg.size(),
                                                   receiverID,
@@ -196,7 +194,6 @@ bool QPalringoConnection::sendToGroup(QByteArray msg,
                                       QString contentType,
                                       unsigned long long groupID )
 {
-    qDebug( "about to send message" );
     return PalringoConnection::sendToGroup( msg.data(),
                                             msg.size(),
                                             groupID,
@@ -208,7 +205,6 @@ bool QPalringoConnection::sendMessage(QByteArray msg,
                                       unsigned long long targetID,
                                       bool isGroup )
 {
-    qDebug( "about to send message" );
     int targetType = (isGroup) ? 1 : 0;
     std::string cT = contentType.toStdString();
     return PalringoConnection::sendMessage( msg.data(),

@@ -62,14 +62,11 @@ void Tools::openChatWindow( Group *group )
 
 void Tools::removeChatWindow( Target *target )
 {
-    qDebug( "removing chat window" );
     this->openWindows.remove( target );
 }
 
 void Tools::historyMessageReceived( Message* message )
 {
-    qDebug() << "got a history message";
-
     if( this->gettingHistory )
     {
         ChatWindow *w = this->openWindows.value( this->historyTarget );
@@ -111,7 +108,6 @@ void Tools::openPalringoConnection( QString email, QString password )
 {
     if( this->connection == NULL )
     {
-        qDebug( "email: %s - password: %s", qPrintable( email ) , qPrintable( password ) );
         this->connection = new Connection( email, password );
         connection->start();
     }
@@ -119,14 +115,11 @@ void Tools::openPalringoConnection( QString email, QString password )
 
 void Tools::sendMessage( Target *target, bool isGroup, Message *message )
 {
-    qDebug( "sending message..." );
     this->connection->sendMessage( target->getID(), isGroup, message );
 }
 
 void Tools::getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp )
 {
-    qDebug( "getting history..." );
-
     if( !this->gettingHistory )
     {
         this->gettingHistory = true;

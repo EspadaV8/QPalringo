@@ -137,7 +137,6 @@ int PalringoListView::getContainerPosition( QString containerName )
 
 void PalringoListView::mousePressEvent( QMouseEvent *event )
 {
-    // qDebug( "got a mouse event" );
     event->accept();
     // if we get a mouse event then check the contacts to see which one wants to be selected
     for( int i = 0; i < this->contactList.size(); i++ )

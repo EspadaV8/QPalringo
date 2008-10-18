@@ -16,7 +16,6 @@
 ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     : QWidget ( parent )
 {
-    qDebug ( "in chat window" );
     this->setWindowFlags ( Qt::Window );
     this->parent = parent;
     this->target = target;
@@ -82,7 +81,6 @@ void ChatWindow::loadImageFile()
         {
             Message *m = new Message;
             
-            
             QBuffer buffer(&m->payload);
             buffer.open(QIODevice::WriteOnly);
             image->save(&buffer, "jpg");
@@ -101,7 +99,6 @@ void ChatWindow::loadImageFile()
 void ChatWindow::checkMessageInput()
 {
     QString message = this->messageInput->text().toUtf8();
-    qDebug( "Message input has changed - %s", qPrintable( message ) );
 
     Message *m = new Message;
     m->payload.append( message );
@@ -125,6 +122,5 @@ void ChatWindow::appendMessage( Message* message )
 
 void ChatWindow::askForHistory()
 {
-    qDebug( "time to get some history" );
     tools_->getHistoryMessage( this->target, this->isGroup,  this->earliestTimestamp );
 }

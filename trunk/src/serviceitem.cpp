@@ -38,7 +38,6 @@ QString ServiceItem::getContainerGroup()
 
 void ServiceItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    // qDebug( "Double click" );
     // this->doubleClicked = true;
     emit( doubleClick() );
     event->accept();

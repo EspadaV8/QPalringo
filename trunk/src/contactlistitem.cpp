@@ -80,7 +80,6 @@ QString ContactListItem::getContainerGroup()
 
 void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    // qDebug( "Double click on contact" );
     event->accept();
     tools_->openChatWindow( this->contact );
 }
