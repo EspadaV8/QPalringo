@@ -419,7 +419,7 @@ QDateTime Tools::convertTimestampToQDateTime( QString timestamp, bool receivedMe
 void Tools::calcServerTimestampDifference( QString timestamp )
 {
     quint32 timestampSecs  = timestamp.left( timestamp.indexOf( "." ) ).toInt();
-    quint32 timestampUSecs = timestamp.right( timestamp.indexOf( "." ) ).toInt();
+    quint32 __attribute__ ((unused)) timestampUSecs = timestamp.right( timestamp.indexOf( "." ) ).toInt();
     
     QDateTime qdt = QDateTime::currentDateTime();
     quint32 currentSecs = qdt.toTime_t();
