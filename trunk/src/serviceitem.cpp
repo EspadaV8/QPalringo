@@ -27,7 +27,7 @@ ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoServ
 void ServiceItem::updateDetails()
 {
     setIcon( ":/services/" + this->service->Type + "Service.png" );
-    setFirstLine( this->service->Nickname + " - " + this->service->Status );
+    setFirstLine( this->service->Nickname + " - " + this->service->OnlineStatus );
     setSecondLine( this->service->Status );
 }
 
