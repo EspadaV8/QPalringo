@@ -481,7 +481,6 @@ PalringoConnection::onMesgReceived(headers_t& headers,
     std::string& body,
     GenericData *data)
 {
-  std::cout << "in PalringoConnection::onMesgReceived" << std::endl;
   MsgData msgData;
   MsgData *msgDataPtr = getDataPtr<PalringoConnection::MsgData>(data,
       &msgData);
