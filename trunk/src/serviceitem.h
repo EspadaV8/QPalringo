@@ -13,32 +13,22 @@
 #define SERVICEITEM_H
 
 #include "listitem.h"
+#include "service.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
 
-struct Service
-{
-    QString Type;
-    QString OnlineStatus;
-    QString Nickname;
-    QString Status;
-    QString Group;
-};
-
 class ServiceItem : public ListItem
 {
     Q_OBJECT
     public:
-        ServiceItem( QWidget *parent = 0, Service *service = NULL );
+        ServiceItem( QWidget *parent = 0, Service *service = NULL, bool isPalringoService = false );
         ~ServiceItem();
-        
-        void setServiceType( QString type );
-        void setServiceOnlineStatus( QString onlinestatus );
-        void setServiceNickname( QString nickname );
-        void setServiceStatus( QString status );
         QString getContainerGroup();
+    
+    private slots:
+        void updateDetails();
         
     signals:
         void doubleClick();
@@ -48,6 +38,7 @@ class ServiceItem : public ListItem
         
     private:
         Service *service;
+        bool isPalringoService;
 };
 
 #endif

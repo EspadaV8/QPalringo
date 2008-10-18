@@ -11,38 +11,24 @@
 //
 #include "serviceitem.h"
 
-ServiceItem::ServiceItem( QWidget *parent, Service *service )
+ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoService )
  : ListItem( parent )
 {
     this->service = service;
-    this->service->Group = "Services";
+    this->isPalringoService = isPalringoService;
 
-    setFirstLine( this->service->Nickname );
-    setSecondLine( this->service->OnlineStatus + " - " + this->service->Status );
+    setFirstLine( this->service->Nickname + " - " + this->service->Status );
+    setSecondLine( this->service->OnlineStatus );
     setIcon( ":/services/" + this->service->Type + "Service.png" );
+    
+    connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
 }
 
-void ServiceItem::setServiceType( QString type )
+void ServiceItem::updateDetails()
 {
-    this->service->Type = type;
-    setIcon( ":/services/" + type + "Service.png" );
-}
-
-void ServiceItem::setServiceOnlineStatus( QString onlinestatus )
-{
-    this->service->OnlineStatus = onlinestatus;
-    setSecondLine( this->service->OnlineStatus + " - " + this->service->Status );
-}
-
-void ServiceItem::setServiceNickname( QString nickname )
-{
-    this->service->Nickname = nickname;
-    setFirstLine( this->service->Nickname );
-}
-
-void ServiceItem::setServiceStatus( QString status )
-{
-    this->service->Status = status;
+    setIcon( ":/services/" + this->service->Type + "Service.png" );
+    setFirstLine( this->service->Nickname + " - " + this->service->Status );
+    setSecondLine( this->service->Status );
 }
 
 QString ServiceItem::getContainerGroup()
