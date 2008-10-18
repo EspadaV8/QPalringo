@@ -35,4 +35,12 @@
         <file alias="voice.png">../images/32px/voice.png</file>
         <file alias="image.png">../images/32px/image.png</file>
     </qresource>
+    
+    <qresource prefix="/svg/">
+        <file alias="onlineContact.svg">../images/svg/person-blue.svg</file>
+        <file alias="offlineContact.svg">../images/svg/person-grey.svg</file>
+        <file alias="group.svg">../images/svg/group.svg</file>
+        
+        <file alias="palringoService.svg">../images/svg/palringo-service.svg</file>
+    </qresource>
 </RCC>
