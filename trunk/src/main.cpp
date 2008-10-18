@@ -35,6 +35,10 @@ int main ( int argc, char *argv[] )
     }
 
     app.setStyleSheet ( sheet.readAll() );
+    
+    QApplication::setOrganizationName( "Palringo" );
+    QApplication::setOrganizationDomain( "palringo.com" );
+    QApplication::setApplicationName( "QPalringo" );
 
     PalringoWindow *mw = new PalringoWindow();
 
