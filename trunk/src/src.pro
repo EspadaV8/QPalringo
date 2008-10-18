@@ -30,7 +30,7 @@ TARGET = ../bin/qpalringo
 FORMS = ui/signinwindow.ui \
  ui/listitem.ui
 
-QT += gui phonon
+QT += gui phonon svg
 HEADERS += palringowindow.h \
  palringolistview.h \
  contactlistitem.h \
