@@ -20,6 +20,8 @@
 #include <QtGui>
 #include "palringowindow.h"
 #include "tools.h"
+#include "palringoservice.h"
+#include "serviceitem.h"
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()
@@ -125,12 +127,14 @@ void PalringoWindow::SetupTabs()
 
 void PalringoWindow::AddPalringoService()
 {
-    Service *s = new Service;
-    s->Nickname   = QString("Palringo");
+    PalringoService *s = new PalringoService;
+    s->Nickname = QString("Palringo");
     s->Status = QString("Offline");
-    s->OnlineStatus = "offline";
+    s->OnlineStatus = "Offline";
     s->Type = "palringo";
-    ServiceItem *si = new ServiceItem( 0, s );
+    s->Group = "Services";
+    
+    ServiceItem *si = new ServiceItem( 0, s, true );
     connect( si, SIGNAL(doubleClick()), this, SLOT(loginService()));
     userServices.append( si );
     overviewList->setList( userServices );

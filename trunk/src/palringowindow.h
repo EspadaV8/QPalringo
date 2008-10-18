@@ -25,7 +25,6 @@
 #include "palringolistview.h"
 #include "contact.h"
 #include "group.h"
-#include "serviceitem.h"
 #include "signinwindow.h"
 #include "messageitem.h"
 
