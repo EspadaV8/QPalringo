@@ -38,7 +38,7 @@ int QPalringoConnection::poll()
 
 int QPalringoConnection::onMesgReceived(headers_t& headers,
                                          std::string& body,
-                                         GenericData *data)
+                                         GenericData *data __attribute__ ((unused)) )
 {
     MsgData msgData;
     PalringoConnection::onMesgReceived( headers, body, &msgData );
@@ -113,7 +113,7 @@ int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::str
 
 int QPalringoConnection::onContactDetailReceived(headers_t& headers,
                                                std::string& body,
-                                               GenericData *data)
+                                               GenericData *data __attribute__ ((unused)) )
 {
     ContactData contactData;
     if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
@@ -153,7 +153,7 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
 
 int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
                           std::string& body,
-                          GenericData *data)
+                          GenericData *data __attribute__ ((unused)) )
 {
     GroupData groupData;
     if( PalringoConnection::onGroupDetailReceived( headers, body, &groupData ) )
