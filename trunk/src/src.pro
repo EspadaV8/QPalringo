@@ -16,7 +16,9 @@ SOURCES += main.cpp \
  group.cpp \
  grouplistitem.cpp \
  target.cpp \
- speexdecoder.cpp
+ speexdecoder.cpp \
+ service.cpp \
+ palringoservice.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -47,7 +49,9 @@ HEADERS += palringowindow.h \
  grouplistitem.h \
  target.h \
  message.h \
- speexdecoder.h
+ speexdecoder.h \
+ service.h \
+ palringoservice.h
 
 LIBS += -LlibPalringo -lPalringo -lssl -lspeex -lz
 
