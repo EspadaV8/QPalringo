@@ -30,6 +30,7 @@ Q_OBJECT
 
     private slots:
         void openPalringoConnection();
+        void setFeildValues();
 
 };
 
