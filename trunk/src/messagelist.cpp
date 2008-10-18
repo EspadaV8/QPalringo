@@ -39,7 +39,7 @@ void MessageList::addMessage( Message *message )
     }
     else
     {
-        for( pos; pos < this->messages.count(); pos++ )
+        for( pos = 0; pos < this->messages.count(); pos++ )
         {
             MessageItem *mi = (MessageItem*)this->vbox->itemAt( pos )->widget();
             if( mi->getMessage().timestamp <= message->timestamp )
