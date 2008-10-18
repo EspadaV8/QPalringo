@@ -33,7 +33,6 @@ Q_OBJECT
         ChatWindow(PalringoWindow *parent = 0, Target *target = NULL, bool isGroup = false );
         ~ChatWindow();
 
-        void appendMessage( QString message, Contact *contact, QString contentType );
         void appendMessage( Message* message );
 
     private slots:

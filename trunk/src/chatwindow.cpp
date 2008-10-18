@@ -114,17 +114,6 @@ void ChatWindow::checkMessageInput()
     this->messageInput->clear();
 }
 
-void ChatWindow::appendMessage( QString message, Contact *contact, QString contentType )
-{
-    Message *m = new Message;
-    m->payload = message.toUtf8();
-    m->type = contentType;
-    m->timestamp = QDateTime::currentDateTime();
-    m->senderID = 1; //contact->getNickname();
-
-    this->messageList->addMessage( m );
-}
-
 void ChatWindow::appendMessage( Message* message )
 {
     if( message->timestamp < this->earliestTimestamp )

@@ -66,31 +66,6 @@ void Tools::removeChatWindow( Target *target )
     this->openWindows.remove( target );
 }
 
-void Tools::messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType )
-{
-    Contact *contact = this->contacts.value( senderID );
-
-    if( group == 0)
-    {
-        if( !this->checkChatWindowOpen( contact ) )
-        {
-            this->openChatWindow( contact );
-        }
-        ChatWindow *w = this->openWindows.value( contact );
-        w->appendMessage( message, contact, contentType );
-    }
-    else
-    {
-        Group* group_ = this->groups.value( group );
-        if( !this->checkChatWindowOpen( group_ ) )
-        {
-            this->openChatWindow( group_ );
-        }
-        ChatWindow *w = this->openWindows.value( group_ );
-        w->appendMessage( message, contact, contentType );
-    }
-}
-
 void Tools::historyMessageReceived( Message* message )
 {
     qDebug() << "got a history message";

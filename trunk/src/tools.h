@@ -75,7 +75,6 @@ class Tools : public QObject
         void logonSuccessful( QString timestamp );
         void addGroup( Group *group );
         void addContact( Contact *contact );
-        void messageReceived( QString message, unsigned long long senderID, unsigned long long group, QString contentType );
         void messageReceived( Message* message );
         void historyMessageReceived( Message* message );
 
