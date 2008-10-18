@@ -19,14 +19,14 @@ ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoServ
 
     setFirstLine( this->service->Nickname + " - " + this->service->Status );
     setSecondLine( this->service->OnlineStatus );
-    setIcon( ":/services/" + this->service->Type + "Service.png" );
+    setIcon( ":/svg/" + this->service->Type + "Service.svg" );
     
     connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
 }
 
 void ServiceItem::updateDetails()
 {
-    setIcon( ":/services/" + this->service->Type + "Service.png" );
+    setIcon( ":/svg/" + this->service->Type + "Service.svg" );
     setFirstLine( this->service->Nickname + " - " + this->service->OnlineStatus );
     setSecondLine( this->service->Status );
 }
@@ -38,7 +38,6 @@ QString ServiceItem::getContainerGroup()
 
 void ServiceItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    // this->doubleClicked = true;
     emit( doubleClick() );
     event->accept();
 }

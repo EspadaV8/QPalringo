@@ -18,7 +18,7 @@ GroupListItem::GroupListItem( QWidget *parent, Group *group )
 
     this->group = group;
 
-    this->setIcon( ":/contacts/groupIcon.png" );
+    this->setIcon( ":/svg/group.svg" );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
 }

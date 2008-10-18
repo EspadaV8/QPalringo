@@ -12,13 +12,34 @@
 #include "listitem.h"
 
 ListItem::ListItem( QWidget *parent )
-    : QWidget( parent ), Ui::ListItem()
+    : QWidget( parent )
 {
-    setupUi( this );
     ReloadStyleSheet();
 
     this->parent = parent;
-    this->icon = new QPixmap();
+
+    QHBoxLayout *hbox = new QHBoxLayout( this );
+
+    this->svgIcon = new QSvgWidget();
+    this->svgIcon->setMinimumSize( 24, 24 );
+    this->svgIcon->setMaximumSize( 24, 24 );
+
+    QVBoxLayout *vbox = new QVBoxLayout();
+
+    this->firstLine = new QLabel( "" );
+    this->firstLine->setObjectName( "firstLine" );
+
+    this->secondLine = new QLabel( "" );
+    this->secondLine->setObjectName( "secondLine" );
+
+    vbox->addWidget( this->firstLine );
+    vbox->addWidget( this->secondLine );
+
+    hbox->addWidget( this->svgIcon );
+    hbox->addLayout( vbox, 1 );
+
+    setAutoFillBackground( false );
+    setLayout( hbox );
 
     this->toSelect = false;
     this->selected = false;
@@ -36,12 +57,7 @@ void ListItem::setSecondLine( QString text )
 
 void ListItem::setIcon( QString iconFilename )
 {
-    this->icon->load( iconFilename );
-    if ( ( this->icon->width() != MAX_ICON_SIZE ) || ( this->icon->height() != MAX_ICON_SIZE ) )
-    {
-        *this->icon = this->icon->scaled( MAX_ICON_SIZE, MAX_ICON_SIZE, Qt::KeepAspectRatio, Qt::SmoothTransformation );
-    }
-    this->iconLabel->setPixmap( *this->icon );
+    this->svgIcon->load( iconFilename );
 }
 
 QString ListItem::getFirstLine()
