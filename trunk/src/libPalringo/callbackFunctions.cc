@@ -10,8 +10,8 @@
 
 int
 PalringoConnection::onPingReceived(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)) )
 {
   DBGOUT << "Pong!" << std::endl;
   headers.clear();
@@ -196,9 +196,9 @@ PalringoConnection::onLogonFailedReceived(headers_t& headers,
 }
 
 int
-PalringoConnection::onGhostedReceived(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onGhostedReceived(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Setting bot with Id " << userId_ << " as GHOSTED" << std::endl;
   ghosted_ = true;
@@ -346,9 +346,9 @@ PalringoConnection::onGroupUpdateReceived(headers_t& headers,
 }
 
 int
-PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Group Update V2 received" << std::endl;
 
@@ -416,9 +416,9 @@ PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers,
 }
 
 int
-PalringoConnection::onRegReceived(headers_t& headers,
+PalringoConnection::onRegReceived(headers_t& headers __attribute__ ((unused)),
     std::string& body,
-    GenericData *data)
+    GenericData *data __attribute__ ((unused)) )
 {
   headers_t newHeaders;
   newHeaders["email"] = login_;
@@ -528,9 +528,9 @@ PalringoConnection::onMesgReceived(headers_t& headers,
 }
 
 int
-PalringoConnection::onSessionEndReceived(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onSessionEndReceived(headers_t& headers  __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)) )
 {
   return 1;
 }
@@ -727,27 +727,27 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
 }
 
 int
-PalringoConnection::onPingSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onPingSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Ping sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onLogonSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onLogonSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Logon sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onByeSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onByeSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Bye sent" << std::endl;
   RK_.clear();
@@ -756,71 +756,71 @@ PalringoConnection::onByeSent(headers_t& headers,
 }
 
 int
-PalringoConnection::onAuthSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onAuthSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Auth sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onContactUpdateSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onContactUpdateSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Contact Update sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onContactAddRespSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onContactAddRespSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Contact Add sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onGroupSubscribeSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onGroupSubscribeSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Group Subscribe sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onGroupUnsubSent(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onGroupUnsubSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Group Unsub sent" << std::endl;
   return 1;
 }
 int
-PalringoConnection::onGroupCreateSent(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onGroupCreateSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Group Create sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onGroupInviteSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onGroupInviteSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Group Invite sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onGroupAdminSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onGroupAdminSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)) )
 {
   DBGOUT << "Group Admin sent" << std::endl;
   return 1;
@@ -845,18 +845,18 @@ PalringoConnection::onMesgSent(headers_t& headers,
 }
 
 int
-PalringoConnection::onMesgStoredSent(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onMesgStoredSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Message Stored sent" << std::endl;
   return 1;
 }
 
 int
-PalringoConnection::onMesgHistSent(headers_t& headers,
-   std::string& body,
-   GenericData *data)
+PalringoConnection::onMesgHistSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)))
 {
   DBGOUT << "Message History sent" << std::endl;
   return 1;
@@ -864,9 +864,9 @@ PalringoConnection::onMesgHistSent(headers_t& headers,
 
 
 int
-PalringoConnection::onRegSent(headers_t& headers,
-    std::string& body,
-    GenericData *data)
+PalringoConnection::onRegSent(headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)),
+    GenericData *data __attribute__ ((unused)) )
 {
   DBGOUT << "REG Sent" << std::endl;
   return 1;

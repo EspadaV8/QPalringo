@@ -331,7 +331,7 @@ PalringoConnection::MsgData::MsgData() : GenericData(),
 
 void
 PalringoConnection::MsgData::getData(headers_t& headers,
-                                     std::string& body)
+                                     std::string& body __attribute__ ((unused)) )
 {
   getAttribute<uint32_t>(headers, "MESG-ID", mesgId_);
   getAttribute<uint64_t, true>(headers, "SOURCE-ID", sourceId_);
@@ -350,7 +350,7 @@ PalringoConnection::MsgData::getData(headers_t& headers,
 
 void
 PalringoConnection::MsgData::setData(headers_t& headers,
-                                     std::string& body)
+                                     std::string& body __attribute__ ((unused)) )
 {
   headers["MESG-ID"] = toString(mesgId_);
 
@@ -408,8 +408,8 @@ PalringoConnection::LogonData::getData(headers_t& headers,
 }
 
 void
-PalringoConnection::LogonData::setData(headers_t& headers,
-                                       std::string& body)
+PalringoConnection::LogonData::setData(headers_t& headers __attribute__ ((unused)),
+                                       std::string& body __attribute__ ((unused)) )
 {
 }
 
@@ -422,7 +422,7 @@ PalringoConnection::AuthData::AuthData() : GenericData(),
 
 void
 PalringoConnection::AuthData::getData(headers_t& headers,
-                                      std::string& body)
+                                      std::string& body __attribute__ ((unused)) )
 {
   getAttribute<uint32_t, true>(headers, "WORD-SIZE", wordSize_);
   getAttribute<int32_t, true>(headers, "ENCRYPTION-TYPE", encryptionType_);
@@ -430,7 +430,7 @@ PalringoConnection::AuthData::getData(headers_t& headers,
 
 void
 PalringoConnection::AuthData::setData(headers_t& headers,
-                                      std::string& body)
+                                      std::string& body __attribute__ ((unused)) )
 {
   if (encryptionType_ > -1)
     {
@@ -458,7 +458,7 @@ PalringoConnection::ContactData::ContactData() : GenericData(),
 
 void
 PalringoConnection::ContactData::getData(headers_t& headers,
-    std::string& body)
+                                         std::string& body __attribute__ ((unused)) )
 {
   getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
   getAttribute<uint64_t, true>(headers, "CONTACT-ID", contactId_);
@@ -477,8 +477,8 @@ PalringoConnection::ContactData::getData(headers_t& headers,
 }
 
 void
-PalringoConnection::ContactData::setData(headers_t& headers,
-    std::string& body)
+PalringoConnection::ContactData::setData(headers_t& headers __attribute__ ((unused)) ,
+                                         std::string& body __attribute__ ((unused)) )
 {
 }
 
@@ -491,7 +491,7 @@ PalringoConnection::GroupData::GroupData() : GenericData(),
 
 void
 PalringoConnection::GroupData::getData(headers_t& headers,
-                                       std::string& body)
+                                       std::string& body __attribute__ ((unused)) )
 {
   getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
   getAttribute<uint64_t, true>(headers, "GROUP-ID", groupId_);
@@ -507,8 +507,8 @@ PalringoConnection::GroupData::getData(headers_t& headers,
 }
 
 void
-PalringoConnection::GroupData::setData(headers_t& headers,
-                                       std::string& body)
+PalringoConnection::GroupData::setData(headers_t& headers __attribute__ ((unused)) ,
+                                       std::string& body __attribute__ ((unused)) )
 {
 }
 
@@ -539,8 +539,8 @@ PalringoConnection::ResponseData::getData(headers_t& headers,
 }
 
 void
-PalringoConnection::ResponseData::setData(headers_t& headers,
-    std::string& body)
+PalringoConnection::ResponseData::setData(headers_t& headers __attribute__ ((unused)),
+                                          std::string& body __attribute__ ((unused)) )
 {
 }
 
@@ -1211,8 +1211,8 @@ PalringoConnection::pollRead()
 
 int
 PalringoConnection::processUnknownIncoming(const std::string& cmd,
-    headers_t& headers,
-    std::string& body)
+    headers_t& headers __attribute__ ((unused)),
+    std::string& body __attribute__ ((unused)) )
 {
   DBGOUT << "Unknown command received: " << cmd << std::endl;
   return 1;
@@ -1221,8 +1221,8 @@ PalringoConnection::processUnknownIncoming(const std::string& cmd,
 int
 PalringoConnection::processUnknownOutgoing(
   const std::string& cmd,
-  headers_t& headers,
-  std::string& body)
+  headers_t& headers __attribute__ ((unused)),
+  std::string& body __attribute__ ((unused)) )
 {
   DBGOUT << "Unknown command received: " << cmd << std::endl;
   return 1;
