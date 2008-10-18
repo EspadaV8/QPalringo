@@ -9,8 +9,8 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448"
-   height="1052.3622"
+   width="392.38"
+   height="392.38"
    id="svg2"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
@@ -79,8 +79,8 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      showgrid="false"
-     width="744.09449px"
-     height="1052.3622px">
+     width="392.38px"
+     height="392.38px">
     <sodipodi:guide
        orientation="horizontal"
        position="592"
@@ -136,9 +136,11 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-140.6875,-297)">
     <g
-       id="g2249">
+       id="g2249"
+       transform="translate(96.861877,2.5024414e-3)">
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"
@@ -146,7 +148,7 @@
          sodipodi:nodetypes="cccscsccscccssscccsc"
          id="path4280"
          d="M 291.23805,570.85415 L 291.25,661.40625 L 291.25,661.21875 C 291.25374,675.39062 279.77239,686.875 265.625,686.875 C 251.47761,686.875 240.0006,675.41276 240,661.25 C 239.98667,675.40732 228.51187,686.875 214.375,686.875 C 200.22762,686.875 188.7506,678.78776 188.75,664.625 L 188.70021,570.94629 C 183.15276,576.56641 175.88619,580.125 168.8125,580.125 C 154.66512,580.125 143.1881,568.69401 143.1875,554.53125 L 143.1875,460.40625 C 143.1875,432.01769 166.24264,409.00089 194.59375,409.125 C 182.92058,397.61338 175.71875,381.52411 175.71875,363.78125 C 175.71875,328.29554 204.51429,299.5 240,299.5 C 275.48571,299.49999 304.28125,328.29554 304.28125,363.78125 C 304.28125,381.52411 297.09186,397.60859 285.4375,409.09375 C 313.80743,408.94319 336.84375,431.98643 336.84375,460.375 L 336.84375,554.5 C 336.84543,568.65578 325.36613,580.20311 311.21875,580.20313 C 304.14506,580.20314 294.34367,574.68715 291.23805,570.85415 z "
-         style="fill:url(#radialGradient7203);fill-opacity:1.0;fill-rule:nonzero;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:0.94210522" />
+         style="fill:url(#radialGradient7203);fill-opacity:1;fill-rule:nonzero;stroke:#000000;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dashoffset:0;stroke-opacity:0.94210522" />
       <path
          inkscape:export-ydpi="90"
          inkscape:export-xdpi="90"

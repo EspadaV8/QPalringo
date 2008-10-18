@@ -9,14 +9,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="405.71429"
+   height="405.71429"
    id="svg5481"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
    sodipodi:docbase="/home/espadav8/workspace/qpalringo/trunk/images/svg"
    sodipodi:docname="logo.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs5483">
     <linearGradient
@@ -72,7 +73,9 @@
      inkscape:window-width="1272"
      inkscape:window-height="969"
      inkscape:window-x="0"
-     inkscape:window-y="0" />
+     inkscape:window-y="0"
+     height="1052.36px"
+     width="744.09448px" />
   <metadata
      id="metadata5486">
     <rdf:RDF>
@@ -87,7 +90,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-169.19009,-323.32395)">
     <path
        sodipodi:type="arc"
        style="opacity:1;fill:url(#radialGradient5505);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"

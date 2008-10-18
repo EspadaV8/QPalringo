@@ -9,14 +9,15 @@
    xmlns:xlink="http://www.w3.org/1999/xlink"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="744.09448819"
-   height="1052.3622047"
+   width="405.71429"
+   height="405.71429"
    id="svg5481"
    sodipodi:version="0.32"
    inkscape:version="0.45.1"
    sodipodi:docbase="/home/espadav8/workspace/qpalringo/trunk/images/svg"
    sodipodi:docname="palringo-service.svg"
-   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+   inkscape:output_extension="org.inkscape.output.svg.inkscape"
+   version="1.0">
   <defs
      id="defs5483">
     <linearGradient
@@ -42,14 +43,6 @@
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0,1.2064916,-1.2064916,0,717.84003,-53.420092)"
        spreadMethod="pad" />
-    <filter
-       inkscape:collect="always"
-       id="filter6497">
-      <feGaussianBlur
-         inkscape:collect="always"
-         stdDeviation="1.13"
-         id="feGaussianBlur6499" />
-    </filter>
     <filter
        inkscape:collect="always"
        id="filter6524">
@@ -95,7 +88,8 @@
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
-     id="layer1">
+     id="layer1"
+     transform="translate(-1.1328125e-6,-646.64789)">
     <path
        sodipodi:type="arc"
        style="opacity:1;fill:url(#radialGradient5505);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
@@ -105,10 +99,10 @@
        sodipodi:rx="202.85715"
        sodipodi:ry="202.85715"
        d="M 574.28571 410.93362 A 202.85715 202.85715 0 1 1  168.57141,410.93362 A 202.85715 202.85715 0 1 1  574.28571 410.93362 z"
-       transform="translate(0.6186829,115.24747)" />
+       transform="translate(-168.57141,438.57141)" />
     <path
        style="fill:none;fill-rule:evenodd;stroke:#ffffff;stroke-width:30;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter6524)"
-       d="M 257.04724,620.82395 L 257.04724,471.53824 C 257.04724,446.57472 276.64299,431.53824 297.04724,431.53824 L 447.04724,431.53824 C 466.93309,431.53824 487.04724,451.49466 487.04724,471.53824 L 487.04724,514.39538 C 487.04724,534.4744 466.86887,554.39538 447.04724,554.39538 L 297.04724,554.39538 L 257.04724,620.82395 z "
+       d="M 87.857146,944.14789 L 87.857146,794.86218 C 87.857146,769.89866 107.4529,754.86218 127.85715,754.86218 L 277.85715,754.86218 C 297.743,754.86218 317.85715,774.8186 317.85715,794.86218 L 317.85715,837.71932 C 317.85715,857.79834 297.67878,877.71932 277.85715,877.71932 L 127.85715,877.71932 L 87.857146,944.14789 z "
        id="path5509"
        sodipodi:nodetypes="ccccccccc" />
   </g>
