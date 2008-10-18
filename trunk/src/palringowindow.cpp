@@ -119,7 +119,7 @@ void PalringoWindow::SetupTabs()
     contactList->setupContactList();
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), contactList, SLOT( contactReceived( Contact* ) ) );
 
-    QPixmap *p = new QPixmap( ":/misc/overview.png" );
+    QIcon *p = new QIcon( ":/svg/palringoService.svg" );
 
     mainTabs->addTab( overviewList, *p, tr( "Overview" ) );
     mainTabs->addTab( contactList, tr( "&Contacts" ) );
@@ -147,9 +147,9 @@ PalringoWindow::~PalringoWindow()
 
 void PalringoWindow::CreateTrayIcon()
 {
-    this->systraypixmap = new QPixmap( ":/misc/sysTrayIcon.png" );
+    this->systraySvg = new QIcon( ":/svg/logo.svg" );
     this->systrayicon = new QSystemTrayIcon();
-    this->systrayicon->setIcon( *this->systraypixmap );
+    this->systrayicon->setIcon( *this->systraySvg );
     this->systrayicon->show();
 }
 

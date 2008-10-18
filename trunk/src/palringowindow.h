@@ -60,7 +60,7 @@ class PalringoWindow : public QMainWindow
         QAction *settingsMenuAction;
         QAction *exitMenuAction;
 
-        QPixmap *systraypixmap;
+        QIcon *systraySvg;
         QSystemTrayIcon *systrayicon;
 
         void SetupActions();

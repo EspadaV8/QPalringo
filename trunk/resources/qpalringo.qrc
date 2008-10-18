@@ -42,5 +42,6 @@
         <file alias="group.svg">../images/svg/group.svg</file>
         
         <file alias="palringoService.svg">../images/svg/palringo-service.svg</file>
+        <file alias="logo.svg">../images/svg/logo.svg</file>
     </qresource>
 </RCC>
