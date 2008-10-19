@@ -97,22 +97,27 @@ QString ContactListItem::getContactIcon()
     QString iconName;
     if ( this->contact->getOnlineStatus() > 0 )
     {
-        /*
         switch( this->contact->getDeviceType() )
         {
-            case 1:
-                iconName = ":/svg/botContact.svg";
-                break;
-            case 3:
-                iconName = ":/svg/mobileContact.svg";
-                break;
-            default:
+            //case 1:
+            //    iconName = ":/svg/botContact.svg";
+            //    break;
             case 2:
                 iconName = ":/svg/pcContact.svg";
                 break;
+            //case 3:
+            //    iconName = ":/svg/mobileContact.svg";
+            //    break;
+            case 4:
+                iconName = ":/svg/macContact.svg";
+                break;
+            case 5:
+                iconName = ":/svg/iPhoneContact.svg";
+                break;
+            default:
+                iconName = ":/svg/onlineContact.svg";
+                break;
         }
-        */
-        iconName = ":/svg/onlineContact.svg";
     }
     else
     {
