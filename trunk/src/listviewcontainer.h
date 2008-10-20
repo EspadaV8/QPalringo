@@ -43,8 +43,8 @@ public:
 
         QWidget *layoutContainer;
 
-        QPixmap *downarrow;
-        QPixmap *rightarrow;
+        QPixmap downarrow;
+        QPixmap rightarrow;
 
         QPushButton *button;
 

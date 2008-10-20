@@ -9,14 +9,15 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include "tools.h"
 #include "listviewcontainer.h"
 
 ListViewContainer::ListViewContainer( QWidget *parent, QString name )
  : QWidget(parent)
 {
     this->name = name;
-    this->downarrow = new QPixmap( ":/misc/downarrow.png" );
-    this->rightarrow = new QPixmap( ":/misc/rightarrow.png" );
+    this->downarrow = tools_->getPixmap( ":/misc/downarrow.png" );
+    this->rightarrow = tools_->getPixmap( ":/misc/rightarrow.png" );
 
     outerLayout = new QVBoxLayout;
     innerLayout = new QVBoxLayout;
@@ -24,7 +25,7 @@ ListViewContainer::ListViewContainer( QWidget *parent, QString name )
     layoutContainer = new QWidget;
     layoutContainer->setLayout( innerLayout );
 
-    button = new QPushButton( *downarrow, this->name );
+    button = new QPushButton( this->downarrow, this->name );
     button->setObjectName( "listContainerToggleButton" );
     connect( button, SIGNAL( clicked() ), this, SLOT( buttonClicked() ) );
 
@@ -39,12 +40,12 @@ void ListViewContainer::buttonClicked()
     if ( this->layoutContainer->isVisible() )
     {
         this->layoutContainer->setVisible( false );
-        this->button->setIcon( *this->rightarrow );
+        this->button->setIcon( this->rightarrow );
     }
     else
     {
         this->layoutContainer->setVisible( true );
-        this->button->setIcon( *this->downarrow );
+        this->button->setIcon( this->downarrow );
     }
 }
 
@@ -94,5 +95,3 @@ void ListViewContainer::paintEvent(QPaintEvent *)
 ListViewContainer::~ListViewContainer()
 {
 }
-
-
