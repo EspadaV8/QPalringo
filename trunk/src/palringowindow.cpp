@@ -36,7 +36,7 @@ PalringoWindow::PalringoWindow()
 
     setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
-    setWindowIcon( *new QIcon( ":/svg/logo.svg" ) );
+    setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
 }
@@ -120,9 +120,7 @@ void PalringoWindow::SetupTabs()
     contactList->setupContactList();
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), contactList, SLOT( contactReceived( Contact* ) ) );
 
-    QIcon *p = new QIcon( ":/svg/palringoService.svg" );
-
-    mainTabs->addTab( overviewList, *p, tr( "Overview" ) );
+    mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tr( "&Contacts" ) );
 }
 
@@ -148,9 +146,8 @@ PalringoWindow::~PalringoWindow()
 
 void PalringoWindow::CreateTrayIcon()
 {
-    this->systraySvg = new QIcon( ":/svg/logo.svg" );
     this->systrayicon = new QSystemTrayIcon();
-    this->systrayicon->setIcon( *this->systraySvg );
+    this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
 }
 
