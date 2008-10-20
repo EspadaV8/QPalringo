@@ -23,7 +23,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->earliestTimestamp = QDateTime::currentDateTime();
 
     this->setWindowTitle( this->target->getTitle() );
-    // this->setWindowIcon ( *new QPixmap ( this->contact->getContactIcon() ) );
+    this->setWindowIcon ( *new QPixmap ( this->target->getIcon() ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
