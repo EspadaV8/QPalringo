@@ -70,6 +70,17 @@ QString  Contact::getNickname()
 
 QString  Contact::getStatusline()
 {
+    if ( this->statusline == "" )
+    {
+        if ( this->onlineStatus > 0 )
+        {
+            return "Online";
+        }
+        else
+        {
+            return "Offline";
+        }
+    }
     return this->statusline;
 }
 
