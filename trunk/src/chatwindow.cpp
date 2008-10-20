@@ -70,7 +70,7 @@ ChatWindow::~ChatWindow()
 void ChatWindow::loadImageFile()
 {
     QString fileName = "";
-    fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.gif)"));
+    fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.gif *.svg *.bmp *.tiff)"));
     
     if( fileName != "" )
     {
