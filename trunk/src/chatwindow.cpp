@@ -23,7 +23,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->earliestTimestamp = QDateTime::currentDateTime();
 
     this->setWindowTitle( this->target->getTitle() );
-    this->setWindowIcon ( *new QIcon ( this->target->getIcon() ) );
+    this->setWindowIcon ( tools_->getPixmap( this->target->getIcon() ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
@@ -42,11 +42,9 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     connect( this->messageInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
 
     // add the icons to the buttons
-    QPixmap *p = new QPixmap( ":/messageTypes/voice.png" );
-    this->voiceButton->setIcon( *p );
+    this->voiceButton->setIcon( tools_->getPixmap( ":/messageTypes/voice.png" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
-    p = new QPixmap( ":/messageTypes/image.png" );
-    this->imageButton->setIcon( *p );
+    this->imageButton->setIcon( tools_->getPixmap( ":/messageTypes/image.png" ) );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
