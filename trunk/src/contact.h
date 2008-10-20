@@ -32,6 +32,7 @@ class Contact : public Target
         int         getDeviceType();
         bool        getIsContact();
         virtual QString getTitle();
+        virtual QString getIcon();
 
         void        setNickname( QString );
         void        setStatusline( QString );

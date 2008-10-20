@@ -73,6 +73,40 @@ QString  Contact::getStatusline()
     return this->statusline;
 }
 
+QString Contact::getIcon()
+{
+    QString iconName;
+    if ( this->getOnlineStatus() > 0 )
+    {
+        switch( this->getDeviceType() )
+        {
+            //case 1:
+            //    iconName = ":/svg/botContact.svg";
+            //    break;
+            case 2:
+                iconName = ":/svg/pcContact.svg";
+                break;
+            //case 3:
+            //    iconName = ":/svg/mobileContact.svg";
+            //    break;
+            case 4:
+                iconName = ":/svg/macContact.svg";
+                break;
+            case 5:
+                iconName = ":/svg/iPhoneContact.svg";
+                break;
+            default:
+                iconName = ":/svg/onlineContact.svg";
+                break;
+        }
+    }
+    else
+    {
+        iconName = ":/svg/offlineContact.svg";
+    }
+    return iconName;
+}
+
 unsigned long long Contact::getGroup()
 {
     return this->group;

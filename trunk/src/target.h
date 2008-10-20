@@ -28,6 +28,7 @@ class Target : public QObject
         void setID( unsigned long long );
 
         virtual QString getTitle();
+        virtual QString getIcon();
 
     protected:
         unsigned long long id;

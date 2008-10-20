@@ -41,6 +41,11 @@ QString Group::getTitle()
     return this->getName();
 }
 
+QString Group::getIcon()
+{
+    return ":/svg/group.svg";
+}
+
 bool Group::hasContact( unsigned long long id )
 {
     return this->contacts.contains( id );

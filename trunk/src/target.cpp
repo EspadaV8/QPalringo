@@ -34,3 +34,8 @@ QString Target::getTitle()
 {
     return "QPalringo";
 }
+
+QString Target::getIcon()
+{
+    return ":/svg/icon.svg";
+}
