@@ -59,8 +59,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
         messageTypeIcon = ":/messageTypes/voice.png";
     }
 
-    QPixmap *p = new QPixmap( messageTypeIcon );
-    this->messageIcon->setPixmap( *p );
+    this->messageIcon->setPixmap( tools_->getPixmap( messageTypeIcon ) );
     this->layout = new QHBoxLayout();
 
     this->leftside = new QVBoxLayout();
