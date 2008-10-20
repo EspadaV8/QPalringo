@@ -45,6 +45,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
     this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
+    this->imageButton->setToolTip( "Browse to send an image message" );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
