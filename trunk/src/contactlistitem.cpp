@@ -28,42 +28,21 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 
     this->setFirstLine( this->contact->getNickname() );
     this->setSecondLine( this->contact->getStatusline() );
-
-    this->setIcon( this->getContactIcon() );
+    this->setIcon( this->contact->getIcon() );
 
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
     connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
     connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
 }
 
-void ContactListItem::setContactNickname( QString nickname )
-{
-    this->contact->setNickname( nickname );
-}
-
-void ContactListItem::setContactStatusline( QString statusline )
-{
-    this->contact->setStatusline( statusline );
-    // this->setSecondLine( this->contact->Statusline  );
-}
-
 void ContactListItem::setContactOnlineStatus( int onlinestatus )
 {
-    // this->contact->setOnlineStatus( onlinestatus );
-    this->setIcon( this->getContactIcon() );
-    
-    //this->setSecondLine( this->contact->Statusline );
-    //this->setIcon( this->getContactIcon() );
+    this->setIcon( this->contact->getIcon() );
 }
 
 Contact* ContactListItem::getContact()
 {
     return this->contact;
-}
-
-int ContactListItem::getContactOnlineStatus()
-{
-    return this->contact->getOnlineStatus();
 }
 
 QString ContactListItem::getContainerGroup()
@@ -90,40 +69,6 @@ void ContactListItem::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
-}
-
-QString ContactListItem::getContactIcon()
-{
-    QString iconName;
-    if ( this->contact->getOnlineStatus() > 0 )
-    {
-        switch( this->contact->getDeviceType() )
-        {
-            //case 1:
-            //    iconName = ":/svg/botContact.svg";
-            //    break;
-            case 2:
-                iconName = ":/svg/pcContact.svg";
-                break;
-            //case 3:
-            //    iconName = ":/svg/mobileContact.svg";
-            //    break;
-            case 4:
-                iconName = ":/svg/macContact.svg";
-                break;
-            case 5:
-                iconName = ":/svg/iPhoneContact.svg";
-                break;
-            default:
-                iconName = ":/svg/onlineContact.svg";
-                break;
-        }
-    }
-    else
-    {
-        iconName = ":/svg/offlineContact.svg";
-    }
-    return iconName;
 }
 
 ContactListItem::~ContactListItem() { }

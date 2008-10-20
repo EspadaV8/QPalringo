@@ -37,13 +37,9 @@ class ContactListItem : public ListItem
 
         Contact* getContact();
 
-        int getContactOnlineStatus();
         QString getContainerGroup();
-        QString getContactIcon();
 
     public slots:
-        void setContactNickname( QString nickname );
-        void setContactStatusline( QString statusline );
         void setContactOnlineStatus( int onlinestatus );
 
     protected:
