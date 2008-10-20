@@ -69,6 +69,8 @@ class Tools : public QObject
 
         QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
         quint32 getTimestampDifference();
+        
+        QPixmap getPixmap( QString iconFilename );
 
     public slots:
         void logonSuccessful();

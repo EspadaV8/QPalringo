@@ -9,6 +9,7 @@
 // Copyright: See COPYING file that comes with this distribution
 //
 //
+#include <QPixmapCache>
 #include "tools.h"
 Tools *tools_;
 
@@ -23,6 +24,8 @@ Tools::Tools( PalringoWindow *mainWindow )
     this->gettingHistory = false;
     this->historyTarget = NULL;
     this->historyTargetIsGroup = false;
+    
+    QPixmapCache::setCacheLimit( 1024 * 5 );
 
     //this->serverTimestamp = new QDateTime();
 }
@@ -423,4 +426,15 @@ void Tools::calcServerTimestampDifference( QString timestamp )
 void Tools::disconnected()
 {
     qDebug( "Tools::disconnected() - Not implemented" );
+}
+
+QPixmap Tools::getPixmap( QString iconFilename )
+{
+    QPixmap p;
+    if( !QPixmapCache::find( iconFilename, p ) )
+    {
+        p.load( iconFilename );
+        QPixmapCache::insert( iconFilename, p );
+    }
+    return p;
 }
