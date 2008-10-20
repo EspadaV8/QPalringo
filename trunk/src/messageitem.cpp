@@ -22,7 +22,8 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
 
     this->message = message;
 
-    this->messageIcon = new QLabel( "" );
+    this->messageIcon = new QSvgWidget();
+    this->messageIcon->setFixedSize( 24, 24 );
     this->messageText = new QLabel( "" );
     this->messageText->setWordWrap( true );
     this->messageText->setTextFormat( Qt::RichText );
@@ -40,7 +41,7 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
     {
         QString formattedText = tools_->formatMessageText( this->message->payload  );
         this->messageText->setText( formattedText );
-        messageTypeIcon = ":/messageTypes/text.png";
+        messageTypeIcon = ":/svg/text.svg";
     }
     else if( this->message->type.startsWith( "image" ) )
     {
@@ -50,16 +51,16 @@ MessageItem::MessageItem( QWidget *parent, Message *message ) :
 
         QPixmap pi = QPixmap::fromImage( scaled );
         this->messageText->setPixmap( pi );
-        messageTypeIcon = ":/messageTypes/image.png";
+        messageTypeIcon = ":/svg/image.svg";
     }
     else if( this->message->type.startsWith( "audio" ) )
     {
         QPixmap *p = new QPixmap( ":/misc/rightarrow.png" );
         this->messageText->setPixmap( *p );
-        messageTypeIcon = ":/messageTypes/voice.png";
+        messageTypeIcon = ":/svg/voice.svg";
     }
 
-    this->messageIcon->setPixmap( tools_->getPixmap( messageTypeIcon ) );
+    this->messageIcon->load( messageTypeIcon );
     this->layout = new QHBoxLayout();
 
     this->leftside = new QVBoxLayout();
