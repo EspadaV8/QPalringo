@@ -30,9 +30,6 @@ PalringoListView::PalringoListView( QWidget *parent, Group *group )
     QWidget *w = new QWidget;
     w->setObjectName( "ListViewBackground" );
 
-    downarrow = new QPixmap( ":/downarrow.png" );
-    rightarrow = new QPixmap( ":/rightarrow.png" );
-
     listLayout = new QVBoxLayout;
 
     w->setLayout( listLayout );

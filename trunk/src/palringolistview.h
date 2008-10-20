@@ -65,9 +65,6 @@ class PalringoListView : public QScrollArea
         ListViewContainer *offlineContainer;
         ListViewContainer *onlineContainer;
 
-        QPixmap *downarrow;
-        QPixmap *rightarrow;
-
         bool isGroup;
         QList<ListItem *> contactList;
         QList<ListViewContainer *> listViewContainers;
