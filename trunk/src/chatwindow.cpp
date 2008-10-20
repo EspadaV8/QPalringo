@@ -42,9 +42,9 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     connect( this->messageInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
 
     // add the icons to the buttons
-    this->voiceButton->setIcon( tools_->getPixmap( ":/messageTypes/voice.png" ) );
+    this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
-    this->imageButton->setIcon( tools_->getPixmap( ":/messageTypes/image.png" ) );
+    this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
