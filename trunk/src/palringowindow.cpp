@@ -36,6 +36,7 @@ PalringoWindow::PalringoWindow()
 
     setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
+    setWindowIcon( *new QIcon( ":/svg/logo.svg" ) );
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
 }
