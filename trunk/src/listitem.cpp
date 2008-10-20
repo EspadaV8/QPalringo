@@ -21,8 +21,7 @@ ListItem::ListItem( QWidget *parent )
     QHBoxLayout *hbox = new QHBoxLayout( this );
 
     this->svgIcon = new QSvgWidget();
-    this->svgIcon->setMinimumSize( 24, 24 );
-    this->svgIcon->setMaximumSize( 24, 24 );
+    this->svgIcon->setFixedSize( 24, 24 );
 
     QVBoxLayout *vbox = new QVBoxLayout();
 
