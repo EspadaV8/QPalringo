@@ -129,7 +129,7 @@ void Tools::getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp
         this->historyTarget = target;
         this->historyTargetIsGroup = isGroup;
 
-        this->connection->getHistoryMessage( target->getID(), isGroup, timestamp.toTime_t() );
+        this->connection->getHistoryMessage( target->getID(), isGroup, ( timestamp.toTime_t() - this->timestampDifference ) );
     }
 }
 
