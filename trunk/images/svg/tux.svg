@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -12,7 +12,7 @@
    height="391.78"
    id="svg5013"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.46"
    sodipodi:docname="tux.svg"
    sodipodi:docbase="/home/espadav8/workspace/qpalringo/trunk/images/svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -61,62 +61,6 @@
          offset="1"
          id="stop5020" />
     </linearGradient>
-    <marker
-       viewBox="0 0 10 10"
-       refX="0"
-       refY="5"
-       markerUnits="strokeWidth"
-       markerWidth="4"
-       markerHeight="3"
-       orient="auto"
-       id="marker5022">
-      <path
-         d="M 0,0 L 10,5 L 0,10 L 0,0 z "
-         id="path5024" />
-    </marker>
-    <marker
-       viewBox="0 0 10 10"
-       refX="10"
-       refY="5"
-       markerUnits="strokeWidth"
-       markerWidth="4"
-       markerHeight="3"
-       orient="auto"
-       id="marker5026">
-      <path
-         d="M 10,0 L 0,5 L 10,10 L 10,0 z "
-         id="path5028" />
-    </marker>
-    <radialGradient
-       xlink:href="#l1"
-       cx="183.53534"
-       cy="352.44836"
-       fx="183.53534"
-       fy="352.44836"
-       r="165.38348"
-       gradientTransform="matrix(1,0,0,0.283537,0,252.516)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient5030" />
-    <radialGradient
-       xlink:href="#l1"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,0.283537,0,252.516)"
-       cx="183.53534"
-       cy="352.44836"
-       fx="183.53534"
-       fy="352.44836"
-       r="165.38348"
-       id="radialGradient5032" />
-    <radialGradient
-       xlink:href="#l1"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(1,0,0,0.283537,0,252.516)"
-       cx="183.53534"
-       cy="352.44836"
-       fx="183.53534"
-       fy="352.44836"
-       r="165.38348"
-       id="radialGradient5034" />
     <radialGradient
        xlink:href="#l1"
        id="r1"

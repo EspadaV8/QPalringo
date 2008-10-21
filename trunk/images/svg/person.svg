@@ -2,7 +2,7 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 <svg
    xmlns:dc="http://purl.org/dc/elements/1.1/"
-   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:cc="http://creativecommons.org/ns#"
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +13,7 @@
    height="1052.3622"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.45.1"
+   inkscape:version="0.46"
    sodipodi:docbase="/home/espadav8/workspace/qpalringo/trunk/images/svg"
    sodipodi:docname="person.svg"
    inkscape:output_extension="org.inkscape.output.svg.inkscape"
@@ -33,17 +33,6 @@
          style="stop-color:#418edc;stop-opacity:1;"
          offset="1"
          id="stop7201" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient5382">
-      <stop
-         style="stop-color:#2549ff;stop-opacity:1;"
-         offset="0"
-         id="stop5384" />
-      <stop
-         style="stop-color:#25b9d8;stop-opacity:1;"
-         offset="1"
-         id="stop5386" />
     </linearGradient>
     <radialGradient
        inkscape:collect="always"

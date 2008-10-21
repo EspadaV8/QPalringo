@@ -29,8 +29,8 @@
     </rdf:RDF>
   </metadata>
   <sodipodi:namedview
-     inkscape:window-height="674"
-     inkscape:window-width="640"
+     inkscape:window-height="969"
+     inkscape:window-width="1272"
      inkscape:pageshadow="2"
      inkscape:pageopacity="0.0"
      guidetolerance="10.0"
@@ -42,20 +42,13 @@
      id="base"
      showgrid="false"
      inkscape:zoom="1.1243524"
-     inkscape:cx="215.235"
-     inkscape:cy="215.235"
+     inkscape:cx="215.23499"
+     inkscape:cy="215.23499"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:current-layer="svg3479" />
   <defs
      id="defs3481">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 215.235 : 1"
-       inkscape:vp_y="0 : 1000 : 0"
-       inkscape:vp_z="430.47 : 215.235 : 1"
-       inkscape:persp3d-origin="215.235 : 143.49 : 1"
-       id="perspective11853" />
     <linearGradient
        id="linearGradient11097">
       <stop
@@ -84,202 +77,10 @@
        r="99.328125"
        fx="218.51562"
        fy="427.11642"
-       id="radialGradient7203"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3515"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3527"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3539"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3551"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3563"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3575"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3587"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3599"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3611"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3623"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3635"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3647"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3659"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient3780"
-       xlink:href="#linearGradient11097"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,514.80181,-307.6029)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient6198"
-       xlink:href="#linearGradient7197"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,867.914,-268.49593)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
        id="radialGradient2895"
        xlink:href="#linearGradient11097"
        gradientUnits="userSpaceOnUse"
        gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <radialGradient
-       cx="218.51562"
-       cy="427.11642"
-       r="99.328125"
-       fx="218.51562"
-       fy="427.11642"
-       id="radialGradient6459"
-       xlink:href="#linearGradient11097"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="matrix(0.2164541,2.1263902,-1.0200571,0.1038359,606.9002,-146.312)" />
-    <linearGradient
-       id="linearGradient6453">
-      <stop
-         id="stop6455"
-         style="stop-color:#c2e2f2;stop-opacity:1"
-         offset="0" />
-      <stop
-         id="stop6457"
-         style="stop-color:#418edc;stop-opacity:1"
-         offset="1" />
-    </linearGradient>
-    <linearGradient
-       id="linearGradient6447">
-      <stop
-         id="stop6449"
-         style="stop-color:#fdd6a8;stop-opacity:1"
-         offset="0" />
-      <stop
-         id="stop6451"
-         style="stop-color:#fda945;stop-opacity:1"
-         offset="1" />
-    </linearGradient>
     <radialGradient
        cx="218.51562"
        cy="427.11642"
