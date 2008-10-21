@@ -47,26 +47,31 @@ void PalringoWindow::SetupActions()
     onlineMenuAction = new QAction( tr( "&Online" ), this );
     onlineMenuAction->setShortcut( tr( "Ctrl+O" ) );
     onlineMenuAction->setStatusTip( tr( "Go online" ) );
+    onlineMenuAction->setEnabled( false );
     // connect(onlineMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     awayMenuAction = new QAction( tr( "&Away" ), this );
     awayMenuAction->setShortcut( tr( "Ctrl+A" ) );
     awayMenuAction->setStatusTip( tr( "Mark yourself as away" ) );
+    awayMenuAction->setEnabled( false );
     // connect(awayMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     busyMenuAction = new QAction( tr( "&Busy" ), this );
     busyMenuAction->setShortcut( tr( "Ctrl+O" ) );
     busyMenuAction->setStatusTip( tr( "Mark yourself as busy" ) );
+    busyMenuAction->setEnabled( false );
     // connect(busyMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     invisibleMenuAction = new QAction( tr( "&Invisible" ), this );
     invisibleMenuAction->setShortcut( tr( "Ctrl+I" ) );
     invisibleMenuAction->setStatusTip( tr( "Go invisible" ) );
+    invisibleMenuAction->setEnabled( false );
     // connect(invisibleMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     offlineMenuAction = new QAction( tr( "Offlin&e" ), this );
     offlineMenuAction->setShortcut( tr( "Ctrl+E" ) );
     offlineMenuAction->setStatusTip( tr( "Go offline" ) );
+    offlineMenuAction->setEnabled( false );
     // connect(offlineMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     signinMenuAction = new QAction( tr( "Si&gn In" ), this );
@@ -77,11 +82,13 @@ void PalringoWindow::SetupActions()
     addServiceMenuAction = new QAction( tr( "A&dd service..." ), this );
     addServiceMenuAction->setShortcut( tr( "Ctrl+D" ) );
     addServiceMenuAction->setStatusTip( tr( "Add service" ) );
+    addServiceMenuAction->setEnabled( false );
     // connect(addServiceMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     settingsMenuAction = new QAction( tr("&Settings..."), this );
     settingsMenuAction->setShortcut(tr("Ctrl+S"));
     settingsMenuAction->setStatusTip(tr("Settings"));
+    settingsMenuAction->setEnabled( false );
     // connect(settingsMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
 
     exitMenuAction = new QAction( tr("&Exit"), this );

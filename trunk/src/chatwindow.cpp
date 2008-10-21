@@ -53,6 +53,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
     // add the icons to the buttons
     this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
+    this->voiceButton->setEnabled( false );
     this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
     this->imageButton->setToolTip( "Browse to send an image message" );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );

@@ -27,6 +27,7 @@ SigninWindow::SigninWindow(QWidget *parent)
 {
     setupUi(this);
     this->setFeildValues();
+    this->AutoSignin->setEnabled( false );
 
     connect( this->OkButton, SIGNAL(clicked()), this, SLOT(openPalringoConnection()));
     connect( this->OkButton, SIGNAL(clicked()), this, SLOT(close()));
@@ -40,7 +41,7 @@ void SigninWindow::setFeildValues()
     this->EmailEdit->setText( settings.value( "signin/emailaddress" ).toString() );
     this->PasswordEdit->setText( settings.value( "signin/password" ).toString() );
     this->RememberMe->setChecked( settings.value( "signin/rememberme" ).toBool() );
-    this->AutoSignin->setChecked( settings.value( "signin/autosignin" ).toBool() );
+    // this->AutoSignin->setChecked( settings.value( "signin/autosignin" ).toBool() );
 }
 
 QString SigninWindow::getEmailAddress()
@@ -62,7 +63,7 @@ void SigninWindow::openPalringoConnection()
         settings.setValue( "signin/emailaddress", this->EmailEdit->text() );
         settings.setValue( "signin/password", this->PasswordEdit->text() );
         settings.setValue( "signin/rememberme", this->RememberMe->isChecked() );
-        settings.setValue( "signin/autosignin", this->AutoSignin->isChecked() );
+        // settings.setValue( "signin/autosignin", this->AutoSignin->isChecked() );
     }
     tools_->openPalringoConnection( this->getEmailAddress(), this->getPassword() );
 }
