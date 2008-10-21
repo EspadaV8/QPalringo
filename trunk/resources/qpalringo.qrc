@@ -2,7 +2,6 @@
     <qresource prefix="/misc/" >
         <file alias="downarrow.png">../images/downarrow.png</file>
         <file alias="rightarrow.png">../images/rightarrow.png</file>
-        <file alias="overview.png">../images/overviewIcon.png</file>
     </qresource>
 
     <qresource prefix="/styles/" >
