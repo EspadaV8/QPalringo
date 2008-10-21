@@ -1,27 +1,8 @@
 <RCC>
-    <qresource prefix="/contacts/" >
-        <file alias="pcContactIcon.png">../images/32px/PC.png</file>
-        <file alias="mobileContactIcon.png">../images/32px/Mobile.png</file>
-        <file alias="botContactIcon.png">../images/32px/Bot.png</file>
-        <file alias="offlineContactIcon.png">../images/32px/Offline.png</file>
-        <file alias="groupIcon.png">../images/32px/Group.png</file>
-    </qresource>
-
-    <qresource prefix="/services/" >
-        <file alias="aimService.png">../images/AIM.png</file>
-        <file alias="ggService.png">../images/GG.png</file>
-        <file alias="icqService.png">../images/ICQ.png</file>
-        <file alias="msnService.png">../images/MSN.png</file>
-        <file alias="xmppService.png">../images/XMPP.png</file>
-        <file alias="yahooService.png">../images/Yahoo.png</file>
-        <file alias="palringoService.png">../images/Palringo.png</file>
-    </qresource>
-
     <qresource prefix="/misc/" >
         <file alias="downarrow.png">../images/downarrow.png</file>
         <file alias="rightarrow.png">../images/rightarrow.png</file>
         <file alias="overview.png">../images/overviewIcon.png</file>
-        <file alias="sysTrayIcon.png">../images/32px/sysTrayIcon.png</file>
     </qresource>
 
     <qresource prefix="/styles/" >
@@ -30,12 +11,6 @@
         <file alias="MessageItem.css">../qss/messageitem.css</file>
     </qresource>
 
-    <qresource prefix="/messageTypes/" >
-        <file alias="text.png">../images/32px/text.png</file>
-        <file alias="voice.png">../images/32px/voice.png</file>
-        <file alias="image.png">../images/32px/image.png</file>
-    </qresource>
-    
     <qresource prefix="/svg/">
         <file alias="onlineContact.svg">../images/svg/person-blue.svg</file>
         <file alias="offlineContact.svg">../images/svg/person-grey.svg</file>
