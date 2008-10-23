@@ -4,7 +4,7 @@
  *
  * Original author: Eric Sellin
  * Extended version author: Xabier Eizmendi
- *
+ * Additions also done by: Andrew Smith <espadav8@gmail.com>
  *
  *
  * This program is free software (with dual license);
