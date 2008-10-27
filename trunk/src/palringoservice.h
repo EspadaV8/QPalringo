@@ -21,7 +21,7 @@
 #ifndef PALRINGOSERVICE_H
 #define PALRINGOSERVICE_H
 
-#include <service.h>
+#include "service.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
