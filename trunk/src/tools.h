@@ -80,6 +80,8 @@ class Tools : public QObject
         quint32 getTimestampDifference();
         
         QPixmap getPixmap( QString iconFilename );
+        
+        void showContactProperties( Contact *contact );
 
     public slots:
         void logonSuccessful();

@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <QPixmapCache>
 #include "tools.h"
+#include "contactpropertieswindow.h"
 Tools *tools_;
 
 Tools::Tools( PalringoWindow *mainWindow )
@@ -446,4 +447,11 @@ QPixmap Tools::getPixmap( QString iconFilename )
         QPixmapCache::insert( iconFilename, p );
     }
     return p;
+}
+
+void Tools::showContactProperties( Contact *contact )
+{
+    ContactPropertiesWindow *c = ContactPropertiesWindow::getInstance();
+    c->update( contact );
+    c->show();
 }
