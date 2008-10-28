@@ -24,13 +24,22 @@
 * Foundation, Inc., 51 Franklin Street, Fifth Floor Boston, MA 02110-1301,  USA
 */
 
-
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/ip.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <netdb.h>
+#ifdef Q_OS_WIN32
+    #define O_NONBLOCK FIONBIO
+    #define EADDRINUSE WSAEADDRINUSE
+    #define EINPROGRESS WSAEINPROGRESS
+    #define EADDRNOTAVAIL WSAEADDRNOTAVAIL
+    #define ECONNREFUSED WSAECONNREFUSED
+    #include <winsock.h>
+    #include <time.h>
+#else
+    #include <sys/types.h>
+    #include <sys/socket.h>
+    #include <netinet/ip.h>
+    #include <netinet/in.h>
+    #include <arpa/inet.h>
+    #include <netdb.h>
+#endif
 #include <errno.h>
 #include <unistd.h>
 #include <fcntl.h>
