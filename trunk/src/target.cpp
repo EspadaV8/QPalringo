@@ -29,12 +29,12 @@ Target::~Target()
 {
 }
 
-unsigned long long Target::getID()
+quint64 Target::getID()
 {
     return this->id;
 }
 
-void Target::setID( unsigned long long id )
+void Target::setID( quint64 id )
 {
     this->id = id;
 }

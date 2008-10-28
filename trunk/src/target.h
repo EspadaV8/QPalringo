@@ -33,14 +33,14 @@ class Target : public QObject
         Target(QObject *parent = 0);
         ~Target();
 
-        unsigned long long getID();
-        void setID( unsigned long long );
+        quint64 getID();
+        void setID( quint64 );
 
         virtual QString getTitle();
         virtual QString getIcon();
 
     protected:
-        unsigned long long id;
+        quint64 id;
 
 };
 

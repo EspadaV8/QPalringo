@@ -36,19 +36,19 @@ class Group : public Target
 
         QString                     getName();
         QString                     getDescription();
-        QSet<unsigned long long>    getContacts();
-        bool                        hasContact( unsigned long long id );
+        QSet<quint64>    getContacts();
+        bool                        hasContact( quint64 id );
         virtual QString getTitle();
         virtual QString getIcon();
 
         void            setName( QString name );
         void            setDescription( QString description );
-        void            setContacts( QSet<unsigned long long> );
+        void            setContacts( QSet<quint64> );
 
     private:
         QString         name;
         QString         description;
-        QSet<unsigned long long>  contacts;
+        QSet<quint64>  contacts;
 };
 
 #endif

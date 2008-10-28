@@ -40,7 +40,7 @@ QString         Group::getDescription()
 }
 
 
-QSet<unsigned long long>  Group::getContacts()
+QSet<quint64>  Group::getContacts()
 {
     return this->contacts;
 }
@@ -55,7 +55,7 @@ QString Group::getIcon()
     return ":/svg/group.svg";
 }
 
-bool Group::hasContact( unsigned long long id )
+bool Group::hasContact( quint64 id )
 {
     return this->contacts.contains( id );
 }
@@ -77,7 +77,7 @@ void            Group::setDescription( QString description )
     }
 }
 
-void            Group::setContacts( QSet<unsigned long long> contacts )
+void            Group::setContacts( QSet<quint64> contacts )
 {
     this->contacts = contacts;
 }

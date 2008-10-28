@@ -41,7 +41,7 @@ void Contact::setStatusline( QString statusline )
     emit( updateStatusline( this->statusline ) );
 }
 
-void Contact::setGroup( unsigned long long group )
+void Contact::setGroup( quint64 group )
 {
     this->group = group;
 }
@@ -127,7 +127,7 @@ QString Contact::getIcon()
     return iconName;
 }
 
-unsigned long long Contact::getGroup()
+quint64 Contact::getGroup()
 {
     return this->group;
 }
