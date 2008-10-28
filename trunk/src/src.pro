@@ -18,7 +18,8 @@ SOURCES += main.cpp \
  target.cpp \
  speexdecoder.cpp \
  service.cpp \
- palringoservice.cpp
+ palringoservice.cpp \
+ contactpropertieswindow.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -28,7 +29,7 @@ CONFIG += warn_on \
 TARGET = ../bin/qpalringo
 
 FORMS = ui/signinwindow.ui \
- ui/listitem.ui
+ ui/contactProperties.ui
 
 QT += gui phonon svg
 HEADERS += palringowindow.h \
@@ -51,7 +52,8 @@ HEADERS += palringowindow.h \
  message.h \
  speexdecoder.h \
  service.h \
- palringoservice.h
+ palringoservice.h \
+ contactpropertieswindow.h
 
 LIBS += -LlibPalringo -lPalringo -lssl -lspeex -lz
 
