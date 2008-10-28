@@ -26,10 +26,13 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 {
     this->contact = contact;
     this->openChatWindow = false;
+    this->popupMenu = new QMenu( this );
 
     this->setFirstLine( this->contact->getNickname() );
     this->setSecondLine( this->contact->getStatusline() );
     this->setIcon( this->contact->getIcon() );
+    
+    this->setMenu();
 
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
     connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
@@ -61,7 +64,17 @@ QString ContactListItem::getContainerGroup()
 void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     event->accept();
+    this->startChat();
+}
+
+void ContactListItem::startChat()
+{
     tools_->openChatWindow( this->contact );
+}
+
+void ContactListItem::showContactProperties()
+{
+    tools_->showContactProperties( this->contact );
 }
 
 void ContactListItem::paintEvent(QPaintEvent *)
@@ -70,6 +83,26 @@ void ContactListItem::paintEvent(QPaintEvent *)
     opt.init(this);
     QPainter p(this);
     style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
+}
+
+void ContactListItem::setMenu()
+{
+    this->chatMenuAction = new QAction( tr( "Private Chat" ), this );
+    this->chatMenuAction->setStatusTip( tr( "Start a private chat" ) );
+    connect( this->chatMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( startChat() ) );
+    
+    this->propertiesMenuAction = new QAction( tr( "Properties" ), this );
+    this->propertiesMenuAction->setStatusTip( tr( "View users properties" ) );
+    connect( this->propertiesMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( showContactProperties() ) );
+    
+    this->popupMenu->addAction( this->chatMenuAction );
+    this->popupMenu->addAction( this->propertiesMenuAction );
+}
+
+void ContactListItem::contextMenuEvent( QContextMenuEvent *event )
+{
+    event->accept();
+    this->popupMenu->popup( event->globalPos() );
 }
 
 ContactListItem::~ContactListItem() { }

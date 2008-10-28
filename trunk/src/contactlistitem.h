@@ -26,6 +26,7 @@
 */
 
 #include <QWidget>
+#include <QMenu>
 #include "listitem.h"
 #include "contact.h"
 
@@ -42,14 +43,24 @@ class ContactListItem : public ListItem
 
     public slots:
         void setContactOnlineStatus( int onlinestatus );
+        
+    private slots:
+        void startChat();
+        void showContactProperties();
 
     protected:
         void paintEvent( QPaintEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
+        void contextMenuEvent( QContextMenuEvent *event );
 
     private:
         Contact *contact;
         bool openChatWindow;
+        
+        QMenu *popupMenu;
+            QAction *chatMenuAction;
+            QAction *propertiesMenuAction;
+        void setMenu();
 };
 
 #endif
