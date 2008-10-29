@@ -44,6 +44,9 @@ PalringoWindow::PalringoWindow()
 
 void PalringoWindow::SetupActions()
 {
+    /**
+     * File menu actions
+     */
     onlineMenuAction = new QAction( tr( "&Online" ), this );
     onlineMenuAction->setShortcut( tr( "Ctrl+O" ) );
     onlineMenuAction->setStatusTip( tr( "Go online" ) );
@@ -95,10 +98,27 @@ void PalringoWindow::SetupActions()
     exitMenuAction->setShortcut( tr( "Ctrl+Q" ) );
     exitMenuAction->setStatusTip( tr( "Exit Palringo" ) );
     connect(exitMenuAction, SIGNAL( triggered() ), this, SLOT( close() ) );
+    
+    /**
+     * Group menu actions
+     */
+    joinGroup = new QAction( tr("&Join a group"), this );
+    joinGroup->setShortcut(tr("Ctrl+J"));
+    joinGroup->setStatusTip(tr("Join an existing group"));
+    connect(joinGroup, SIGNAL(triggered()), this, SLOT(joinAGroup()));
+    
+    createGroup = new QAction( tr("&Create a group"), this );
+    createGroup->setShortcut(tr("Ctrl+C"));
+    createGroup->setStatusTip(tr("Create a new group"));
+    createGroup->setEnabled( false );
+    // connect(createGroup, SIGNAL(triggered()), this, SLOT(createGroup()));
 }
 
 void PalringoWindow::CreateMenuBar()
 {
+    /**
+     * File menu
+     */
     fileMenu = menuBar()->addMenu( tr( "&File" ) );
         palringoSubmenu = fileMenu->addMenu( tr( "&Palringo" ) );
         palringoSubmenu->addAction( onlineMenuAction );
@@ -115,6 +135,13 @@ void PalringoWindow::CreateMenuBar()
     fileMenu->addAction( settingsMenuAction );
     fileMenu->addSeparator();
     fileMenu->addAction( exitMenuAction );
+    
+    /**
+     * Group menu
+     */
+    groupMenu = menuBar()->addMenu( tr( "&Groups" ) );
+    groupMenu->addAction( joinGroup );
+    groupMenu->addAction( createGroup );
 }
 
 void PalringoWindow::SetupTabs()
@@ -177,4 +204,26 @@ void PalringoWindow::newGroupAdded( Group *group )
     groupTab->setupGroupList();
     connect( tools_, SIGNAL( contactDetailReceived( Contact* ) ), groupTab, SLOT( contactReceived( Contact* ) ) );
     mainTabs->addTab( groupTab, group->getName() );
+}
+
+void PalringoWindow::joinAGroup()
+{
+    bool ok;
+    QString groupName = QInputDialog::getText(0,
+                                              tr("Join a Group"),
+                                              tr("Enter the name of a group to join:"),
+                                              QLineEdit::Normal,
+                                              "",
+                                              &ok,
+                                              0);
+    
+    if( ok && !groupName.isEmpty() )
+    {
+        tools_->joinGroup( groupName );
+    }
+}
+
+void PalringoWindow::createAGroup()
+{
+    
 }

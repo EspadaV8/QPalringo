@@ -47,19 +47,27 @@ class PalringoWindow : public QMainWindow
         void showSigninWindow();
         void loginService();
         void newGroupAdded( Group *group );
+        
+    private slots:
+        void joinAGroup();
+        void createAGroup();
 
     private:
         QMenu *fileMenu;
             QMenu *palringoSubmenu;
-            QAction *onlineMenuAction;
-            QAction *awayMenuAction;
-            QAction *busyMenuAction;
-            QAction *invisibleMenuAction;
-            QAction *offlineMenuAction;
-            QAction *signinMenuAction;
-        QAction *addServiceMenuAction;
-        QAction *settingsMenuAction;
-        QAction *exitMenuAction;
+                QAction *onlineMenuAction;
+                QAction *awayMenuAction;
+                QAction *busyMenuAction;
+                QAction *invisibleMenuAction;
+                QAction *offlineMenuAction;
+                QAction *signinMenuAction;
+            QAction *addServiceMenuAction;
+            QAction *settingsMenuAction;
+            QAction *exitMenuAction;
+
+        QMenu *groupMenu;
+            QAction *joinGroup;
+            QAction *createGroup;
 
         QIcon *systraySvg;
         QSystemTrayIcon *systrayicon;
