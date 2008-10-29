@@ -82,6 +82,9 @@ class Tools : public QObject
         QPixmap getPixmap( QString iconFilename );
         
         void showContactProperties( Contact *contact );
+        
+        void joinGroup( QString groupName );
+        void createGroup( QString groupName );
 
     public slots:
         void logonSuccessful();

@@ -455,3 +455,13 @@ void Tools::showContactProperties( Contact *contact )
     c->update( contact );
     c->show();
 }
+
+void Tools::joinGroup( QString groupName )
+{
+    this->connection->joinGroup( groupName );
+}
+
+void Tools::createGroup( QString groupName )
+{
+    qDebug(" Tools::createGroup() - not implemented" );
+}
