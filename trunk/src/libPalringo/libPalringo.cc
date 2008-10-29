@@ -1491,3 +1491,23 @@ void PalringoConnection::groupSubscribe( std::string groupName )
 
     sendCmd(pCommand::GROUP_SUBSCRIBE, headers, "");
 }
+
+void PalringoConnection::groupCreate( std::string groupName,
+                                      std::string groupDesc,
+                                      std::string groupPassword )
+{
+    headers_t headers;
+    headers["MESG-ID"] = toString(++mesg_id_);
+    headers["NAME"] = groupName;
+    
+    if( groupDesc.size() )
+    {
+        headers["DESC"] = groupDesc;
+    }
+    if( groupPassword.size() )
+    {
+        headers["CONTENT-LENGTH"] = groupPassword.size();
+    }
+
+    sendCmd(pCommand::GROUP_CREATE, headers, groupPassword);
+}

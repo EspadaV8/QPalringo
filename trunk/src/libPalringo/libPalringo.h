@@ -1245,6 +1245,7 @@ public:
   
   
   void groupSubscribe( std::string groupName );
+  void groupCreate( std::string groupName, std::string groupDesc = "", std::string groupPassword = "" );
 
 };
 #endif
