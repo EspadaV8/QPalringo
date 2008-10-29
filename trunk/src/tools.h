@@ -85,6 +85,7 @@ class Tools : public QObject
         
         void joinGroup( QString groupName );
         void createGroup( QString groupName );
+        void leaveGroup( quint64 groupID );
 
     public slots:
         void logonSuccessful();
