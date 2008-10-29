@@ -26,7 +26,7 @@
 */
 
 #include <QWidget>
-#include <QMenu>
+#include <QAction>
 #include "listitem.h"
 #include "contact.h"
 
@@ -51,15 +51,13 @@ class ContactListItem : public ListItem
     protected:
         void paintEvent( QPaintEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
-        void contextMenuEvent( QContextMenuEvent *event );
 
     private:
         Contact *contact;
         bool openChatWindow;
         
-        QMenu *popupMenu;
-            QAction *chatMenuAction;
-            QAction *propertiesMenuAction;
+        QAction *chatMenuAction;
+        QAction *propertiesMenuAction;
         void setMenu();
 };
 

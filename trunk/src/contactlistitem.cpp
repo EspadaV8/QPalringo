@@ -26,7 +26,6 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 {
     this->contact = contact;
     this->openChatWindow = false;
-    this->popupMenu = new QMenu( this );
 
     this->setFirstLine( this->contact->getNickname() );
     this->setSecondLine( this->contact->getStatusline() );
@@ -97,12 +96,6 @@ void ContactListItem::setMenu()
     
     this->popupMenu->addAction( this->chatMenuAction );
     this->popupMenu->addAction( this->propertiesMenuAction );
-}
-
-void ContactListItem::contextMenuEvent( QContextMenuEvent *event )
-{
-    event->accept();
-    this->popupMenu->popup( event->globalPos() );
 }
 
 ContactListItem::~ContactListItem() { }

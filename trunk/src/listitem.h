@@ -34,6 +34,7 @@
 #include <QFile>
 #include <QMouseEvent>
 #include <QSvgWidget>
+#include <QMenu>
 
 class ListItem : public QWidget
 {
@@ -61,10 +62,12 @@ class ListItem : public QWidget
         void paintEvent( QPaintEvent *event );
         void mousePressEvent( QMouseEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
+        void contextMenuEvent( QContextMenuEvent *event );
 
         QLabel *firstLine;
         QLabel *secondLine;
         QSvgWidget *svgIcon;
+        QMenu *popupMenu;
         virtual void ReloadStyleSheet();
 
     private:

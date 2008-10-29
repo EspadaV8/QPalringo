@@ -48,6 +48,8 @@ ListItem::ListItem( QWidget *parent )
 
     setAutoFillBackground( false );
     setLayout( hbox );
+    
+    this->popupMenu = new QMenu( this );
 
     this->toSelect = false;
     this->selected = false;
@@ -96,6 +98,15 @@ void ListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     emit( doubleClick() );
     event->accept();
+}
+
+void ListItem::contextMenuEvent( QContextMenuEvent *event )
+{
+    if( !this->popupMenu->isEmpty() )
+    {
+        event->accept();
+        this->popupMenu->popup( event->globalPos() );
+    }
 }
 
 void ListItem::ReloadStyleSheet()
