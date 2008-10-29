@@ -68,6 +68,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
         bool getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
         void joinGroup( QString groupName );
         void createGroup( QString groupName, QString groupDescription = "", QString groupPassword = "");
+        void leaveGroup( quint64 groupID );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,

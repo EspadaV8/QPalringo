@@ -242,3 +242,8 @@ void QPalringoConnection::createGroup( QString groupName, QString groupDescripti
 {
     PalringoConnection::groupCreate( groupName.toStdString(), groupDescription.toStdString(), groupPassword.toStdString() );
 }
+
+void QPalringoConnection::leaveGroup( quint64 groupID )
+{
+    PalringoConnection::groupUnsubscribe( groupID );
+}

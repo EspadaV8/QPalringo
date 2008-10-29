@@ -47,6 +47,7 @@ class Connection : public QThread
         
         void joinGroup( QString groupName );
         void createGroup( QString groupName );
+        void leaveGroup( quint64 groupID );
 
     private:
         QString emailAddress;

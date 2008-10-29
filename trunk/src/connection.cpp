@@ -70,3 +70,8 @@ void Connection::createGroup( QString groupName )
 {
     this->conn->createGroup( groupName );
 }
+
+void Connection::leaveGroup( quint64 groupID )
+{
+    this->conn->leaveGroup( groupID );
+}
