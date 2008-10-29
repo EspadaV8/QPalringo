@@ -1516,7 +1516,7 @@ void PalringoConnection::groupUnsubscribe( uint64_t groupID )
 {
     headers_t headers;
     headers["MESG-ID"] = toString(++mesg_id_);
-    headers["GROUP-ID"] = groupID;
+    headers["GROUP-ID"] = toString( groupID );
     
     sendCmd(pCommand::GROUP_UNSUB, headers, "");
 }
