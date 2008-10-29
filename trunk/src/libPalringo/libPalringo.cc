@@ -1482,3 +1482,12 @@ PalringoConnection::getGroups(groups_t& groups)
 {
   groups = groups_;
 }
+
+void PalringoConnection::groupSubscribe( std::string groupName )
+{
+    headers_t headers;
+    headers["MESG-ID"] = toString(++mesg_id_);
+    headers["NAME"] = groupName;
+
+    sendCmd(pCommand::GROUP_SUBSCRIBE, headers, "");
+}

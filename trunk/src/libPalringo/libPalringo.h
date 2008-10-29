@@ -1242,6 +1242,9 @@ public:
   {
     auto_accept_contacts_ = accept;
   }
+  
+  
+  void groupSubscribe( std::string groupName );
 
 };
 #endif
