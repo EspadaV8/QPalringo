@@ -103,6 +103,7 @@ class Tools : public QObject
 
         void userContactReceived( Contact *contact );
         void contactDetailReceived( Contact *contact );
+        void groupLeft( quint64 groupID );
 
     private:
         bool loggedIn;

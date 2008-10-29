@@ -469,4 +469,5 @@ void Tools::createGroup( QString groupName )
 void Tools::leaveGroup( quint64 groupID )
 {
     this->connection->leaveGroup( groupID );
+    emit( groupLeft( groupID ) );
 }
