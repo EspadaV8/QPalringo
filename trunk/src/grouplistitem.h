@@ -39,9 +39,16 @@ class GroupListItem : public ListItem
 
     private:
         Group *group;
+        QAction *groupChatAction;
+        QAction *leaveGroupAction;
+        
+    private slots:
+        void startChat();
+        void leaveGroup();
 
     protected:
         void mouseDoubleClickEvent( QMouseEvent *event );
+        virtual void setMenu();
 
 };
 

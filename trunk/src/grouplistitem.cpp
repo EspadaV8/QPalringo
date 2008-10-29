@@ -24,12 +24,13 @@
 GroupListItem::GroupListItem( QWidget *parent, Group *group )
     : ListItem( parent )
 {
-
     this->group = group;
 
     this->setIcon( ":/svg/group.svg" );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
+    
+    this->setMenu();
 }
 
 QString GroupListItem::getContainerGroup()
@@ -40,7 +41,31 @@ QString GroupListItem::getContainerGroup()
 void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     event->accept();
+    this->startChat();
+}
+
+void GroupListItem::startChat()
+{
     tools_->openChatWindow( this->group );
+}
+
+void GroupListItem::setMenu()
+{
+    this->groupChatAction = new QAction( tr( "Group Chat" ), this );
+    this->groupChatAction->setStatusTip( tr( "Start a group chat" ) );
+    connect( this->groupChatAction, SIGNAL( triggered( bool ) ), this, SLOT( startChat() ) );
+    
+    this->leaveGroupAction = new QAction( tr( "Leave Group" ), this );
+    this->leaveGroupAction->setStatusTip( tr( "Leave the selected group" ) );
+    connect( this->leaveGroupAction, SIGNAL( triggered( bool ) ), this, SLOT( leaveGroup() ) );
+    
+    this->popupMenu->addAction( this->groupChatAction );
+    this->popupMenu->addAction( this->leaveGroupAction );
+}
+
+void GroupListItem::leaveGroup()
+{
+    tools_->leaveGroup( this->group->getID() );
 }
 
 GroupListItem::~GroupListItem()
