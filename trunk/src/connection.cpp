@@ -60,3 +60,8 @@ void Connection::getHistoryMessage( qint64 target, bool isGroup, qint32 timestam
 {
     this->conn->getHistoryMessage( target, isGroup, timestamp );
 }
+
+void Connection::joinGroup( QString groupName )
+{
+    this->conn->joinGroup( groupName );
+}
