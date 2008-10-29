@@ -51,6 +51,7 @@ class ContactListItem : public ListItem
     protected:
         void paintEvent( QPaintEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
+        virtual void setMenu();
 
     private:
         Contact *contact;
@@ -58,7 +59,6 @@ class ContactListItem : public ListItem
         
         QAction *chatMenuAction;
         QAction *propertiesMenuAction;
-        void setMenu();
 };
 
 #endif

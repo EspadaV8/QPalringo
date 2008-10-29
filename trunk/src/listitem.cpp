@@ -123,6 +123,11 @@ void ListItem::ReloadStyleSheet()
     }
 }
 
+void ListItem::setMenu()
+{
+    qDebug( "ListItem::setMenu - no menu" );
+}
+
 bool ListItem::getToSelect()
 {
     return this->toSelect;

@@ -69,6 +69,7 @@ class ListItem : public QWidget
         QSvgWidget *svgIcon;
         QMenu *popupMenu;
         virtual void ReloadStyleSheet();
+        virtual void setMenu();
 
     private:
         bool toSelect;
