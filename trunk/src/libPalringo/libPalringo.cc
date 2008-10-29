@@ -1511,3 +1511,12 @@ void PalringoConnection::groupCreate( std::string groupName,
 
     sendCmd(pCommand::GROUP_CREATE, headers, groupPassword);
 }
+
+void PalringoConnection::groupUnsubscribe( uint64_t groupID )
+{
+    headers_t headers;
+    headers["MESG-ID"] = toString(++mesg_id_);
+    headers["GROUP-ID"] = groupID;
+    
+    sendCmd(pCommand::GROUP_UNSUB, headers, "");
+}
