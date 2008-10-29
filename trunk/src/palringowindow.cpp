@@ -110,8 +110,7 @@ void PalringoWindow::SetupActions()
     createGroup = new QAction( tr("&Create a group"), this );
     createGroup->setShortcut(tr("Ctrl+C"));
     createGroup->setStatusTip(tr("Create a new group"));
-    createGroup->setEnabled( false );
-    // connect(createGroup, SIGNAL(triggered()), this, SLOT(createGroup()));
+    connect(createGroup, SIGNAL(triggered()), this, SLOT(createAGroup()));
 }
 
 void PalringoWindow::CreateMenuBar()
@@ -225,5 +224,17 @@ void PalringoWindow::joinAGroup()
 
 void PalringoWindow::createAGroup()
 {
+    bool ok;
+    QString groupName = QInputDialog::getText(0,
+                                              tr("Create a Group"),
+                                              tr("Enter the name of a group to create:"),
+                                              QLineEdit::Normal,
+                                              "",
+                                              &ok,
+                                              0);
     
+    if( ok && !groupName.isEmpty() )
+    {
+        tools_->createGroup( groupName );
+    }
 }

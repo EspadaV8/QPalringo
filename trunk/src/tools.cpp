@@ -463,5 +463,5 @@ void Tools::joinGroup( QString groupName )
 
 void Tools::createGroup( QString groupName )
 {
-    qDebug(" Tools::createGroup() - not implemented" );
+    this->connection->createGroup( groupName );
 }
