@@ -65,3 +65,8 @@ void Connection::joinGroup( QString groupName )
 {
     this->conn->joinGroup( groupName );
 }
+
+void Connection::createGroup( QString groupName )
+{
+    this->conn->createGroup( groupName );
+}

@@ -237,3 +237,8 @@ void QPalringoConnection::joinGroup( QString groupName )
 {
     PalringoConnection::groupSubscribe( groupName.toStdString() );
 }
+
+void QPalringoConnection::createGroup( QString groupName, QString groupDescription, QString groupPassword )
+{
+    PalringoConnection::groupCreate( groupName.toStdString(), groupDescription.toStdString(), groupPassword.toStdString() );
+}

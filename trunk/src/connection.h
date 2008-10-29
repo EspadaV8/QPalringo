@@ -46,6 +46,7 @@ class Connection : public QThread
         void getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
         
         void joinGroup( QString groupName );
+        void createGroup( QString groupName );
 
     private:
         QString emailAddress;
