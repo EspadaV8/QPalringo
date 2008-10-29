@@ -44,10 +44,14 @@ class ServiceItem : public ListItem
         
     protected:
         void mouseDoubleClickEvent( QMouseEvent *event );
+        virtual void setMenu();
         
     private:
         Service *service;
         bool isPalringoService;
+        
+        QAction *editServiceMenuAction;
+        QAction *signonMenuAction;
 };
 
 #endif

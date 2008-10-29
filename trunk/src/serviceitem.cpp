@@ -31,6 +31,8 @@ ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoServ
     setIcon( ":/svg/" + this->service->Type + "Service.svg" );
     
     connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
+    
+    this->setMenu();
 }
 
 void ServiceItem::updateDetails()
@@ -49,6 +51,20 @@ void ServiceItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     emit( doubleClick() );
     event->accept();
+}
+
+void ServiceItem::setMenu()
+{
+    this->editServiceMenuAction = new QAction( tr( "Edit service" ), this );
+    this->editServiceMenuAction->setStatusTip( tr( "Edit the selected service" ) );
+    //connect( this->editServiceMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( startChat() ) );
+    
+    this->signonMenuAction = new QAction( tr( "Sign in..." ), this );
+    this->signonMenuAction->setStatusTip( tr( "Sign in to the selected service" ) );
+    //connect( this->signonMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( leaveGroup() ) );
+    
+    this->popupMenu->addAction( this->editServiceMenuAction );
+    this->popupMenu->addAction( this->signonMenuAction );
 }
 
 ServiceItem::~ServiceItem()
