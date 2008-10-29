@@ -66,6 +66,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
                           unsigned long long groupID,
                           bool isGroup );
         bool getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
+        void joinGroup( QString groupName );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,

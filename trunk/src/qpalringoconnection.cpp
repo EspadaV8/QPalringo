@@ -232,3 +232,8 @@ bool QPalringoConnection::getHistoryMessage( qint64 target, bool isGroup, qint32
     PalringoConnection::getMesgHist( count, timestamp, target, targetType );
     return true;
 }
+
+void QPalringoConnection::joinGroup( QString groupName )
+{
+    PalringoConnection::groupSubscribe( groupName.toStdString() );
+}
