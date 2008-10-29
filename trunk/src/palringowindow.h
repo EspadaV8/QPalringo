@@ -47,6 +47,7 @@ class PalringoWindow : public QMainWindow
         void showSigninWindow();
         void loginService();
         void newGroupAdded( Group *group );
+        void groupLeft( quint64 groupID );
         
     private slots:
         void joinAGroup();

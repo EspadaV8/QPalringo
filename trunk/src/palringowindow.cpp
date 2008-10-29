@@ -40,6 +40,7 @@ PalringoWindow::PalringoWindow()
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
+    connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
 }
 
 void PalringoWindow::SetupActions()
@@ -203,6 +204,14 @@ void PalringoWindow::newGroupAdded( Group *group )
     groupTab->setupGroupList();
     connect( tools_, SIGNAL( contactDetailReceived( Contact* ) ), groupTab, SLOT( contactReceived( Contact* ) ) );
     mainTabs->addTab( groupTab, group->getName() );
+}
+
+void PalringoWindow::groupLeft( quint64 groupID )
+{
+    QWidget *w = mainTabs->currentWidget();
+    mainTabs->setCurrentIndex( 0 );
+    mainTabs->removeTab( mainTabs->indexOf( w ) );
+    w->deleteLater();
 }
 
 void PalringoWindow::joinAGroup()
