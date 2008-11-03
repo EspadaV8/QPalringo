@@ -156,7 +156,7 @@ void PalringoWindow::SetupTabs()
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), contactList, SLOT( contactReceived( Contact* ) ) );
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
-    mainTabs->addTab( contactList, tr( "&Contacts" ) );
+    mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
 }
 
 void PalringoWindow::AddPalringoService()
@@ -203,7 +203,7 @@ void PalringoWindow::newGroupAdded( Group *group )
     PalringoListView *groupTab = new PalringoListView( mainTabs, group );
     groupTab->setupGroupList();
     connect( tools_, SIGNAL( contactDetailReceived( Contact* ) ), groupTab, SLOT( contactReceived( Contact* ) ) );
-    mainTabs->addTab( groupTab, group->getName() );
+    mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
 void PalringoWindow::groupLeft( quint64 groupID )
