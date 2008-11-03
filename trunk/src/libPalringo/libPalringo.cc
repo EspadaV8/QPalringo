@@ -143,11 +143,12 @@ PalringoConnection::PalringoConnection(const std::string& host,
                                        bool nonBlocking,
                                        int protocolVersion,
                                        bool encryption,
-                                       int compression) :
+                                       int compression,
+                                       const std::string& clientType) :
     login_(login), password_(password), salsa_(NULL), dh_(NULL),
     host_(host), port_(port),
     protocolVersion_(protocolVersion), encryption_(encryption),
-    compression_(compression),
+    compression_(compression), clientType_(clientType),
     packetSeq_(0), receivedData_(0), sourceIP_(sourceIP), userId_(0),
     outMessageCount_(0), sofar_(0), ghosted_(false),
     mesg_id_(0), auto_accept_contacts_(true), loggedOn_(false),
@@ -760,7 +761,7 @@ PalringoConnection::connectClient(bool soft)
     }
 
 
-  headers["App-Type"] = "Bot";
+  headers["App-Type"] = clientType_;
   headers["Operator"] = "PC_CLIENT";
   sendCmd(pCommand::LOGON, headers, "");
   return 1;

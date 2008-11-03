@@ -527,6 +527,11 @@ protected:
   bool encryption_;
 
   int compression_;
+  
+  /**
+   * @brief Client Type
+   */
+  const std::string clientType_;
 
   uint64_t packetSeq_;
 
@@ -891,14 +896,15 @@ public:
    * @return
    */
   PalringoConnection(const std::string& host,
-		     uint32_t port,
-		     const std::string& login,
-		     const std::string& password,
-		     const std::string& sourceIP = "",
-		     bool nonBlocking = false,
-		     int protocolVersion = 1,
-		     bool encryption = false,
-		     int compression = 0);
+                     uint32_t port,
+                     const std::string& login,
+                     const std::string& password,
+                     const std::string& sourceIP = "",
+                     bool nonBlocking = false,
+                     int protocolVersion = 1,
+                     bool encryption = false,
+                     int compression = 0,
+                     const std::string& clientType = "Bot");
 
 
   /**
