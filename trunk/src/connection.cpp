@@ -28,7 +28,19 @@ Connection::Connection( QString emailAddress, QString password, QString host, in
     this->password = password;
     this->host = host;
     this->port = port;
-    this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port );
+    
+    QString client;
+    #ifdef Q_WS_WIN
+        client = "x86";
+    #endif
+    #ifdef Q_WS_MAC
+        client = "Mac";
+    #endif
+    #ifdef Q_WS_X11
+        client = "Linux";
+    #endif
+    
+    this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port, client );
     
     connect( this, SIGNAL( disconnected() ), tools_, SLOT( disconnected() ) );
 }

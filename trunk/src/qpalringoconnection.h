@@ -51,7 +51,8 @@ class QPalringoConnection : public QObject, public PalringoConnection
         QPalringoConnection(QString login = "",
                             QString password = "",
                             QString host = "primary.palringo.com",
-                            unsigned int port = 443);
+                            unsigned int port = 443,
+                            QString clientType = "Linux" );
 
         int poll();
 

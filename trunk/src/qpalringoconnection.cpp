@@ -27,8 +27,9 @@
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString host,
-                                         unsigned int port) :
-        PalringoConnection(host.toStdString(), port, login.toStdString(), password.toStdString(), "", false, 1, true )
+                                         unsigned int port,
+                                         QString clientType) :
+        PalringoConnection(host.toStdString(), port, login.toStdString(), password.toStdString(), "", true, 1, false, 0, clientType.toStdString() )
 {
     PalringoConnection::connectClient();
 
