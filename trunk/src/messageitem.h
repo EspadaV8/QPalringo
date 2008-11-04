@@ -33,7 +33,7 @@
 #include <QFile>
 #include <QSvgWidget>
 #include "message.h"
-#include "contact.h"
+#include "targets/contact.h"
 
 class MessageItem : public QWidget
 {

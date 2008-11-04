@@ -24,8 +24,8 @@
 #include <QMainWindow>
 #include <QTabWidget>
 #include "palringolistview.h"
-#include "contact.h"
-#include "group.h"
+#include "targets/contact.h"
+#include "targets/group.h"
 #include "signinwindow.h"
 #include "messageitem.h"
 

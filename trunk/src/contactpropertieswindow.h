@@ -13,7 +13,7 @@
 #define CONTACTPROPERTIESWINDOW_H
 
 #include <QDialog>
-#include "contact.h"
+#include "targets/contact.h"
 #include "ui_contactProperties.h"
 
 /**

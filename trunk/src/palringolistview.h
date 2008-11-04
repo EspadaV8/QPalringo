@@ -30,8 +30,8 @@
 #include <QList>
 #include "listviewcontainer.h"
 #include "listitem.h"
-#include "contact.h"
-#include "group.h"
+#include "targets/contact.h"
+#include "targets/group.h"
 #include "contactlistitem.h"
 #include "serviceitem.h"
 

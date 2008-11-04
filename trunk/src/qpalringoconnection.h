@@ -24,8 +24,8 @@
 #include <QObject>
 #include <QMap>
 #include "libPalringo/libPalringo.h"
-#include "contact.h"
-#include "group.h"
+#include "targets/contact.h"
+#include "targets/group.h"
 #include "message.h"
 
 /**

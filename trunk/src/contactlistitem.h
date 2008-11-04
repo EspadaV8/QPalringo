@@ -28,7 +28,7 @@
 #include <QWidget>
 #include <QAction>
 #include "listitem.h"
-#include "contact.h"
+#include "targets/contact.h"
 
 class ContactListItem : public ListItem
 {

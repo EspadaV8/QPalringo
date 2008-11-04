@@ -23,7 +23,7 @@
 
 #include <QWidget>
 #include "listitem.h"
-#include "group.h"
+#include "targets/group.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

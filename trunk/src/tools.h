@@ -27,7 +27,7 @@
 #include <QReadWriteLock>
 #include <QDateTime>
 #include "palringowindow.h"
-#include "target.h"
+#include "targets/target.h"
 #include "messageitem.h"
 #include "chatwindow.h"
 #include "connection.h"

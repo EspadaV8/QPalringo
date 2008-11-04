@@ -12,10 +12,10 @@ SOURCES += main.cpp \
  qpalringoconnection.cpp \
  signinwindow.cpp \
  connection.cpp \
- contact.cpp \
- group.cpp \
+ targets/contact.cpp \
+ targets/group.cpp \
  grouplistitem.cpp \
- target.cpp \
+ targets/target.cpp \
  speexdecoder.cpp \
  service.cpp \
  palringoservice.cpp \
@@ -45,10 +45,10 @@ HEADERS += palringowindow.h \
  qpalringoconnection.h \
  signinwindow.h \
  connection.h \
- contact.h \
- group.h \
+ targets/contact.h \
+ targets/group.h \
  grouplistitem.h \
- target.h \
+ targets/target.h \
  message.h \
  speexdecoder.h \
  service.h \
