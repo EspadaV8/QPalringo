@@ -29,11 +29,11 @@
 #include <QWidget>
 #include <QList>
 #include "listviewcontainer.h"
-#include "listitem.h"
 #include "targets/contact.h"
 #include "targets/group.h"
-#include "contactlistitem.h"
-#include "serviceitem.h"
+#include "listitems/listitem.h"
+#include "listitems/contactlistitem.h"
+#include "listitems/serviceitem.h"
 
 class PalringoListView : public QScrollArea
 {

@@ -23,7 +23,7 @@
 
 #include <QtGui>
 #include <QWidget>
-#include "listitem.h"
+#include "listitems/listitem.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

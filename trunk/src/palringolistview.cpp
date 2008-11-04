@@ -20,7 +20,7 @@
  ***************************************************************************/
 #include "tools.h"
 #include "palringolistview.h"
-#include "grouplistitem.h"
+#include "listitems/grouplistitem.h"
 
 PalringoListView::PalringoListView( QWidget *parent, Group *group )
     : QScrollArea( parent )

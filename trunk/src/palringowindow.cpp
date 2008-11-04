@@ -22,7 +22,7 @@
 #include "palringowindow.h"
 #include "tools.h"
 #include "palringoservice.h"
-#include "serviceitem.h"
+#include "listitems/serviceitem.h"
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()

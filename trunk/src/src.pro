@@ -1,10 +1,7 @@
 SOURCES += main.cpp \
  palringowindow.cpp \
  palringolistview.cpp \
- contactlistitem.cpp \
  listviewcontainer.cpp \
- listitem.cpp \
- serviceitem.cpp \
  tools.cpp \
  chatwindow.cpp \
  messagelist.cpp \
@@ -14,8 +11,11 @@ SOURCES += main.cpp \
  connection.cpp \
  targets/contact.cpp \
  targets/group.cpp \
- grouplistitem.cpp \
  targets/target.cpp \
+ listitems/contactlistitem.cpp \
+ listitems/listitem.cpp \
+ listitems/serviceitem.cpp \
+ listitems/grouplistitem.cpp \
  speexdecoder.cpp \
  service.cpp \
  palringoservice.cpp \
@@ -34,10 +34,7 @@ FORMS = ui/signinwindow.ui \
 QT += gui phonon svg
 HEADERS += palringowindow.h \
  palringolistview.h \
- contactlistitem.h \
  listviewcontainer.h \
- listitem.h \
- serviceitem.h \
  tools.h \
  chatwindow.h \
  messagelist.h \
@@ -47,8 +44,11 @@ HEADERS += palringowindow.h \
  connection.h \
  targets/contact.h \
  targets/group.h \
- grouplistitem.h \
  targets/target.h \
+ listitems/contactlistitem.h \
+ listitems/listitem.h \
+ listitems/serviceitem.h \
+ listitems/grouplistitem.h \
  message.h \
  speexdecoder.h \
  service.h \
