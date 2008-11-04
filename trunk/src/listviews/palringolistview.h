@@ -18,46 +18,58 @@
  *  along with QPalringo. If not, see <http://www.gnu.org/licenses/>       *
  *                                                                         *
  ***************************************************************************/
-#ifndef LISTVIEWCONTAINER_H
-#define LISTVIEWCONTAINER_H
-
-#include <QtGui>
-#include <QWidget>
-#include "listitems/listitem.h"
+#ifndef PALRINGOLISTVIEW_H
+#define PALRINGOLISTVIEW_H
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-class ListViewContainer : public QWidget
+
+#include <QtGui>
+#include <QWidget>
+#include <QList>
+#include "listviewcontainer.h"
+#include "../targets/contact.h"
+#include "../targets/group.h"
+#include "../listitems/listitem.h"
+
+class PalringoListView : public QScrollArea
 {
-Q_OBJECT
-public:
-    ListViewContainer( QWidget *parent = 0, QString name = "" );
+    Q_OBJECT
+    public:
+        PalringoListView( QWidget *parent = 0, Group *group = NULL );
+        ~PalringoListView();
 
-    ~ListViewContainer();
+        void setList( QList<ListItem *> contacts );
+        void updateWidget( int x );
+        void setupOverview();
+        void setupContactList();
+        void setupGroupList();
 
-    void appendWidget( ListItem *widget, bool sorted = true );
-    void removeWidget( ListItem *widget );
-    QString getName();
-
-    private slots:
-        void buttonClicked();
+    public slots:
+        void contactReceived( Contact *contact );
 
     protected:
-        void paintEvent( QPaintEvent *event );
+        void mousePressEvent( QMouseEvent *event );
 
     private:
-        QVBoxLayout *outerLayout;
-        QVBoxLayout *innerLayout;
+        Group *group;
 
-        QWidget *layoutContainer;
+        void addLayoutsToSelf();
+        int  getContainerPosition( QString containerName );
+        bool addWidgetToView( ListItem *item );
 
-        QPixmap downarrow;
-        QPixmap rightarrow;
+        QVBoxLayout *listLayout;
 
-        QPushButton *button;
+        ListViewContainer *offlineContainer;
+        ListViewContainer *onlineContainer;
 
-        QString name;
+        bool isGroup;
+        QList<ListItem *> contactList;
+        QList<ListViewContainer *> listViewContainers;
+
+    private slots:
+        void getContacts();
 };
 
 #endif

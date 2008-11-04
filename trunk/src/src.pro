@@ -1,7 +1,7 @@
 SOURCES += main.cpp \
  palringowindow.cpp \
- palringolistview.cpp \
- listviewcontainer.cpp \
+ listviews/palringolistview.cpp \
+ listviews/listviewcontainer.cpp \
  tools.cpp \
  chatwindow.cpp \
  messagelist.cpp \
@@ -33,8 +33,8 @@ FORMS = ui/signinwindow.ui \
 
 QT += gui phonon svg
 HEADERS += palringowindow.h \
- palringolistview.h \
- listviewcontainer.h \
+ listviews/palringolistview.h \
+ listviews/listviewcontainer.h \
  tools.h \
  chatwindow.h \
  messagelist.h \

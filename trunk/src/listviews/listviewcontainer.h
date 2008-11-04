@@ -18,60 +18,46 @@
  *  along with QPalringo. If not, see <http://www.gnu.org/licenses/>       *
  *                                                                         *
  ***************************************************************************/
-#ifndef PALRINGOLISTVIEW_H
-#define PALRINGOLISTVIEW_H
+#ifndef LISTVIEWCONTAINER_H
+#define LISTVIEWCONTAINER_H
+
+#include <QtGui>
+#include <QWidget>
+#include "../listitems/listitem.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-
-#include <QtGui>
-#include <QWidget>
-#include <QList>
-#include "listviewcontainer.h"
-#include "targets/contact.h"
-#include "targets/group.h"
-#include "listitems/listitem.h"
-#include "listitems/contactlistitem.h"
-#include "listitems/serviceitem.h"
-
-class PalringoListView : public QScrollArea
+class ListViewContainer : public QWidget
 {
-    Q_OBJECT
-    public:
-        PalringoListView( QWidget *parent = 0, Group *group = NULL );
-        ~PalringoListView();
+Q_OBJECT
+public:
+    ListViewContainer( QWidget *parent = 0, QString name = "" );
 
-        void setList( QList<ListItem *> contacts );
-        void updateWidget( int x );
-        void setupOverview();
-        void setupContactList();
-        void setupGroupList();
+    ~ListViewContainer();
 
-    public slots:
-        void contactReceived( Contact *contact );
-
-    protected:
-        void mousePressEvent( QMouseEvent *event );
-
-    private:
-        Group *group;
-
-        void addLayoutsToSelf();
-        int  getContainerPosition( QString containerName );
-        bool addWidgetToView( ListItem *item );
-
-        QVBoxLayout *listLayout;
-
-        ListViewContainer *offlineContainer;
-        ListViewContainer *onlineContainer;
-
-        bool isGroup;
-        QList<ListItem *> contactList;
-        QList<ListViewContainer *> listViewContainers;
+    void appendWidget( ListItem *widget, bool sorted = true );
+    void removeWidget( ListItem *widget );
+    QString getName();
 
     private slots:
-        void getContacts();
+        void buttonClicked();
+
+    protected:
+        void paintEvent( QPaintEvent *event );
+
+    private:
+        QVBoxLayout *outerLayout;
+        QVBoxLayout *innerLayout;
+
+        QWidget *layoutContainer;
+
+        QPixmap downarrow;
+        QPixmap rightarrow;
+
+        QPushButton *button;
+
+        QString name;
 };
 
 #endif

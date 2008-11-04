@@ -23,7 +23,7 @@
 
 #include <QMainWindow>
 #include <QTabWidget>
-#include "palringolistview.h"
+#include "listviews/palringolistview.h"
 #include "targets/contact.h"
 #include "targets/group.h"
 #include "signinwindow.h"
