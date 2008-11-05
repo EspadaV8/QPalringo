@@ -18,44 +18,39 @@
  *  along with QPalringo. If not, see <http://www.gnu.org/licenses/>       *
  *                                                                         *
  ***************************************************************************/
-#ifndef PALRINGOLISTVIEW_H
-#define PALRINGOLISTVIEW_H
+#include "tools.h"
+#include "grouplistview.h"
+#include "../listitems/grouplistitem.h"
+#include "../listitems/contactlistitem.h"
 
-/**
-	@author Andrew Smith <espadav8@gmail.com>
-*/
-
-#include <QtGui>
-#include <QWidget>
-#include <QList>
-#include "listviewcontainer.h"
-#include "../targets/contact.h"
-#include "../listitems/listitem.h"
-
-class PalringoListView : public QScrollArea
+GroupListView::GroupListView(QWidget *parent, Group *group)
+ : ContactListView(parent)
 {
-    Q_OBJECT
-    public:
-        PalringoListView( QWidget *parent = 0 );
-        ~PalringoListView();
+    this->group = group;
+}
 
-        void setList( QList<ListItem *> contacts );
-        void updateWidget( int x );
-        virtual void setupContainers();
-        void setupOverview();
+void GroupListView::setupContainers()
+{
+    this->addContainer( tr( "Group Chat" ) );
+    this->addContainer( tr( "Online" ) );
+    this->addContainer( tr( "Offline" ) );
 
-    protected:
-        void mousePressEvent( QMouseEvent *event );
-        void addContainer( QString containerName );
+    GroupListItem *gli = new GroupListItem( this, this->group );
+    this->addWidgetToView( gli );
+    
+    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
+    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    
+    this->addLayoutsToSelf();
+}
 
-        void addLayoutsToSelf();
-        int  getContainerPosition( QString containerName );
-        bool addWidgetToView( ListItem *item );
+void GroupListView::getContacts()
+{
+    quint64 groupID = this->group->getID();
+    ContactListView::getContacts( groupID );
+}
 
-        QVBoxLayout *listLayout;
+GroupListView::~GroupListView()
+{
+}
 
-        QList<ListItem *> listItems;
-        QList<ListViewContainer *> listViewContainers;
-};
-
-#endif

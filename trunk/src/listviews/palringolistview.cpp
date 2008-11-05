@@ -24,12 +24,9 @@
 #include "../listitems/contactlistitem.h"
 #include "../listitems/serviceitem.h"
 
-PalringoListView::PalringoListView( QWidget *parent, Group *group )
+PalringoListView::PalringoListView( QWidget *parent )
     : QScrollArea( parent )
 {
-    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
-    this->group = group;
-
     QWidget *w = new QWidget;
     w->setObjectName( "ListViewBackground" );
 
@@ -41,30 +38,22 @@ PalringoListView::PalringoListView( QWidget *parent, Group *group )
     this->setWidget( w );
 }
 
+void PalringoListView::addContainer( QString containerName )
+{
+    this->listViewContainers.append( new ListViewContainer( this, containerName ) );
+}
+
+void PalringoListView::setupContainers()
+{
+    qDebug( "PalringoListView::setupContainers - not implemented" );
+}
+
 void PalringoListView::setupOverview()
 {
-    this->listViewContainers.append( new ListViewContainer( this, "Services" ) );
-    this->listViewContainers.append( new ListViewContainer( this, "Messages" ) );
+    this->addContainer( tr( "Services" ) );
+    this->addContainer( tr( "Messages" ) );
 
-    disconnect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
-
-    this->addLayoutsToSelf();
-}
-
-void PalringoListView::setupGroupList()
-{
-    this->listViewContainers.append( new ListViewContainer( this, "Group Chat" ) );
-
-    GroupListItem *gli = new GroupListItem( this, this->group );
-    this->addWidgetToView( gli );
-
-    setupContactList();
-}
-
-void PalringoListView::setupContactList()
-{
-    this->listViewContainers.append( new ListViewContainer( this, "Online" ) );
-    this->listViewContainers.append( new ListViewContainer( this, "Offline" ) );
+    // disconnect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
 
     this->addLayoutsToSelf();
 }
@@ -104,19 +93,19 @@ bool PalringoListView::addWidgetToView( ListItem *item )
 
 void PalringoListView::updateWidget( int x )
 {
-    ListItem *l = this->contactList.at( x );
+    ListItem *l = this->listItems.at( x );
     this->addWidgetToView( l );
 }
 
 void PalringoListView::setList( QList<ListItem *> list )
 {
-    this->contactList = list;
+    this->listItems = list;
 
     // we now go through each item
-    for ( int i = 0; i < this->contactList.size(); i++ )
+    for ( int i = 0; i < this->listItems.size(); i++ )
     {
         // get the list item
-        ListItem *l = this->contactList.at( i );
+        ListItem *l = this->listItems.at( i );
         // do something?
         this->addWidgetToView( l );
     }
@@ -139,34 +128,10 @@ void PalringoListView::mousePressEvent( QMouseEvent *event )
 {
     event->accept();
     // if we get a mouse event then check the contacts to see which one wants to be selected
-    for( int i = 0; i < this->contactList.size(); i++ )
+    for( int i = 0; i < this->listItems.size(); i++ )
     {
-        ListItem *l = this->contactList.at( i );
+        ListItem *l = this->listItems.at( i );
         l->setSelected( l->getToSelect() );
-    }
-}
-
-void PalringoListView::contactReceived( Contact *contact )
-{
-    if( ( this->group == NULL ) || ( this->group->hasContact( contact->getID() ) ) )
-    {
-        ContactListItem *pc = new ContactListItem( this, contact );
-        this->contactList.append( pc );
-        this->addWidgetToView( pc );
-    }
-}
-
-void PalringoListView::getContacts()
-{
-    unsigned long long groupID = ( this->group == NULL ) ? 0 : this->group->getID();
-    QHash<unsigned long long, Contact*> contacts = tools_->getContacts( groupID );
-
-    if( contacts.size() > 0 )
-    {
-        foreach( Contact *contact, contacts )
-        {
-            this->contactReceived( contact );
-        }
     }
 }
 

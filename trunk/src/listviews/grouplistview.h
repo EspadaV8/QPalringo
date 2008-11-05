@@ -18,44 +18,30 @@
  *  along with QPalringo. If not, see <http://www.gnu.org/licenses/>       *
  *                                                                         *
  ***************************************************************************/
-#ifndef PALRINGOLISTVIEW_H
-#define PALRINGOLISTVIEW_H
+#ifndef GROUPLISTVIEW_H
+#define GROUPLISTVIEW_H
+
+#include "contactlistview.h"
+#include "../targets/group.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-
-#include <QtGui>
-#include <QWidget>
-#include <QList>
-#include "listviewcontainer.h"
-#include "../targets/contact.h"
-#include "../listitems/listitem.h"
-
-class PalringoListView : public QScrollArea
+class GroupListView : public ContactListView
 {
     Q_OBJECT
     public:
-        PalringoListView( QWidget *parent = 0 );
-        ~PalringoListView();
+        GroupListView(QWidget *parent = 0, Group *group = 0);
+        ~GroupListView();
 
-        void setList( QList<ListItem *> contacts );
-        void updateWidget( int x );
         virtual void setupContainers();
-        void setupOverview();
 
-    protected:
-        void mousePressEvent( QMouseEvent *event );
-        void addContainer( QString containerName );
+    private:
+        Group *group;
 
-        void addLayoutsToSelf();
-        int  getContainerPosition( QString containerName );
-        bool addWidgetToView( ListItem *item );
+    protected slots:
+        void getContacts();
 
-        QVBoxLayout *listLayout;
-
-        QList<ListItem *> listItems;
-        QList<ListViewContainer *> listViewContainers;
 };
 
 #endif

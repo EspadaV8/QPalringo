@@ -87,8 +87,6 @@ class PalringoWindow : public QMainWindow
         void AddPalringoService();
 
         PalringoListView *overviewList;
-        PalringoListView *contactList;
-        PalringoListView *groupList;
 
         QList<ListItem *> usersContacts;
         QList<ListItem *> userServices;

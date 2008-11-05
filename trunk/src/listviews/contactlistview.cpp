@@ -18,44 +18,48 @@
  *  along with QPalringo. If not, see <http://www.gnu.org/licenses/>       *
  *                                                                         *
  ***************************************************************************/
-#ifndef PALRINGOLISTVIEW_H
-#define PALRINGOLISTVIEW_H
+#include "tools.h"
+#include "contactlistview.h"
+#include "../listitems/contactlistitem.h"
 
-/**
-	@author Andrew Smith <espadav8@gmail.com>
-*/
-
-#include <QtGui>
-#include <QWidget>
-#include <QList>
-#include "listviewcontainer.h"
-#include "../targets/contact.h"
-#include "../listitems/listitem.h"
-
-class PalringoListView : public QScrollArea
+ContactListView::ContactListView( QWidget *parent )
+ : PalringoListView( parent )
 {
-    Q_OBJECT
-    public:
-        PalringoListView( QWidget *parent = 0 );
-        ~PalringoListView();
+}
 
-        void setList( QList<ListItem *> contacts );
-        void updateWidget( int x );
-        virtual void setupContainers();
-        void setupOverview();
+ContactListView::~ContactListView()
+{
+}
 
-    protected:
-        void mousePressEvent( QMouseEvent *event );
-        void addContainer( QString containerName );
+void ContactListView::setupContainers()
+{
+    this->addContainer( tr( "Online" ) );
+    this->addContainer( tr( "Offline" ) );
+    
+    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
+    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
 
-        void addLayoutsToSelf();
-        int  getContainerPosition( QString containerName );
-        bool addWidgetToView( ListItem *item );
+    this->addLayoutsToSelf();
+}
 
-        QVBoxLayout *listLayout;
+void ContactListView::contactReceived( Contact *contact )
+{
+    ContactListItem *pc = new ContactListItem( this, contact );
+    this->listItems.append( pc );
+    this->addWidgetToView( pc );
+}
 
-        QList<ListItem *> listItems;
-        QList<ListViewContainer *> listViewContainers;
-};
-
-#endif
+void ContactListView::getContacts( quint64 groupID )
+{
+    QHash<quint64, Contact*> contacts = tools_->getContacts( groupID );
+    
+    this->setUpdatesEnabled( false );
+    if( contacts.size() > 0 )
+    {
+        foreach( Contact *contact, contacts )
+        {
+            this->contactReceived( contact );
+        }
+    }
+    this->setUpdatesEnabled( true );
+}

@@ -19,7 +19,9 @@ SOURCES += main.cpp \
  speexdecoder.cpp \
  service.cpp \
  palringoservice.cpp \
- contactpropertieswindow.cpp
+ contactpropertieswindow.cpp \
+ listviews/contactlistview.cpp \
+ listviews/grouplistview.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -53,7 +55,9 @@ HEADERS += palringowindow.h \
  speexdecoder.h \
  service.h \
  palringoservice.h \
- contactpropertieswindow.h
+ contactpropertieswindow.h \
+ listviews/contactlistview.h \
+ listviews/grouplistview.h
 
 LIBS += -LlibPalringo -lPalringo -lssl -lspeex -lz
 

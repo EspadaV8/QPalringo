@@ -23,6 +23,8 @@
 #include "tools.h"
 #include "palringoservice.h"
 #include "listitems/serviceitem.h"
+#include "listviews/contactlistview.h"
+#include "listviews/grouplistview.h"
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()
@@ -151,9 +153,8 @@ void PalringoWindow::SetupTabs()
     overviewList = new PalringoListView( mainTabs );
     overviewList->setupOverview();
 
-    contactList = new PalringoListView( mainTabs );
-    contactList->setupContactList();
-    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), contactList, SLOT( contactReceived( Contact* ) ) );
+    ContactListView *contactList = new ContactListView( mainTabs );
+    contactList->setupContainers();
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
@@ -200,9 +201,8 @@ void PalringoWindow::loginService()
 
 void PalringoWindow::newGroupAdded( Group *group )
 {
-    PalringoListView *groupTab = new PalringoListView( mainTabs, group );
-    groupTab->setupGroupList();
-    connect( tools_, SIGNAL( contactDetailReceived( Contact* ) ), groupTab, SLOT( contactReceived( Contact* ) ) );
+    GroupListView *groupTab = new GroupListView( mainTabs, group );
+    groupTab->setupContainers();
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
