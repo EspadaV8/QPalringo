@@ -22,6 +22,7 @@
 #define CONTACTLISTVIEW_H
 
 #include "palringolistview.h"
+#include "../targets/contact.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

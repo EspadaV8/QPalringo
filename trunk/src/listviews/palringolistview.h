@@ -29,7 +29,6 @@
 #include <QWidget>
 #include <QList>
 #include "listviewcontainer.h"
-#include "../targets/contact.h"
 #include "../listitems/listitem.h"
 
 class PalringoListView : public QScrollArea

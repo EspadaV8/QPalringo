@@ -21,7 +21,6 @@
 #include "tools.h"
 #include "grouplistview.h"
 #include "../listitems/grouplistitem.h"
-#include "../listitems/contactlistitem.h"
 
 GroupListView::GroupListView(QWidget *parent, Group *group)
  : ContactListView(parent)

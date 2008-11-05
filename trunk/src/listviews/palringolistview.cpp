@@ -20,9 +20,6 @@
  ***************************************************************************/
 #include "tools.h"
 #include "palringolistview.h"
-#include "../listitems/grouplistitem.h"
-#include "../listitems/contactlistitem.h"
-#include "../listitems/serviceitem.h"
 
 PalringoListView::PalringoListView( QWidget *parent )
     : QScrollArea( parent )
