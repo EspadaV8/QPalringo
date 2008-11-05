@@ -22,7 +22,7 @@
 #define SERVICEITEM_H
 
 #include "listitem.h"
-#include "service.h"
+#include "../services/service.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

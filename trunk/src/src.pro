@@ -17,11 +17,12 @@ SOURCES += main.cpp \
  listitems/serviceitem.cpp \
  listitems/grouplistitem.cpp \
  speexdecoder.cpp \
- service.cpp \
- palringoservice.cpp \
+ services/service.cpp \
+ services/palringoservice.cpp \
  contactpropertieswindow.cpp \
  listviews/contactlistview.cpp \
- listviews/grouplistview.cpp
+ listviews/grouplistview.cpp \
+ listviews/overviewlistview.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -53,11 +54,12 @@ HEADERS += palringowindow.h \
  listitems/grouplistitem.h \
  message.h \
  speexdecoder.h \
- service.h \
- palringoservice.h \
+ services/service.h \
+ services/palringoservice.h \
  contactpropertieswindow.h \
  listviews/contactlistview.h \
- listviews/grouplistview.h
+ listviews/grouplistview.h \
+ listviews/overviewlistview.h
 
 LIBS += -LlibPalringo -lPalringo -lssl -lspeex -lz
 

@@ -21,7 +21,7 @@
 #include <QtGui>
 #include "palringowindow.h"
 #include "tools.h"
-#include "palringoservice.h"
+#include "services/palringoservice.h"
 #include "listitems/serviceitem.h"
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
