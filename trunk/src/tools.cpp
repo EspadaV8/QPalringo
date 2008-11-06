@@ -19,6 +19,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QPixmapCache>
+#include <QTextDocument>
 #include "tools.h"
 #include "contactpropertieswindow.h"
 Tools *tools_;
