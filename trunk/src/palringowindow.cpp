@@ -21,10 +21,9 @@
 #include <QtGui>
 #include "palringowindow.h"
 #include "tools.h"
-#include "services/palringoservice.h"
-#include "listitems/serviceitem.h"
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
+#include "listviews/overviewlistview.h"
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()
@@ -35,7 +34,6 @@ PalringoWindow::PalringoWindow()
     CreateMenuBar();
 
     SetupTabs();
-    AddPalringoService();
 
     setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
@@ -83,7 +81,8 @@ void PalringoWindow::SetupActions()
     signinMenuAction = new QAction( tr( "Si&gn In" ), this );
     signinMenuAction->setShortcut( tr( "Ctrl+G" ) );
     signinMenuAction->setStatusTip( tr( "Sign In" ) );
-    connect(signinMenuAction, SIGNAL(triggered()), this, SLOT(showSigninWindow()));
+    signinMenuAction->setEnabled( false );
+    // connect(signinMenuAction, SIGNAL(triggered()), this, SLOT(showSigninWindow()));
 
     addServiceMenuAction = new QAction( tr( "A&dd service..." ), this );
     addServiceMenuAction->setShortcut( tr( "Ctrl+D" ) );
@@ -150,30 +149,14 @@ void PalringoWindow::SetupTabs()
 {
     mainTabs = new QTabWidget();
 
-    overviewList = new PalringoListView( mainTabs );
-    overviewList->setupOverview();
+    OverviewListView *overviewList = new OverviewListView( mainTabs );
+    overviewList->setupContainers();
 
     ContactListView *contactList = new ContactListView( mainTabs );
     contactList->setupContainers();
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
-}
-
-void PalringoWindow::AddPalringoService()
-{
-    PalringoService *s = new PalringoService;
-    s->Nickname = QString("Palringo");
-    s->Status = QString("Offline");
-    s->OnlineStatus = "Offline";
-    s->Type = "palringo";
-    s->Group = "Services";
-    
-    ServiceItem *si = new ServiceItem( 0, s, true );
-    connect( si, SIGNAL(doubleClick()), this, SLOT(loginService()));
-    userServices.append( si );
-    overviewList->setList( userServices );
-    this->update();
 }
 
 PalringoWindow::~PalringoWindow()
@@ -185,18 +168,6 @@ void PalringoWindow::CreateTrayIcon()
     this->systrayicon = new QSystemTrayIcon();
     this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
-}
-
-void PalringoWindow::showSigninWindow()
-{
-    if( this->signinWindow ) {};
-    this->signinWindow = new SigninWindow( this );
-    this->signinWindow->show();
-}
-
-void PalringoWindow::loginService()
-{
-    this->showSigninWindow();
 }
 
 void PalringoWindow::newGroupAdded( Group *group )

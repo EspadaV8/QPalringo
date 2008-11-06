@@ -23,11 +23,13 @@
 
 #include <QMainWindow>
 #include <QTabWidget>
-#include "listviews/palringolistview.h"
+#include <QSystemTrayIcon>
+#include <QScrollArea>
 #include "targets/contact.h"
 #include "targets/group.h"
 #include "signinwindow.h"
 #include "messageitem.h"
+#include "listitems/listitem.h"
 
 class Connection;
 
@@ -44,8 +46,6 @@ class PalringoWindow : public QMainWindow
         void sendMessage( Contact *contact, Message *message );
 
     public slots:
-        void showSigninWindow();
-        void loginService();
         void newGroupAdded( Group *group );
         void groupLeft( quint64 groupID );
         
@@ -84,14 +84,9 @@ class PalringoWindow : public QMainWindow
 
         void CreateTrayIcon();
         void SetupTabs();
-        void AddPalringoService();
-
-        PalringoListView *overviewList;
 
         QList<ListItem *> usersContacts;
         QList<ListItem *> userServices;
-
-        SigninWindow *signinWindow;
 };
 
 #endif
