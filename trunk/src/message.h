@@ -31,8 +31,8 @@ struct Message
 {
     QString type;
     QByteArray payload;
-    unsigned long long senderID;
-    unsigned long long groupID;
+    quint64 senderID;
+    quint64 groupID;
     QDateTime timestamp;
     bool hist;
 };

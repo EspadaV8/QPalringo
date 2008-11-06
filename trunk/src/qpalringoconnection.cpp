@@ -54,8 +54,8 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
 
     Message* message;
     bool last = msgData.last_;
-    unsigned long long correlationID = msgData.correlationId_;
-    unsigned long long messageID = msgData.mesgId_;
+    quint64 correlationID = msgData.correlationId_;
+    quint64 messageID = msgData.mesgId_;
     if( !last )
     {
         if( correlationID > 0 )
@@ -108,7 +108,7 @@ int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::str
 {
     PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
 
-    unsigned long long userID = userId_;
+    quint64 userID = userId_;
     QString nickname = QString::fromStdString( nickname_ );
     QString status = QString::fromStdString( status_ );
     QString lastOnline = QString::fromStdString( lastOnline_ );
@@ -172,7 +172,7 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
         group_t &group_ = groups_[groupData.groupId_];
         std::set<uint64_t>::iterator it;
 
-        QSet<unsigned long long> group_contacts;
+        QSet<quint64> group_contacts;
 
         for( it = group_.contacts_.begin(); it != group_.contacts_.end(); it++)
         {
@@ -192,7 +192,7 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
 
 bool QPalringoConnection::sendToContact(QByteArray msg,
                                         QString contentType,
-                                        unsigned long long receiverID )
+                                        quint64 receiverID )
 {
     return PalringoConnection::sendToContact( msg.data(),
                                                   msg.size(),
@@ -202,7 +202,7 @@ bool QPalringoConnection::sendToContact(QByteArray msg,
 
 bool QPalringoConnection::sendToGroup(QByteArray msg,
                                       QString contentType,
-                                      unsigned long long groupID )
+                                      quint64 groupID )
 {
     return PalringoConnection::sendToGroup( msg.data(),
                                             msg.size(),
@@ -212,7 +212,7 @@ bool QPalringoConnection::sendToGroup(QByteArray msg,
 
 bool QPalringoConnection::sendMessage(QByteArray msg,
                                       QString contentType,
-                                      unsigned long long targetID,
+                                      quint64 targetID,
                                       bool isGroup )
 {
     int targetType = (isGroup) ? 1 : 0;

@@ -63,7 +63,7 @@ void Connection::run()
     }
 }
 
-void Connection::sendMessage( unsigned long long receiverID, bool isGroup, Message *message )
+void Connection::sendMessage( quint64 receiverID, bool isGroup, Message *message )
 {
     this->conn->sendMessage( message->payload, message->type, receiverID, isGroup );
 }

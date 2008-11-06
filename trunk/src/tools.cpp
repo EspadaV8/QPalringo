@@ -166,12 +166,12 @@ void Tools::addContact( Contact *contact )
     this->contactLock.unlock();
 }
 
-QHash<unsigned long long, Contact*> Tools::getContacts()
+QHash<quint64, Contact*> Tools::getContacts()
 {
     return this->contacts;
 }
 
-Contact* Tools::getContact( unsigned long long contactID )
+Contact* Tools::getContact( quint64 contactID )
 {
     Contact* c = NULL;
     this->contactLock.lockForRead();
@@ -183,9 +183,9 @@ Contact* Tools::getContact( unsigned long long contactID )
     return c;
 }
 
-QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long groupID )
+QHash<quint64, Contact*> Tools::getContacts( quint64 groupID )
 {
-    QHash<unsigned long long, Contact*> groupContacts;
+    QHash<quint64, Contact*> groupContacts;
     if( groupID == 0 )
     {
         foreach( Contact *contact, this->contacts )
@@ -199,8 +199,8 @@ QHash<unsigned long long, Contact*> Tools::getContacts( unsigned long long group
     else
     {
         Group *group = this->groups.value( groupID );
-        QSet<unsigned long long> groupContactIDs = group->getContacts();
-        foreach( unsigned long long contactID, groupContactIDs )
+        QSet<quint64> groupContactIDs = group->getContacts();
+        foreach( quint64 contactID, groupContactIDs )
         {
             Contact* contact = this->contacts.value( contactID );
             groupContacts.insert( contactID, contact );
@@ -233,7 +233,7 @@ quint32 Tools::getTimestampDifference()
     return this->timestampDifference;
 }
 
-void Tools::setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline )
+void Tools::setUser( quint64 userID, QString nickname, QString status, QString lastOnline )
 {
     this->user->userID = userID;
     this->user->nickname = nickname;

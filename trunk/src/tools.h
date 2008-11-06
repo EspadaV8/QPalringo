@@ -34,7 +34,7 @@
 
 struct User
 {
-    unsigned long long userID;
+    quint64 userID;
     QString nickname;
     QString status;
     QString lastOnline;
@@ -64,12 +64,12 @@ class Tools : public QObject
         void sendMessage( Target *target, bool isGroup, Message *message );
         void getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp );
 
-        Contact* getContact( unsigned long long contactID );
-        QHash<unsigned long long, Contact*> getContacts();
-        QHash<unsigned long long, Contact*> getContacts( unsigned long long groupID = 0 );
+        Contact* getContact( quint64 contactID );
+        QHash<quint64, Contact*> getContacts();
+        QHash<quint64, Contact*> getContacts( quint64 groupID = 0 );
 
         User *user;
-        void setUser( unsigned long long userID, QString nickname, QString status, QString lastOnline );
+        void setUser( quint64 userID, QString nickname, QString status, QString lastOnline );
 
         QString formatMessageText( QByteArray messagePayload );
         QString tagURLs( QString text );
@@ -117,8 +117,8 @@ class Tools : public QObject
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message*> unreadMessages;
 
-        QHash<unsigned long long, Contact* > contacts;
-        QHash<unsigned long long, Group* > groups;
+        QHash<quint64, Contact* > contacts;
+        QHash<quint64, Group* > groups;
 
         QReadWriteLock contactLock;
 

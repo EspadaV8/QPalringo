@@ -39,8 +39,8 @@ class QPalringoConnection : public QObject, public PalringoConnection
         int logonSuccessful();
         int logonSuccessful( QString timestamp );
         void messageReceived( QString message,
-                              unsigned long long senderID,
-                              unsigned long long groupID,
+                              quint64 senderID,
+                              quint64 groupID,
                               QString ct );
         void messageReceived( Message *message );
         void historyMessageReceived( Message *message );
@@ -58,13 +58,13 @@ class QPalringoConnection : public QObject, public PalringoConnection
 
         bool sendToContact( QByteArray msg,
                             QString contentType,
-                            unsigned long long receiverID );
+                            quint64 receiverID );
         bool sendToGroup( QByteArray msg,
                           QString contentType,
-                          unsigned long long groupID );
+                          quint64 groupID );
         bool sendMessage( QByteArray msg,
                           QString contentType,
-                          unsigned long long groupID,
+                          quint64 groupID,
                           bool isGroup );
         bool getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
         void joinGroup( QString groupName );
@@ -86,7 +86,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
                                           GenericData*);
 
     private:
-        QMap<unsigned long long, Message*> unfinishedMessages;
+        QMap<quint64, Message*> unfinishedMessages;
 };
 
 #endif

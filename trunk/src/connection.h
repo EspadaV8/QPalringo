@@ -42,7 +42,7 @@ class Connection : public QThread
         ~Connection();
 
         void run();
-        void sendMessage( unsigned long long receiverID, bool isGroup, Message *message );
+        void sendMessage( quint64 receiverID, bool isGroup, Message *message );
         void getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
         
         void joinGroup( QString groupName );
