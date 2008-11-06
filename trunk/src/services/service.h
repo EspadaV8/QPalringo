@@ -44,8 +44,9 @@ class Service : public QObject
     signals:
         virtual void serviceUpdated();
         
-    private slots:
+    protected slots:
         virtual void loggedOn();
+        virtual void loginService();
 };
 
 #endif

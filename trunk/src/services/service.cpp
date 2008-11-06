@@ -27,7 +27,12 @@ Service::Service(QObject *parent)
 
 void Service::loggedOn()
 {
-    qDebug( "Not implemented" );
+    qDebug( "Service::loggedOn - Not implemented" );
+}
+
+void Service::loginService()
+{
+    qDebug( "Service::loginService - Not implemented" );
 }
 
 Service::~Service()
