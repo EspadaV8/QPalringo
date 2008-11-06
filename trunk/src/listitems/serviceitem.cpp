@@ -30,6 +30,7 @@ ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoServ
     setSecondLine( this->service->OnlineStatus );
     setIcon( ":/svg/" + this->service->Type + "Service.svg" );
     
+    connect( this, SIGNAL( doubleClick() ), service, SLOT( loginService() ) );
     connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
     
     this->setMenu();
@@ -61,7 +62,7 @@ void ServiceItem::setMenu()
     
     this->signonMenuAction = new QAction( tr( "Sign in..." ), this );
     this->signonMenuAction->setStatusTip( tr( "Sign in to the selected service" ) );
-    //connect( this->signonMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( leaveGroup() ) );
+    connect( this->signonMenuAction, SIGNAL( triggered( bool ) ), service, SLOT( loginService() ) );
     
     this->popupMenu->addAction( this->editServiceMenuAction );
     this->popupMenu->addAction( this->signonMenuAction );
