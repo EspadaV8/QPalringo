@@ -19,6 +19,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QFileDialog>
+#include <QBuffer>
 #include "chatwindow.h"
 #include "tools.h"
 

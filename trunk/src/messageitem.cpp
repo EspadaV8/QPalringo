@@ -20,6 +20,7 @@
  ***************************************************************************/
 #include <QFile>
 #include <QStringList>
+#include <QBuffer>
 #include "messageitem.h"
 #include "tools.h"
 #include "speexdecoder.h"
