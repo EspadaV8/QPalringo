@@ -35,6 +35,14 @@ void PalringoService::loggedOn()
     emit( serviceUpdated() );
 }
 
+void PalringoService::loginService()
+{
+    if( this->signinWindow ) {};
+    
+    this->signinWindow = new SigninWindow();
+    this->signinWindow->show();
+}
+
 PalringoService::~PalringoService()
 {
 }

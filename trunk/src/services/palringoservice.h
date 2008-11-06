@@ -22,6 +22,7 @@
 #define PALRINGOSERVICE_H
 
 #include "service.h"
+#include "../signinwindow.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -37,6 +38,10 @@ class PalringoService : public Service
         virtual void serviceUpdated();
         
     private:
+        SigninWindow *signinWindow;
+        
+    protected slots:
+        virtual void loginService();
         virtual void loggedOn();
 
 };
