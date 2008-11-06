@@ -41,7 +41,6 @@ class PalringoListView : public QScrollArea
         void setList( QList<ListItem *> contacts );
         void updateWidget( int x );
         virtual void setupContainers();
-        void setupOverview();
 
     protected:
         void mousePressEvent( QMouseEvent *event );

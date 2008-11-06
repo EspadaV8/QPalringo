@@ -45,16 +45,6 @@ void PalringoListView::setupContainers()
     qDebug( "PalringoListView::setupContainers - not implemented" );
 }
 
-void PalringoListView::setupOverview()
-{
-    this->addContainer( tr( "Services" ) );
-    this->addContainer( tr( "Messages" ) );
-
-    // disconnect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
-
-    this->addLayoutsToSelf();
-}
-
 void PalringoListView::addLayoutsToSelf()
 {
     foreach ( ListViewContainer *l, this->listViewContainers )
