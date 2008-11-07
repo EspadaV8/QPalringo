@@ -1051,9 +1051,20 @@ PalringoConnection::parseCmd(std::string& cmd,
           eom = crlfcrlf + 4;
         }
     }
-  else
+    else
     {
-      return false;
+        // if we get some user data, just skip over it
+        // FIXME
+        const char* const ud = strstr(inBuf, "USER_DATA");
+        if( ud != 0 )
+        {
+            sofar_ += endBuf - inBuf;
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
   // Extract command
   const char* const crlf = strstr(inBuf, "\r\n");
