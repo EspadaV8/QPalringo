@@ -84,6 +84,9 @@ class QPalringoConnection : public QObject, public PalringoConnection
         virtual int onGroupDetailReceived(headers_t&,
                                           std::string&,
                                           GenericData*);
+        virtual int onSubProfileReceived(headers_t& headers,
+                                              std::string& body,
+                                              GenericData *data );
 
     private:
         QMap<quint64, Message*> unfinishedMessages;

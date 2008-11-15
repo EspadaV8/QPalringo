@@ -248,3 +248,12 @@ void QPalringoConnection::leaveGroup( quint64 groupID )
 {
     PalringoConnection::groupUnsubscribe( groupID );
 }
+
+int QPalringoConnection::onSubProfileReceived(headers_t& headers,
+                                               std::string& body,
+                                               GenericData *data )
+{
+    PalringoConnection::onSubProfileReceived( headers, body, data );
+    qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
+}
+
