@@ -159,7 +159,9 @@ enum DeviceType
 {
   BOT = 1,
   PC,
-  HANDHELD
+  HANDHELD,
+  MAC,
+  IPHONE
 };
 
 enum ConnectionStatus
