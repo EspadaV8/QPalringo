@@ -63,6 +63,10 @@ Q_OBJECT
         QPushButton *imageButton;
         MessageList *messageList;
         QLineEdit *messageInput;
+        
+        void sendImageMessage( const QImage& image );
+        void sendTextMessage( const QString& message );
+        void sendMessage( Message* message );
 };
 
 #endif

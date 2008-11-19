@@ -82,43 +82,55 @@ void ChatWindow::loadImageFile()
 {
     QString fileName = "";
     fileName = QFileDialog::getOpenFileName(this, tr("Open Image"), "", tr("Image Files (*.png *.jpg *.gif *.svg *.bmp *.tiff)"));
-    
+
     if( fileName != "" )
     {
         QImage *image = new QImage( fileName );
-        
         if ( image )
         {
-            Message *m = new Message;
-            
-            QBuffer buffer(&m->payload);
-            buffer.open(QIODevice::WriteOnly);
-            image->save(&buffer, "jpg");
-            
-            m->type = "image/jpeg";
-            m->timestamp = QDateTime::currentDateTime();
-            m->senderID = tools_->user->userID;
-
-            tools_->sendMessage( this->target, this->isGroup, m );
-            this->messageList->addMessage( m );
+            this->sendImageMessage( *image );
         }
     }
-    
+}
+
+void ChatWindow::sendImageMessage( const QImage& image )
+{
+    Message *m = new Message;
+
+    QBuffer buffer(&m->payload);
+    buffer.open(QIODevice::WriteOnly);
+    image.save(&buffer, "jpg");
+
+    m->type = "image/jpeg";
+    m->timestamp = QDateTime::currentDateTime();
+    m->senderID = tools_->user->userID;
+
+    this->sendMessage( m );
+}
+
+void ChatWindow::sendTextMessage( const QString& message )
+{
+    Message *m = new Message;
+
+    m->type = "text/plain";
+    m->payload.append( message );
+    m->timestamp = QDateTime::currentDateTime();
+    m->senderID = tools_->user->userID;
+
+    this->sendMessage( m );
+    this->messageInput->clear();
+}
+
+void ChatWindow::sendMessage( Message* message )
+{
+    tools_->sendMessage( this->target, this->isGroup, message );
+    this->messageList->addMessage( message );
 }
 
 void ChatWindow::checkMessageInput()
 {
     QString message = this->messageInput->text().toUtf8();
-
-    Message *m = new Message;
-    m->payload.append( message );
-    m->type = "text/plain";
-    m->timestamp = QDateTime::currentDateTime();
-    m->senderID = tools_->user->userID;
-
-    tools_->sendMessage( this->target, this->isGroup, m );
-    this->messageList->addMessage( m );
-    this->messageInput->clear();
+    this->sendTextMessage( message );
 }
 
 void ChatWindow::appendMessage( Message* message )
