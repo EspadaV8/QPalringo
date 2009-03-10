@@ -25,7 +25,6 @@
  @author Andrew Smith <espadav8@gmail.com>
 */
 
-#include <phonon>
 #include <QWidget>
 #include <QLabel>
 #include <QHBoxLayout>
@@ -62,8 +61,6 @@ class MessageItem : public QWidget
 
         bool toSelect;
         bool selected;
-
-        Phonon::MediaObject *mediaObject;
 
         void handleAudioClip();
 

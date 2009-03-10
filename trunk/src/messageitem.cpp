@@ -148,7 +148,7 @@ void MessageItem::handleAudioClip()
         qDebug() << audioOutputDevices.at(i).name();
     }
     */
-
+    /*
     SpeexDecoder* sd = new SpeexDecoder( this );
 
     char* data = this->message->payload.data();
@@ -181,7 +181,7 @@ void MessageItem::handleAudioClip()
 
     qDebug( "Playing" );
     mediaObject->play();
-
+    */
     /*
     qDebug( "Creating MediaObject" );
     mediaObject = new Phonon::MediaObject(this);
@@ -217,6 +217,7 @@ void MessageItem::handleAudioClip()
 
 void MessageItem::showMetaData()
 {
+    /*
     QMultiMap<QString, QString> mm = mediaObject->metaData();
     qDebug() << "metaData size - " << mm.size();
     QMapIterator<QString, QString> i(mm);
@@ -225,11 +226,12 @@ void MessageItem::showMetaData()
         i.next();
         qDebug() << i.key() << ": " << i.value();
     }
+    */
 }
 
 void MessageItem::finished()
 {
-    qDebug() << "finished - " << mediaObject->errorString();
+//    qDebug() << "finished - " << mediaObject->errorString();
 }
 
 bool MessageItem::getToSelect()
