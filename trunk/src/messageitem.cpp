@@ -56,9 +56,9 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     }
     else if( this->message.type.startsWith( "image" ) )
     {
-        QImage* im = new QImage();
-        im->loadFromData( this->message.payload );
-        QImage scaled = im->scaled( 100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation );
+        QImage im;
+        im.loadFromData( this->message.payload );
+        QImage scaled = im.scaled( 100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
         QPixmap pi = QPixmap::fromImage( scaled );
         this->messageText->setPixmap( pi );
@@ -66,8 +66,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     }
     else if( this->message.type.startsWith( "audio" ) )
     {
-        QPixmap *p = new QPixmap( ":/misc/rightarrow.png" );
-        this->messageText->setPixmap( *p );
+        QPixmap p( ":/misc/rightarrow.png" );
+        this->messageText->setPixmap( p );
         messageTypeIcon = ":/svg/voice.svg";
     }
 
