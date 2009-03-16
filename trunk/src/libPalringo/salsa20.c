@@ -57,7 +57,7 @@ void salsa20_encrypt_bytes(salsa20_ctx *x,const uint8_t *m,u8 *c,uint32_t bytes)
   uint32_t j0, j1, j2, j3, j4, j5, j6, j7, j8, j9, j10, j11, j12, j13, j14, j15;
   uint8_t *ctarget;
   uint8_t tmp[64];
-  int i;
+  uint8_t i;
 
   if (!bytes) return;
 
