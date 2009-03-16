@@ -116,6 +116,7 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
 
         QLabel *l = new QLabel( 0, Qt::Window );
         l->setPixmap( p );
+        l->setWindowTitle( t );
         l->show();
     }
     else if( this->message.type.startsWith( "audio" ) )
