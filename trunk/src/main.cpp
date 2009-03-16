@@ -30,7 +30,7 @@ int main ( int argc, char *argv[] )
 
     if ( ! sheet.open ( QIODevice::ReadOnly ) )
     {
-        qCritical() << "failed to read the stylesheet resource:" << sheet.fileName();
+        qCritical( "failed to read the stylesheet resource: %s", qPrintable( sheet.fileName() ) );
         exit ( EXIT_FAILURE );
     }
 
