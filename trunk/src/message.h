@@ -22,6 +22,7 @@
 #ifndef MESSAGE_H
 #define MESSAGE_H
 
+#include <QMetaType>
 #include <QString>
 #include <QByteArray>
 #include <QDateTime>
@@ -36,6 +37,12 @@ struct Message
     quint64 groupID;
     QDateTime timestamp;
     bool hist;
+
+    Message()
+    {
+        qRegisterMetaType<Message>("Message");
+    }
 };
 
+Q_DECLARE_METATYPE(Message)
 #endif

@@ -43,8 +43,8 @@ class QPalringoConnection : public QObject, public PalringoConnection
                               quint64 senderID,
                               quint64 groupID,
                               QString ct );
-        void messageReceived( Message *message );
-        void historyMessageReceived( Message *message );
+        void messageReceived( Message message );
+        void historyMessageReceived( Message message );
         void gotContactDetails( Contact *contact );
         void gotGroupDetails( Group *group );
 
@@ -90,7 +90,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
                                               GenericData *data );
 
     private:
-        QMap<quint64, Message*> unfinishedMessages;
+        QMap<quint64, Message> unfinishedMessages;
 };
 
 #endif

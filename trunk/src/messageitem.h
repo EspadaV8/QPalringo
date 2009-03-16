@@ -39,7 +39,7 @@ class MessageItem : public QWidget
 {
     Q_OBJECT
     public:
-        MessageItem ( QWidget *parent = 0, Message *message = NULL );
+        MessageItem ( QWidget *parent = 0, Message message = Message() );
         ~MessageItem();
 
         bool getToSelect();
@@ -47,7 +47,7 @@ class MessageItem : public QWidget
         Message getMessage();
 
     private:
-        Message *message;
+        Message message;
         Contact* contact;
 
         QSvgWidget *messageIcon;

@@ -37,8 +37,8 @@ class MessageList : public QScrollArea
             MessageList ( QWidget *parent = 0 );
             ~MessageList();
 
-            void addMessage ( Message *message );
-            void insertMessage( qint64 pos, Message *message );
+            void addMessage ( Message message );
+            void insertMessage( qint64 pos, Message message );
 
         private:
             QVBoxLayout *vbox;

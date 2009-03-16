@@ -43,7 +43,7 @@ Q_OBJECT
         ChatWindow(PalringoWindow *parent = 0, Target *target = NULL, bool isGroup = false );
         ~ChatWindow();
 
-        void appendMessage( Message* message );
+        void appendMessage( Message message );
 
     private slots:
         void checkMessageInput();
@@ -67,7 +67,7 @@ Q_OBJECT
         
         void sendImageMessage( const QImage& image );
         void sendTextMessage( const QString& message );
-        void sendMessage( Message* message );
+        void sendMessage( Message message );
 };
 
 #endif

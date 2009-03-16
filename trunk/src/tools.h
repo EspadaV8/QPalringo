@@ -62,7 +62,7 @@ class Tools : public QObject
 
         void openPalringoConnection( QString email, QString password );
 
-        void sendMessage( Target *target, bool isGroup, Message *message );
+        void sendMessage( Target *target, bool isGroup, Message message );
         void getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp );
 
         Contact* getContact( quint64 contactID );
@@ -93,8 +93,8 @@ class Tools : public QObject
         void logonSuccessful( QString timestamp );
         void addGroup( Group *group );
         void addContact( Contact *contact );
-        void messageReceived( Message* message );
-        void historyMessageReceived( Message* message );
+        void messageReceived( Message message );
+        void historyMessageReceived( Message message );
         void disconnected();
 
     signals:
@@ -116,7 +116,7 @@ class Tools : public QObject
         QHash<Target*, ChatWindow *> openWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
-        QMultiMap<Contact*, Message*> unreadMessages;
+        QMultiMap<Contact*, Message> unreadMessages;
 
         QHash<quint64, Contact* > contacts;
         QHash<quint64, Group* > groups;

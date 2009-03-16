@@ -80,7 +80,7 @@ void Tools::removeChatWindow( Target *target )
     this->openWindows.remove( target );
 }
 
-void Tools::historyMessageReceived( Message* message )
+void Tools::historyMessageReceived( Message message )
 {
     if( this->gettingHistory )
     {
@@ -90,16 +90,14 @@ void Tools::historyMessageReceived( Message* message )
         this->gettingHistory = false;
         this->historyTarget = NULL;
         this->historyTargetIsGroup = false;
-
-
     }
 }
 
-void Tools::messageReceived( Message* message )
+void Tools::messageReceived( Message message )
 {
-    if( message->groupID == 0 )
+    if( message.groupID == 0 )
     {
-        Contact *contact = this->contacts.value( message->senderID );
+        Contact *contact = this->contacts.value( message.senderID );
         if( !this->checkChatWindowOpen( contact ) )
         {
             this->openChatWindow( contact );
@@ -109,7 +107,7 @@ void Tools::messageReceived( Message* message )
     }
     else
     {
-        Group* group = this->groups.value( message->groupID );
+        Group* group = this->groups.value( message.groupID );
         if( !this->checkChatWindowOpen( group ) )
         {
             this->openChatWindow( group );
@@ -128,7 +126,7 @@ void Tools::openPalringoConnection( QString email, QString password )
     }
 }
 
-void Tools::sendMessage( Target *target, bool isGroup, Message *message )
+void Tools::sendMessage( Target *target, bool isGroup, Message message )
 {
     this->connection->sendMessage( target->getID(), isGroup, message );
 }

@@ -40,7 +40,7 @@ MessageList::~MessageList()
 {
 }
 
-void MessageList::addMessage( Message *message )
+void MessageList::addMessage( Message message )
 {
     qint64 pos = 0;
     if( this->messages.count() == 0 )
@@ -52,7 +52,7 @@ void MessageList::addMessage( Message *message )
         for( pos = 0; pos < this->messages.count(); pos++ )
         {
             MessageItem *mi = (MessageItem*)this->vbox->itemAt( pos )->widget();
-            if( mi->getMessage().timestamp <= message->timestamp )
+            if( mi->getMessage().timestamp <= message.timestamp )
             {
                 continue;
             }
@@ -65,7 +65,7 @@ void MessageList::addMessage( Message *message )
     this->insertMessage( pos, message );
 }
 
-void MessageList::insertMessage( qint64 pos, Message *message )
+void MessageList::insertMessage( qint64 pos, Message message )
 {
     MessageItem *m = new MessageItem( this, message );
     this->atBottom = ( this->verticalScrollBar()->sliderPosition() == this->verticalScrollBar()->maximum() );

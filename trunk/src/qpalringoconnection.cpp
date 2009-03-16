@@ -37,8 +37,8 @@ QPalringoConnection::QPalringoConnection(QString login,
     connect( this,      SIGNAL( logonSuccessful( QString ) ),    tools_, SLOT( logonSuccessful( QString ) ) );
     connect( this,      SIGNAL( gotGroupDetails( Group* ) ),     tools_, SLOT( addGroup( Group* ) ) );
     connect( this,      SIGNAL( gotContactDetails( Contact* ) ), tools_, SLOT( addContact( Contact* ) ) );
-    connect( this,      SIGNAL( messageReceived( Message* ) ),   tools_, SLOT( messageReceived( Message* ) ) );
-    connect( this,      SIGNAL( historyMessageReceived( Message* ) ),   tools_, SLOT( historyMessageReceived( Message* ) ) );
+    connect( this,      SIGNAL( messageReceived( Message ) ),   tools_, SLOT( messageReceived( Message ) ) );
+    connect( this,      SIGNAL( historyMessageReceived( Message ) ),   tools_, SLOT( historyMessageReceived( Message ) ) );
 }
 
 int QPalringoConnection::poll()
@@ -53,7 +53,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
     MsgData msgData;
     PalringoConnection::onMesgReceived( headers, body, &msgData );
 
-    Message* message;
+    Message message;
     bool last = msgData.last_;
     quint64 correlationID = msgData.correlationId_;
     quint64 messageID = msgData.mesgId_;
@@ -65,12 +65,11 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         }
         else if( !unfinishedMessages.contains( messageID ) )
         {
-            message = new Message;
-            message->type = QString::fromStdString( msgData.contentType_ );
-            message->senderID = msgData.sourceId_;
-            message->groupID  = msgData.targetId_ | 0;
-            message->timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
-            message->hist = msgData.hist_;
+            message.type = QString::fromStdString( msgData.contentType_ );
+            message.senderID = msgData.sourceId_;
+            message.groupID  = msgData.targetId_ | 0;
+            message.timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
+            message.hist = msgData.hist_;
             unfinishedMessages.insert( messageID, message );
         }
         return 0;
@@ -79,22 +78,21 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
     {
         message = unfinishedMessages.value( correlationID );
         QString tmp = QString::fromStdString( body );
-        message->payload.append( tmp );
+        message.payload.append( tmp );
         unfinishedMessages.remove( correlationID );
     }
     else
     {
-        message = new Message;
-        message->type = QString::fromStdString( msgData.contentType_ );
-        message->senderID = msgData.sourceId_;
-        message->groupID  = msgData.targetId_ | 0;
-        message->timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
-        message->hist = msgData.hist_;
+        message.type = QString::fromStdString( msgData.contentType_ );
+        message.senderID = msgData.sourceId_;
+        message.groupID  = msgData.targetId_ | 0;
+        message.timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
+        message.hist = msgData.hist_;
         QString tmp = QString::fromStdString( body );
-        message->payload.append( tmp );
+        message.payload.append( tmp );
     }
 
-    if( message->hist == true )
+    if( message.hist == true )
     {
         emit( historyMessageReceived( message ) );
     }
