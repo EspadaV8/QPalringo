@@ -86,15 +86,15 @@ void ChatWindow::loadImageFile()
 
     if( fileName != "" )
     {
-        QImage *image = new QImage( fileName );
-        if ( image )
+        QImage image( fileName );
+        if ( !image.isNull() )
         {
-            this->sendImageMessage( *image );
+            this->sendImageMessage( image );
         }
     }
 }
 
-void ChatWindow::sendImageMessage( const QImage& image )
+void ChatWindow::sendImageMessage( QImage image )
 {
     Message m;
 
