@@ -178,7 +178,7 @@ void PalringoWindow::newGroupAdded( Group *group )
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
-void PalringoWindow::groupLeft( quint64 groupID )
+void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )
 {
     QWidget *w = mainTabs->currentWidget();
     mainTabs->setCurrentIndex( 0 );

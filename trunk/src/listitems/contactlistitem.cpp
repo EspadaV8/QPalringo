@@ -39,7 +39,7 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
 }
 
-void ContactListItem::setContactOnlineStatus( int onlinestatus )
+void ContactListItem::setContactOnlineStatus( int onlinestatus __attribute__ ((unused)) )
 {
     this->setIcon( this->contact->getIcon() );
 }
