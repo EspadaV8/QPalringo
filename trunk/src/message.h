@@ -42,6 +42,18 @@ struct Message
     {
         qRegisterMetaType<Message>("Message");
     }
+
+    Message(const Message& other)
+    {
+        this->type = other.type;
+        this->payload = other.payload;
+        this->senderID = other.senderID;
+        this->groupID = other.groupID;
+        this->timestamp = other.timestamp;
+        this->hist = other.hist;
+    }
+
+    ~Message() {}
 };
 
 Q_DECLARE_METATYPE(Message)
