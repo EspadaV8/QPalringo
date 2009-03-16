@@ -111,17 +111,17 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
     if( this->message.type.startsWith( "image" ) )
     {
         QString t = "Image from " + this->contact->getNickname();
-        QPixmap* p = new QPixmap();
-        p->loadFromData( this->message.payload );
+        QPixmap p;
+        p.loadFromData( this->message.payload );
 
-        QLabel* l = new QLabel( "" );
-        l->setPixmap( *p );
+        QLabel *l = new QLabel;
+        l->setPixmap( p );
 
-        QVBoxLayout *v = new QVBoxLayout();
-        v->addWidget( l );
+        QVBoxLayout v;
+        v.addWidget( l );
 
-        QWidget* w = new QWidget( this, Qt::Window );
-        w->setLayout( v );
+        QWidget *w = new QWidget( 0, Qt::Window );
+        w->setLayout( &v );
         w->setWindowTitle( t );
         w->show();
     }
