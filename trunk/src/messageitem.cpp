@@ -114,16 +114,9 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
         QPixmap p;
         p.loadFromData( this->message.payload );
 
-        QLabel *l = new QLabel;
+        QLabel *l = new QLabel( 0, Qt::Window );
         l->setPixmap( p );
-
-        QVBoxLayout v;
-        v.addWidget( l );
-
-        QWidget *w = new QWidget( 0, Qt::Window );
-        w->setLayout( &v );
-        w->setWindowTitle( t );
-        w->show();
+        l->show();
     }
     else if( this->message.type.startsWith( "audio" ) )
     {
