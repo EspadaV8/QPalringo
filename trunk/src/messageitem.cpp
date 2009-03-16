@@ -33,9 +33,9 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 
     this->message = message;
 
-    this->messageIcon = new QSvgWidget();
+    this->messageIcon = new QSvgWidget;
     this->messageIcon->setFixedSize( 24, 24 );
-    this->messageText = new QLabel( "" );
+    this->messageText = new QLabel;
     this->messageText->setWordWrap( true );
     this->messageText->setTextFormat( Qt::RichText );
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
@@ -72,11 +72,11 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     }
 
     this->messageIcon->load( messageTypeIcon );
-    this->layout = new QHBoxLayout();
+    this->layout = new QHBoxLayout;
 
-    this->leftside = new QVBoxLayout();
-    this->rightside = new QVBoxLayout();
-    this->headers = new QHBoxLayout();
+    this->leftside = new QVBoxLayout;
+    this->rightside = new QVBoxLayout;
+    this->headers = new QHBoxLayout;
 
     this->leftside->addWidget( this->messageIcon );
     this->leftside->addStretch( 1 );
