@@ -25,9 +25,9 @@
 MessageList::MessageList(QWidget *parent)
     : QScrollArea(parent)
 {
-    this->vbox = new QVBoxLayout();
+    this->vbox = new QVBoxLayout;
     this->vbox->addStretch( 1 );
-    QWidget *w = new QWidget();
+    QWidget *w = new QWidget;
     w->setLayout( vbox );
     this->setWidgetResizable( true );
     this->setWidget( w );

@@ -66,7 +66,7 @@ Q_OBJECT
         QLineEdit *messageInput;
         
         void sendImageMessage( QImage image );
-        void sendTextMessage( const QString& message );
+        void sendTextMessage( QString message );
         void sendMessage( Message message );
 };
 

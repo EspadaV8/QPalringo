@@ -109,7 +109,7 @@ void ChatWindow::sendImageMessage( QImage image )
     this->sendMessage( m );
 }
 
-void ChatWindow::sendTextMessage( const QString& message )
+void ChatWindow::sendTextMessage( QString message )
 {
     Message m;
 

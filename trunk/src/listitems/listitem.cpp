@@ -28,17 +28,17 @@ ListItem::ListItem( QWidget *parent )
 
     this->parent = parent;
 
-    QHBoxLayout *hbox = new QHBoxLayout( this );
+    QHBoxLayout *hbox = new QHBoxLayout;
 
-    this->svgIcon = new QSvgWidget();
+    this->svgIcon = new QSvgWidget;
     this->svgIcon->setFixedSize( 24, 24 );
 
-    QVBoxLayout *vbox = new QVBoxLayout();
+    QVBoxLayout *vbox = new QVBoxLayout;
 
-    this->firstLine = new QLabel( "" );
+    this->firstLine = new QLabel;
     this->firstLine->setObjectName( "firstLine" );
 
-    this->secondLine = new QLabel( "" );
+    this->secondLine = new QLabel;
     this->secondLine->setObjectName( "secondLine" );
 
     vbox->addWidget( this->firstLine );
@@ -50,7 +50,7 @@ ListItem::ListItem( QWidget *parent )
     setAutoFillBackground( false );
     setLayout( hbox );
     
-    this->popupMenu = new QMenu( this );
+    this->popupMenu = new QMenu;
 
     this->toSelect = false;
     this->selected = false;
