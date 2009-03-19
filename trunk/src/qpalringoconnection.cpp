@@ -65,11 +65,11 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         }
         else if( !unfinishedMessages.contains( messageID ) )
         {
-            message.type = QString::fromStdString( msgData.contentType_ );
-            message.senderID = msgData.sourceId_;
-            message.groupID  = msgData.targetId_ | 0;
-            message.timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
-            message.hist = msgData.hist_;
+            message.setType( QString::fromStdString( msgData.contentType_ ) );
+            message.setSenderID( msgData.sourceId_ );
+            message.setGroupID( msgData.targetId_ | 0 );
+            message.setTimestamp( tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true ) );
+            message.setHist( msgData.hist_ );
             unfinishedMessages.insert( messageID, message );
         }
         return 0;
@@ -77,22 +77,22 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
     else if( correlationID > 0 )
     {
         message = unfinishedMessages.value( correlationID );
-        QString tmp = QString::fromStdString( body );
-        message.payload.append( tmp );
+        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
+        message.setPayload( message.payload().append( tmp ) );
         unfinishedMessages.remove( correlationID );
     }
     else
     {
-        message.type = QString::fromStdString( msgData.contentType_ );
-        message.senderID = msgData.sourceId_;
-        message.groupID  = msgData.targetId_ | 0;
-        message.timestamp = tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true );
-        message.hist = msgData.hist_;
-        QString tmp = QString::fromStdString( body );
-        message.payload.append( tmp );
+        message.setType( QString::fromStdString( msgData.contentType_ ) );
+        message.setSenderID( msgData.sourceId_ );
+        message.setGroupID( msgData.targetId_ | 0 );
+        message.setTimestamp( tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true ) );
+        message.setHist( msgData.hist_ );
+        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
+        message.setPayload( message.payload().append( tmp ) );
     }
 
-    if( message.hist == true )
+    if( message.hist() == true )
     {
         emit( historyMessageReceived( message ) );
     }

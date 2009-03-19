@@ -29,31 +29,112 @@
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-struct Message
+
+#include <QSharedData>
+#include <QString>
+
+class MessageData : public QSharedData
 {
-    QString type;
-    QByteArray payload;
-    quint64 senderID;
-    quint64 groupID;
-    QDateTime timestamp;
-    bool hist;
+    public:
+        MessageData() {}
+        MessageData( const MessageData &other )
+            : QSharedData( other ),
+                type( other.type ),
+                payload( other.payload ),
+                senderID( other.senderID ),
+                groupID( other.groupID ),
+                timestamp( other.timestamp ),
+                hist( other.hist ) { }
+        ~MessageData() { }
 
-    Message()
-    {
-        qRegisterMetaType<Message>("Message");
-    }
+        QString type;
+        QByteArray payload;
+        quint64 senderID;
+        quint64 groupID;
+        QDateTime timestamp;
+        bool hist;
+};
 
-    Message(const Message& other)
-    {
-        this->type = other.type;
-        this->payload = other.payload;
-        this->senderID = other.senderID;
-        this->groupID = other.groupID;
-        this->timestamp = other.timestamp;
-        this->hist = other.hist;
-    }
+class Message
+{
+    public:
+        Message()
+        {
+            d = new MessageData;
+            qRegisterMetaType<Message>("Message");
+        }
 
-    ~Message() {}
+        Message( QString type, QByteArray payload,
+                 quint64 senderID, quint64 groupID,
+                 QDateTime timestamp, bool hist )
+        {
+            d = new MessageData;
+            qRegisterMetaType<Message>("Message");
+            qDebug( "New setter" );
+
+            setType( type );
+            setPayload( payload );
+            setSenderID( senderID );
+            setGroupID( groupID );
+            setTimestamp( timestamp );
+            setHist( hist );
+        }
+
+        Message( const Message &other ) : d ( other.d ) {}
+        ~Message() {}
+
+        void setType( QString type )
+        {
+            d->type = type;
+        }
+        void setPayload( QByteArray payload )
+        {
+            d->payload = payload;
+        }
+        void setSenderID( quint64 senderID )
+        {
+            d->senderID = senderID;
+        }
+        void setGroupID( quint64 groupID )
+        {
+            d->groupID = groupID;
+        }
+        void setTimestamp( QDateTime timestamp )
+        {
+            d->timestamp = timestamp;
+        }
+        void setHist( bool hist )
+        {
+            d->hist = hist;
+        }
+
+        QString type() const
+        {
+            return d->type;
+        }
+        QByteArray payload() const
+        {
+            return d->payload;
+        }
+        quint64 senderID() const
+        {
+            return d->senderID;
+        }
+        quint64 groupID() const
+        {
+            return d->groupID;
+        }
+        QDateTime timestamp() const
+        {
+            return d->timestamp;
+        }
+        bool hist() const
+        {
+            return d->hist;
+        }
+
+    private:
+        QSharedDataPointer<MessageData> d;
 };
 
 Q_DECLARE_METATYPE(Message)

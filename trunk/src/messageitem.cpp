@@ -29,7 +29,7 @@
 MessageItem::MessageItem( QWidget *parent, Message message ) :
         QWidget( parent )
 {
-    this->contact = tools_->getContact( message.senderID );
+    this->contact = tools_->getContact( message.senderID() );
 
     this->message = message;
 
@@ -44,27 +44,27 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->sender = new QLabel( this->contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
 
-    this->timestamp = new QLabel( this->message.timestamp.toString( "dd-MM-yy hh:mm:ss" ) );
+    this->timestamp = new QLabel( this->message.timestamp().toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setAlignment( Qt::AlignRight );
 
     QString messageTypeIcon;
-    if( this->message.type == "text/plain" )
+    if( this->message.type() == "text/plain" )
     {
-        QString formattedText = tools_->formatMessageText( this->message.payload  );
+        QString formattedText = tools_->formatMessageText( this->message.payload() );
         this->messageText->setText( formattedText );
         messageTypeIcon = ":/svg/text.svg";
     }
-    else if( this->message.type.startsWith( "image" ) )
+    else if( this->message.type().startsWith( "image" ) )
     {
         QImage im;
-        im.loadFromData( this->message.payload );
+        im.loadFromData( this->message.payload() );
         QImage scaled = im.scaled( 100, 100, Qt::KeepAspectRatio, Qt::SmoothTransformation );
 
         QPixmap pi = QPixmap::fromImage( scaled );
         this->messageText->setPixmap( pi );
         messageTypeIcon = ":/svg/image.svg";
     }
-    else if( this->message.type.startsWith( "audio" ) )
+    else if( this->message.type().startsWith( "audio" ) )
     {
         QPixmap p( ":/misc/rightarrow.png" );
         this->messageText->setPixmap( p );
@@ -108,18 +108,18 @@ void MessageItem::mousePressEvent( QMouseEvent *event )
 
 void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    if( this->message.type.startsWith( "image" ) )
+    if( this->message.type().startsWith( "image" ) )
     {
         QString t = "Image from " + this->contact->getNickname();
         QPixmap p;
-        p.loadFromData( this->message.payload );
+        p.loadFromData( this->message.payload() );
 
         QLabel *l = new QLabel( 0, Qt::Window );
         l->setPixmap( p );
         l->setWindowTitle( t );
         l->show();
     }
-    else if( this->message.type.startsWith( "audio" ) )
+    else if( this->message.type().startsWith( "audio" ) )
     {
         this->handleAudioClip();
     }

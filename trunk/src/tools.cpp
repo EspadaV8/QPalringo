@@ -95,9 +95,9 @@ void Tools::historyMessageReceived( Message message )
 
 void Tools::messageReceived( Message message )
 {
-    if( message.groupID == 0 )
+    if( message.groupID() == 0 )
     {
-        Contact *contact = this->contacts.value( message.senderID );
+        Contact *contact = this->contacts.value( message.senderID() );
         if( !this->checkChatWindowOpen( contact ) )
         {
             this->openChatWindow( contact );
@@ -107,7 +107,7 @@ void Tools::messageReceived( Message message )
     }
     else
     {
-        Group* group = this->groups.value( message.groupID );
+        Group* group = this->groups.value( message.groupID() );
         if( !this->checkChatWindowOpen( group ) )
         {
             this->openChatWindow( group );

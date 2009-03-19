@@ -98,13 +98,14 @@ void ChatWindow::sendImageMessage( QImage image )
 {
     Message m;
 
-    QBuffer buffer(&m.payload);
+    QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
     image.save(&buffer, "jpg");
 
-    m.type = "image/jpeg";
-    m.timestamp = QDateTime::currentDateTime();
-    m.senderID = tools_->user->userID;
+    m.setPayload( buffer.data() );
+    m.setType( "image/jpeg" );
+    m.setTimestamp( QDateTime::currentDateTime() );
+    m.setSenderID ( tools_->user->userID );
 
     this->sendMessage( m );
 }
@@ -113,10 +114,10 @@ void ChatWindow::sendTextMessage( QString message )
 {
     Message m;
 
-    m.type = "text/plain";
-    m.payload.append( message );
-    m.timestamp = QDateTime::currentDateTime();
-    m.senderID = tools_->user->userID;
+    m.setType( "text/plain" );
+    m.setPayload( message.toUtf8() );
+    m.setTimestamp( QDateTime::currentDateTime() );
+    m.setSenderID ( tools_->user->userID );
 
     this->sendMessage( m );
     this->messageInput->clear();
@@ -136,9 +137,9 @@ void ChatWindow::checkMessageInput()
 
 void ChatWindow::appendMessage( Message message )
 {
-    if( message.timestamp < this->earliestTimestamp )
+    if( message.timestamp() < this->earliestTimestamp )
     {
-        this->earliestTimestamp = message.timestamp;
+        this->earliestTimestamp = message.timestamp();
     }
     this->messageList->addMessage( message );
 }
