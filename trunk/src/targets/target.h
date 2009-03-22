@@ -34,11 +34,11 @@ class Target : public QObject
         Target(QObject *parent = 0);
         ~Target();
 
-        quint64 getID();
+        quint64 getID() const;
         void setID( quint64 );
 
-        virtual QString getTitle();
-        virtual QString getIcon();
+        virtual QString getTitle() const;
+        virtual QString getIcon() const;
 
     protected:
         quint64 id;

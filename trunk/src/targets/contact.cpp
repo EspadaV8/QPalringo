@@ -68,17 +68,17 @@ void Contact::setIsContact( bool isContact )
     this->isContact = isContact;
 }
 
-QString Contact::getTitle()
+QString Contact::getTitle() const
 {
     return this->getNickname();
 }
 
-QString  Contact::getNickname()
+QString  Contact::getNickname() const
 {
     return this->nickname;
 }
 
-QString  Contact::getStatusline()
+QString  Contact::getStatusline() const
 {
     if ( this->statusline == "" )
     {
@@ -94,7 +94,7 @@ QString  Contact::getStatusline()
     return this->statusline;
 }
 
-QString Contact::getIcon()
+QString Contact::getIcon() const
 {
     QString iconName;
     if ( this->getOnlineStatus() > 0 )
@@ -128,27 +128,27 @@ QString Contact::getIcon()
     return iconName;
 }
 
-quint64 Contact::getGroup()
+quint64 Contact::getGroup() const
 {
     return this->group;
 }
 
-int      Contact::getOnlineStatus()
+int      Contact::getOnlineStatus() const
 {
     return this->onlineStatus;
 }
 
-int     Contact::getBridgeType()
+int     Contact::getBridgeType() const
 {
     return this->bridgeType;
 }
 
-int     Contact::getDeviceType()
+int     Contact::getDeviceType() const
 {
     return this->deviceType;
 }
 
-bool     Contact::getIsContact()
+bool     Contact::getIsContact() const
 {
     return this->isContact;
 }

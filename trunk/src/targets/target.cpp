@@ -30,7 +30,7 @@ Target::~Target()
 {
 }
 
-quint64 Target::getID()
+quint64 Target::getID() const
 {
     return this->id;
 }
@@ -40,12 +40,12 @@ void Target::setID( quint64 id )
     this->id = id;
 }
 
-QString Target::getTitle()
+QString Target::getTitle() const
 {
     return "QPalringo";
 }
 
-QString Target::getIcon()
+QString Target::getIcon() const
 {
     return ":/svg/icon.svg";
 }

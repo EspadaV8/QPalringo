@@ -34,15 +34,15 @@ class Contact : public Target
         Contact(QObject *parent = 0);
         ~Contact();
 
-        QString     getNickname();
-        QString     getStatusline();
-        quint64     getGroup();
-        int         getOnlineStatus();
-        int         getBridgeType();
-        int         getDeviceType();
-        bool        getIsContact();
-        virtual QString getTitle();
-        virtual QString getIcon();
+        QString     getNickname() const;
+        QString     getStatusline() const;
+        quint64     getGroup() const;
+        int         getOnlineStatus() const;
+        int         getBridgeType() const;
+        int         getDeviceType() const;
+        bool        getIsContact() const;
+        virtual QString getTitle() const;
+        virtual QString getIcon() const;
 
         void        setNickname( QString );
         void        setStatusline( QString );

@@ -35,12 +35,12 @@ class Group : public Target
         Group(QObject *parent = 0);
         ~Group();
 
-        QString                     getName();
-        QString                     getDescription();
-        QSet<quint64>    getContacts();
-        bool                        hasContact( quint64 id );
-        virtual QString getTitle();
-        virtual QString getIcon();
+        QString                     getName() const;
+        QString                     getDescription() const;
+        QSet<quint64>    getContacts() const;
+        bool                        hasContact( quint64 id ) const;
+        virtual QString getTitle() const;
+        virtual QString getIcon() const;
 
         void            setName( QString name );
         void            setDescription( QString description );

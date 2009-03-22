@@ -30,33 +30,33 @@ Group::~Group()
 {
 }
 
-QString         Group::getName()
+QString         Group::getName() const
 {
     return this->name;
 }
 
-QString         Group::getDescription()
+QString         Group::getDescription() const
 {
     return this->description;
 }
 
 
-QSet<quint64>  Group::getContacts()
+QSet<quint64>  Group::getContacts() const
 {
     return this->contacts;
 }
 
-QString Group::getTitle()
+QString Group::getTitle() const
 {
     return this->getName();
 }
 
-QString Group::getIcon()
+QString Group::getIcon() const
 {
     return ":/svg/group.svg";
 }
 
-bool Group::hasContact( quint64 id )
+bool Group::hasContact( quint64 id ) const
 {
     return this->contacts.contains( id );
 }
