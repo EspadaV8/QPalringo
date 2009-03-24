@@ -19,7 +19,7 @@ void salsa20_init(void)
 static const char sigma[16] = "expand 32-byte k";
 static const char tau[16] = "expand 16-byte k";
 
-void salsa20_keysetup(salsa20_ctx *x,const uint8_t *k,uint32_t kbits,u32 ivbits)
+void salsa20_keysetup(salsa20_ctx *x,const uint8_t *k,uint32_t kbits,u32 ivbits __attribute__ ((unused)))
 {
   const char *constants;
 
