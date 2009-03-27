@@ -30,6 +30,10 @@ ContactListView::ContactListView( QWidget *parent )
 
 ContactListView::~ContactListView()
 {
+    foreach( ListItem *pc, this->listItems )
+    {
+        delete pc;
+    }
 }
 
 void ContactListView::setupContainers()
