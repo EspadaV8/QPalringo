@@ -34,14 +34,19 @@ class Target : public QObject
         Target(QObject *parent = 0);
         ~Target();
 
+        static const int CONTACT = 1;
+        static const int GROUP = 2;
+
         quint64 getID() const;
         void setID( quint64 );
+        int getType();
 
         virtual QString getTitle() const;
         virtual QString getIcon() const;
 
     protected:
         quint64 id;
+        int type;
 
 };
 

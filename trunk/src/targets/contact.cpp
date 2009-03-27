@@ -24,6 +24,7 @@
 Contact::Contact(QObject *parent)
  : Target(parent)
 {
+    this->type = Target::CONTACT;
 }
 
 Contact::~Contact()

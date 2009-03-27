@@ -24,6 +24,7 @@
 Group::Group(QObject *parent)
  : Target(parent)
 {
+    this->type = Target::GROUP;
 }
 
 Group::~Group()
