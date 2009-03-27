@@ -71,4 +71,6 @@ void GroupListItem::leaveGroup()
 
 GroupListItem::~GroupListItem()
 {
+    delete this->groupChatAction;
+    delete this->leaveGroupAction;
 }

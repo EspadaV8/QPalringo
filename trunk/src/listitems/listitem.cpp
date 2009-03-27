@@ -141,4 +141,10 @@ void ListItem::setSelected( bool b )
     ReloadStyleSheet();
 }
 
-ListItem::~ListItem() { }
+ListItem::~ListItem()
+{
+    delete this->svgIcon;
+    delete this->firstLine;
+    delete this->secondLine;
+    delete this->popupMenu;
+}
