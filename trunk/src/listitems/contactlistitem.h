@@ -56,7 +56,6 @@ class ContactListItem : public ListItem
 
     private:
         Contact *contact;
-        bool openChatWindow;
         
         QAction *chatMenuAction;
         QAction *propertiesMenuAction;
