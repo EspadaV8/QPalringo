@@ -36,8 +36,7 @@ void ContactListView::setupContainers()
 {
     this->addContainer( tr( "Online" ) );
     this->addContainer( tr( "Offline" ) );
-    
-    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
+
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
 
     this->addLayoutsToSelf();
@@ -52,15 +51,23 @@ void ContactListView::contactReceived( Contact *contact )
 
 void ContactListView::getContacts( quint64 groupID )
 {
-    QHash<quint64, Contact*> contacts = tools_->getContacts( groupID );
+    this->contacts = tools_->getContacts( groupID );
     
     this->setUpdatesEnabled( false );
-    if( contacts.size() > 0 )
+    if( this->contacts.size() > 0 )
     {
-        foreach( Contact *contact, contacts )
+        foreach( Contact *contact, this->contacts )
         {
             this->contactReceived( contact );
         }
     }
     this->setUpdatesEnabled( true );
+}
+
+void ContactListView::inFocus()
+{
+    if( this->contacts.size() == 0 )
+    {
+        this->getContacts();
+    }
 }

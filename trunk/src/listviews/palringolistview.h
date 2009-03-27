@@ -55,6 +55,9 @@ class PalringoListView : public QScrollArea
 
         QList<ListItem *> listItems;
         QList<ListViewContainer *> listViewContainers;
+
+    public slots:
+        virtual void inFocus();
 };
 
 #endif

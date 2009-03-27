@@ -43,6 +43,9 @@ class GroupListView : public ContactListView
     protected slots:
         void getContacts();
 
+    public slots:
+        virtual void inFocus();
+
 };
 
 #endif

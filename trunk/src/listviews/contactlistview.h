@@ -37,9 +37,15 @@ class ContactListView : public PalringoListView
 
         virtual void setupContainers();
 
+    protected:
+        QHash<quint64, Contact*> contacts;
+
     protected slots:
         void contactReceived( Contact *contact );
         void getContacts( quint64 groupID = 0 );
+
+    public slots:
+        virtual void inFocus();
 
 };
 

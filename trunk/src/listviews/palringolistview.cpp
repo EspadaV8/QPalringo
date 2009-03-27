@@ -36,6 +36,8 @@ PalringoListView::PalringoListView( QWidget *parent )
     this->setWidget( w );
 }
 
+void PalringoListView::inFocus() { }
+
 void PalringoListView::addContainer( QString containerName )
 {
     this->listViewContainers.append( new ListViewContainer( this, containerName ) );

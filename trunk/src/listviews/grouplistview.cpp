@@ -37,8 +37,7 @@ void GroupListView::setupContainers()
 
     GroupListItem *gli = new GroupListItem( this, this->group );
     this->addWidgetToView( gli );
-    
-    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
+
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
     
     this->addLayoutsToSelf();
@@ -48,6 +47,14 @@ void GroupListView::getContacts()
 {
     quint64 groupID = this->group->getID();
     ContactListView::getContacts( groupID );
+}
+
+void GroupListView::inFocus()
+{
+    if( this->contacts.size() == 0 )
+    {
+        this->getContacts();
+    }
 }
 
 GroupListView::~GroupListView()
