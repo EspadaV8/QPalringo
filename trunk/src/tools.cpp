@@ -35,8 +35,7 @@ Tools::Tools( PalringoWindow *mainWindow )
     // used for tracking history requests
     this->gettingHistory = false;
     this->historyTarget = NULL;
-    this->historyTargetIsGroup = false;
-    
+
     QPixmapCache::setCacheLimit( 1024 * 5 );
 
     //this->serverTimestamp = new QDateTime();
@@ -49,7 +48,7 @@ bool Tools::checkChatWindowOpen( Target *target )
     return ( this->openWindows.value( target ) != NULL );
 }
 
-void Tools::openChatWindow( Target *target, bool isGroup )
+void Tools::openChatWindow( Target *target )
 {
     if ( this->checkChatWindowOpen( target ) )
     {
@@ -59,20 +58,10 @@ void Tools::openChatWindow( Target *target, bool isGroup )
     }
     else
     {
-        ChatWindow *w = new ChatWindow( this->mainWindow, target, isGroup );
+        ChatWindow *w = new ChatWindow( this->mainWindow, target );
         this->openWindows[ target ] = w;
         w->show();
     }
-}
-
-void Tools::openChatWindow( Contact *contact )
-{
-    this->openChatWindow( contact, false );
-}
-
-void Tools::openChatWindow( Group *group )
-{
-    this->openChatWindow( group, true );
 }
 
 void Tools::removeChatWindow( Target *target )
@@ -89,7 +78,6 @@ void Tools::historyMessageReceived( Message message )
 
         this->gettingHistory = false;
         this->historyTarget = NULL;
-        this->historyTargetIsGroup = false;
     }
 }
 
@@ -131,15 +119,14 @@ void Tools::sendMessage( Target *target, Message message )
     this->connection->sendMessage( target, message );
 }
 
-void Tools::getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp )
+void Tools::getHistoryMessage( Target *target, QDateTime timestamp )
 {
     if( !this->gettingHistory )
     {
         this->gettingHistory = true;
         this->historyTarget = target;
-        this->historyTargetIsGroup = isGroup;
 
-        this->connection->getHistoryMessage( target->getID(), isGroup, ( timestamp.toTime_t() - this->timestampDifference ) );
+        this->connection->getHistoryMessage( target, ( timestamp.toTime_t() - this->timestampDifference ) );
     }
 }
 

@@ -69,9 +69,9 @@ void Connection::sendMessage( Target* target, Message message )
     this->conn->sendMessage( message.payload(), message.type(), target );
 }
 
-void Connection::getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp )
+void Connection::getHistoryMessage( Target* target, qint32 timestamp )
 {
-    this->conn->getHistoryMessage( target, isGroup, timestamp );
+    this->conn->getHistoryMessage( target, timestamp );
 }
 
 void Connection::joinGroup( QString groupName )

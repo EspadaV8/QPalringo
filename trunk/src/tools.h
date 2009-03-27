@@ -54,16 +54,13 @@ class Tools : public QObject
         Tools( PalringoWindow *parent = 0 );
         ~Tools();
 
-        void openChatWindow( Target *target, bool isGroup = false );
+        void openChatWindow( Target *target );
         void removeChatWindow( Target *target );
-
-        void openChatWindow( Contact *contact );
-        void openChatWindow( Group *group );
 
         void openPalringoConnection( QString email, QString password );
 
         void sendMessage( Target *target, Message message );
-        void getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp );
+        void getHistoryMessage( Target *target, QDateTime timestamp );
 
         Contact* getContact( quint64 contactID );
         QHash<quint64, Contact*> getContacts();
@@ -126,7 +123,6 @@ class Tools : public QObject
         // history tracking
         bool gettingHistory;
         Target* historyTarget;
-        bool historyTargetIsGroup;
 
         // The timestamp of the server
         qint32 timestampDifference;

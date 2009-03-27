@@ -222,13 +222,12 @@ bool QPalringoConnection::sendMessage(QByteArray msg,
                                             targetType );
 }
 
-bool QPalringoConnection::getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp )
-
+bool QPalringoConnection::getHistoryMessage( Target* target, qint32 timestamp )
 {
-    int targetType = (isGroup) ? 1 : 0;
+    int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
     int count = -1;
 
-    PalringoConnection::getMesgHist( count, timestamp, target, targetType );
+    PalringoConnection::getMesgHist( count, timestamp, target->getID(), targetType );
     return true;
 }
 

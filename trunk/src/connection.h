@@ -44,7 +44,7 @@ class Connection : public QThread
 
         void run();
         void sendMessage( Target* target, Message message );
-        void getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
+        void getHistoryMessage( Target* target, qint32 timestamp );
         
         void joinGroup( QString groupName );
         void createGroup( QString groupName );

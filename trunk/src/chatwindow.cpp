@@ -24,13 +24,12 @@
 #include "chatwindow.h"
 #include "tools.h"
 
-ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target, bool isGroup )
+ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     : QWidget ( parent )
 {
     this->setWindowFlags ( Qt::Window );
     this->parent = parent;
     this->target = target;
-    this->isGroup = isGroup;
     this->earliestTimestamp = QDateTime::currentDateTime();
 
     this->setWindowTitle( this->target->getTitle() );
@@ -146,5 +145,5 @@ void ChatWindow::appendMessage( Message message )
 
 void ChatWindow::askForHistory()
 {
-    tools_->getHistoryMessage( this->target, this->isGroup,  this->earliestTimestamp );
+    tools_->getHistoryMessage( this->target, this->earliestTimestamp );
 }
