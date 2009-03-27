@@ -53,6 +53,7 @@ class PalringoWindow : public QMainWindow
     private slots:
         void joinAGroup();
         void createAGroup();
+        void tabFocusChanged( int tabIndex );
 
     private:
         QMenu *fileMenu;

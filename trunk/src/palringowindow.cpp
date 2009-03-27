@@ -149,6 +149,7 @@ void PalringoWindow::CreateMenuBar()
 void PalringoWindow::SetupTabs()
 {
     mainTabs = new QTabWidget();
+    connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
 
     OverviewListView *overviewList = new OverviewListView( mainTabs );
     overviewList->setupContainers();
@@ -158,6 +159,12 @@ void PalringoWindow::SetupTabs()
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
+}
+
+void PalringoWindow::tabFocusChanged(int tabIndex )
+{
+    PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
+    emit( p->inFocus() );
 }
 
 PalringoWindow::~PalringoWindow()
