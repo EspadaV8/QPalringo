@@ -126,9 +126,9 @@ void Tools::openPalringoConnection( QString email, QString password )
     }
 }
 
-void Tools::sendMessage( Target *target, bool isGroup, Message message )
+void Tools::sendMessage( Target *target, Message message )
 {
-    this->connection->sendMessage( target->getID(), isGroup, message );
+    this->connection->sendMessage( target, message );
 }
 
 void Tools::getHistoryMessage( Target *target, bool isGroup, QDateTime timestamp )

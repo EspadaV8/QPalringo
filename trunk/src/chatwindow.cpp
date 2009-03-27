@@ -125,7 +125,7 @@ void ChatWindow::sendTextMessage( QString message )
 
 void ChatWindow::sendMessage( Message message )
 {
-    tools_->sendMessage( this->target, this->isGroup, message );
+    tools_->sendMessage( this->target, message );
     this->messageList->addMessage( message );
 }
 

@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QMap>
 #include "libPalringo/libPalringo.h"
+#include "targets/target.h"
 #include "targets/contact.h"
 #include "targets/group.h"
 #include "message.h"
@@ -63,10 +64,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
         bool sendToGroup( QByteArray msg,
                           QString contentType,
                           quint64 groupID );
-        bool sendMessage( QByteArray msg,
-                          QString contentType,
-                          quint64 groupID,
-                          bool isGroup );
+        bool sendMessage( QByteArray msg, QString contentType, Target* target );
         bool getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp );
         void joinGroup( QString groupName );
         void createGroup( QString groupName, QString groupDescription = "", QString groupPassword = "");

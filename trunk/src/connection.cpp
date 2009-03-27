@@ -64,9 +64,9 @@ void Connection::run()
     }
 }
 
-void Connection::sendMessage( quint64 receiverID, bool isGroup, Message message )
+void Connection::sendMessage( Target* target, Message message )
 {
-    this->conn->sendMessage( message.payload(), message.type(), receiverID, isGroup );
+    this->conn->sendMessage( message.payload(), message.type(), target );
 }
 
 void Connection::getHistoryMessage( qint64 target, bool isGroup, qint32 timestamp )

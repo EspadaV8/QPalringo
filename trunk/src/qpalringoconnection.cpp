@@ -211,15 +211,14 @@ bool QPalringoConnection::sendToGroup(QByteArray msg,
 
 bool QPalringoConnection::sendMessage(QByteArray msg,
                                       QString contentType,
-                                      quint64 targetID,
-                                      bool isGroup )
+                                      Target* target )
 {
-    int targetType = (isGroup) ? 1 : 0;
+    int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
     std::string cT = contentType.toStdString();
     return PalringoConnection::sendMessage( msg.data(),
                                             msg.size(),
                                             cT,
-                                            targetID,
+                                            target->getID(),
                                             targetType );
 }
 
