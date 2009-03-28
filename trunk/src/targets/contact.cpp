@@ -71,7 +71,14 @@ void Contact::setIsContact( bool isContact )
 
 QString Contact::getTitle() const
 {
-    return this->getNickname();
+    if( this->nickname.size() > 0 )
+    {
+        return this->nickname;
+    }
+    else
+    {
+        return "Unknown nickname";
+    }
 }
 
 QString  Contact::getNickname() const
