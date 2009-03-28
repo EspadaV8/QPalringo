@@ -19,9 +19,12 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "../listitems/serviceitem.h"
-#include "../listviews/overviewlistview.h"
-#include "../services/palringoservice.h"
+#include "listitems/serviceitem.h"
+#include "listitems/contactlistitem.h"
+#include "listitems/grouplistitem.h"
+#include "overviewlistview.h"
+#include "services/palringoservice.h"
+#include "tools.h"
 
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)
@@ -40,6 +43,8 @@ void OverviewListView::setupContainers()
     s->Type = "palringo";
     s->Group = "Services";
 
+    connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
+
     this->serviceReceived( s );
     this->addLayoutsToSelf();
 }
@@ -49,6 +54,27 @@ void OverviewListView::serviceReceived( Service *service )
     ServiceItem *si = new ServiceItem( 0, service, true );
     this->listItems.append( si );
     this->addWidgetToView( si );
+}
+
+void OverviewListView::newPendingMessage( Target* target )
+{
+    ListItem* li;
+    if( target->getType() == Target::CONTACT )
+    {
+        li = new ContactListItem( this, (Contact*)target );
+    }
+    else if( target->getType() == Target::GROUP )
+    {
+        li = new GroupListItem( this, (Group*)target );
+    }
+
+    this->listItems.append( li );
+    this->addWidgetToView( li, "Messages" );
+}
+
+void OverviewListView::clearedPendingMessages( Target* target )
+{
+    qDebug("We should delete the message item here");
 }
 
 OverviewListView::~OverviewListView()
