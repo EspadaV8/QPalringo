@@ -54,6 +54,7 @@ class Tools : public QObject
         Tools( PalringoWindow *parent = 0 );
         ~Tools();
 
+        bool checkChatWindowOpen( Target *target );
         void openChatWindow( Target *target );
         void removeChatWindow( Target *target );
 
@@ -109,8 +110,6 @@ class Tools : public QObject
         bool loggedIn;
         PalringoWindow *mainWindow ;
         Connection *connection;
-
-        bool checkChatWindowOpen( Target *target );
 
         QHash<Target*, ChatWindow *> openWindows;
 
