@@ -58,7 +58,7 @@ void OverviewListView::serviceReceived( Service *service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-    if( !tools_->checkChatWindowOpen( t ) )
+    if( !tools_->checkChatWindowOpen( target ) )
     {
         ListItem* li;
         if( target->getType() == Target::CONTACT )
