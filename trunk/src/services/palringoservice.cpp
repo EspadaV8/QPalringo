@@ -25,6 +25,7 @@
 PalringoService::PalringoService()
  : Service()
 {
+    this->signinWindow = NULL;
     connect( tools_, SIGNAL( connected() ), this, SLOT( loggedOn() ) );
 }
 
@@ -38,7 +39,7 @@ void PalringoService::loggedOn()
 
 void PalringoService::loginService()
 {
-    if( !this->signinWindow )
+    if( this->signinWindow == NULL )
     {
         this->signinWindow = new SigninWindow();
     }
