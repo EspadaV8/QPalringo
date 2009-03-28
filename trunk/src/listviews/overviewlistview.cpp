@@ -58,18 +58,21 @@ void OverviewListView::serviceReceived( Service *service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-    ListItem* li;
-    if( target->getType() == Target::CONTACT )
+    if( !tools_->checkChatWindowOpen( t ) )
     {
-        li = new ContactListItem( this, (Contact*)target );
-    }
-    else if( target->getType() == Target::GROUP )
-    {
-        li = new GroupListItem( this, (Group*)target );
-    }
+        ListItem* li;
+        if( target->getType() == Target::CONTACT )
+        {
+            li = new ContactListItem( this, (Contact*)target );
+        }
+        else if( target->getType() == Target::GROUP )
+        {
+            li = new GroupListItem( this, (Group*)target );
+        }
 
-    this->listItems.append( li );
-    this->addWidgetToView( li, "Messages" );
+        this->listItems.append( li );
+        this->addWidgetToView( li, "Messages" );
+    }
 }
 
 void OverviewListView::clearedPendingMessages( Target* target )
