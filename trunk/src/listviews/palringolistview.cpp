@@ -81,26 +81,6 @@ bool PalringoListView::addWidgetToView( ListItem *item )
     }
 }
 
-void PalringoListView::updateWidget( int x )
-{
-    ListItem *l = this->listItems.at( x );
-    this->addWidgetToView( l );
-}
-
-void PalringoListView::setList( QList<ListItem *> list )
-{
-    this->listItems = list;
-
-    // we now go through each item
-    for ( int i = 0; i < this->listItems.size(); i++ )
-    {
-        // get the list item
-        ListItem *l = this->listItems.at( i );
-        // do something?
-        this->addWidgetToView( l );
-    }
-}
-
 int PalringoListView::getContainerPosition( QString containerName )
 {
     for( int i = 0; i < this->listViewContainers.size(); i++ )
