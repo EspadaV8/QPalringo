@@ -59,7 +59,7 @@ void PalringoListView::addLayoutsToSelf()
 bool PalringoListView::addWidgetToView( ListItem *item )
 {
     QString containerName = item->getContainerGroup();
-    this->addWidgetToView( item, containerName );
+    return this->addWidgetToView( item, containerName );
 }
 
 bool PalringoListView::addWidgetToView( ListItem *item, QString containerName )
