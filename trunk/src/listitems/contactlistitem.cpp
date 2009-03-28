@@ -29,6 +29,11 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     this->resetDetails();
     this->setMenu();
 
+    if( this->contact->getPendingMessages().size() > 0 )
+    {
+        this->pendingMessage();
+    }
+
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
     connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
     connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
