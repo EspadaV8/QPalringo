@@ -8,6 +8,7 @@ SOURCES += main.cpp \
     messageitem.cpp \
     qpalringoconnection.cpp \
     signinwindow.cpp \
+    settingswindow.cpp \
     connection.cpp \
     targets/contact.cpp \
     targets/group.cpp \
@@ -30,7 +31,8 @@ CONFIG += warn_on \
     debug
 TARGET = ../bin/qpalringo
 FORMS = ui/signinwindow.ui \
-    ui/contactProperties.ui
+    ui/contactProperties.ui \
+    ui/settingswindow.ui
 QT += gui \
     svg
 HEADERS += palringowindow.h \
@@ -42,6 +44,7 @@ HEADERS += palringowindow.h \
     messageitem.h \
     qpalringoconnection.h \
     signinwindow.h \
+    settingswindow.h \
     connection.h \
     targets/contact.h \
     targets/group.h \
