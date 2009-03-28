@@ -71,6 +71,15 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
 
     this->setLayout ( this->layout );
     this->resize( 492, 323 );
+
+    if( this->target->getPendingMessages().size() > 0 )
+    {
+        foreach( Message message, this->target->getPendingMessages() )
+        {
+            this->appendMessage( message );
+        }
+        this->target->clearPending();
+    }
 }
 
 ChatWindow::~ChatWindow()
