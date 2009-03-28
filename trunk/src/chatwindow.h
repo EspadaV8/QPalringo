@@ -49,6 +49,7 @@ Q_OBJECT
         void checkMessageInput();
         void askForHistory();
         void loadImageFile();
+        void getMessages();
 
     private:
         PalringoWindow *parent;

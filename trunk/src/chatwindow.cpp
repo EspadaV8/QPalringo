@@ -74,12 +74,10 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
 
     if( this->target->getPendingMessages().size() > 0 )
     {
-        foreach( Message message, this->target->getPendingMessages() )
-        {
-            this->appendMessage( message );
-        }
-        this->target->clearPending();
+        this->getMessages();
     }
+
+    connect( this->target, SIGNAL( insertMessage() ), this, SLOT( getMessages() ) );
 }
 
 ChatWindow::~ChatWindow()
@@ -155,4 +153,13 @@ void ChatWindow::appendMessage( Message message )
 void ChatWindow::askForHistory()
 {
     tools_->getHistoryMessage( this->target, this->earliestTimestamp );
+}
+
+void ChatWindow::getMessages()
+{
+    foreach( Message message, this->target->getPendingMessages() )
+    {
+        this->appendMessage( message );
+    }
+    this->target->clearPending();
 }
