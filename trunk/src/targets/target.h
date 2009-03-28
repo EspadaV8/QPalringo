@@ -51,6 +51,7 @@ class Target : public QObject
 
     signals:
         void pendingMessage();
+        void insertMessage();
         void clearedPendingMessages();
 
     protected:
