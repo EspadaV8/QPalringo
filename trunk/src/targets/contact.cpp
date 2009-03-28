@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "contact.h"
+#include "tools.h"
 
 Contact::Contact(QObject *parent)
  : Target(parent)
@@ -159,4 +160,17 @@ int     Contact::getDeviceType() const
 bool     Contact::getIsContact() const
 {
     return this->isContact;
+}
+
+void Contact::addMessage( Message message )
+{
+    this->pendingMessages.append( message );
+    if( false ) // if auto-open
+    {
+        tools_->openChatWindow( this );
+    }
+    else
+    {
+        emit( this->pendingMessage() );
+    }
 }

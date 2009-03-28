@@ -54,3 +54,18 @@ int Target::getType()
 {
     return this->type;
 }
+
+void Target::addMessage( Message message __attribute__ ((unused)) )
+{
+}
+
+void Target::clearPending()
+{
+    this->pendingMessages.clear();
+    emit( this->clearedPendingMessages() );
+}
+
+QList<Message> Target::getPendingMessages()
+{
+    return this->pendingMessages;
+}

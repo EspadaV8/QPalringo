@@ -23,6 +23,7 @@
 #define TARGET_H
 
 #include <QObject>
+#include "message.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -44,9 +45,18 @@ class Target : public QObject
         virtual QString getTitle() const;
         virtual QString getIcon() const;
 
+        virtual void addMessage( Message message );
+        void clearPending();
+        QList<Message> getPendingMessages();
+
+    signals:
+        void pendingMessage();
+        void clearedPendingMessages();
+
     protected:
         quint64 id;
         int type;
+        QList<Message> pendingMessages;
 
 };
 

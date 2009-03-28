@@ -46,6 +46,8 @@ class Group : public Target
         void            setDescription( QString description );
         void            setContacts( QSet<quint64> );
 
+        virtual void addMessage( Message message );
+
     private:
         QString         name;
         QString         description;
