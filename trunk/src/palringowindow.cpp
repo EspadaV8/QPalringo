@@ -30,6 +30,7 @@ PalringoWindow::PalringoWindow()
  : QMainWindow()
 {
     tools_ = new Tools( this );
+    this->settingsWindow = NULL;
     CreateTrayIcon();
     SetupActions();
     CreateMenuBar();
@@ -94,8 +95,8 @@ void PalringoWindow::SetupActions()
     settingsMenuAction = new QAction( tr("&Settings..."), this );
     settingsMenuAction->setShortcut(tr("Ctrl+S"));
     settingsMenuAction->setStatusTip(tr("Settings"));
-    settingsMenuAction->setEnabled( false );
-    // connect(settingsMenuAction, SIGNAL(triggered()), this, SLOT(newFile()));
+    //settingsMenuAction->setEnabled( false );
+    connect(settingsMenuAction, SIGNAL(triggered()), this, SLOT(showSettingsWindow()));
 
     exitMenuAction = new QAction( tr("&Exit"), this );
     exitMenuAction->setShortcut( tr( "Ctrl+Q" ) );
@@ -169,6 +170,7 @@ void PalringoWindow::tabFocusChanged(int tabIndex )
 
 PalringoWindow::~PalringoWindow()
 {
+    delete this->settingsWindow;
 }
 
 void PalringoWindow::CreateTrayIcon()
@@ -225,4 +227,13 @@ void PalringoWindow::createAGroup()
     {
         tools_->createGroup( groupName );
     }
+}
+
+void PalringoWindow::showSettingsWindow()
+{
+    if( this->settingsWindow == NULL )
+    {
+        this->settingsWindow = new SettingsWindow( this );
+    }
+    this->settingsWindow->show();
 }

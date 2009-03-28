@@ -31,6 +31,7 @@
 #include "signinwindow.h"
 #include "messageitem.h"
 #include "listitems/listitem.h"
+#include "settingswindow.h"
 
 class Connection;
 
@@ -54,6 +55,7 @@ class PalringoWindow : public QMainWindow
         void joinAGroup();
         void createAGroup();
         void tabFocusChanged( int tabIndex );
+        void showSettingsWindow();
 
     private:
         QMenu *fileMenu;
@@ -89,6 +91,8 @@ class PalringoWindow : public QMainWindow
 
         QList<ListItem *> usersContacts;
         QList<ListItem *> userServices;
+
+        SettingsWindow* settingsWindow;
 };
 
 #endif
