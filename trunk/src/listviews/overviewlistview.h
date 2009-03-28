@@ -25,7 +25,7 @@
 #include "services/service.h"
 #include "message.h"
 #include "palringolistview.h"
-#include "listitems/messagelistitem.h"
+#include "targets/target.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
