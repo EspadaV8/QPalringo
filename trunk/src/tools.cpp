@@ -83,25 +83,23 @@ void Tools::historyMessageReceived( Message message )
 
 void Tools::messageReceived( Message message )
 {
+    Target* t = NULL;
     if( message.groupID() == 0 )
     {
-        Contact *contact = this->contacts.value( message.senderID() );
-        if( !this->checkChatWindowOpen( contact ) )
-        {
-            this->openChatWindow( contact );
-        }
-        ChatWindow *w = this->openWindows.value( contact );
-        w->appendMessage( message );
+        t = this->contacts.value( message.senderID() );
     }
     else
     {
-        Group* group = this->groups.value( message.groupID() );
-        if( !this->checkChatWindowOpen( group ) )
+        t = this->groups.value( message.groupID() );
+    }
+
+    if( t != NULL )
+    {
+        t->addMessage( message );
+        if( t->getPendingMessages().size() == 1 )
         {
-            this->openChatWindow( group );
+            emit( newPendingMessage( t ) );
         }
-        ChatWindow *w = this->openWindows.value( group );
-        w->appendMessage( message );
     }
 }
 

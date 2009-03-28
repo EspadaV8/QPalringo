@@ -103,6 +103,8 @@ class Tools : public QObject
         void contactDetailReceived( Contact *contact );
         void groupLeft( quint64 groupID );
 
+        void newPendingMessage( Target* target );
+
     private:
         bool loggedIn;
         PalringoWindow *mainWindow ;
