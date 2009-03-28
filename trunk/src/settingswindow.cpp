@@ -49,7 +49,7 @@ void SettingsWindow::saveSettings()
 
     settings.setValue( "signin/rememberme", this->RememberMe->isChecked() );
     settings.setValue( "alerts/privateAutoOpen", this->privateAutoOpen->isChecked() );
-    settings.setValue( "alerts/groupAutoOpen", this->privateAutoOpen->isChecked() );
+    settings.setValue( "alerts/groupAutoOpen", this->groupAutoOpen->isChecked() );
 }
 
 SettingsWindow::~SettingsWindow() { }
