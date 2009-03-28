@@ -19,7 +19,9 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
+#include <QSettings>
 #include "group.h"
+#include "tools.h"
 
 Group::Group(QObject *parent)
  : Target(parent)
@@ -86,6 +88,22 @@ void            Group::setContacts( QSet<quint64> contacts )
 
 void Group::addMessage( Message message )
 {
+    QSettings settings;
+
     this->pendingMessages.append( message );
-    emit( this->pendingMessage() );
+    if( settings.value( "alerts/groupAutoOpen" ).toBool() && !tools_->checkChatWindowOpen( this ) )
+    {
+        qDebug( "Opening window" );
+        tools_->openChatWindow( this );
+    }
+    else if( tools_->checkChatWindowOpen( this ) )
+    {
+        qDebug( "insert message" );
+        emit( this->insertMessage() );
+    }
+    else
+    {
+        qDebug( "pending message" );
+        emit( this->pendingMessage() );
+    }
 }
