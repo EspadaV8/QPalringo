@@ -28,7 +28,9 @@
 
 #include <QWidget>
 #include <QAction>
+#include <QList>
 #include "listitem.h"
+#include "message.h"
 #include "targets/contact.h"
 
 class ContactListItem : public ListItem
@@ -48,6 +50,8 @@ class ContactListItem : public ListItem
     private slots:
         void startChat();
         void showContactProperties();
+        void pendingMessage();
+        void resetDetails();
 
     protected:
         void paintEvent( QPaintEvent *event );

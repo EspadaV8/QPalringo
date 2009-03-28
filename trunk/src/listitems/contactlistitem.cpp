@@ -26,16 +26,14 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     : ListItem( parent )
 {
     this->contact = contact;
-
-    this->setFirstLine( this->contact->getNickname() );
-    this->setSecondLine( this->contact->getStatusline() );
-    this->setIcon( this->contact->getIcon() );
-    
+    this->resetDetails();
     this->setMenu();
 
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
     connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
     connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
+    connect( contact, SIGNAL( pendingMessage() ), this, SLOT( pendingMessage() ) );
+    connect( contact, SIGNAL( clearedPendingMessages() ), this, SLOT( resetDetails() ) );
 }
 
 void ContactListItem::setContactOnlineStatus( int onlinestatus __attribute__ ((unused)) )
@@ -102,4 +100,18 @@ ContactListItem::~ContactListItem()
 {
     delete this->chatMenuAction;
     delete this->propertiesMenuAction;
+}
+
+void ContactListItem::pendingMessage()
+{
+    int number_of_messages = this->contact->getPendingMessages().size();
+    this->setIcon( ":/svg/text.svg" );
+    this->setSecondLine( QString::number( number_of_messages ) + " unread message(s)" );
+}
+
+void ContactListItem::resetDetails()
+{
+    this->setFirstLine( this->contact->getNickname() );
+    this->setSecondLine( this->contact->getStatusline() );
+    this->setIcon( this->contact->getIcon() );
 }
