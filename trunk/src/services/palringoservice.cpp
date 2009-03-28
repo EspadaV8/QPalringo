@@ -38,9 +38,10 @@ void PalringoService::loggedOn()
 
 void PalringoService::loginService()
 {
-    if( this->signinWindow ) {};
-    
-    this->signinWindow = new SigninWindow();
+    if( !this->signinWindow )
+    {
+        this->signinWindow = new SigninWindow();
+    }
     this->signinWindow->show();
 }
 
