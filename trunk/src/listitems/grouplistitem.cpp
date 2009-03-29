@@ -26,6 +26,7 @@ GroupListItem::GroupListItem( QWidget *parent, Group *group )
     : ListItem( parent )
 {
     this->group = group;
+    this->type = ListItem::GROUP;
 
     this->setIcon( ":/svg/group.svg" );
     this->setFirstLine( this->group->getName() );
@@ -37,6 +38,11 @@ GroupListItem::GroupListItem( QWidget *parent, Group *group )
 QString GroupListItem::getContainerGroup()
 {
     return "Group Chat";
+}
+
+Group* GroupListItem::getGroup()
+{
+    return this->group;
 }
 
 void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )

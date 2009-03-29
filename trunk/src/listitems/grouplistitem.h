@@ -36,6 +36,7 @@ class GroupListItem : public ListItem
         GroupListItem( QWidget *parent = 0, Group *group = NULL );
         ~GroupListItem();
 
+        Group* getGroup();
         virtual QString getContainerGroup();
 
     private:
