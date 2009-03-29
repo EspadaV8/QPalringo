@@ -1,0 +1,25 @@
+#sender
+{
+    font-weight: bold;
+    float: left;
+}
+
+#timestamp
+{
+    float: right;
+}
+
+MessageItem
+{
+    background: transparent;
+}
+
+MessageItem:hover
+{
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba( 255, 255, 255, 0% ), stop:1 rgba( 187, 205, 225, 50% ) );
+}
+
+MessageItem[selected="true"]
+{
+    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba( 255, 255, 255, 0% ), stop:1 rgba( 187, 205, 225, 100% ) );
+}
