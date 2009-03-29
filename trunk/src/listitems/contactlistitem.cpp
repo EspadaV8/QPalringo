@@ -26,6 +26,7 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     : ListItem( parent )
 {
     this->contact = contact;
+    this->type = ListItem::CONTACT;
     this->resetDetails();
     this->setMenu();
 
