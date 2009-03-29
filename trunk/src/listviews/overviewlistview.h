@@ -22,6 +22,7 @@
 #ifndef OVERVIEWLISTVIEW_H
 #define OVERVIEWLISTVIEW_H
 
+#include <QList>
 #include "services/service.h"
 #include "message.h"
 #include "palringolistview.h"
@@ -42,10 +43,11 @@ class OverviewListView : public PalringoListView
     public slots:
         void serviceReceived( Service *service );
 
+    private:
+        QList<Target*> knownTargets;
+
     private slots:
         void newPendingMessage( Target* target );
-        void clearedPendingMessages( Target* target );
-
 };
 
 #endif

@@ -60,24 +60,48 @@ void OverviewListView::newPendingMessage( Target* target )
 {
     if( !tools_->checkChatWindowOpen( target ) )
     {
-        ListItem* li;
-        if( target->getType() == Target::CONTACT )
+        if( this->knownTargets.contains( target ) )
         {
-            li = new ContactListItem( this, (Contact*)target );
+            foreach( ListItem* li, this->listItems )
+            {
+                if( target->getType() == Target::CONTACT && li->getType() == ListItem::CONTACT )
+                {
+                    if( ((ContactListItem*)li)->getContact() == target )
+                    {
+                        li->show();
+                        break;
+                    }
+                }
+                else if( target->getType() == Target::GROUP && li->getType() == ListItem::GROUP )
+                {
+                    if( ((GroupListItem*)li)->getGroup() == target )
+                    {
+                        li->show();
+                        break;
+                    }
+                }
+            }
         }
-        else if( target->getType() == Target::GROUP )
+        else
         {
-            li = new GroupListItem( this, (Group*)target );
-        }
+            ListItem* li;
+            if( target->getType() == Target::CONTACT )
+            {
+                li = new ContactListItem( this, (Contact*)target );
+            }
+            else if( target->getType() == Target::GROUP )
+            {
+                li = new GroupListItem( this, (Group*)target );
+            }
 
-        this->listItems.append( li );
-        this->addWidgetToView( li, "Messages" );
+            this->listItems.append( li );
+            this->addWidgetToView( li, "Messages" );
+            this->knownTargets.append( target );
+
+            connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
+            connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
+        }
     }
-}
-
-void OverviewListView::clearedPendingMessages( Target* target )
-{
-    qDebug("We should delete the message item here");
 }
 
 OverviewListView::~OverviewListView()
