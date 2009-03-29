@@ -86,6 +86,12 @@ bool PalringoListView::addWidgetToView( ListItem *item, QString containerName )
     }
 }
 
+void PalringoListView::removeListItem( ListItem *item )
+{
+    QString containerName = item->getContainerGroup();
+    item->hide();
+}
+
 int PalringoListView::getContainerPosition( QString containerName )
 {
     for( int i = 0; i < this->listViewContainers.size(); i++ )

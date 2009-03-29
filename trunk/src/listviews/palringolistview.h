@@ -57,6 +57,7 @@ class PalringoListView : public QScrollArea
 
     public slots:
         virtual void inFocus();
+        void removeListItem( ListItem *item );
 };
 
 #endif
