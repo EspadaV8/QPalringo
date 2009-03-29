@@ -27,6 +27,7 @@ ListItem::ListItem( QWidget *parent )
     ReloadStyleSheet();
 
     this->parent = parent;
+    this->type = ListItem::UNDEFINED;
 
     QHBoxLayout *hbox = new QHBoxLayout;
 
@@ -139,6 +140,16 @@ void ListItem::setSelected( bool b )
     this->toSelect = false;
     this->setProperty( "selected", b );
     ReloadStyleSheet();
+}
+
+void ListItem::removeSelf()
+{
+    emit( removeListItem( this ) );
+}
+
+int ListItem::getType()
+{
+    return this->type;
 }
 
 ListItem::~ListItem()

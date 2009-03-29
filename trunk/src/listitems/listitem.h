@@ -44,20 +44,28 @@ class ListItem : public QWidget
         ListItem( QWidget *parent = 0 );
         ~ListItem();
 
+        static const int UNDEFINED = 0;
+        static const int CONTACT = 1;
+        static const int GROUP = 2;
+        static const int SERVICE = 3;
+
         virtual QString getContainerGroup();
 
         bool getToSelect();
         void setSelected( bool selected );
 
         QString getFirstLine();
+        int getType();
 
     public slots:
         void setFirstLine( QString text );
         void setSecondLine( QString text );
         void setIcon( QString iconFilename );
+        void removeSelf();
 
     signals:
         void doubleClick();
+        void removeListItem( ListItem* listitem );
 
     protected:
         void paintEvent( QPaintEvent *event );
@@ -69,6 +77,8 @@ class ListItem : public QWidget
         QLabel *secondLine;
         QSvgWidget *svgIcon;
         QMenu *popupMenu;
+        int type;
+
         virtual void ReloadStyleSheet();
         virtual void setMenu();
 
