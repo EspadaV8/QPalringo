@@ -47,6 +47,8 @@ class GroupListItem : public ListItem
     private slots:
         void startChat();
         void leaveGroup();
+        void pendingMessage();
+        void resetDetails();
 
     protected:
         void mouseDoubleClickEvent( QMouseEvent *event );

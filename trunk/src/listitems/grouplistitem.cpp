@@ -28,11 +28,19 @@ GroupListItem::GroupListItem( QWidget *parent, Group *group )
     this->group = group;
     this->type = ListItem::GROUP;
 
-    this->setIcon( ":/svg/group.svg" );
-    this->setFirstLine( this->group->getName() );
-    this->setSecondLine( this->group->getDescription() );
+    if( this->group->getPendingMessages().size() > 0 )
+    {
+        this->pendingMessage();
+    }
+    else
+    {
+        this->resetDetails();
+    }
     
     this->setMenu();
+
+    connect( group, SIGNAL( pendingMessage() ), this, SLOT( pendingMessage() ) );
+    connect( group, SIGNAL( clearedPendingMessages() ), this, SLOT( resetDetails() ) );
 }
 
 QString GroupListItem::getContainerGroup()
@@ -79,4 +87,19 @@ GroupListItem::~GroupListItem()
 {
     delete this->groupChatAction;
     delete this->leaveGroupAction;
+}
+
+void GroupListItem::pendingMessage()
+{
+    int number_of_messages = this->group->getPendingMessages().size();
+    this->setIcon( ":/svg/text.svg" );
+    this->setFirstLine( this->group->getName() );
+    this->setSecondLine( QString::number( number_of_messages ) + " group message(s)" );
+}
+
+void GroupListItem::resetDetails()
+{
+    this->setIcon( ":/svg/group.svg" );
+    this->setFirstLine( this->group->getName() );
+    this->setSecondLine( this->group->getDescription() );
 }
