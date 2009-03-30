@@ -93,17 +93,14 @@ void Group::addMessage( Message message )
     this->pendingMessages.append( message );
     if( settings.value( "alerts/groupAutoOpen" ).toBool() && !tools_->checkChatWindowOpen( this ) )
     {
-        qDebug( "Opening window" );
         tools_->openChatWindow( this );
     }
     else if( tools_->checkChatWindowOpen( this ) )
     {
-        qDebug( "insert message" );
         emit( this->insertMessage() );
     }
     else
     {
-        qDebug( "pending message" );
         emit( this->pendingMessage() );
     }
 }
