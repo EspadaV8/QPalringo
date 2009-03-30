@@ -27,12 +27,15 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 {
     this->contact = contact;
     this->type = ListItem::CONTACT;
-    this->resetDetails();
     this->setMenu();
 
     if( this->contact->getPendingMessages().size() > 0 )
     {
         this->pendingMessage();
+    }
+    else
+    {
+        this->resetDetails();
     }
 
     connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
@@ -112,7 +115,8 @@ void ContactListItem::pendingMessage()
 {
     int number_of_messages = this->contact->getPendingMessages().size();
     this->setIcon( ":/svg/text.svg" );
-    this->setSecondLine( QString::number( number_of_messages ) + " unread message(s)" );
+    this->setFirstLine( this->contact->getNickname() );
+    this->setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
 }
 
 void ContactListItem::resetDetails()
