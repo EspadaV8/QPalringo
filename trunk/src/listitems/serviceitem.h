@@ -39,6 +39,7 @@ class ServiceItem : public ListItem
     
     private slots:
         void updateDetails();
+        void changeOnlineStatus();
         
     signals:
         void doubleClick();
@@ -53,6 +54,10 @@ class ServiceItem : public ListItem
         
         QAction *editServiceMenuAction;
         QAction *signonMenuAction;
+        QAction *onlineStatus;
+        QAction *awayStatus;
+        QAction *busyStatus;
+        QAction *invisibleStatus;
 };
 
 #endif
