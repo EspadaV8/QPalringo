@@ -1099,6 +1099,8 @@ public:
       headers_t& headers,
       const std::string& body = "");
 
+  virtual bool sendRawData(const std::string& data);
+
   /**
    * @brief Send a string type message
    *

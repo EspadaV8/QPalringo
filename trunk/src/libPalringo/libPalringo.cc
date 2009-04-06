@@ -908,7 +908,7 @@ PalringoConnection::sendCmd (const std::string& cmd,
                              uint32_t length)
 {
   std::string bodyStr;
-  bodyStr.append(body, length);
+  bodyStr.assign(body, length);
   return sendCmd(cmd, headers, bodyStr);
 }
 
@@ -965,6 +965,14 @@ PalringoConnection::sendCmd (const std::string& cmd,
     {
       processUnknownOutgoing(cmd, headers, const_cast<std::string&>(body));
     }
+  return true;
+}
+
+bool PalringoConnection::sendRawData(const std::string& data)
+{
+  DBGOUT << "Sending to buffer: \n" << data << std::endl;
+  outStream_.append(data);
+  outMessageCount_++;
   return true;
 }
 
