@@ -634,6 +634,8 @@ protected:
    */
   int readCmd();
 
+  virtual void setConnectionReady();
+
 // Incoming Callback Functions
 
 

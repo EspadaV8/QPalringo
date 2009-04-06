@@ -53,7 +53,7 @@
 #include "libPalringo.h"
 
 #ifdef DEBUG
-#define DBGOUT std::cout
+#define DBGOUT std::cout << __FILE__ << ":" << __LINE__ << ":"
 #else
 #define DBGOUT if (0) std::cout
 #endif
@@ -1141,6 +1141,13 @@ PalringoConnection::readCmd()
   DBGOUT << "inStream_ Size: " << inStream_.size() << std::endl;
   DBGOUT << "inStream_ content:\n" << hexDump(inStream_) << std::endl;
   return nb;
+}
+
+void
+PalringoConnection::setConnectionReady()
+{
+  connectionStatus_ = CONN_READY;
+  loggedOn_ = true;
 }
 
 uint64_t

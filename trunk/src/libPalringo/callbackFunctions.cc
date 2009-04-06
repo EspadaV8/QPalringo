@@ -29,7 +29,7 @@
 #include "crypto.h"
 
 #ifdef DEBUG
-#define DBGOUT std::cout
+#define DBGOUT std::cout << __FILE__ << ":" << __LINE__ << ":"
 #else
 #define DBGOUT if (0) std::cout
 #endif
@@ -201,7 +201,7 @@ PalringoConnection::onLogonSuccessfulReceived(headers_t& headers,
   serverTimestamp_ = logonDataPtr->timestamp_;
 
   DBGOUT << "Logon successful" << std::endl;
-  loggedOn_ = true;
+  setConnectionReady();
   return 1;
 }
 
@@ -581,7 +581,7 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
     std::string& body,
     GenericData *data)
 {
-    DBGOUT << "SUB-PROFILE received" << std::endl;
+  DBGOUT << "SUB-PROFILE received" << std::endl;
 
   if(body.size())
   {
@@ -590,6 +590,8 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
       std::string encRK;
       std::string msgBody;
       std::string IV;
+      bool hasRK = headers.count("RK");
+      bool hasIV = headers.count("IV");
 
       if(compression_ && headers.count("COMPRESSION"))
       {
@@ -597,38 +599,51 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
         body.assign(zlibDecompress(body));
       }
 
-      if (encryption_)
+      if (hasRK)
       {
-  //DBGOUT << "Body:\n" << hexDump(body) << std::endl;
-        size_t RKsize = 0; 
-        if (headers.count("RK"))
+        headers_t::iterator rkIt(headers.find("RK"));
+
+        if (encryption_)
         {
-          RKsize = strtoul(headers["RK"].c_str(), NULL, 10);
+    //DBGOUT << "Body:\n" << hexDump(body) << std::endl;
+          size_t RKsize = 0;
+          RKsize = strtoul(rkIt->second.c_str(), NULL, 10);
           DBGOUT << "\nRKsize: " << RKsize << std::endl;
+
+          size_t IVsize = 0;
+          if (hasIV)
+          {
+            IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
+            DBGOUT << "\nIVsize: " << IVsize << std::endl;
+          }
+          if (RKsize && IVsize)
+          {
+            encRK.assign(body.substr(body.size() - RKsize, RKsize));
+            msgBody.assign(body.substr(IVsize, body.size() - RKsize - IVsize));
+            IV.assign(body.substr(0, IVsize));
+            DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
+            salsa_->setIV(IV);
+            salsa_->encrypt(encRK, RK_);
+            DBGOUT << "encRK:\n" << hexDump(encRK) << std::endl;
+            DBGOUT << "RK:\n" << hexDump(RK_) << std::endl;
+            std::string keyStr(salsa_->getKey());
+            DBGOUT << "Key:\n" << hexDump(keyStr) << std::endl;
+
+            DBGOUT << "Logon successful" << std::endl;
+            setConnectionReady();
+          }
+          else
+          {
+            return 1;
+          }
         }
 
-        size_t IVsize = 0;
-        if (headers.count("IV"))
-        {
-          IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
-          DBGOUT << "\nIVsize: " << IVsize << std::endl;
-        }
-        if (RKsize && IVsize)
-        {
-          encRK.assign(body.substr(body.size() - RKsize, RKsize));
-          msgBody.assign(body.substr(IVsize, body.size() - RKsize - IVsize));
-          IV.assign(body.substr(0, IVsize));
-          DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
-          salsa_->setIV(IV);
-          salsa_->encrypt(encRK, RK_);
-          DBGOUT << "encRK:\n" << hexDump(encRK) << std::endl;
-          DBGOUT << "RK:\n" << hexDump(RK_) << std::endl;
-          std::string keyStr(salsa_->getKey());
-          DBGOUT << "Key:\n" << hexDump(keyStr) << std::endl;
-        }
         else
         {
-          return 1;
+          RK_ = rkIt->second;
+
+          DBGOUT << "Logon successful" << std::endl;
+          setConnectionReady();
         }
       }
 
@@ -636,35 +651,34 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
       LogonData *logonDataPtr =
         getDataPtr<PalringoConnection::LogonData>(data, &logonData);
 
+      if (logonDataPtr == data)
+      {
+        DBGOUT << "Using data: " << data << " as pointer" << std::endl;
+      }
+      else
+      {
+        DBGOUT << "Using logonData: " << &logonData
+               << " as pointer" << std::endl;
+      }
+
+
       logonDataPtr->getData(headers, msgBody.size() ? msgBody : body);
-      
+
       DBGOUT << "Processing DataMap" << std::endl;
       std::string dataMapStr(logonDataPtr->dataMap_->toString());
       DBGOUT << "dataMap: \n" << dataMapStr << std::endl;
 
-   
-      connectionStatus_ = CONN_READY;
 
-      userId_ = strtoul(logonDataPtr->dataMap_->at("Sub-Id").c_str(), NULL, 10); 
+
+      userId_ = strtoul(logonDataPtr->dataMap_->at("Sub-Id").c_str(), NULL, 10);
       nickname_ = logonDataPtr->dataMap_->at("Nickname");
       status_ = logonDataPtr->dataMap_->at("Status");
       lastOnline_ = logonDataPtr->lastOnline_;
-      if (!encryption_)
-      {
-        headers_t::iterator rkIt(headers.find("RK"));
-
-        if (rkIt != headers.end())
-        {
-          RK_ = rkIt->second;
-        }
-      }
-      DBGOUT << "Logon successful" << std::endl;
-      loggedOn_ = true;
 
       DataMap contactAddDataMap(logonDataPtr->dataMap_->at("CONTACT_ADD"));
 
       for(DataMap::ValueMap::iterator it = contactAddDataMap.begin();
-          it != contactAddDataMap.end(); 
+          it != contactAddDataMap.end();
           it++)
       {
         headers_t cHeaders;
@@ -673,8 +687,8 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
         char tmp2[32];
         sprintf(tmp2, "%d", ++mesg_id_);
         cHeaders["MESG-ID"] = tmp2;
-        
-        if (auto_accept_contacts_) 
+
+        if (auto_accept_contacts_)
         {
           sendCmd("CONTACT ADD RESP", cHeaders, "");
         }
@@ -682,10 +696,10 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
         DBGOUT << "Contact add request " << it->first << std::endl;
       }
 
-      DataMap contactsDataMap(logonDataPtr->dataMap_->at("contacts")); 
+      DataMap contactsDataMap(logonDataPtr->dataMap_->at("contacts"));
 
       for (DataMap::ValueMap::iterator it = contactsDataMap.begin();
-          it != contactsDataMap.end(); 
+          it != contactsDataMap.end();
           it++)
       {
         DBGOUT << "Processing DataMap of contact: " << it->first << std::endl;
@@ -721,7 +735,7 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
       DataMap groupsDataMap(logonDataPtr->dataMap_->at("group_sub"));
 
       for (DataMap::ValueMap::iterator it = groupsDataMap.begin();
-          it != groupsDataMap.end(); 
+          it != groupsDataMap.end();
           it++)
       {
         group_t& group = groups_[strtoul(it->first.c_str(), NULL, 10)];
@@ -732,7 +746,7 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
         group.desc_ = groupDataMap["desc"];
 
         for (DataMap::ValueMap::iterator itB = groupDataMap.begin();
-             itB != groupDataMap.end(); 
+             itB != groupDataMap.end();
              itB++)
         {
           unsigned long contactId(0);
