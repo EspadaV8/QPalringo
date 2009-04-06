@@ -32,17 +32,16 @@
 
 #include "DataMap.h"
 
+const char *DataMap::OUT_OF_BOUNDS("Value length out of bounds");
+
 DataMap::DataMap(const std::string &data)
 {
-  const char* dataptr =  data.data();
-  data_.reserve(data.size());
-  data_.insert(data_.end(), dataptr, dataptr + data.size());
+  parse(data.data(), data.size());
 }
 
-DataMap::DataMap(const char* data, unsigned long length)
+DataMap::DataMap(const char* data, size_t length)
 {
-  data_.reserve(length);
-  data_.insert(data_.end(), data, data + length);
+  parse(data, length);
 }
 
 DataMap::DataMap()
@@ -51,189 +50,127 @@ DataMap::DataMap()
 
 DataMap::~DataMap()
 {
-  data_.clear();
   dataMap_.clear();
 }
 
-bool
-DataMap::parse()
+void
+DataMap::parse(const char *data, size_t length)
 {
-  const char *dataptr =  &data_[0];
-  if (!data_.size())
+  if (!length)
   {
-    return false;
+    return; 
   }
 
-  const char *p(dataptr);
-  const char *base(p);
-  const char *end(dataptr + data_.size());
+  const char *p(data);
+  const char *base(data);
+  const char *end(data + length);
 
   while(p < end)
   {
     // p will point to the end of the attribute string
     if(!(p = index(base, '\0')))
     {
-      break;
+      return;
     }
 
-    std::string key(base, p - base);
-
-    Value value;
+    std::string attr(base, p - base);
 
     // p points to the length short
     p++;
 
     // extract the length of the data
-    value.length_ = static_cast<unsigned int>(
-	ntohs(*(reinterpret_cast<const uint16_t*>(p))));
+    unsigned short valueLength(static_cast<unsigned int>(
+	ntohs(*(reinterpret_cast<const uint16_t*>(p)))));
 
     // point to the first byte of the data
     p += 2;
 
     // out of bounds, parse error!
-    if ((p + value.length_) > end)
+    if ((p + valueLength) > end)
     {
-      std::cout << "p out of bounds, length: " 
-	        << value.length_ 
-	        << " but end:" << end - p << std::endl;
-      return false;
+      throw DataMapException(OUT_OF_BOUNDS);
     }
 
-    value.pos_ = p - dataptr;
+    std::string value(p, valueLength);
 
     std::pair<ValueMap::iterator, bool> res(
-	dataMap_.insert(std::pair<std::string, Value>(key, value)));
+	dataMap_.insert(std::pair<std::string, std::string>(attr, value)));
 
-    // the attribute isn't unique, parse error!
+    // if there is already an attribute in the map append the data to it
     if(!res.second)
     {
-      std::cout << "Attribute isn't unique" << std::endl;
-      return false;
+      res.first->second.append(value);
     }
 
-    p += value.length_;
+    p += valueLength;
     base = p;
   }
-
-  return true;
 }
 
-bool
-DataMap::appendData(const std::string &attr, const std::string &value)
+void
+DataMap::appendData(std::string &data,
+                    const std::string &attr, 
+                    const std::string &value)
 {
-
-  if (dataMap_.find(attr) != dataMap_.end())
-  {
-    return false;
-  }
-
-  else
-  {
-    unsigned long newLength(data_.size() + attr.size() + 3 + value.size());
-
-    data_.reserve(newLength);
-
-    const char *attrptr = attr.c_str();
-    const char *valueptr = value.data();
-
-    data_.insert(data_.end(), attrptr, attrptr + attr.size() + 1);
-
-    uint16_t len(htons(static_cast<uint16_t>(value.size())));
-    const char *lenptr =  reinterpret_cast<const char*>(&len);
-
-    data_.insert(data_.end(), lenptr, lenptr + 2);
-
-    data_.insert(data_.end(), valueptr, valueptr + value.size());
-
-    Value dataValue;
-
-    dataValue.pos_ = data_.size() - value.size();
-    dataValue.length_ = value.size();
-
-    dataMap_.insert(std::pair<std::string, Value>(
-	  attr, dataValue));
-
-    return true;
-  }
+  appendData(data, attr.c_str(), value.data(), value.size());
 }
 
-bool
-DataMap::appendData(const std::string &attr, 
+void
+DataMap::appendData(std::string &data,
+                    const std::string &attr, 
                     const char *value, 
-		    unsigned int length)
+		    size_t length)
 {
-  return appendData(attr, std::string(value, length));
+  appendData(data, attr.c_str(), value, length);
 }
 
-bool
-DataMap::appendData(const char *attr, 
+void
+DataMap::appendData(std::string &data,
+                    const char *attr, 
                     const std::string &value) 
 {
-  return appendData(std::string(attr), value);
+  appendData(data, attr, value.data(), value.size());
 }
 
-bool
-DataMap::appendData(const char *attr, 
+void
+DataMap::appendData(std::string &data,
+                    const char *attr, 
                     const char *value, 
-		    unsigned int length)
+		    size_t length)
 {
-  return appendData(std::string(attr), std::string(value, length));
-}
+  const char *p = value;
+  const char *end = value + length;
 
-unsigned long
-DataMap::getData(char *data)
-{
-  if(data_.size())
+  while(p < end)
   {
-    memcpy((void*)data, (const void*)&data_[0], data_.size());
+    data.append(attr);
 
-    return data_.size();
-  }
+    uint16_t valueLength = (end - p <= 0xffff ) ? end - p : 0xffff;
 
-  else
-  {
-    return 0;
+    uint16_t len(htons(valueLength));
+
+    data.append(reinterpret_cast<const char*>(&len), 2);
+
+    data.append(p, valueLength);
+
+    p += valueLength;
   }
 }
 
 std::string
 DataMap::getData()
 {
-  if(data_.size())
+  std::string res;
+
+  for (ValueMap::iterator it = dataMap_.begin();
+       it != dataMap_.end();
+       ++it)
   {
-    return std::string(&data_[0], data_.size());
+    appendData(res, it->first, it->second);
   }
-
-  else
-  {
-    return std::string();
-  }
-}
-
-std::vector<std::string>
-DataMap::getAttributes()
-{
-  std::vector<std::string> res;
-
-  for (ValueMap::iterator it = dataMap_.begin(); it != dataMap_.end(); it++)
-  {
-    res.push_back(it->first);
-  }
-
   return res;
 }
 
-DataMap::ValueMap::iterator
-DataMap::begin()
-{
-  return dataMap_.begin();
-}
-
-DataMap::ValueMap::iterator
-DataMap::end()
-{
-  return dataMap_.end();
-}
 
 bool
 DataMap::hasAttribute(const std::string &att)
@@ -260,28 +197,13 @@ DataMap::hasAttribute(const char *att)
 std::string
 DataMap::operator[](const std::string &att)
 {
-  ValueMap::iterator it(dataMap_.find(att));
-
-  if (it != dataMap_.end())
-  {
-    return std::string(&data_[0] + it->second.pos_, it->second.length_);
-  }
-  else
-  {
-    return std::string();
-  }
+  return at(att);
 }
 
 std::string
 DataMap::operator[](const char *att)
 {
-  return operator[](std::string(att));
-}
-
-std::string
-DataMap::operator[](ValueMap::iterator &it)
-{
-  return std::string(&data_[0] + it->second.pos_, it->second.length_);
+  return at(att);
 }
 
 std::string
@@ -291,7 +213,7 @@ DataMap::at(const std::string &att)
 
   if (it != dataMap_.end())
   {
-    return std::string(&data_[0] + it->second.pos_, it->second.length_);
+    return std::string(it->second);
   }
   else
   {
@@ -305,11 +227,6 @@ DataMap::at(const char *att)
   return at(std::string(att));
 }
 
-std::string
-DataMap::at(ValueMap::iterator &it)
-{
-  return std::string(&data_[0] + it->second.pos_, it->second.length_);
-}
 
 std::string
 DataMap::toString()
@@ -321,7 +238,7 @@ DataMap::toString()
     res.append("\t");
     res.append(it->first);
     res.append(": ");
-    res.append(&data_[0] + it->second.pos_, it->second.length_);
+    res.append(it->second);
     res.append("\n");
   }
 
@@ -329,3 +246,4 @@ DataMap::toString()
 
   return res;
 }
+

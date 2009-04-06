@@ -378,15 +378,10 @@ PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers __attribute__ ((u
 {
   DBGOUT << "Group Update V2 received" << std::endl;
 
-  DataMap dataMap(body);
+  try
+  {
+    DataMap dataMap(body);
 
-  if(!dataMap.parse())
-  {
-    DBGOUT << "Parse error while processing DataMap" << std::endl;
-    return 0;
-  }
-  else
-  {
     DBGOUT << "Processing DataMap" << std::endl;
     unsigned long groupId(strtoul(dataMap["Group-Id"].c_str(), NULL, 10));
     if (dataMap.hasAttribute("Contact-Id"))
@@ -397,29 +392,29 @@ PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers __attribute__ ((u
 
       if(!type)
       {
-	DBGOUT << "Contact " << contactId
-	       << " has joined the group" << std::endl;
-	contact_t& contact =  contacts_[contactId];
+        DBGOUT << "Contact " << contactId 
+               << " has joined the group" << std::endl;
+        contact_t& contact =  contacts_[contactId];
 
-	contact.nickname_ = dataMap["Nickname"];
+        contact.nickname_ = dataMap["Nickname"];
 
-	contact.deviceType_ = static_cast<DeviceType>(
-	    strtoul(dataMap["Device-Type"].c_str(), NULL, 10));
+        contact.deviceType_ = static_cast<DeviceType>(
+            strtoul(dataMap["Device-Type"].c_str(), NULL, 10));
 
-	contact.onlineStatus_ = static_cast<OnlineStatus>(
-	    strtoul(dataMap["Online-Status"].c_str(), NULL, 10));
+        contact.onlineStatus_ = static_cast<OnlineStatus>(
+            strtoul(dataMap["Online-Status"].c_str(), NULL, 10));
 
-	contact.status_ = dataMap["Status"];
-	group_t& group = groups_[groupId];
-	group.contacts_.insert(contactId);
+        contact.status_ = dataMap["Status"];
+        group_t& group = groups_[groupId];
+        group.contacts_.insert(contactId);
       }
 
       else
       {
-	DBGOUT << "Contact " << contactId
-	       << " has left the group" << std::endl;
-	group_t& group = groups_[groupId];
-	group.contacts_.erase(contactId);
+        DBGOUT << "Contact " << contactId 
+               << " has left the group" << std::endl;
+        group_t& group = groups_[groupId];
+        group.contacts_.erase(contactId);
       }
     }
 
@@ -439,6 +434,15 @@ PalringoConnection::onGroupUpdateReceivedV2(headers_t& headers __attribute__ ((u
 
     return 1;
   }
+  catch (DataMapException &e)
+  {
+    DBGOUT << e.what() << std::endl;
+    return 0;
+  }
+  catch (...)
+  {
+    throw;
+  }
 }
 
 int
@@ -450,28 +454,40 @@ PalringoConnection::onRegReceived(headers_t& headers __attribute__ ((unused)),
   newHeaders["email"] = login_;
   newHeaders["MESG-ID"] = "1";
 
-  DataMap dataMap(body);
-  dataMap.parse();
-  DBGOUT << "dataMap: \n" << dataMap.toString() << std::endl;
-  std::string IV(dataMap["IV"]);
-  std::string B(dataMap["B"]);
-  std::string s(dh_->getSecret(B));
-  std::string sMD5(crypto::md5(s));
-  crypto::SalsaCipher salsa(IV, sMD5);
-  DBGOUT << "s: " << s << "\nsMD5: " << hexDump(sMD5) << std::endl;
+  try
+  {
+    DataMap dataMap(body);
 
-  std::string newBody;
-  std::string clearText(password_ + std::string(50 - password_.size(), '\0'));
-  DBGOUT << "clearText:\n" << hexDump(clearText) << std::endl;
+    DBGOUT << "dataMap: \n" << dataMap.toString() << std::endl;
+    std::string IV(dataMap["IV"]);
+    std::string B(dataMap["B"]);
+    std::string s(dh_->getSecret(B));
+    std::string sMD5(crypto::md5(s));
+    crypto::SalsaCipher salsa(IV, sMD5);
+    DBGOUT << "s: " << s << "\nsMD5: " << hexDump(sMD5) << std::endl;
 
-  salsa.encrypt(clearText, newBody);
-  DBGOUT << "newBody:\n" << hexDump(newBody) << std::endl;
+    std::string newBody;
+    std::string clearText(password_ + std::string(50 - password_.size(), '\0'));
+    DBGOUT << "clearText:\n" << hexDump(clearText) << std::endl;
 
-  sendCmd(pCommand::REG, newHeaders, newBody);
+    salsa.encrypt(clearText, newBody);
+    DBGOUT << "newBody:\n" << hexDump(newBody) << std::endl;
 
-  delete dh_;
-  dh_ = NULL;
-  return 1;
+    sendCmd(pCommand::REG, newHeaders, newBody);
+
+    delete dh_;
+    dh_ = NULL;
+    return 1;
+  }
+  catch (DataMapException &e)
+  {
+    DBGOUT << e.what() << std::endl;
+    return 0;
+  }
+  catch (...)
+  {
+    throw;
+  }
 }
 
 int
@@ -567,185 +583,183 @@ PalringoConnection::onSubProfileReceived(headers_t& headers,
 {
     DBGOUT << "SUB-PROFILE received" << std::endl;
 
-    if(body.size())
+  if(body.size())
+  {
+    try
     {
-        std::string encRK;
-        std::string msgBody;
-        std::string IV;
+      std::string encRK;
+      std::string msgBody;
+      std::string IV;
 
-        if(compression_ && headers.count("COMPRESSION"))
+      if(compression_ && headers.count("COMPRESSION"))
+      {
+        DBGOUT << "Decompressing body" << std::endl;
+        body.assign(zlibDecompress(body));
+      }
+
+      if (encryption_)
+      {
+  //DBGOUT << "Body:\n" << hexDump(body) << std::endl;
+        size_t RKsize = 0; 
+        if (headers.count("RK"))
         {
-            DBGOUT << "Decompressing body" << std::endl;
-            body.assign(zlibDecompress(body));
+          RKsize = strtoul(headers["RK"].c_str(), NULL, 10);
+          DBGOUT << "\nRKsize: " << RKsize << std::endl;
         }
 
-        if (encryption_)
+        size_t IVsize = 0;
+        if (headers.count("IV"))
         {
-            //DBGOUT << "Body:\n" << hexDump(body) << std::endl;
-            size_t RKsize = 0;
-            if (headers.count("RK"))
-            {
-                RKsize = strtoul(headers["RK"].c_str(), NULL, 10);
-                DBGOUT << "\nRKsize: " << RKsize << std::endl;
-            }
-
-            size_t IVsize = 0;
-            if (headers.count("IV"))
-            {
-                IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
-                DBGOUT << "\nIVsize: " << IVsize << std::endl;
-            }
-            if (RKsize && IVsize)
-            {
-                encRK.assign(body.substr(body.size() - RKsize, RKsize));
-                msgBody.assign(body.substr(IVsize, body.size() - RKsize - IVsize));
-                IV.assign(body.substr(0, IVsize));
-                DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
-                salsa_->setIV(IV);
-                salsa_->encrypt(encRK, RK_);
-                DBGOUT << "encRK:\n" << hexDump(encRK) << std::endl;
-                DBGOUT << "RK:\n" << hexDump(RK_) << std::endl;
-                std::string keyStr(salsa_->getKey());
-                DBGOUT << "Key:\n" << hexDump(keyStr) << std::endl;
-            }
-            else
-            {
-                return 1;
-            }
+          IVsize = strtoul(headers["IV"].c_str(), NULL, 10);
+          DBGOUT << "\nIVsize: " << IVsize << std::endl;
         }
-        
-        LogonData logonData;
-        LogonData *logonDataPtr =
-        getDataPtr<PalringoConnection::LogonData>(data, &logonData);
-
-        logonDataPtr->getData(headers, msgBody.size() ? msgBody : body);
-
-        if(!logonDataPtr->dataMap_->parse())
+        if (RKsize && IVsize)
         {
-            //DBGOUT << "Wrong datamap!\n"
-                //<< hexDump(encryption_ ? msgBody : body)
-                //<< std::endl;
-            return 0;
+          encRK.assign(body.substr(body.size() - RKsize, RKsize));
+          msgBody.assign(body.substr(IVsize, body.size() - RKsize - IVsize));
+          IV.assign(body.substr(0, IVsize));
+          DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
+          salsa_->setIV(IV);
+          salsa_->encrypt(encRK, RK_);
+          DBGOUT << "encRK:\n" << hexDump(encRK) << std::endl;
+          DBGOUT << "RK:\n" << hexDump(RK_) << std::endl;
+          std::string keyStr(salsa_->getKey());
+          DBGOUT << "Key:\n" << hexDump(keyStr) << std::endl;
         }
         else
         {
-            DBGOUT << "Processing DataMap" << std::endl;
-            std::string dataMapStr(logonDataPtr->dataMap_->toString());
-            DBGOUT << "dataMap: \n" << dataMapStr << std::endl;
-            
-            connectionStatus_ = CONN_READY;
-            
-            DataMap& dataMap = *(logonDataPtr->dataMap_);
-            
-            if( !loggedOn_ )
-            {
-                userId_ = strtoul(dataMap["Sub-Id"].c_str(), NULL, 10);
-                nickname_ = dataMap["Nickname"];
-                status_ = dataMap["Status"];
-                lastOnline_ = logonDataPtr->lastOnline_;
-                if (!encryption_)
-                {
-                    headers_t::iterator rkIt(headers.find("RK"));
-                    
-                    if (rkIt != headers.end())
-                    {
-                        RK_ = rkIt->second;
-                    }
-                }
-                DBGOUT << "Logon successful" << std::endl;
-                loggedOn_ = true;
-            }
-            
-            DataMap contactAddDataMap(dataMap["CONTACT_ADD"]);
-            contactAddDataMap.parse();
-            for(DataMap::ValueMap::iterator it = contactAddDataMap.begin();
-                it != contactAddDataMap.end();
-                it++)
-            {
-                headers_t cHeaders;
-                cHeaders["ACCEPTED"] = "1";
-                cHeaders["SOURCE-ID"] = it->first;
-                char tmp2[32];
-                sprintf(tmp2, "%d", ++mesg_id_);
-                cHeaders["MESG-ID"] = tmp2;
-                
-                if (auto_accept_contacts_)
-                {
-                    sendCmd("CONTACT ADD RESP", cHeaders, "");
-                }
-                DBGOUT << "Contact add request " << it->first << std::endl;
-            }
-            
-            DataMap contactsDataMap(dataMap["contacts"]);
-            contactsDataMap.parse();
-            for (DataMap::ValueMap::iterator it = contactsDataMap.begin();
-                it != contactsDataMap.end();
-                it++)
-            {
-                DBGOUT << "Processing DataMap of contact: " << it->first << std::endl;
-                contact_t& contact =  contacts_[strtoul(it->first.c_str(), NULL, 10)];
-                DataMap contactDataMap(contactsDataMap[it]);
-                contactDataMap.parse();
-                
-                if (contactDataMap.hasAttribute("Nickname"))
-                {
-                    contact.nickname_ = contactDataMap["Nickname"];
-                }
-                
-                if (contactDataMap.hasAttribute("Online-Status"))
-                {
-                    contact.onlineStatus_ = strtoul(contactDataMap["Online-Status"].c_str(), NULL, 10);
-                }
-                
-                if (contactDataMap.hasAttribute("Status"))
-                {
-                    contact.status_ = contactDataMap["Status"];
-                }
-                
-                if (contactDataMap.hasAttribute("Status"))
-                {
-                    contact.deviceType_ = static_cast<DeviceType>(strtoul(contactDataMap["Device-Type"].c_str(), NULL, 10));
-                }
-                
-                if (contactDataMap.hasAttribute("contact"))
-                {
-                    contact.isContact_ = strtoul(contactDataMap["contact"].c_str(), NULL, 10);
-                }
-            }
-            
-            DataMap groupsDataMap(dataMap["group_sub"]);
-            groupsDataMap.parse();
-            for (DataMap::ValueMap::iterator it = groupsDataMap.begin();
-                it != groupsDataMap.end();
-                it++)
-            {
-                group_t& group = groups_[strtoul(it->first.c_str(), NULL, 10)];
-                DataMap groupDataMap(groupsDataMap[it]);
-                groupDataMap.parse();
-                
-                group.name_ =  groupDataMap["name"];
-                group.desc_ = groupDataMap["desc"];
-                
-                for (DataMap::ValueMap::iterator itB = groupDataMap.begin();
-                    itB != groupDataMap.end();
-                    itB++)
-                {
-                    unsigned long contactId(0);
-                    if ((contactId = strtoul(itB->first.c_str(), NULL, 10)))
-                    {
-                        group.contacts_.insert(contactId);
-                    }
-                }
-            }
-            return 1;
+          return 1;
         }
+      }
+
+      LogonData logonData;
+      LogonData *logonDataPtr =
+        getDataPtr<PalringoConnection::LogonData>(data, &logonData);
+
+      logonDataPtr->getData(headers, msgBody.size() ? msgBody : body);
+      
+      DBGOUT << "Processing DataMap" << std::endl;
+      std::string dataMapStr(logonDataPtr->dataMap_->toString());
+      DBGOUT << "dataMap: \n" << dataMapStr << std::endl;
+
+   
+      connectionStatus_ = CONN_READY;
+
+      userId_ = strtoul(logonDataPtr->dataMap_->at("Sub-Id").c_str(), NULL, 10); 
+      nickname_ = logonDataPtr->dataMap_->at("Nickname");
+      status_ = logonDataPtr->dataMap_->at("Status");
+      lastOnline_ = logonDataPtr->lastOnline_;
+      if (!encryption_)
+      {
+        headers_t::iterator rkIt(headers.find("RK"));
+
+        if (rkIt != headers.end())
+        {
+          RK_ = rkIt->second;
+        }
+      }
+      DBGOUT << "Logon successful" << std::endl;
+      loggedOn_ = true;
+
+      DataMap contactAddDataMap(logonDataPtr->dataMap_->at("CONTACT_ADD"));
+
+      for(DataMap::ValueMap::iterator it = contactAddDataMap.begin();
+          it != contactAddDataMap.end(); 
+          it++)
+      {
+        headers_t cHeaders;
+        cHeaders["ACCEPTED"] = "1";
+        cHeaders["SOURCE-ID"] = it->first;
+        char tmp2[32];
+        sprintf(tmp2, "%d", ++mesg_id_);
+        cHeaders["MESG-ID"] = tmp2;
+        
+        if (auto_accept_contacts_) 
+        {
+          sendCmd("CONTACT ADD RESP", cHeaders, "");
+        }
+
+        DBGOUT << "Contact add request " << it->first << std::endl;
+      }
+
+      DataMap contactsDataMap(logonDataPtr->dataMap_->at("contacts")); 
+
+      for (DataMap::ValueMap::iterator it = contactsDataMap.begin();
+          it != contactsDataMap.end(); 
+          it++)
+      {
+        DBGOUT << "Processing DataMap of contact: " << it->first << std::endl;
+        contact_t& contact =  contacts_[strtoul(it->first.c_str(), NULL, 10)];
+        DataMap contactDataMap(it->second);
+
+        if (contactDataMap.hasAttribute("Nickname"))
+        {
+          contact.nickname_ = contactDataMap["Nickname"];
+        }
+
+        if (contactDataMap.hasAttribute("Online-Status"))
+        {
+          contact.onlineStatus_ = strtoul(contactDataMap["Online-Status"].c_str(), NULL, 10);
+        }
+
+        if (contactDataMap.hasAttribute("Status"))
+        {
+          contact.status_ = contactDataMap["Status"];
+        }
+
+        if (contactDataMap.hasAttribute("Device-Type"))
+        {
+          contact.deviceType_ = static_cast<DeviceType>(strtoul(contactDataMap["Device-Type"].c_str(), NULL, 10));
+        }
+
+        if (contactDataMap.hasAttribute("contact"))
+        {
+          contact.isContact_ = strtoul(contactDataMap["contact"].c_str(), NULL, 10);
+        }
+      }
+
+      DataMap groupsDataMap(logonDataPtr->dataMap_->at("group_sub"));
+
+      for (DataMap::ValueMap::iterator it = groupsDataMap.begin();
+          it != groupsDataMap.end(); 
+          it++)
+      {
+        group_t& group = groups_[strtoul(it->first.c_str(), NULL, 10)];
+
+        DataMap groupDataMap(it->second);
+
+        group.name_ =  groupDataMap["name"];
+        group.desc_ = groupDataMap["desc"];
+
+        for (DataMap::ValueMap::iterator itB = groupDataMap.begin();
+             itB != groupDataMap.end(); 
+             itB++)
+        {
+          unsigned long contactId(0);
+          if ((contactId = strtoul(itB->first.c_str(), NULL, 10)))
+          {
+            group.contacts_.insert(contactId);
+          }
+        }
+      }
+      return 1;
     }
-    else
+    catch (DataMapException &e)
     {
-        DBGOUT << "Empty SUB PROFILE, Logon Successful!" << std::endl;
-        connectionStatus_ = CONN_READY;
+      DBGOUT << e.what() << std::endl;
+      return 0;
     }
-    return 0;
+    catch (...)
+    {
+      throw;
+    }
+  }
+
+  else
+  {
+    DBGOUT << "Empty SUB PROFILE, Logon Successful!" << std::endl;
+    connectionStatus_ = CONN_READY;
+  }
 }
 
 int

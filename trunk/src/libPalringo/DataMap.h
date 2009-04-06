@@ -29,66 +29,119 @@
 #include <string>
 #include <map>
 #include <vector>
+#include <exception>
+
 
 class DataMap
 {
 public:
-  typedef struct
-  {
-    unsigned int pos_;
-    unsigned int length_;
-  } Value;
-
-  typedef std::map<std::string, Value> ValueMap;
+  typedef std::map<std::string, std::string> ValueMap;
 
 private:
-  std::vector<char> data_;
   ValueMap dataMap_;
+  void parse(const char *data, size_t length);
 
 public:
+  static const char *EMPTY;
+  static const char *OUT_OF_BOUNDS;
+
   DataMap(const std::string &data);
-  DataMap(const char *data, unsigned long length);
+  DataMap(const char *data, size_t length);
   DataMap();
 
   ~DataMap();
 
-  bool parse();
 
-  bool appendData(const std::string &attr,
-                  const std::string &value);
+  static void appendData(std::string       &data,
+                         const std::string &attr,
+                         const std::string &value);
 
-  bool appendData(const std::string &attr,
-                  const char *value, 
-		  unsigned int length);
+  static void appendData(std::string       &data,
+                         const std::string &attr,
+                         const char        *value, 
+                         size_t             length);
 
-  bool appendData(const char *attr, 
-                  const std::string &value);
+  static void appendData(std::string       &data,
+                         const char        *attr, 
+                         const std::string &value);
   
-  bool appendData(const char *attr, 
-                  const char *value, 
-		  unsigned int length);
-
-  unsigned long getData(char *data);
+  static void appendData(std::string       &data,
+                         const char        *attr, 
+                         const char        *value, 
+                         size_t             length);
 
   std::string getData();
 
-  std::vector<std::string> getAttributes();
-
   ValueMap::iterator begin();
   ValueMap::iterator end();
+  ValueMap::iterator find(const std::string &attr);
+  size_t size();
+  bool empty();
+
+  bool erase(const std::string &attr);
 
   bool hasAttribute(const std::string &att);
   bool hasAttribute(const char *att);
 
   std::string operator[](const std::string &att);
   std::string operator[](const char *att);
-  std::string operator[](ValueMap::iterator &it);
 
   std::string at(const std::string &att);
   std::string at(const char *att);
-  std::string at(ValueMap::iterator &it);
 
   std::string toString();
+};
+
+inline
+DataMap::ValueMap::iterator
+DataMap::begin()
+{
+  return dataMap_.begin();
+}
+
+inline
+DataMap::ValueMap::iterator
+DataMap::end()
+{
+  return dataMap_.end();
+}
+
+inline
+DataMap::ValueMap::iterator
+DataMap::find(const std::string &attr)
+{
+  return dataMap_.find(attr);
+}
+
+inline
+size_t
+DataMap::size()
+{
+  return dataMap_.size();
+}
+
+inline
+bool
+DataMap::empty()
+{
+  return dataMap_.empty();
+}
+
+
+class DataMapException : public std::exception
+{
+public:
+  DataMapException(const char *what) : what_(what)
+  {
+  }
+
+  virtual const char* what() const throw()
+  {
+    return what_;
+  }
+
+private:
+  const char *what_;
 };
 
 

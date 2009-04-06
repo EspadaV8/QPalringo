@@ -1407,12 +1407,11 @@ PalringoConnection::sendToGroup(char* msg,
 }
 
 bool
-PalringoConnection::sendPls(DataMap &data)
+PalringoConnection::sendPls(std::string &data)
 {
   headers_t headers;
-  std::string body = data.getData();
   headers["MESG-ID"] = toString(getMesgId());
-  return sendCmd("PLS SUBMIT", headers, body);
+  return sendCmd("PLS SUBMIT", headers, data);
 }
 
 void

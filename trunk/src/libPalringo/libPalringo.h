@@ -1207,7 +1207,7 @@ public:
       uint64_t group,
       std::string contentType = "text/plain");
 
-  virtual bool sendPls(DataMap &data);
+  virtual bool sendPls(std::string &data);
 
   virtual void getMesgHist(int32_t count,
                            uint32_t timestamp,
