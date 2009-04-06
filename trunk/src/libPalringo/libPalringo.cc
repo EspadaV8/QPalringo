@@ -623,7 +623,7 @@ PalringoConnection::connectClient(bool soft)
           //my_addr.sin_port = 0;
           if (!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
             {
-              std::cout << "Wrong IP" << std::endl;
+              std::cerr << "Wrong IP" << std::endl;
             }
 
           int32_t count = 60000;
@@ -641,7 +641,7 @@ PalringoConnection::connectClient(bool soft)
                       my_addr.sin_port = htons(getRandPort(1025, 65535));
                       if (!inet_aton(sourceIP_.c_str(), &my_addr.sin_addr))
                         {
-                          std::cout << "Wrong IP" << std::endl;
+                          std::cerr << "Wrong IP" << std::endl;
                         }
                       count--;
                       continue;
@@ -996,7 +996,7 @@ PalringoConnection::pollWrite()
             }
           else
             {
-              std::cout << "Error writing in fd_ "<< errno << " "
+              std::cerr << "Error writing in fd_ "<< errno << " "
               << strerror(errno) << std::endl;
               return -1;
             }
@@ -1084,7 +1084,7 @@ PalringoConnection::parseCmd(std::string& cmd,
       const char* const crlf = strstr(header, "\r\n");
       if (cs == 0 || crlf == 0)
         {
-          std::cout << "Should never happen!" << std::endl;
+          std::cerr << "Should never happen!" << std::endl;
           return false; // Should never happen!
         }
       headers[std::string (header, cs - header)] =
@@ -1106,7 +1106,7 @@ PalringoConnection::readCmd()
   ssize_t nb = read(fd_, readBuf, IN_BUFFER_SIZE);
   if (nb == 0)
     {
-      std::cout << "LOST CONNECTION!" << std::endl;
+      std::cerr << "LOST CONNECTION!" << std::endl;
       close(fd_);
       return -1;
     }
@@ -1119,7 +1119,7 @@ PalringoConnection::readCmd()
         }
       else if (errno == ECONNREFUSED)
         {
-          std::cout << "Error while reading: "
+          std::cerr << "Error while reading: "
           << errno << " " << strerror(errno)
           << std::endl;
           //throw(errno);
@@ -1128,7 +1128,7 @@ PalringoConnection::readCmd()
         }
       else
         {
-          std::cout << "Error while reading: "
+          std::cerr << "Error while reading: "
           << errno << " " << strerror(errno)
           << std::endl;
           //throw(errno);
@@ -1214,7 +1214,6 @@ PalringoConnection::pollRead()
   if (receivedData_ > DATA_LIMIT)
     {
       headers_t pheaders;
-      std::cout << "Pong!" << std::endl;
       if (protocolVersion_ == 2)
         {
           pheaders["PS"] = toString(packetSeq_);
