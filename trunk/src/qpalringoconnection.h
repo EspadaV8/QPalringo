@@ -69,6 +69,7 @@ class QPalringoConnection : public QObject, public PalringoConnection
         void joinGroup( QString groupName );
         void createGroup( QString groupName, QString groupDescription = "", QString groupPassword = "");
         void leaveGroup( quint64 groupID );
+        bool updateContactDetail( QString detail, QString value );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,

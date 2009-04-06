@@ -88,3 +88,8 @@ void Connection::leaveGroup( quint64 groupID )
 {
     this->conn->leaveGroup( groupID );
 }
+
+bool Connection::updateContactDetail( QString detail, QString value )
+{
+    return this->conn->updateContactDetail( detail, value );
+}

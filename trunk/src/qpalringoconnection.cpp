@@ -254,3 +254,12 @@ int QPalringoConnection::onSubProfileReceived(headers_t& headers,
     return PalringoConnection::onSubProfileReceived( headers, body, data );
 }
 
+bool QPalringoConnection::updateContactDetail( QString detail, QString value )
+{
+    headers_t h;
+    h[ "MESG-ID" ] = toString(++mesg_id_);
+    h[ detail.toStdString() ] = value.toStdString();
+    PalringoConnection::sendCmd( pCommand::CONTACT_DETAIL, h );
+
+    return true;
+}

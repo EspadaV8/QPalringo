@@ -464,3 +464,8 @@ void Tools::leaveGroup( quint64 groupID )
     this->connection->leaveGroup( groupID );
     emit( groupLeft( groupID ) );
 }
+
+bool Tools::updateContactDetail( QString detail, QString value )
+{
+    return this->connection->updateContactDetail( detail, value );
+}

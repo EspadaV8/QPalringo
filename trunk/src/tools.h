@@ -94,6 +94,7 @@ class Tools : public QObject
         void messageReceived( Message message );
         void historyMessageReceived( Message message );
         void disconnected();
+        bool updateContactDetail( QString detail, QString value );
 
     signals:
         void connected();
