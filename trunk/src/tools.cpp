@@ -236,7 +236,7 @@ void Tools::setUser( quint64 userID, QString nickname, QString status, QString l
 QString Tools::tagURLs( QString text )
 {
     QRegExp urlPattern("((www\\.(?!\\.)|((f|sf|ht)tp(|s))://)(\\.?[\\d\\w/,\\':~\\?=;#@\\-\\+\\%\\*\\{\\}\\!\\(\\)]|&)+)|([-.\\d\\w]+@[-.\\d\\w]{2,}\\.[\\w]{2,})", Qt::CaseInsensitive, QRegExp::RegExp);
-    QString link = "<u><a href=\"%1%2\">%3</a></u>";
+    QString link = "<a href=\"%1%2\">%3</a>";
     QString filteredLine = text;
     QString insertText;
     QString href;
@@ -300,14 +300,15 @@ QString Tools::tagURLs( QString text )
 
         // Use \x0b as a placeholder for & so we can readd them after changing all & in the normal text to &amp;
         // HACK Replace % with \x03 in the url to keep Qt from doing stupid things
-        insertText = link.arg(protocol, QString(href).replace('&', "\x0b").replace('%', "\x03"), href) + append;
+        //insertText = link.arg(protocol, QString(href).replace('&', "\x0b").replace('%', "\x03"), href) + append;
+        insertText = link.arg(protocol, QString(href).replace('%', "\x03"), href) + append;
         filteredLine.replace(pos, urlLen, insertText);
         pos += insertText.length();
     }
 
     // Change & to &amp; to prevent html entities to do strange things to the text
-    filteredLine.replace('&', "&amp;");
-    filteredLine.replace("\x0b", "&");
+    //filteredLine.replace('&', "&amp;");
+    //filteredLine.replace("\x0b", "&");
 
     return filteredLine;
 }
@@ -316,7 +317,14 @@ QString Tools::formatMessageText( QByteArray messagePayload )
 {
     QString message = QString::fromUtf8( messagePayload );
 
-    message = Qt::convertFromPlainText( message );
+    message = Qt::escape( message );
+    if( message.startsWith( "/me ") )
+    {
+        message.remove(0,4); // remove "/me "
+        message.prepend("<span style=\"color:red;\">* ").append(" *</span>"); //add a coloured span
+    }
+
+    message.replace("\r\n", "<br />");
     message = this->tagURLs( message );
 
     return message;
