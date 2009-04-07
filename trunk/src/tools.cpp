@@ -486,3 +486,8 @@ bool Tools::updateContactDetail( QString detail, QString value )
 {
     return this->connection->updateContactDetail( detail, value );
 }
+
+bool Tools::isLoggedIn()
+{
+    return this->loggedIn;
+}

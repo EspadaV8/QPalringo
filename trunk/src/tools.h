@@ -88,6 +88,8 @@ class Tools : public QObject
         void createGroup( QString groupName );
         void leaveGroup( quint64 groupID );
 
+        bool isLoggedIn();
+
     public slots:
         void logonSuccessful();
         void logonSuccessful( QString timestamp );
