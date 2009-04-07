@@ -43,7 +43,7 @@ Connection::Connection( QString emailAddress, QString password, QString host, in
     
     this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port, client );
     
-    connect( this, SIGNAL( disconnected() ), tools_, SLOT( disconnected() ) );
+    connect( this, SIGNAL( finished() ), tools_, SLOT( disconnected() ) );
 }
 
 Connection::~Connection() { }
@@ -56,7 +56,7 @@ void Connection::run()
         {
             msleep( 42 );
         }
-        emit( disconnected() );
+        delete this->conn;
     }
     catch (int error)
     {

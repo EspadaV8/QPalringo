@@ -28,7 +28,6 @@ Tools *tools_;
 Tools::Tools( PalringoWindow *mainWindow )
 {
     this->mainWindow = mainWindow;
-    this->connection = NULL;
     this->loggedIn = false;
     this->user = new User;
 
@@ -105,7 +104,7 @@ void Tools::messageReceived( Message message )
 
 void Tools::openPalringoConnection( QString email, QString password )
 {
-    if( this->connection == NULL )
+    if( this->loggedIn == false )
     {
         this->connection = new Connection( email, password );
         connection->start();
@@ -429,6 +428,8 @@ void Tools::calcServerTimestampDifference( QString timestamp )
 void Tools::disconnected()
 {
     qDebug( "Tools::disconnected() - Not implemented" );
+    delete this->connection;
+    this->loggedIn = false;
 }
 
 QPixmap Tools::getPixmap( QString iconFilename )
