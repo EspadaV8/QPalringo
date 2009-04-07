@@ -39,6 +39,8 @@ struct User
     QString nickname;
     QString status;
     QString lastOnline;
+    QString email;
+    QString password;
 };
 
 class Tools;
@@ -58,7 +60,7 @@ class Tools : public QObject
         void openChatWindow( Target *target );
         void removeChatWindow( Target *target );
 
-        void openPalringoConnection( QString email, QString password );
+        void openPalringoConnection( QString email = "", QString password = "");
 
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QDateTime timestamp );

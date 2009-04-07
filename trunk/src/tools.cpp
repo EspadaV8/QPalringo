@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include <QPixmapCache>
 #include <QTextDocument>
+#include <QMessageBox>
 #include "tools.h"
 #include "contactpropertieswindow.h"
 Tools *tools_;
@@ -104,9 +105,12 @@ void Tools::messageReceived( Message message )
 
 void Tools::openPalringoConnection( QString email, QString password )
 {
+    if( !email.isEmpty() ) this->user->email = email;
+    if( !password.isEmpty() ) this->user->password = password;
+
     if( this->loggedIn == false )
     {
-        this->connection = new Connection( email, password );
+        this->connection = new Connection( this->user->email, this->user->password );
         connection->start();
     }
 }
@@ -427,9 +431,21 @@ void Tools::calcServerTimestampDifference( QString timestamp )
 
 void Tools::disconnected()
 {
-    qDebug( "Tools::disconnected() - Not implemented" );
     delete this->connection;
     this->loggedIn = false;
+
+    QMessageBox msgBox;
+    msgBox.setText( "You have been disconnected from Palringo." );
+    msgBox.setInformativeText( "Do you wish to reconnect?" );
+    msgBox.setIcon( QMessageBox::Information );
+    msgBox.setStandardButtons( QMessageBox::Yes | QMessageBox::No );
+    msgBox.setDefaultButton( QMessageBox::Yes );
+    int ret = msgBox.exec();
+
+    if( ret == QMessageBox::Yes )
+    {
+        this->openPalringoConnection();
+    }
 }
 
 QPixmap Tools::getPixmap( QString iconFilename )
