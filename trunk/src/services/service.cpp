@@ -36,6 +36,10 @@ void Service::loginService()
     qDebug( "Service::loginService - Not implemented" );
 }
 
+void Service::changeOnlineStatus()
+{
+}
+
 Service::~Service()
 {
 }

@@ -39,7 +39,6 @@ class ServiceItem : public ListItem
     
     private slots:
         void updateDetails();
-        void changeOnlineStatus();
         
     signals:
         void doubleClick();

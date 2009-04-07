@@ -45,35 +45,6 @@ void ServiceItem::updateDetails()
     setSecondLine( this->service->Status );
 }
 
-void ServiceItem::changeOnlineStatus()
-{
-    QObject* sender = QObject::sender();
-    QAction* action = qobject_cast<QAction *>(sender);
-
-    if( action != 0 )
-    {
-        QString status;
-        if( action->text() == "Online" )
-        {
-            status = "1";
-        }
-        else if( action->text() == "Away" )
-        {
-            status = "2";
-        }
-        else if( action->text() == "Invisible" )
-        {
-            status = "3";
-        }
-        else if( action->text() == "Busy" )
-        {
-            status = "5";
-        }
-
-        tools_->updateContactDetail( "ONLINE-STATUS", status );
-    }
-}
-
 QString ServiceItem::getContainerGroup()
 {
     return this->service->Group;
@@ -98,19 +69,19 @@ void ServiceItem::setMenu()
 
     this->onlineStatus = new QAction( tr( "Online" ), this );
     this->onlineStatus->setStatusTip( tr( "Set status as online" ) );
-    connect( this->onlineStatus, SIGNAL( triggered( bool ) ), this, SLOT( changeOnlineStatus() ) );
+    connect( this->onlineStatus, SIGNAL( triggered( bool ) ), service, SLOT( changeOnlineStatus() ) );
 
     this->awayStatus = new QAction( tr( "Away" ), this );
     this->awayStatus->setStatusTip( tr( "Set status as away" ) );
-    connect( this->awayStatus, SIGNAL( triggered( bool ) ), this, SLOT( changeOnlineStatus() ) );
+    connect( this->awayStatus, SIGNAL( triggered( bool ) ), service, SLOT( changeOnlineStatus() ) );
 
     this->busyStatus = new QAction( tr( "Busy" ), this );
     this->busyStatus->setStatusTip( tr( "Set status as busy" ) );
-    connect( this->busyStatus, SIGNAL( triggered( bool ) ), this, SLOT( changeOnlineStatus() ) );
+    connect( this->busyStatus, SIGNAL( triggered( bool ) ), service, SLOT( changeOnlineStatus() ) );
 
     this->invisibleStatus = new QAction( tr( "Invisible" ), this );
     this->invisibleStatus->setStatusTip( tr( "Set status as invisible" ) );
-    connect( this->invisibleStatus, SIGNAL( triggered( bool ) ), this, SLOT( changeOnlineStatus() ) );
+    connect( this->invisibleStatus, SIGNAL( triggered( bool ) ), service, SLOT( changeOnlineStatus() ) );
     
     this->popupMenu->addAction( this->editServiceMenuAction );
     this->popupMenu->addAction( this->signonMenuAction );

@@ -48,6 +48,9 @@ class Service : public QObject
     protected slots:
         virtual void loggedOn();
         virtual void loginService();
+
+    public slots:
+        virtual void changeOnlineStatus();
 };
 
 #endif

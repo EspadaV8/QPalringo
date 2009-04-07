@@ -45,6 +45,8 @@ class PalringoService : public Service
         virtual void loginService();
         virtual void loggedOn();
 
+    public slots:
+        virtual void changeOnlineStatus();
 };
 
 #endif
