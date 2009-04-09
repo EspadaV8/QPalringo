@@ -65,6 +65,9 @@ Q_OBJECT
         void sendImageMessage( QImage image );
         void sendTextMessage( QString message );
         void sendMessage( Message message );
+
+    protected:
+        virtual void keyPressEvent( QKeyEvent *event );
 };
 
 #endif

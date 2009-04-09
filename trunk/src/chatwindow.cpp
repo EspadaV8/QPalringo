@@ -166,3 +166,15 @@ void ChatWindow::getMessages()
     }
     this->target->clearPending();
 }
+
+void ChatWindow::keyPressEvent( QKeyEvent *event )
+{
+    if( event->key() == Qt::Key_Escape )
+    {
+        this->close();
+    }
+    else
+    {
+        QWidget::keyPressEvent( event );
+    }
+}
