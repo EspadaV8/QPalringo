@@ -58,6 +58,7 @@ void ContactListItem::updateStatusLine()
 void ContactListItem::setContactOnlineStatus()
 {
     this->setIcon( this->contact->getIcon() );
+    emit( containerGroupChanged( this ) );
 }
 
 Contact* ContactListItem::getContact()
