@@ -37,8 +37,9 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
-    this->layout = new QVBoxLayout();
-    this->hbox = new QHBoxLayout();
+    QVBoxLayout *layout = new QVBoxLayout;
+    QHBoxLayout *hbox = new QHBoxLayout;
+    QVBoxLayout *vb = new QVBoxLayout;
 
     // set up all the widgets
     this->historyButton = new QPushButton ( "History", this );
@@ -60,16 +61,17 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
-    this->hbox->addWidget( this->multiLineInput );
-    this->hbox->addWidget( this->voiceButton );
-    this->hbox->addWidget( this->imageButton );
+    hbox->addWidget( this->multiLineInput );
+    vb->addWidget( this->voiceButton );
+    vb->addWidget( this->imageButton );
+    hbox->addLayout( vb );
 
     // add everything to the window
-    this->layout->addWidget ( this->historyButton );
-    this->layout->addWidget ( this->messageList );
-    this->layout->addLayout ( this->hbox );
+    layout->addWidget ( this->historyButton );
+    layout->addWidget ( this->messageList );
+    layout->addLayout ( hbox );
 
-    this->setLayout ( this->layout );
+    this->setLayout ( layout );
     this->resize( 492, 323 );
 
     if( this->target->getPendingMessages().size() > 0 )

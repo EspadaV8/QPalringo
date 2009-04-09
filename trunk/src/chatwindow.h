@@ -56,9 +56,6 @@ Q_OBJECT
         Target *target;
         QDateTime earliestTimestamp;
 
-        QVBoxLayout *layout;
-        QHBoxLayout *hbox;
-
         QPushButton *historyButton;
         QPushButton *voiceButton;
         QPushButton *imageButton;
