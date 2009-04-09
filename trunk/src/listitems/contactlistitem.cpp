@@ -47,12 +47,12 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 
 void ContactListItem::updateNickname()
 {
-    ListItem::setFirstLine( this->contact->getNickname() );
+    this->setFirstLine( this->contact->getNickname() );
 }
 
 void ContactListItem::updateStatusLine()
 {
-    ListItem::setSecondLine( this->contact->getStatusline() );
+    this->setSecondLine( this->contact->getStatusline() );
 }
 
 void ContactListItem::setContactOnlineStatus()
