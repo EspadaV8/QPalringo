@@ -83,6 +83,7 @@ void Tools::historyMessageReceived( Message message )
 
 void Tools::messageReceived( Message message )
 {
+    this->playSound( ":/sounds/new-message.wav" );
     Target* t = NULL;
     if( message.groupID() == 0 )
     {
@@ -490,4 +491,15 @@ bool Tools::updateContactDetail( QString detail, QString value )
 bool Tools::isLoggedIn()
 {
     return this->loggedIn;
+}
+
+void Tools::playSound( QString fileName )
+{
+    /*
+    Phonon::MediaObject *mediaObject = new Phonon::MediaObject( this );
+    mediaObject->setCurrentSource( Phonon::MediaSource( fileName ) );
+    Phonon::AudioOutput *audioOutput = new Phonon::AudioOutput( Phonon::MusicCategory, this );
+    Phonon::Path path = Phonon::createPath( mediaObject, audioOutput );
+    mediaObject->play();
+    */
 }

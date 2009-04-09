@@ -90,6 +90,8 @@ class Tools : public QObject
 
         bool isLoggedIn();
 
+        void playSound( QString filename );
+
     public slots:
         void logonSuccessful();
         void logonSuccessful( QString timestamp );
