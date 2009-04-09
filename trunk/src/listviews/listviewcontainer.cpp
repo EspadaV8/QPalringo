@@ -84,6 +84,11 @@ void ListViewContainer::appendWidget( ListItem *widget, bool sorted )
     }
 }
 
+int ListViewContainer::hasWidget( ListItem *widget )
+{
+    return innerLayout->indexOf( widget );
+}
+
 void ListViewContainer::removeWidget( ListItem *widget )
 {
     innerLayout->removeWidget( widget );

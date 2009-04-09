@@ -39,6 +39,7 @@ public:
 
     void appendWidget( ListItem *widget, bool sorted = true );
     void removeWidget( ListItem *widget );
+    int hasWidget( ListItem *widget );
     QString getName();
 
     private slots:
