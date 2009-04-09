@@ -24,6 +24,7 @@
 ChatTextEdit::ChatTextEdit( QWidget *parent )
     : QPlainTextEdit ( parent )
 {
+    this->setMaximumHeight( this->fontMetrics().height() * 4 );
 }
 
 void ChatTextEdit::keyPressEvent( QKeyEvent* event )
