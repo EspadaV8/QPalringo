@@ -44,12 +44,12 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     this->historyButton = new QPushButton ( "History", this );
     connect( this->historyButton, SIGNAL( clicked() ), this, SLOT( askForHistory() ) );
     this->messageList = new MessageList( this );
-    this->messageInput = new QLineEdit( this );
-    this->voiceButton = new QPushButton ( "" );
-    this->imageButton = new QPushButton ( "" );
+    this->multiLineInput = new ChatTextEdit( this );
+    this->voiceButton = new QPushButton ( "", this );
+    this->imageButton = new QPushButton ( "", this );
 
     // connect to the return key, so we can send a message
-    connect( this->messageInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
+    connect( this->multiLineInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
 
     // add the icons to the buttons
     this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
@@ -60,7 +60,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
     // add the items to the bottom layout
-    this->hbox->addWidget( this->messageInput );
+    this->hbox->addWidget( this->multiLineInput );
     this->hbox->addWidget( this->voiceButton );
     this->hbox->addWidget( this->imageButton );
 
@@ -126,7 +126,6 @@ void ChatWindow::sendTextMessage( QString message )
     m.setSenderID ( tools_->user->userID );
 
     this->sendMessage( m );
-    this->messageInput->clear();
 }
 
 void ChatWindow::sendMessage( Message message )
@@ -137,7 +136,9 @@ void ChatWindow::sendMessage( Message message )
 
 void ChatWindow::checkMessageInput()
 {
-    QString message = this->messageInput->text().toUtf8();
+
+    QString message = this->multiLineInput->toPlainText().toUtf8();
+    this->multiLineInput->setPlainText("");
     this->sendTextMessage( message );
 }
 

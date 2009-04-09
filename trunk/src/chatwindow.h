@@ -26,12 +26,12 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
-#include <QLineEdit>
 #include <QSplitter>
 #include <QDateTime>
 #include "palringowindow.h"
 #include "targets/target.h"
 #include "messagelist.h"
+#include "chattextedit.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -63,7 +63,7 @@ Q_OBJECT
         QPushButton *voiceButton;
         QPushButton *imageButton;
         MessageList *messageList;
-        QLineEdit *messageInput;
+        ChatTextEdit *multiLineInput;
         
         void sendImageMessage( QImage image );
         void sendTextMessage( QString message );
