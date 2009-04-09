@@ -327,7 +327,7 @@ QString Tools::formatMessageText( QByteArray messagePayload )
         message.prepend("<span style=\"color:red;\">* ").append(" *</span>"); //add a coloured span
     }
 
-    message.replace("\r\n", "<br />");
+    message.replace(QRegExp("(\r\n)|(\n)|(\r)"), "<br />");
     message = this->tagURLs( message );
 
     return message;
