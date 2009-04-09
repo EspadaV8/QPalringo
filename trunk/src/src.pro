@@ -4,6 +4,7 @@ SOURCES += main.cpp \
     listviews/listviewcontainer.cpp \
     tools.cpp \
     chatwindow.cpp \
+    chattextedit.cpp \
     messagelist.cpp \
     messageitem.cpp \
     qpalringoconnection.cpp \
@@ -40,6 +41,7 @@ HEADERS += palringowindow.h \
     listviews/listviewcontainer.h \
     tools.h \
     chatwindow.h \
+    chattextedit.h \
     messagelist.h \
     messageitem.h \
     qpalringoconnection.h \
