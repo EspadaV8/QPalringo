@@ -53,8 +53,8 @@ class ContactListItem : public ListItem
         void pendingMessage();
         void resetDetails();
 
-        void setFirstLine();
-        void setSecondLine();
+        void updateNickname();
+        void updateStatusLine();
         void setContactOnlineStatus();
 
     protected:

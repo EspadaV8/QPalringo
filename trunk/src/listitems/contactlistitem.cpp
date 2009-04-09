@@ -38,19 +38,19 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
         this->resetDetails();
     }
 
-    connect( contact, SIGNAL( updateNickname() ), this, SLOT( setFirstLine() ) );
-    connect( contact, SIGNAL( updateStatusline() ), this, SLOT( setSecondLine() ) );
+    connect( contact, SIGNAL( updateNickname() ), this, SLOT( updateNickname() ) );
+    connect( contact, SIGNAL( updateStatusline() ), this, SLOT( updateStatusLine() ) );
     connect( contact, SIGNAL( updateOnlineStatus() ), this, SLOT( setContactOnlineStatus() ) );
     connect( contact, SIGNAL( pendingMessage() ), this, SLOT( pendingMessage() ) );
     connect( contact, SIGNAL( clearedPendingMessages() ), this, SLOT( resetDetails() ) );
 }
 
-void ContactListItem::setFirstLine()
+void ContactListItem::updateNickname()
 {
     ListItem::setFirstLine( this->contact->getNickname() );
 }
 
-void ContactListItem::setSecondLine()
+void ContactListItem::updateStatusLine()
 {
     ListItem::setSecondLine( this->contact->getStatusline() );
 }
@@ -125,13 +125,13 @@ void ContactListItem::pendingMessage()
 {
     int number_of_messages = this->contact->getPendingMessages().size();
     this->setIcon( ":/svg/text.svg" );
-    ListItem::setFirstLine( this->contact->getNickname() );
-    ListItem::setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
+    this->setFirstLine( this->contact->getNickname() );
+    this->setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
 }
 
 void ContactListItem::resetDetails()
 {
-    ListItem::setFirstLine( this->contact->getNickname() );
-    ListItem::setSecondLine( this->contact->getStatusline() );
+    this->setFirstLine( this->contact->getNickname() );
+    this->setSecondLine( this->contact->getStatusline() );
     this->setIcon( this->contact->getIcon() );
 }
