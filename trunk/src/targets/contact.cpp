@@ -36,13 +36,13 @@ Contact::~Contact()
 void Contact::setNickname( QString nickname )
 {
     this->nickname = nickname;
-    emit( updateNickname( this->nickname ) );
+    emit( updateNickname() );
 }
 
 void Contact::setStatusline( QString statusline )
 {
     this->statusline = statusline;
-    emit( updateStatusline( this->statusline ) );
+    emit( updateStatusline() );
 }
 
 void Contact::setGroup( quint64 group )
@@ -53,7 +53,7 @@ void Contact::setGroup( quint64 group )
 void Contact::setOnlineStatus( int onlineStatus )
 {
     this->onlineStatus = onlineStatus;
-    emit( updateOnlineStatus( this->onlineStatus ) );
+    emit( updateOnlineStatus() );
 }
 
 void Contact::setBridgeType( int bridgeType )

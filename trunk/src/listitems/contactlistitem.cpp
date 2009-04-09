@@ -38,14 +38,24 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
         this->resetDetails();
     }
 
-    connect( contact, SIGNAL( updateNickname( QString ) ), this, SLOT( setFirstLine( QString ) ) );
-    connect( contact, SIGNAL( updateStatusline( QString ) ), this, SLOT( setSecondLine( QString ) ) );
-    connect( contact, SIGNAL( updateOnlineStatus( int ) ), this, SLOT( setContactOnlineStatus( int ) ) );
+    connect( contact, SIGNAL( updateNickname() ), this, SLOT( setFirstLine() ) );
+    connect( contact, SIGNAL( updateStatusline() ), this, SLOT( setSecondLine() ) );
+    connect( contact, SIGNAL( updateOnlineStatus() ), this, SLOT( setContactOnlineStatus() ) );
     connect( contact, SIGNAL( pendingMessage() ), this, SLOT( pendingMessage() ) );
     connect( contact, SIGNAL( clearedPendingMessages() ), this, SLOT( resetDetails() ) );
 }
 
-void ContactListItem::setContactOnlineStatus( int onlinestatus __attribute__ ((unused)) )
+void ContactListItem::setFirstLine()
+{
+    ListItem::setFirstLine( this->contact->getNickname() );
+}
+
+void ContactListItem::setSecondLine()
+{
+    ListItem::setSecondLine( this->contact->getStatusline() );
+}
+
+void ContactListItem::setContactOnlineStatus()
 {
     this->setIcon( this->contact->getIcon() );
 }
@@ -115,13 +125,13 @@ void ContactListItem::pendingMessage()
 {
     int number_of_messages = this->contact->getPendingMessages().size();
     this->setIcon( ":/svg/text.svg" );
-    this->setFirstLine( this->contact->getNickname() );
-    this->setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
+    ListItem::setFirstLine( this->contact->getNickname() );
+    ListItem::setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
 }
 
 void ContactListItem::resetDetails()
 {
-    this->setFirstLine( this->contact->getNickname() );
-    this->setSecondLine( this->contact->getStatusline() );
+    ListItem::setFirstLine( this->contact->getNickname() );
+    ListItem::setSecondLine( this->contact->getStatusline() );
     this->setIcon( this->contact->getIcon() );
 }

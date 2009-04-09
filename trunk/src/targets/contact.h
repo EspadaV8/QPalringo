@@ -55,9 +55,9 @@ class Contact : public Target
         virtual void addMessage( Message message );
 
     signals:
-        void        updateNickname( QString );
-        void        updateStatusline( QString );
-        void        updateOnlineStatus( int );
+        void        updateNickname();
+        void        updateStatusline();
+        void        updateOnlineStatus();
 
     private:
         QString     nickname;

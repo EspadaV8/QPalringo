@@ -45,13 +45,17 @@ class ContactListItem : public ListItem
         QString getContainerGroup();
 
     public slots:
-        void setContactOnlineStatus( int onlinestatus );
+
         
     private slots:
         void startChat();
         void showContactProperties();
         void pendingMessage();
         void resetDetails();
+
+        void setFirstLine();
+        void setSecondLine();
+        void setContactOnlineStatus();
 
     protected:
         void paintEvent( QPaintEvent *event );
