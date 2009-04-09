@@ -21,7 +21,6 @@
  ***************************************************************************/
 #include "tools.h"
 #include "contactlistview.h"
-#include "../listitems/contactlistitem.h"
 
 ContactListView::ContactListView( QWidget *parent )
  : PalringoListView( parent )
@@ -49,6 +48,7 @@ void ContactListView::setupContainers()
 void ContactListView::contactReceived( Contact *contact )
 {
     ContactListItem *pc = new ContactListItem( this, contact );
+    connect( pc, SIGNAL( containerGroupChanged( ContactListItem* ) ), this, SLOT( checkContainerGroups( ContactListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
 }
@@ -73,5 +73,22 @@ void ContactListView::inFocus()
     if( this->contacts.size() == 0 )
     {
         this->getContacts();
+    }
+}
+
+void ContactListView::checkContainerGroups( ContactListItem *li )
+{
+    for( int i = 0; i < this->listViewContainers.size(); i++ )
+    {
+        ListViewContainer *lvc = this->listViewContainers.at( i );
+        if ( lvc->hasWidget( li ) != -1 )
+        {
+            if( lvc->getName() != li->getContainerGroup() )
+            {
+                lvc->removeWidget( li );
+                this->addWidgetToView( li );
+            }
+            return;
+        }
     }
 }
