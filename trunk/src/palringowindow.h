@@ -93,6 +93,10 @@ class PalringoWindow : public QMainWindow
         QList<ListItem *> userServices;
 
         SettingsWindow* settingsWindow;
+
+        void readSettings();
+        void writeSettings();
+        void closeEvent(QCloseEvent *event);
 };
 
 #endif

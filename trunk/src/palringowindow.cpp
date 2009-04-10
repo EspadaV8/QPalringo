@@ -43,6 +43,8 @@ PalringoWindow::PalringoWindow()
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
+
+    readSettings();
 }
 
 void PalringoWindow::SetupActions()
@@ -236,4 +238,30 @@ void PalringoWindow::showSettingsWindow()
         this->settingsWindow = new SettingsWindow( this );
     }
     this->settingsWindow->show();
+}
+
+void PalringoWindow::writeSettings()
+{
+    QSettings settings;
+
+    settings.beginGroup("PalringoWindow");
+    settings.setValue("size", size());
+    settings.setValue("pos", pos());
+    settings.endGroup();
+}
+
+void PalringoWindow::readSettings()
+{
+    QSettings settings;
+
+    settings.beginGroup("PalringoWindow");
+    resize( settings.value( "size", QSize( 270, 500  )).toSize() );
+    move( settings.value( "pos", QPoint( 80, 100 ) ).toPoint() );
+    settings.endGroup();
+}
+
+void PalringoWindow::closeEvent(QCloseEvent *event)
+{
+    writeSettings();
+    event->accept();
 }
