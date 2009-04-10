@@ -25,7 +25,6 @@
 #include <QSharedData>
 #include <QString>
 #include <QByteArray>
-#include <QDateTime>
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
@@ -40,7 +39,6 @@ class MessageData : public QSharedData
                 payload( other.payload ),
                 senderID( other.senderID ),
                 groupID( other.groupID ),
-                timestamp( other.timestamp ),
                 seconds( other.seconds ),
                 useconds( other.useconds ),
                 hist( other.hist ) { }
@@ -50,7 +48,6 @@ class MessageData : public QSharedData
         QByteArray payload;
         quint64 senderID;
         quint64 groupID;
-        QDateTime timestamp;
         quint32 seconds;
         quint32 useconds;
         bool hist;
