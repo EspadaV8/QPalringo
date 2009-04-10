@@ -63,7 +63,7 @@ class Tools : public QObject
         void openPalringoConnection( QString email = "", QString password = "");
 
         void sendMessage( Target *target, Message message );
-        void getHistoryMessage( Target *target, QDateTime timestamp );
+        void getHistoryMessage( Target *target, QString timestamp );
 
         Contact* getContact( quint64 contactID );
         QHash<quint64, Contact*> getContacts();

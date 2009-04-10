@@ -121,14 +121,14 @@ void Tools::sendMessage( Target *target, Message message )
     this->connection->sendMessage( target, message );
 }
 
-void Tools::getHistoryMessage( Target *target, QDateTime timestamp )
+void Tools::getHistoryMessage( Target *target, QString timestamp )
 {
     if( !this->gettingHistory )
     {
         this->gettingHistory = true;
         this->historyTarget = target;
 
-        this->connection->getHistoryMessage( target, ( timestamp.toTime_t() - this->timestampDifference ) );
+        this->connection->getHistoryMessage( target, timestamp );
     }
 }
 
