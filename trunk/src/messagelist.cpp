@@ -85,6 +85,11 @@ void MessageList::insertMessage( qint64 pos, Message message )
     QMetaObject::invokeMethod(this, "setScrollbarPos", Qt::QueuedConnection);
 }
 
+Message MessageList::getMessageAt( int pos )
+{
+    return this->messages.at( pos )->getMessage();
+}
+
 void MessageList::setScrollbarPos()
 {
     if( atBottom )
