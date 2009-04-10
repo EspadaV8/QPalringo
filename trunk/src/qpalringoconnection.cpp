@@ -65,10 +65,13 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         }
         else if( !unfinishedMessages.contains( messageID ) )
         {
+            QString timestamp = QString::fromStdString( msgData.timestamp_ );
             message.setType( QString::fromStdString( msgData.contentType_ ) );
             message.setSenderID( msgData.sourceId_ );
             message.setGroupID( msgData.targetId_ | 0 );
-            message.setTimestamp( tools_->convertTimestampToQDateTime( QString::fromStdString( msgData.timestamp_ ), true ) );
+            message.setTimestamp( tools_->convertTimestampToQDateTime( timestamp, true ) );
+            message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
+            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
             message.setHist( msgData.hist_ );
             unfinishedMessages.insert( messageID, message );
         }
