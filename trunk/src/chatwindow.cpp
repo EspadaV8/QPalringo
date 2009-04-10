@@ -87,6 +87,8 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     }
 
     connect( this->target, SIGNAL( insertMessage() ), this, SLOT( getMessages() ) );
+
+    this->multiLineInput->setFocus();
 }
 
 ChatWindow::~ChatWindow()
