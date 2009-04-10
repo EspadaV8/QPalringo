@@ -419,6 +419,12 @@ QDateTime Tools::convertTimestampToQDateTime( QString timestamp, bool receivedMe
     return msgTimestamp;
 }
 
+QDateTime Tools::getMessageTimestamp( Message message )
+{
+    QDateTime msgTimestamp = QDateTime::fromTime_t( message.seconds() );
+    return msgTimestamp;
+}
+
 void Tools::calcServerTimestampDifference( QString timestamp )
 {
     quint32 timestampSecs  = timestamp.left( timestamp.indexOf( "." ) ).toInt();

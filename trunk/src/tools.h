@@ -78,6 +78,7 @@ class Tools : public QObject
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
         QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
+        QDateTime getMessageTimestamp( Message message );
         quint32 getTimestampDifference();
         
         QPixmap getPixmap( QString iconFilename );
