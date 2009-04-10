@@ -44,7 +44,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->sender = new QLabel( this->contact->getNickname() );
     this->sender->setAlignment( Qt::AlignLeft );
 
-    this->timestamp = new QLabel( this->message.timestamp().toString( "dd-MM-yy hh:mm:ss" ) );
+    this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setAlignment( Qt::AlignRight );
 
     QString messageTypeIcon;
