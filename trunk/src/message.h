@@ -59,6 +59,12 @@ class Message
         quint32 useconds() const;
         bool hist() const;
 
+        bool operator< ( const Message &other );
+        bool operator<= ( const Message &other );
+        bool operator> ( const Message &other );
+        bool operator>= ( const Message &other );
+        bool operator== ( const Message &other );
+
     private:
         QSharedDataPointer<MessageData> d;
 };

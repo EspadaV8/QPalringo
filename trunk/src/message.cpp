@@ -131,3 +131,113 @@ bool Message::hist() const
 {
     return d->hist;
 }
+
+bool Message::operator< ( const Message &other )
+{
+    if( d->seconds == other.seconds() )
+    {
+        if( d->useconds == other.useconds() )
+        {
+            return false;
+        }
+        else if( d->useconds < other.useconds() )
+        {
+            return true;
+        }
+        else if( d->useconds > other.useconds() )
+        {
+            return false;
+        }
+    }
+    else if ( d->seconds < other.seconds() )
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Message::operator<= ( const Message &other )
+{
+    if( d->seconds == other.seconds() )
+    {
+        if( d->useconds == other.useconds() )
+        {
+            return true;
+        }
+        else if( d->useconds < other.useconds() )
+        {
+            return true;
+        }
+        else if( d->useconds > other.useconds() )
+        {
+            return false;
+        }
+    }
+    else if ( d->seconds < other.seconds() )
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool Message::operator> ( const Message &other )
+{
+    if( d->seconds == other.seconds() )
+    {
+        if( d->useconds == other.useconds() )
+        {
+            return false;
+        }
+        else if( d->useconds < other.useconds() )
+        {
+            return false;
+        }
+        else if( d->useconds > other.useconds() )
+        {
+            return true;
+        }
+    }
+    else if ( d->seconds < other.seconds() )
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool Message::operator>= ( const Message &other )
+{
+    if( d->seconds == other.seconds() )
+    {
+        if( d->useconds == other.useconds() )
+        {
+            return true;
+        }
+        else if( d->useconds < other.useconds() )
+        {
+            return false;
+        }
+        else if( d->useconds > other.useconds() )
+        {
+            return true;
+        }
+    }
+    else if ( d->seconds < other.seconds() )
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool Message::operator== ( const Message &other )
+{
+    if( ( d->seconds == other.seconds() ) && ( d->useconds == other.useconds() ) )
+    {
+        return true;
+    }
+
+    return false;
+}
