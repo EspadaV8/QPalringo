@@ -52,7 +52,7 @@ void MessageList::addMessage( Message message )
     {
         pos = -1;
     }
-    else if( message.hist() )
+    else if( message.hist() == true )
     {
         pos = 0;
     }

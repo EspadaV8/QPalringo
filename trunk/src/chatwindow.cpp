@@ -114,6 +114,7 @@ void ChatWindow::sendImageMessage( QImage image )
     m.setSeconds( QDateTime::currentDateTime().toTime_t() );
     m.setUseconds( 0 );
     m.setSenderID ( tools_->user->userID );
+    m.setHist( false );
 
     this->sendMessage( m );
 }
@@ -127,6 +128,7 @@ void ChatWindow::sendTextMessage( QString message )
     m.setSeconds( QDateTime::currentDateTime().toTime_t() );
     m.setUseconds( 0 );
     m.setSenderID ( tools_->user->userID );
+    m.setHist( false );
 
     this->sendMessage( m );
 }
