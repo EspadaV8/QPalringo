@@ -30,7 +30,12 @@ ListViewContainer::ListViewContainer( QWidget *parent, QString name )
     this->rightarrow = tools_->getPixmap( ":/misc/rightarrow.png" );
 
     outerLayout = new QVBoxLayout;
+    outerLayout->setContentsMargins( 0, 0, 0, 0 );
+    outerLayout->setSpacing( 0 );
+
     innerLayout = new QVBoxLayout;
+    innerLayout->setContentsMargins( 0, 0, 0, 0 );
+    innerLayout->setSpacing( 0 );
 
     layoutContainer = new QWidget;
     layoutContainer->setLayout( innerLayout );

@@ -29,6 +29,8 @@ PalringoListView::PalringoListView( QWidget *parent )
     w->setObjectName( "ListViewBackground" );
 
     listLayout = new QVBoxLayout;
+    listLayout->setContentsMargins( 0, 0, 0, 0 );
+    listLayout->setSpacing( 0 );
 
     w->setLayout( listLayout );
 
