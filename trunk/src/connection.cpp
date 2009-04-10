@@ -69,7 +69,7 @@ void Connection::sendMessage( Target* target, Message message )
     this->conn->sendMessage( message.payload(), message.type(), target );
 }
 
-void Connection::getHistoryMessage( Target* target, qint32 timestamp )
+void Connection::getHistoryMessage( Target* target, QString timestamp )
 {
     this->conn->getHistoryMessage( target, timestamp );
 }

@@ -69,9 +69,8 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
             message.setType( QString::fromStdString( msgData.contentType_ ) );
             message.setSenderID( msgData.sourceId_ );
             message.setGroupID( msgData.targetId_ | 0 );
-            message.setTimestamp( tools_->convertTimestampToQDateTime( timestamp, true ) );
             message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
-            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
+            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
             message.setHist( msgData.hist_ );
             unfinishedMessages.insert( messageID, message );
         }
@@ -90,8 +89,7 @@ int QPalringoConnection::onMesgReceived(headers_t& headers,
         message.setType( QString::fromStdString( msgData.contentType_ ) );
         message.setSenderID( msgData.sourceId_ );
         message.setGroupID( msgData.targetId_ | 0 );
-        message.setTimestamp( tools_->convertTimestampToQDateTime( timestamp, true ) );
-        message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
+        message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
         message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
         message.setHist( msgData.hist_ );
         QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
@@ -228,12 +226,12 @@ bool QPalringoConnection::sendMessage(QByteArray msg,
                                             targetType );
 }
 
-bool QPalringoConnection::getHistoryMessage( Target* target, qint32 timestamp )
+bool QPalringoConnection::getHistoryMessage( Target* target, QString timestamp )
 {
     int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
     int count = -1;
 
-    PalringoConnection::getMesgHist( count, timestamp, target->getID(), targetType );
+    PalringoConnection::getMesgHist( count, timestamp.toStdString(), target->getID(), targetType );
     return true;
 }
 

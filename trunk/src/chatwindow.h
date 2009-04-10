@@ -54,7 +54,6 @@ Q_OBJECT
     private:
         PalringoWindow *parent;
         Target *target;
-        QDateTime earliestTimestamp;
 
         QPushButton *historyButton;
         QPushButton *voiceButton;

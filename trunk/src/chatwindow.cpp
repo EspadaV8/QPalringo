@@ -30,7 +30,6 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     this->setWindowFlags ( Qt::Window );
     this->parent = parent;
     this->target = target;
-    this->earliestTimestamp = QDateTime::currentDateTime();
 
     this->setWindowTitle( this->target->getTitle() );
     this->setWindowIcon ( tools_->getPixmap( this->target->getIcon() ) );
@@ -112,7 +111,8 @@ void ChatWindow::sendImageMessage( QImage image )
 
     m.setPayload( buffer.data() );
     m.setType( "image/jpeg" );
-    m.setTimestamp( QDateTime::currentDateTime() );
+    m.setSeconds( QDateTime::currentDateTime().toTime_t() );
+    m.setUseconds( 0 );
     m.setSenderID ( tools_->user->userID );
 
     this->sendMessage( m );
@@ -124,7 +124,8 @@ void ChatWindow::sendTextMessage( QString message )
 
     m.setType( "text/plain" );
     m.setPayload( message.toUtf8() );
-    m.setTimestamp( QDateTime::currentDateTime() );
+    m.setSeconds( QDateTime::currentDateTime().toTime_t() );
+    m.setUseconds( 0 );
     m.setSenderID ( tools_->user->userID );
 
     this->sendMessage( m );
@@ -146,16 +147,14 @@ void ChatWindow::checkMessageInput()
 
 void ChatWindow::appendMessage( Message message )
 {
-    if( message.timestamp() < this->earliestTimestamp )
-    {
-        this->earliestTimestamp = message.timestamp();
-    }
     this->messageList->addMessage( message );
 }
 
 void ChatWindow::askForHistory()
 {
-    tools_->getHistoryMessage( this->target, this->earliestTimestamp );
+    Message m = this->messageList->getMessageAt( 0 );
+    QString timestamp = QString::number( m.seconds() ) + "." + QString::number( m.useconds() );
+    tools_->getHistoryMessage( this->target, timestamp );
 }
 
 void ChatWindow::getMessages()
