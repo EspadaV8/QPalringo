@@ -31,6 +31,7 @@ MessageList::MessageList(QWidget *parent)
     this->vbox->setContentsMargins( 2, 0, 2, 0 );
 
     QWidget *w = new QWidget;
+    w->setObjectName( "list" );
     w->setLayout( vbox );
 
     this->setWidgetResizable( true );
