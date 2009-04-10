@@ -19,44 +19,103 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#include "message.h"
 
-#include <QMetaType>
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
-#include <QDateTime>
-#include "messagedata.h"
-/**
-    @author Andrew Smith <espadav8@gmail.com>
-*/
-
-class Message
+Message::Message()
 {
-    public:
-        Message();
-        Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp, bool hist );
-        Message( const Message &other );
-        ~Message();
+    d = new MessageData;
+    qRegisterMetaType<Message>("Message");
+}
 
-        void setType( QString type );
-        void setPayload( QByteArray payload );
-        void setSenderID( quint64 senderID );
-        void setGroupID( quint64 groupID );
-        void setTimestamp( QDateTime timestamp );
-        void setHist( bool hist );
+Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp, bool hist )
+{
+    d = new MessageData;
+    qRegisterMetaType<Message>("Message");
+    qDebug( "New setter" );
 
-        QString type() const;
-        QByteArray payload() const;
-        quint64 senderID() const;
-        quint64 groupID() const;
-        QDateTime timestamp() const;
-        bool hist() const;
+    setType( type );
+    setPayload( payload );
+    setSenderID( senderID );
+    setGroupID( groupID );
+    setTimestamp( timestamp );
+    setHist( hist );
+}
 
-    private:
-        QSharedDataPointer<MessageData> d;
-};
+Message::Message( const Message &other )
+    : d ( other.d )
+{
+}
 
-Q_DECLARE_METATYPE(Message)
-#endif
+Message::~Message()
+{
+}
+
+void Message::setType( QString type )
+{
+    d->type = type;
+}
+
+void Message::setPayload( QByteArray payload )
+{
+    d->payload = payload;
+}
+
+void Message::setSenderID( quint64 senderID )
+{
+    d->senderID = senderID;
+}
+
+void Message::setGroupID( quint64 groupID )
+{
+    d->groupID = groupID;
+}
+
+void Message::setTimestamp( QDateTime timestamp )
+{
+    d->timestamp = timestamp;
+}
+
+void Message::setSeconds( quint32 seconds )
+{
+    d->seconds = seconds;
+}
+
+void Message::setUseconds( quint32 useconds )
+{
+    d->useconds = useconds;
+}
+
+void Message::setHist( bool hist )
+{
+    d->hist = hist;
+}
+
+QString Message::type() const
+{
+    return d->type;
+}
+
+QByteArray Message::payload() const
+{
+    return d->payload;
+}
+
+quint64 Message::senderID() const
+{
+    return d->senderID;
+}
+
+quint64 Message::groupID() const
+{
+    return d->groupID;
+}
+
+QDateTime Message::timestamp() const
+{
+    return d->timestamp;
+}
+
+bool Message::hist() const
+{
+    return d->hist;
+}

@@ -24,7 +24,8 @@ SOURCES += main.cpp \
     contactpropertieswindow.cpp \
     listviews/contactlistview.cpp \
     listviews/grouplistview.cpp \
-    listviews/overviewlistview.cpp
+    listviews/overviewlistview.cpp \
+    message.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -62,7 +63,8 @@ HEADERS += palringowindow.h \
     contactpropertieswindow.h \
     listviews/contactlistview.h \
     listviews/grouplistview.h \
-    listviews/overviewlistview.h
+    listviews/overviewlistview.h \
+    messagedata.h
 LIBS += -LlibPalringo \
     -lPalringo \
     -lssl \

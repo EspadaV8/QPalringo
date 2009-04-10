@@ -19,44 +19,39 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGE_H
-#define MESSAGE_H
+#ifndef MESSAGEDATA_H
+#define MESSAGEDATA_H
 
-#include <QMetaType>
 #include <QSharedData>
 #include <QString>
 #include <QByteArray>
 #include <QDateTime>
-#include "messagedata.h"
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
 
-class Message
+class MessageData : public QSharedData
 {
     public:
-        Message();
-        Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp, bool hist );
-        Message( const Message &other );
-        ~Message();
+        MessageData() {}
+        MessageData( const MessageData &other )
+            : QSharedData( other ),
+                type( other.type ),
+                payload( other.payload ),
+                senderID( other.senderID ),
+                groupID( other.groupID ),
+                timestamp( other.timestamp ),
+                seconds( other.seconds ),
+                useconds( other.useconds ),
+                hist( other.hist ) { }
+        ~MessageData() { }
 
-        void setType( QString type );
-        void setPayload( QByteArray payload );
-        void setSenderID( quint64 senderID );
-        void setGroupID( quint64 groupID );
-        void setTimestamp( QDateTime timestamp );
-        void setHist( bool hist );
-
-        QString type() const;
-        QByteArray payload() const;
-        quint64 senderID() const;
-        quint64 groupID() const;
-        QDateTime timestamp() const;
-        bool hist() const;
-
-    private:
-        QSharedDataPointer<MessageData> d;
+        QString type;
+        QByteArray payload;
+        quint64 senderID;
+        quint64 groupID;
+        QDateTime timestamp;
+        bool hist;
 };
 
-Q_DECLARE_METATYPE(Message)
-#endif
+#endif // MESSAGEDATA_H
