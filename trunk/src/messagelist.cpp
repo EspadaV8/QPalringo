@@ -27,10 +27,15 @@ MessageList::MessageList(QWidget *parent)
 {
     this->vbox = new QVBoxLayout;
     this->vbox->addStretch( 1 );
+    this->vbox->setSpacing( 0 );
+    this->vbox->setContentsMargins( 2, 0, 2, 0 );
+
     QWidget *w = new QWidget;
     w->setLayout( vbox );
+
     this->setWidgetResizable( true );
     this->setWidget( w );
+    this->setContentsMargins( 0, 0, 0, 0 );
 
     this->atBottom = true;
 }
