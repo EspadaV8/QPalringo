@@ -52,7 +52,7 @@ void MessageList::addMessage( Message message )
         for( pos = 0; pos < this->messages.count(); pos++ )
         {
             MessageItem *mi = (MessageItem*)this->vbox->itemAt( pos )->widget();
-            if( mi->getMessage().timestamp() <= message.timestamp() )
+            if( mi->getMessage() <= message )
             {
                 continue;
             }
