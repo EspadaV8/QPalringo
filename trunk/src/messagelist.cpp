@@ -43,12 +43,18 @@ MessageList::~MessageList()
 void MessageList::addMessage( Message message )
 {
     qint64 pos = 0;
-    if( this->messages.count() == 0 )
+    if( ( this->messages.count() == 0 ) )
     {
         pos = -1;
     }
+    else if( message.hist() )
+    {
+        pos = 0;
+    }
     else
     {
+        pos = this->messages.count();
+        /*
         for( pos = 0; pos < this->messages.count(); pos++ )
         {
             MessageItem *mi = (MessageItem*)this->vbox->itemAt( pos )->widget();
@@ -61,6 +67,7 @@ void MessageList::addMessage( Message message )
                 break;
             }
         }
+        */
     }
     this->insertMessage( pos, message );
 }
