@@ -24,6 +24,10 @@
 ChatTextEdit::ChatTextEdit( QWidget *parent )
     : QPlainTextEdit ( parent )
 {
+    QFont font = this->font();
+    font.setPixelSize( 10 );
+    this->setFont( font );
+
     this->setMaximumHeight( this->fontMetrics().height() * 4 );
 }
 
