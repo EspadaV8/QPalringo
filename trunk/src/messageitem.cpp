@@ -26,6 +26,8 @@
 #include "tools.h"
 #include "speexdecoder.h"
 
+#define FONT_SIZE 10
+
 MessageItem::MessageItem( QWidget *parent, Message message ) :
         QFrame( parent )
 {
@@ -41,6 +43,9 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         this->setProperty( "originator", false );
     }
 
+    QFont font = this->font();
+    font.setPixelSize( FONT_SIZE );
+
     this->messageIcon = new QSvgWidget;
     this->messageIcon->setObjectName( "messageIcon" );
     this->messageIcon->setFixedSize( 18, 18 );
@@ -51,14 +56,17 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->messageText->setTextFormat( Qt::RichText );
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->messageText->setOpenExternalLinks( true );
+    this->messageText->setFont( font );
 
     this->sender = new QLabel( this->contact->getNickname() );
     this->sender->setObjectName( "senderNickname" );
     this->sender->setAlignment( Qt::AlignLeft );
+    this->sender->setFont( font );
 
     this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
+    this->timestamp->setFont( font );
 
     QString messageTypeIcon;
     if( this->message.type() == "text/plain" )
@@ -98,6 +106,10 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->rightside->setSpacing( 0 );
     this->rightside->setContentsMargins( 0, 0, 0, 0 );
 
+    QFrame *w = new QFrame;
+    w->setObjectName( "messageContent" );
+    w->setLayout( this->rightside );
+
     this->headers = new QHBoxLayout;
     this->headers->setSpacing( 0 );
     this->headers->setContentsMargins( 0, 0, 0, 0 );
@@ -113,7 +125,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->rightside->addStretch( 1 );
 
     this->layout->addLayout( this->leftside );
-    this->layout->addLayout( this->rightside, 1 );
+    this->layout->addWidget( w, 1 );
     this->setLayout( layout );
     ReloadStyleSheet();
 }
