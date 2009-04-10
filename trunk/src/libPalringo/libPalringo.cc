@@ -1434,14 +1434,24 @@ PalringoConnection::getMesgHist(int32_t count,
                                 uint64_t sourceId,
                                 int32_t type)
 {
-  headers_t headers;
-  headers["MESG-ID"] = toString(++mesg_id_);
-  headers["COUNT"] = toString(count);
-  headers["SOURCE-ID"] = toString(sourceId);
   std::string timestampStr("");
   timestampStr.append(toString(timestamp));
   timestampStr.append(".0");
 
+  getMesgHist( count, timestamp, sourceId, type );
+}
+
+void
+PalringoConnection::getMesgHist(int32_t count,
+                                const std::string &timestampStr,
+                                uint64_t sourceId,
+                                int32_t type)
+{
+  headers_t headers;
+  headers["MESG-ID"] = toString(++mesg_id_);
+  headers["COUNT"] = toString(count);
+  headers["SOURCE-ID"] = toString(sourceId);
+  
   if (type == 0)
     {
       headers["FROM-PRIVATE"] = timestampStr;

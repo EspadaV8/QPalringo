@@ -1217,6 +1217,10 @@ public:
                            uint32_t timestamp,
 			   uint64_t sourceId,
                            int32_t type);
+  virtual void getMesgHist(int32_t count,
+                           const std::string &timestampStr,
+                           uint64_t sourceId,
+                           int32_t type);
 
   void setLogin(const std::string &login);
   void setPassword(const std::string &password);
