@@ -51,6 +51,8 @@ class MessageData : public QSharedData
         quint64 senderID;
         quint64 groupID;
         QDateTime timestamp;
+        quint32 seconds;
+        quint32 useconds;
         bool hist;
 };
 

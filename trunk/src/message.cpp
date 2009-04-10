@@ -27,17 +27,19 @@ Message::Message()
     qRegisterMetaType<Message>("Message");
 }
 
-Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp, bool hist )
+Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp,
+                    quint32 seconds, quint32 useconds, bool hist )
 {
     d = new MessageData;
     qRegisterMetaType<Message>("Message");
-    qDebug( "New setter" );
 
     setType( type );
     setPayload( payload );
     setSenderID( senderID );
     setGroupID( groupID );
     setTimestamp( timestamp );
+    setSeconds( seconds );
+    setUseconds( useconds );
     setHist( hist );
 }
 
@@ -113,6 +115,16 @@ quint64 Message::groupID() const
 QDateTime Message::timestamp() const
 {
     return d->timestamp;
+}
+
+quint32 Message::seconds() const
+{
+    return d->seconds;
+}
+
+quint32 Message::useconds() const
+{
+    return d->useconds;
 }
 
 bool Message::hist() const

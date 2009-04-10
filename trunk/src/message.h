@@ -36,7 +36,8 @@ class Message
 {
     public:
         Message();
-        Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp, bool hist );
+        Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID, QDateTime timestamp,
+                    quint32 seconds, quint32 useconds, bool hist );
         Message( const Message &other );
         ~Message();
 
@@ -45,6 +46,8 @@ class Message
         void setSenderID( quint64 senderID );
         void setGroupID( quint64 groupID );
         void setTimestamp( QDateTime timestamp );
+        void setSeconds( quint32 seconds );
+        void setUseconds( quint32 useconds );
         void setHist( bool hist );
 
         QString type() const;
@@ -52,6 +55,8 @@ class Message
         quint64 senderID() const;
         quint64 groupID() const;
         QDateTime timestamp() const;
+        quint32 seconds() const;
+        quint32 useconds() const;
         bool hist() const;
 
     private:
