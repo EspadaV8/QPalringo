@@ -37,8 +37,16 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
 
     // Create all the layouts
     QVBoxLayout *layout = new QVBoxLayout;
+    layout->setContentsMargins( 0, 0, 0, 0 );
+    layout->setSpacing( 0 );
+
     QHBoxLayout *hbox = new QHBoxLayout;
+    hbox->setContentsMargins( 0, 0, 0, 0 );
+    hbox->setSpacing( 0 );
+
     QVBoxLayout *vb = new QVBoxLayout;
+    vb->setContentsMargins( 0, 0, 0, 0 );
+    vb->setSpacing( 0 );
 
     // set up all the widgets
     this->historyButton = new QPushButton ( "History", this );
