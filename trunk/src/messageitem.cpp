@@ -127,19 +127,11 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->layout->addLayout( this->leftside );
     this->layout->addWidget( w, 1 );
     this->setLayout( layout );
-    ReloadStyleSheet();
 }
 
 
 MessageItem::~MessageItem()
 {
-}
-
-
-void MessageItem::mousePressEvent( QMouseEvent *event )
-{
-    this->toSelect = true;
-    event->ignore();
 }
 
 void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
@@ -263,32 +255,6 @@ void MessageItem::showMetaData()
 void MessageItem::finished()
 {
 //    qDebug() << "finished - " << mediaObject->errorString();
-}
-
-bool MessageItem::getToSelect()
-{
-    return this->toSelect;
-}
-
-void MessageItem::setSelected( bool b )
-{
-    this->toSelect = false;
-    this->setProperty( "selected", b );
-    ReloadStyleSheet();
-}
-
-void MessageItem::ReloadStyleSheet()
-{
-    QFile sheet ( ":/styles/MessageItem.css" );
-
-    if ( ! sheet.open ( QIODevice::ReadOnly ) )
-    {
-        qDebug( "failed to read the stylesheet resource: %s", qPrintable( sheet.fileName() ) );
-    }
-    else
-    {
-        this->setStyleSheet ( sheet.readAll() );
-    }
 }
 
 Message MessageItem::getMessage()

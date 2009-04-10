@@ -42,8 +42,6 @@ class MessageItem : public QFrame
         MessageItem ( QWidget *parent = 0, Message message = Message() );
         ~MessageItem();
 
-        bool getToSelect();
-        void setSelected( bool selected );
         Message getMessage();
 
     private:
@@ -60,18 +58,13 @@ class MessageItem : public QFrame
         QVBoxLayout *rightside;
         QHBoxLayout *headers;
 
-        bool toSelect;
-        bool selected;
-
         void handleAudioClip();
 
     signals:
         void doubleClick();
 
     protected:
-        void mousePressEvent( QMouseEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
-        virtual void ReloadStyleSheet();
 
     private slots:
         void showMetaData();
