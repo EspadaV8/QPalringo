@@ -27,24 +27,37 @@
 #include "speexdecoder.h"
 
 MessageItem::MessageItem( QWidget *parent, Message message ) :
-        QWidget( parent )
+        QFrame( parent )
 {
     this->contact = tools_->getContact( message.senderID() );
-
     this->message = message;
 
+    if( this->message.senderID() == tools_->user->userID )
+    {
+        this->setProperty( "originator", true );
+    }
+    else
+    {
+        this->setProperty( "originator", false );
+    }
+
     this->messageIcon = new QSvgWidget;
-    this->messageIcon->setFixedSize( 24, 24 );
+    this->messageIcon->setObjectName( "messageIcon" );
+    this->messageIcon->setFixedSize( 18, 18 );
+
     this->messageText = new QLabel;
+    this->messageText->setObjectName( "messageText" );
     this->messageText->setWordWrap( true );
     this->messageText->setTextFormat( Qt::RichText );
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->messageText->setOpenExternalLinks( true );
 
     this->sender = new QLabel( this->contact->getNickname() );
+    this->sender->setObjectName( "senderNickname" );
     this->sender->setAlignment( Qt::AlignLeft );
 
     this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
+    this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
 
     QString messageTypeIcon;
@@ -72,11 +85,22 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     }
 
     this->messageIcon->load( messageTypeIcon );
+
     this->layout = new QHBoxLayout;
+    this->layout->setSpacing( 0 );
+    this->layout->setContentsMargins( 0, 0, 0, 0 );
 
     this->leftside = new QVBoxLayout;
+    this->leftside->setSpacing( 0 );
+    this->leftside->setContentsMargins( 0, 0, 0, 0 );
+
     this->rightside = new QVBoxLayout;
+    this->rightside->setSpacing( 0 );
+    this->rightside->setContentsMargins( 0, 0, 0, 0 );
+
     this->headers = new QHBoxLayout;
+    this->headers->setSpacing( 0 );
+    this->headers->setContentsMargins( 0, 0, 0, 0 );
 
     this->leftside->addWidget( this->messageIcon );
     this->leftside->addStretch( 1 );
@@ -253,14 +277,6 @@ void MessageItem::ReloadStyleSheet()
     {
         this->setStyleSheet ( sheet.readAll() );
     }
-}
-
-void MessageItem::paintEvent(QPaintEvent *)
-{
-    QStyleOption opt;
-    opt.init(this);
-    QPainter p(this);
-    style()->drawPrimitive(QStyle::PE_Widget, &opt, &p, this);
 }
 
 Message MessageItem::getMessage()

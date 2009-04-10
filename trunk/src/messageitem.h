@@ -26,7 +26,7 @@
  @author Andrew Smith <espadav8@gmail.com>
 */
 
-#include <QWidget>
+#include <QFrame>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -35,7 +35,7 @@
 #include "message.h"
 #include "targets/contact.h"
 
-class MessageItem : public QWidget
+class MessageItem : public QFrame
 {
     Q_OBJECT
     public:
@@ -69,7 +69,6 @@ class MessageItem : public QWidget
         void doubleClick();
 
     protected:
-        void paintEvent( QPaintEvent *event );
         void mousePressEvent( QMouseEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
         virtual void ReloadStyleSheet();
