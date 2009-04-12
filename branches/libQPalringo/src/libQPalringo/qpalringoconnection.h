@@ -24,6 +24,7 @@
 
 #include <QThread>
 #include <QMap>
+#include <QReadWriteLock>
 #include "../libPalringo/libPalringo.h"
 #include "targets/target.h"
 #include "targets/contact.h"
@@ -68,6 +69,11 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         User getUser();
         Group* getGroup( quint64 groupID );
+        Contact* getContact( quint64 contactID );
+
+        QHash<quint64, Contact*> getAllContacts();
+        QHash<quint64, Contact*> getContactListContacts();
+        QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,
@@ -90,6 +96,8 @@ class QPalringoConnection : public QThread, public PalringoConnection
         QMap<quint64, Message> unfinishedMessages;
         QHash<quint64, Contact* > contacts;
         QHash<quint64, Group* > groups;
+
+        QReadWriteLock contactLock;
 
         qint64 timestampDifference;
         User user;

@@ -163,7 +163,9 @@ int QPalringoConnection::onContactDetailReceived(headers_t& headers,
             contact->setDeviceType( contactData.deviceType_ );
             contact->setID( contactData.contactId_ );
 
+            this->contactLock.lockForWrite();
             this->contacts.insert( contactData.contactId_, contact );
+            this->contactLock.unlock();
 
             emit( gotContactDetails( contact ) );
         }
@@ -269,4 +271,56 @@ Group* QPalringoConnection::getGroup( quint64 groupID )
         return this->groups.value( groupID );
     }
     return NULL;
+}
+
+Contact* QPalringoConnection::getContact( quint64 contactID )
+{
+    Contact* c = NULL;
+    this->contactLock.lockForRead();
+    if( this->contacts.contains( contactID ) )
+    {
+        c = this->contacts.value( contactID );
+    }
+    this->contactLock.unlock();
+    return c;
+}
+
+QHash<quint64, Contact*> QPalringoConnection::getAllContacts()
+{
+    return this->contacts;
+}
+
+QHash<quint64, Contact*> QPalringoConnection::getContactListContacts()
+{
+    QHash<quint64, Contact*> contacts;
+
+    this->contactLock.lockForRead();
+    foreach( Contact *contact, this->contacts )
+    {
+        if( contact->getIsContact() )
+        {
+            contacts.insert( contact->getID(), contact );
+        }
+    }
+    this->contactLock.unlock();
+
+    return contacts;
+}
+
+QHash<quint64, Contact*> QPalringoConnection::getGroupContacts( quint64 groupID )
+{
+    QHash<quint64, Contact*> groupContacts;
+
+    Group *group = this->getGroup( groupID );
+    QSet<quint64> groupContactIDs = group->getContacts();
+
+    this->contactLock.lockForRead();
+    foreach( quint64 contactID, groupContactIDs )
+    {
+        Contact* contact = this->contacts.value( contactID );
+        groupContacts.insert( contactID, contact );
+    }
+    this->contactLock.unlock();
+
+    return groupContacts;
 }
