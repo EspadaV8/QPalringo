@@ -55,7 +55,14 @@ void ContactListView::contactReceived( Contact *contact )
 
 void ContactListView::getContacts( quint64 groupID )
 {
-    this->contacts = tools_->getContacts( groupID );
+    if( groupID == 0 )
+    {
+        this->contacts = tools_->getContactListContacts();
+    }
+    else
+    {
+        this->contacts = tools_->getGroupContacts( groupID );
+    }
     
     this->setUpdatesEnabled( false );
     if( this->contacts.size() > 0 )
