@@ -271,6 +271,8 @@ void PalringoWindow::cleanUp()
 {
     for( int i = mainTabs->count(); i > 1; i-- )
     {
+        QWidget *w = mainTabs->widget( i );
         mainTabs->removeTab( i );
+        delete w;
     }
 }
