@@ -56,6 +56,7 @@ class PalringoWindow : public QMainWindow
         void createAGroup();
         void tabFocusChanged( int tabIndex );
         void showSettingsWindow();
+        void cleanUp();
 
     private:
         QMenu *fileMenu;

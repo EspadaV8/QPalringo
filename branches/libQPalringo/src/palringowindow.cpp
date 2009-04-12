@@ -43,6 +43,7 @@ PalringoWindow::PalringoWindow()
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
+    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
 
     readSettings();
 }
@@ -264,4 +265,12 @@ void PalringoWindow::closeEvent(QCloseEvent *event)
 {
     writeSettings();
     event->accept();
+}
+
+void PalringoWindow::cleanUp()
+{
+    for( int i = mainTabs->count(); i > 1; i-- )
+    {
+        mainTabs->removeTab( i );
+    }
 }
