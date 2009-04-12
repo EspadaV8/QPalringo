@@ -8,8 +8,8 @@ SOURCES += DataMap.cc \
  salsa20.c
 
 TEMPLATE = lib
-CONFIG += warn_on debug staticlib
-TARGET = Palringo
+CONFIG += warn_on debug
+TARGET = ../../bin/Palringo
 
 QT -= core gui
 

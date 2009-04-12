@@ -54,9 +54,8 @@ HEADERS += palringowindow.h \
     listviews/grouplistview.h \
     listviews/overviewlistview.h
 
-LIBS += -LlibQPalringo \
+LIBS += -L../bin \
     -lQPalringo \
-    -LlibPalringo \
     -lPalringo \
     -lssl \
     -lspeex \

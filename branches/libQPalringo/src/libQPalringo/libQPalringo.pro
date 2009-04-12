@@ -4,11 +4,11 @@
 QT += network
 QT -= gui
 
-TARGET = QPalringo
+TARGET = ../../bin/QPalringo
 
 TEMPLATE = lib
 
-CONFIG += warn_on debug staticlib
+CONFIG += warn_on debug
 
 DEFINES += LIBQPALRINGO_LIBRARY
 
