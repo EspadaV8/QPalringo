@@ -24,6 +24,9 @@
 #include <QSet>
 #include "qpalringoconnection.h"
 
+// the max packet size we can send
+#define MAX_PACKET_SIZE 512
+
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString clientType,
@@ -205,16 +208,72 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
     return 0;
 }
 
-bool QPalringoConnection::sendMessage(Target *target, Message message )
+bool QPalringoConnection::sendMessage( Target* target, Message message )
 {
-    int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
-    std::string cT = message.type().toStdString();
+    // store this here for easy access
+    QByteArray messageData = message.payload();
 
-    return PalringoConnection::sendMessage( message.payload().data(),
-                                            message.payload().size(),
-                                            cT,
-                                            target->getID(),
-                                            targetType );
+    headers_t headers;
+
+    // the data of the message
+    MsgData data;
+        data.targetId_ = target->getID();
+        data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;;
+        data.mesgId_ = ++mesg_id_;
+        data.contentType_ = message.type().toStdString();
+
+    // we need this here since MsgData::setData wants an std::string (even though it's not used)
+    std::string s = "";
+
+    // if the message is too big to go in 1 block
+    if( message.payload().size() > MAX_PACKET_SIZE )
+    {
+        qint64 i = MAX_PACKET_SIZE;
+        qint64 a = messageData.size() - ( messageData.size() % MAX_PACKET_SIZE );
+
+        // set the data of the message
+        data.setData( headers, s );
+
+        // get the first MAX_PACKET_SIZE bytes
+        QByteArray cdata = messageData.left( i );
+        // send the first MAX_PACKET_SIZE bytes of the message
+        sendCmd(pCommand::MESG, headers, cdata.data(), cdata.size() );
+
+        // set the correlarion ID for the rest of the messages
+        data.correlationId_ = data.mesgId_;
+
+        for( i;
+             i < a;
+             i += MAX_PACKET_SIZE )
+        {
+            // increment the message ID
+            data.mesgId_ = ++mesg_id_;
+
+            // re-set the headers for the message
+            data.setData( headers, s );
+
+            // put the data into the QByteArray
+            cdata = messageData.mid( i, MAX_PACKET_SIZE );
+
+            // send the next 512 bytes of the message
+            sendCmd( pCommand::MESG, headers, cdata.data(), cdata.size() );
+        }
+
+        // now got the last little bit to send
+        data.mesgId_ = ++mesg_id_;
+        data.last_ = true;
+        data.setData( headers, s );
+
+        cdata = messageData.right( messageData.size() - i );
+        return sendCmd( pCommand::MESG, headers, cdata.data(), cdata.size() );
+    }
+    else
+    {
+        // we just have a small message so we don't need to break it down into smaller chunks
+        data.last_ = true;
+        data.setData( headers, s );
+        return sendCmd( pCommand::MESG, headers, messageData.data(), messageData.size() );
+    }
 }
 
 void QPalringoConnection::joinGroup( QString groupName )
