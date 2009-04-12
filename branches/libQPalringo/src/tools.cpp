@@ -30,7 +30,6 @@ Tools::Tools( PalringoWindow *mainWindow )
 {
     this->mainWindow = mainWindow;
     this->loggedIn = false;
-    this->user = new User;
 
     // used for tracking history requests
     this->gettingHistory = false;
@@ -106,13 +105,31 @@ void Tools::messageReceived( Message message )
 
 void Tools::openPalringoConnection( QString email, QString password )
 {
-    if( !email.isEmpty() ) this->user->email = email;
-    if( !password.isEmpty() ) this->user->password = password;
-
     if( this->loggedIn == false )
     {
-        this->connection = new Connection( this->user->email, this->user->password );
-        connection->start();
+        QString client;
+        #ifdef Q_WS_WIN
+            client = "x86";
+        #endif
+        #ifdef Q_WS_MAC
+            client = "Mac";
+        #endif
+        #ifdef Q_WS_X11
+            client = "Linux";
+        #endif
+        this->connection = new QPalringoConnection( email, password, client );
+
+        if( connection->connectClient() == 1 )
+        {
+            connect( connection, SIGNAL( logonSuccessful( QString ) ), this, SLOT( logonSuccessful( QString ) ) );
+            connect( connection, SIGNAL( gotGroupDetails( Group* ) ), this, SLOT( addGroup( Group* ) ) );
+            connect( connection, SIGNAL( gotContactDetails( Contact* ) ), this, SLOT( addContact( Contact* ) ) );
+            connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
+            connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
+            connect( connection, SIGNAL( finished() ), tools_, SLOT( disconnected() ) );
+
+            connection->start();
+        }
     }
 }
 
@@ -219,14 +236,6 @@ void Tools::logonSuccessful( QString timestamp )
 quint32 Tools::getTimestampDifference()
 {
     return this->timestampDifference;
-}
-
-void Tools::setUser( quint64 userID, QString nickname, QString status, QString lastOnline )
-{
-    this->user->userID = userID;
-    this->user->nickname = nickname;
-    this->user->status = status;
-    this->user->lastOnline = lastOnline;
 }
 
 /*
@@ -499,7 +508,7 @@ bool Tools::isLoggedIn()
     return this->loggedIn;
 }
 
-void Tools::playSound( QString fileName )
+void Tools::playSound( QString fileName __attribute__ ((unused)) )
 {
     /*
     Phonon::MediaObject *mediaObject = new Phonon::MediaObject( this );
@@ -508,4 +517,9 @@ void Tools::playSound( QString fileName )
     Phonon::Path path = Phonon::createPath( mediaObject, audioOutput );
     mediaObject->play();
     */
+}
+
+User Tools::getUser()
+{
+    return this->connection->getUser();
 }
