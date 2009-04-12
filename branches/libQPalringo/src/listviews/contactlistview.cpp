@@ -25,14 +25,21 @@
 ContactListView::ContactListView( QWidget *parent )
  : PalringoListView( parent )
 {
+    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( removeContacts() ) );
 }
 
 ContactListView::~ContactListView()
+{
+    removeContacts();
+}
+
+void ContactListView::removeContacts()
 {
     foreach( ListItem *pc, this->listItems )
     {
         delete pc;
     }
+    this->contacts.clear();
 }
 
 void ContactListView::setupContainers()
@@ -63,7 +70,7 @@ void ContactListView::getContacts( quint64 groupID )
     {
         this->contacts = tools_->getGroupContacts( groupID );
     }
-    
+
     this->setUpdatesEnabled( false );
     if( this->contacts.size() > 0 )
     {

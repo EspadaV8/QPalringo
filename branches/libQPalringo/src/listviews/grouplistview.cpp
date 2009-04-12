@@ -27,6 +27,7 @@ GroupListView::GroupListView(QWidget *parent, Group *group)
  : ContactListView(parent)
 {
     this->group = group;
+    this->disconnect( tools_, SIGNAL( cleanUp() ), this, 0 );
 }
 
 void GroupListView::setupContainers()
