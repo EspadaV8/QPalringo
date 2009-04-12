@@ -217,15 +217,6 @@ bool QPalringoConnection::sendMessage(Target *target, Message message )
                                             targetType );
 }
 
-bool QPalringoConnection::getHistoryMessage( Target* target, QString timestamp )
-{
-    int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
-    int count = -1;
-
-    PalringoConnection::getMesgHist( count, timestamp.toStdString(), target->getID(), targetType );
-    return true;
-}
-
 void QPalringoConnection::joinGroup( QString groupName )
 {
     PalringoConnection::groupSubscribe( groupName.toStdString() );
@@ -258,6 +249,28 @@ bool QPalringoConnection::updateContactDetail( QString detail, QString value )
 
     return true;
 }
+
+
+void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qint32 count )
+{
+    headers_t headers;
+    headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
+    headers["COUNT"] = QString::number( count ).toStdString();
+    headers["SOURCE-ID"] = QString::number( target->getID() );
+
+    if( target->getType() == Target::CONTACT )
+    {
+        headers["FROM-PRIVATE"] = timestampStr.toStdString();
+    }
+    else if( target->getType() == Target::GROUP )
+    {
+        headers["FROM-GROUP"] = timestampStr.toStdString();
+    }
+
+    PalringoConnection::sendCmd( pCommand::MESG_HIST, headers, "" );
+}
+
+
 
 User QPalringoConnection::getUser()
 {

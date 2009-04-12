@@ -60,8 +60,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void run();
 
         bool sendMessage( Target* target, Message message );
-
-        bool getHistoryMessage( Target* target, QString timestamp );
+        void getMesgHist( Target* target, QString timestampStr, qint32 count );
         void joinGroup( QString groupName );
         void createGroup( QString groupName, QString groupDescription = "", QString groupPassword = "");
         void leaveGroup( quint64 groupID );
