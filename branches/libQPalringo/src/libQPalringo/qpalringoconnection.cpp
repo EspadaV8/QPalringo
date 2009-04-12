@@ -196,6 +196,8 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
         group->setDescription( QString::fromStdString( group_.desc_ ) );
         group->setContacts( group_contacts );
 
+        this->groups.insert( group->getID(), group );
+
         emit( gotGroupDetails( group ) );
     }
     return 0;
@@ -258,4 +260,13 @@ bool QPalringoConnection::updateContactDetail( QString detail, QString value )
 User QPalringoConnection::getUser()
 {
     return this->user;
+}
+
+Group* QPalringoConnection::getGroup( quint64 groupID )
+{
+    if( this->groups.contains( groupID ) )
+    {
+        return this->groups.value( groupID );
+    }
+    return NULL;
 }

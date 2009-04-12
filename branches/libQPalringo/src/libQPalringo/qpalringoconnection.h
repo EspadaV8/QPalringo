@@ -67,6 +67,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
         bool updateContactDetail( QString detail, QString value );
 
         User getUser();
+        Group* getGroup( quint64 groupID );
 
     protected:
         virtual int onLogonSuccessfulReceived( headers_t&,
