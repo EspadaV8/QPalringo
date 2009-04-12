@@ -90,7 +90,7 @@ void Tools::messageReceived( Message message )
     }
     else
     {
-        t = this->groups.value( message.groupID() );
+        t = this->connection->getGroup( message.groupID() );
     }
 
     if( t != NULL )
@@ -122,7 +122,7 @@ void Tools::openPalringoConnection( QString email, QString password )
         if( connection->connectClient() == 1 )
         {
             connect( connection, SIGNAL( logonSuccessful( QString ) ), this, SLOT( logonSuccessful( QString ) ) );
-            connect( connection, SIGNAL( gotGroupDetails( Group* ) ), this, SLOT( addGroup( Group* ) ) );
+            connect( connection, SIGNAL( gotGroupDetails( Group* ) ), this, SIGNAL( newGroupAdded( Group* ) ) );
             connect( connection, SIGNAL( gotContactDetails( Contact* ) ), this, SLOT( addContact( Contact* ) ) );
             connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
             connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
@@ -203,7 +203,7 @@ QHash<quint64, Contact*> Tools::getContacts( quint64 groupID )
     }
     else
     {
-        Group *group = this->groups.value( groupID );
+        Group *group = this->connection->getGroup( groupID );
         QSet<quint64> groupContactIDs = group->getContacts();
         foreach( quint64 contactID, groupContactIDs )
         {
@@ -212,12 +212,6 @@ QHash<quint64, Contact*> Tools::getContacts( quint64 groupID )
         }
     }
     return groupContacts;
-}
-
-void Tools::addGroup( Group *group )
-{
-    this->groups.insert( group->getID(),  group );
-    emit( newGroupAdded( group ) );
 }
 
 void Tools::logonSuccessful()

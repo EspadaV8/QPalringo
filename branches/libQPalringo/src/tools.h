@@ -87,7 +87,6 @@ class Tools : public QObject
     public slots:
         void logonSuccessful();
         void logonSuccessful( QString timestamp );
-        void addGroup( Group *group );
         void addContact( Contact *contact );
         void messageReceived( Message message );
         void historyMessageReceived( Message message );
@@ -116,7 +115,6 @@ class Tools : public QObject
         QMultiMap<Contact*, Message> unreadMessages;
 
         QHash<quint64, Contact* > contacts;
-        QHash<quint64, Group* > groups;
 
         QReadWriteLock contactLock;
 
