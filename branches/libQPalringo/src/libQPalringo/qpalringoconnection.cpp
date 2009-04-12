@@ -315,7 +315,7 @@ void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qin
     headers_t headers;
     headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
     headers["COUNT"] = QString::number( count ).toStdString();
-    headers["SOURCE-ID"] = QString::number( target->getID() );
+    headers["SOURCE-ID"] = QString::number( target->getID() ).toStdString();
 
     if( target->getType() == Target::CONTACT )
     {
