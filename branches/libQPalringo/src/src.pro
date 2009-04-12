@@ -7,13 +7,8 @@ SOURCES += main.cpp \
     chattextedit.cpp \
     messagelist.cpp \
     messageitem.cpp \
-    qpalringoconnection.cpp \
     signinwindow.cpp \
     settingswindow.cpp \
-    connection.cpp \
-    targets/contact.cpp \
-    targets/group.cpp \
-    targets/target.cpp \
     listitems/contactlistitem.cpp \
     listitems/listitem.cpp \
     listitems/serviceitem.cpp \
@@ -24,8 +19,8 @@ SOURCES += main.cpp \
     contactpropertieswindow.cpp \
     listviews/contactlistview.cpp \
     listviews/grouplistview.cpp \
-    listviews/overviewlistview.cpp \
-    message.cpp
+    listviews/overviewlistview.cpp
+
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -45,27 +40,23 @@ HEADERS += palringowindow.h \
     chattextedit.h \
     messagelist.h \
     messageitem.h \
-    qpalringoconnection.h \
     signinwindow.h \
     settingswindow.h \
-    connection.h \
-    targets/contact.h \
-    targets/group.h \
-    targets/target.h \
     listitems/contactlistitem.h \
     listitems/listitem.h \
     listitems/serviceitem.h \
     listitems/grouplistitem.h \
-    message.h \
     speexdecoder.h \
     services/service.h \
     services/palringoservice.h \
     contactpropertieswindow.h \
     listviews/contactlistview.h \
     listviews/grouplistview.h \
-    listviews/overviewlistview.h \
-    messagedata.h
-LIBS += -LlibPalringo \
+    listviews/overviewlistview.h
+
+LIBS += -LlibQPalringo \
+    -lQPalringo \
+    -LlibPalringo \
     -lPalringo \
     -lssl \
     -lspeex \
