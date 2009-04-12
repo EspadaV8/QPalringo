@@ -403,6 +403,10 @@ void Tools::disconnected()
     {
         this->openPalringoConnection();
     }
+    else
+    {
+        emit( cleanUp() );
+    }
 }
 
 QPixmap Tools::getPixmap( QString iconFilename )

@@ -93,6 +93,7 @@ class Tools : public QObject
 
     signals:
         void connected();
+        void cleanUp();
         void newGroupAdded( Group *group );
         void newContact( Contact *contact );
 
