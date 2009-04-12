@@ -62,24 +62,27 @@ void ContactListView::contactReceived( Contact *contact )
 
 void ContactListView::getContacts( quint64 groupID )
 {
-    if( groupID == 0 )
+    if( tools_->isLoggedIn() )
     {
-        this->contacts = tools_->getContactListContacts();
-    }
-    else
-    {
-        this->contacts = tools_->getGroupContacts( groupID );
-    }
-
-    this->setUpdatesEnabled( false );
-    if( this->contacts.size() > 0 )
-    {
-        foreach( Contact *contact, this->contacts )
+        if( groupID == 0 )
         {
-            this->contactReceived( contact );
+            this->contacts = tools_->getContactListContacts();
         }
+        else
+        {
+            this->contacts = tools_->getGroupContacts( groupID );
+        }
+
+        this->setUpdatesEnabled( false );
+        if( this->contacts.size() > 0 )
+        {
+            foreach( Contact *contact, this->contacts )
+            {
+                this->contactReceived( contact );
+            }
+        }
+        this->setUpdatesEnabled( true );
     }
-    this->setUpdatesEnabled( true );
 }
 
 void ContactListView::inFocus()
