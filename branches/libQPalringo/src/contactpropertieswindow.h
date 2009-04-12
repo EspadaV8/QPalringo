@@ -23,7 +23,7 @@
 #define CONTACTPROPERTIESWINDOW_H
 
 #include <QDialog>
-#include "targets/contact.h"
+#include "libQPalringo/targets/contact.h"
 #include "ui_contactProperties.h"
 
 /**

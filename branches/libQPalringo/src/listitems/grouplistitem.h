@@ -24,7 +24,7 @@
 
 #include <QWidget>
 #include "listitem.h"
-#include "targets/group.h"
+#include "libQPalringo/targets/group.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

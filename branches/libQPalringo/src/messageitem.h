@@ -32,8 +32,8 @@
 #include <QVBoxLayout>
 #include <QFile>
 #include <QSvgWidget>
-#include "message.h"
-#include "targets/contact.h"
+#include "libQPalringo/message.h"
+#include "libQPalringo/targets/contact.h"
 
 class MessageItem : public QFrame
 {

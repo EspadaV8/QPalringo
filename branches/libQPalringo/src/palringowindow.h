@@ -26,8 +26,8 @@
 #include <QTabWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
-#include "targets/contact.h"
-#include "targets/group.h"
+#include "libQPalringo/targets/contact.h"
+#include "libQPalringo/targets/group.h"
 #include "signinwindow.h"
 #include "messageitem.h"
 #include "listitems/listitem.h"
