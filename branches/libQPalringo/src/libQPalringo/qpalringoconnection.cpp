@@ -201,28 +201,7 @@ int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
     return 0;
 }
 
-bool QPalringoConnection::sendToContact(QByteArray msg,
-                                        QString contentType,
-                                        quint64 receiverID )
-{
-    return PalringoConnection::sendToContact( msg.data(),
-                                                  msg.size(),
-                                                  receiverID,
-                                                  contentType.toStdString());
-}
-
-bool QPalringoConnection::sendToGroup(QByteArray msg,
-                                      QString contentType,
-                                      quint64 groupID )
-{
-    return PalringoConnection::sendToGroup( msg.data(),
-                                            msg.size(),
-                                            groupID,
-                                            contentType.toStdString());
-}
-
-bool QPalringoConnection::sendMessage(Target *target,
-                                      Message message )
+bool QPalringoConnection::sendMessage(Target *target, Message message )
 {
     int targetType = ( target->getType() == Target::GROUP ) ? 1 : 0;
     std::string cT = message.type().toStdString();

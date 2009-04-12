@@ -58,13 +58,6 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         void run();
 
-        bool sendToContact( QByteArray msg,
-                            QString contentType,
-                            quint64 receiverID );
-        bool sendToGroup( QByteArray msg,
-                          QString contentType,
-                          quint64 groupID );
-
         bool sendMessage( Target* target, Message message );
 
         bool getHistoryMessage( Target* target, QString timestamp );
