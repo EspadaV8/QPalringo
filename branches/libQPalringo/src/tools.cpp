@@ -86,7 +86,7 @@ void Tools::messageReceived( Message message )
     Target* t = NULL;
     if( message.groupID() == 0 )
     {
-        t = this->contacts.value( message.senderID() );
+        t = this->connection->getContact( message.senderID() );
     }
     else
     {
@@ -151,67 +151,14 @@ void Tools::getHistoryMessage( Target *target, QString timestamp )
 
 void Tools::addContact( Contact *contact )
 {
-    this->contactLock.lockForWrite();
-    if( !this->contacts.contains( contact->getID() ) )
+    if( this->loggedIn )
     {
-        this->contacts.insert( contact->getID(),  contact );
-
-        if( this->loggedIn )
+        if( contact->getIsContact() )
         {
-            if( contact->getIsContact() )
-            {
-                emit( userContactReceived( contact ) );
-            }
-            emit( contactDetailReceived( contact ) );
+            emit( userContactReceived( contact ) );
         }
+        emit( contactDetailReceived( contact ) );
     }
-    else
-    {
-    }
-    this->contactLock.unlock();
-}
-
-QHash<quint64, Contact*> Tools::getContacts()
-{
-    return this->contacts;
-}
-
-Contact* Tools::getContact( quint64 contactID )
-{
-    Contact* c = NULL;
-    this->contactLock.lockForRead();
-    if( this->contacts.contains( contactID ) )
-    {
-        c = this->contacts.value( contactID );
-    }
-    this->contactLock.unlock();
-    return c;
-}
-
-QHash<quint64, Contact*> Tools::getContacts( quint64 groupID )
-{
-    QHash<quint64, Contact*> groupContacts;
-    if( groupID == 0 )
-    {
-        foreach( Contact *contact, this->contacts )
-        {
-            if( contact->getIsContact() )
-            {
-                groupContacts.insert( contact->getID(), contact );
-            }
-        }
-    }
-    else
-    {
-        Group *group = this->connection->getGroup( groupID );
-        QSet<quint64> groupContactIDs = group->getContacts();
-        foreach( quint64 contactID, groupContactIDs )
-        {
-            Contact* contact = this->contacts.value( contactID );
-            groupContacts.insert( contactID, contact );
-        }
-    }
-    return groupContacts;
 }
 
 void Tools::logonSuccessful()
@@ -516,4 +463,19 @@ void Tools::playSound( QString fileName __attribute__ ((unused)) )
 User Tools::getUser()
 {
     return this->connection->getUser();
+}
+
+Contact* Tools::getContact( quint64 contactID )
+{
+    return this->connection->getContact( contactID );
+}
+
+QHash<quint64, Contact*> Tools::getContactListContacts()
+{
+    return this->connection->getContactListContacts();
+}
+
+QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
+{
+    return this->connection->getGroupContacts( groupID );
 }

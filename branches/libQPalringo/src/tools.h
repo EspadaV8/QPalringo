@@ -25,7 +25,6 @@
 #include <QObject>
 #include <QHash>
 #include <QMultiMap>
-#include <QReadWriteLock>
 #include <QDateTime>
 
 #include "libQPalringo/targets/target.h"
@@ -57,10 +56,6 @@ class Tools : public QObject
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
-        Contact* getContact( quint64 contactID );
-        QHash<quint64, Contact*> getContacts();
-        QHash<quint64, Contact*> getContacts( quint64 groupID = 0 );
-
         QString formatMessageText( QByteArray messagePayload );
         QString tagURLs( QString text );
 
@@ -83,6 +78,9 @@ class Tools : public QObject
         void playSound( QString filename );
 
         User getUser();
+        Contact* getContact( quint64 contactID );
+        QHash<quint64, Contact*> getContactListContacts();
+        QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
 
     public slots:
         void logonSuccessful();
@@ -113,10 +111,6 @@ class Tools : public QObject
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message> unreadMessages;
-
-        QHash<quint64, Contact* > contacts;
-
-        QReadWriteLock contactLock;
 
         // history tracking
         bool gettingHistory;
