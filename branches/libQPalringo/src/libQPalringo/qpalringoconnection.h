@@ -87,21 +87,21 @@ class QPalringoConnection : public QThread, public PalringoConnection
         virtual int onSubProfileReceived(headers_t& headers, std::string& body, GenericData *data );
 
     protected slots:
-        int onPingSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onLogonSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onByeSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onAuthSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onContactUpdateSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onContactAddRespSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onGroupSubscribeSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onGroupUnsubSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onGroupCreateSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onGroupInviteSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onGroupAdminSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onMesgSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onMesgStoredSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onMesgHistSent( Headers headers, QByteArray body, qpGenericData *data );
-        int onRegSent( Headers headers, QByteArray body, qpGenericData *data );
+        int onPingSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onLogonSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onByeSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onAuthSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onContactUpdateSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onContactAddRespSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onGroupSubscribeSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onGroupUnsubSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onGroupCreateSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onGroupInviteSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onGroupAdminSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onMesgSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onMesgStoredSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onMesgHistSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onRegSent( Headers& headers, QByteArray& body, qpGenericData *data );
 
     private:
         QMap<QString, QString> outSignals;
@@ -121,20 +121,20 @@ class QPalringoConnection : public QThread, public PalringoConnection
         QString serverTimestamp;
 
     signals:
-        void pingSent( Headers headers, QByteArray body, qpGenericData* data );
-        void logonSent( Headers headers, QByteArray body, qpGenericData* data );
-        void byeSent( Headers headers, QByteArray body, qpGenericData* data );
-        void authSent( Headers headers, QByteArray body, qpGenericData* data );
-        void contactUpdateSent( Headers headers, QByteArray body, qpGenericData* data );
-        void contactAddRespSent( Headers headers, QByteArray body, qpGenericData* data );
-        void groupSubscribeSent( Headers headers, QByteArray body, qpGenericData* data );
-        void groupUnsubSent( Headers headers, QByteArray body, qpGenericData* data );
-        void groupCreateSent( Headers headers, QByteArray body, qpGenericData* data );
-        void groupInviteSent( Headers headers, QByteArray body, qpGenericData* data );
-        void groupAdminSent( Headers headers, QByteArray body, qpGenericData* data );
-        void mesgSent( Headers headers, QByteArray body, qpGenericData* data );
-        void mesgStoredSent( Headers headers, QByteArray body, qpGenericData* data );
-        void mesgHistSent( Headers headers, QByteArray body, qpGenericData* data );
-        void regSent( Headers headers, QByteArray body, qpGenericData* data );
+        void pingSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void logonSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void byeSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void authSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void contactUpdateSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void contactAddRespSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void groupSubscribeSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void groupUnsubSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void groupCreateSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void groupInviteSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void groupAdminSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void mesgSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void mesgStoredSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void mesgHistSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void regSent( Headers& headers, QByteArray& body, qpGenericData* data );
 };
 #endif

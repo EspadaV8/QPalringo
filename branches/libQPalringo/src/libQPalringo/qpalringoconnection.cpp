@@ -57,6 +57,23 @@ void QPalringoConnection::initOutSignals()
     outSignals.insert( qpCommand::MESG_STORED, "mesgStoredSent" );
     outSignals.insert( qpCommand::MESG_HIST, "mesgHistSent" );
     outSignals.insert( qpCommand::REG, "regSent" );
+
+    connect( this, SIGNAL( pingSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onPingSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( logonSent( Headers&, QByteArray&, qpGenericData* ) ),             this, SLOT( onLogonSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( byeSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onByeSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( authSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( contactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ),     this, SLOT( onContactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( contactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onContactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onGroupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupCreateSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupCreateSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupInviteSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupInviteSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupAdminSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupAdminSent ( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onMesgSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onMesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgHistSent( Headers&, QByteArray&, qpGenericData* ) ),          this, SLOT( onMesgHistSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( regSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onRegSent( Headers&, QByteArray&, qpGenericData* ) ) );
+
 }
 
 void QPalringoConnection::run()
@@ -402,8 +419,8 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
     {
         qDebug( "emitting signal - %s", qPrintable( outSignals.value( command ) ) );
         QMetaObject::invokeMethod( this, outSignals.value( command ).toAscii().constData(), Qt::DirectConnection,
-                                   Q_ARG( Headers, headers ),
-                                   Q_ARG( QByteArray, body ),
+                                   Q_ARG( Headers&, headers ),
+                                   Q_ARG( QByteArray&, body ),
                                    Q_ARG( qpGenericData*, NULL ) );
     }
 /*
