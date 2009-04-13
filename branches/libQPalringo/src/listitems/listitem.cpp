@@ -26,7 +26,6 @@ ListItem::ListItem( QWidget *parent )
 {
     ReloadStyleSheet();
 
-    this->parent = parent;
     this->type = ListItem::UNDEFINED;
 
     QHBoxLayout *hbox = new QHBoxLayout;

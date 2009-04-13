@@ -85,8 +85,6 @@ class ListItem : public QWidget
     private:
         bool toSelect;
         bool selected;
-
-        QWidget *parent;
 };
 
 #endif
