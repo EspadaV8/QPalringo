@@ -278,17 +278,38 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
 
 void QPalringoConnection::joinGroup( QString groupName )
 {
-    PalringoConnection::groupSubscribe( groupName.toStdString() );
+    headers_t headers;
+    headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
+    headers["NAME"] = groupName.toStdString();
+
+    sendCmd( pCommand::GROUP_SUBSCRIBE, headers, "" );
 }
 
 void QPalringoConnection::createGroup( QString groupName, QString groupDescription, QString groupPassword )
 {
-    PalringoConnection::groupCreate( groupName.toStdString(), groupDescription.toStdString(), groupPassword.toStdString() );
+    headers_t headers;
+    headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
+    headers["NAME"] = groupName.toStdString();
+
+    if( groupDescription.size() > 0 )
+    {
+        headers["DESC"] = groupDescription.toStdString();
+    }
+    if( groupPassword.size() > 0 )
+    {
+        headers["CONTENT-LENGTH"] = groupPassword.size();
+    }
+
+    sendCmd( pCommand::GROUP_CREATE, headers, groupPassword.toStdString() );
 }
 
 void QPalringoConnection::leaveGroup( quint64 groupID )
 {
-    PalringoConnection::groupUnsubscribe( groupID );
+    headers_t headers;
+    headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
+    headers["GROUP-ID"] = QString::number( groupID ).toStdString();
+
+    sendCmd( pCommand::GROUP_UNSUB, headers, "" );
 }
 
 int QPalringoConnection::onSubProfileReceived(headers_t& headers,
@@ -309,7 +330,6 @@ bool QPalringoConnection::updateContactDetail( QString detail, QString value )
     return true;
 }
 
-
 void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qint32 count )
 {
     headers_t headers;
@@ -328,7 +348,6 @@ void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qin
 
     PalringoConnection::sendCmd( pCommand::MESG_HIST, headers, "" );
 }
-
 
 
 User QPalringoConnection::getUser()
