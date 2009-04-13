@@ -25,6 +25,8 @@ namespace qpHeaderAttribute
     static const QString STATUS = "STATUS";
     static const QString LAST_ONLINE = "LAST-ONLINE";
     static const QString REASON = "REASON";
+    static const QString DESC = "DESC";
+    static const QString GROUP_ID = "GROUP-ID";
 }
 
 #endif // QPHEADERATTRIBUTES_H
