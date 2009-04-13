@@ -36,6 +36,27 @@ QPalringoConnection::QPalringoConnection(QString login,
 {
     this->user.email = login;
     this->user.password = password;
+
+    initOutSignals();
+}
+
+void QPalringoConnection::initOutSignals()
+{
+    outSignals.insert( qpCommand::PING, "pingSent" );
+    outSignals.insert( qpCommand::LOGON, "logonSent" );
+    outSignals.insert( qpCommand::BYE, "byeSent" );
+    outSignals.insert( qpCommand::AUTH, "authSent" );
+    outSignals.insert( qpCommand::CONTACT_UPDATE, "contactUpdateSent" );
+    outSignals.insert( qpCommand::CONTACT_ADD_RESP, "contactAddRespSent" );
+    outSignals.insert( qpCommand::GROUP_SUBSCRIBE, "groupSubscribeSent" );
+    outSignals.insert( qpCommand::GROUP_UNSUB, "groupUnsubSent" );
+    outSignals.insert( qpCommand::GROUP_CREATE, "groupCreateSent" );
+    outSignals.insert( qpCommand::GROUP_INVITE, "groupInviteSent" );
+    outSignals.insert( qpCommand::GROUP_ADMIN, "groupAdminSent" );
+    outSignals.insert( qpCommand::MESG, "mesgSent" );
+    outSignals.insert( qpCommand::MESG_STORED, "mesgStoredSent" );
+    outSignals.insert( qpCommand::MESG_HIST, "mesgHistSent" );
+    outSignals.insert( qpCommand::REG, "regSent" );
 }
 
 void QPalringoConnection::run()
@@ -213,17 +234,14 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
     // store this here for easy access
     QByteArray messageData = message.payload();
 
-    headers_t headers;
+    Headers headers;
 
     // the data of the message
-    MsgData data;
+    qpMsgData data;
         data.targetId_ = target->getID();
         data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;;
         data.mesgId_ = ++mesg_id_;
-        data.contentType_ = message.type().toStdString();
-
-    // we need this here since MsgData::setData wants an std::string (even though it's not used)
-    std::string s = "";
+        data.contentType_ = message.type();
 
     // if the message is too big to go in 1 block
     if( message.payload().size() > MAX_PACKET_SIZE )
@@ -232,47 +250,45 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
         qint64 a = messageData.size() - ( messageData.size() % MAX_PACKET_SIZE );
 
         // set the data of the message
-        data.setData( headers, s );
+        headers = data.setData( "" );
 
         // get the first MAX_PACKET_SIZE bytes
         QByteArray cdata = messageData.left( i );
         // send the first MAX_PACKET_SIZE bytes of the message
-        sendCmd(pCommand::MESG, headers, cdata.data(), cdata.size() );
+        QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
 
         // set the correlarion ID for the rest of the messages
         data.correlationId_ = data.mesgId_;
 
-        for( i;
-             i < a;
-             i += MAX_PACKET_SIZE )
+        for( ; i < a; i += MAX_PACKET_SIZE )
         {
             // increment the message ID
             data.mesgId_ = ++mesg_id_;
 
             // re-set the headers for the message
-            data.setData( headers, s );
+            headers = data.setData();
 
             // put the data into the QByteArray
             cdata = messageData.mid( i, MAX_PACKET_SIZE );
 
             // send the next 512 bytes of the message
-            sendCmd( pCommand::MESG, headers, cdata.data(), cdata.size() );
+            QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
         }
 
         // now got the last little bit to send
         data.mesgId_ = ++mesg_id_;
         data.last_ = true;
-        data.setData( headers, s );
+        headers = data.setData();
 
         cdata = messageData.right( messageData.size() - i );
-        return sendCmd( pCommand::MESG, headers, cdata.data(), cdata.size() );
+        return QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
     }
     else
     {
         // we just have a small message so we don't need to break it down into smaller chunks
         data.last_ = true;
-        data.setData( headers, s );
-        return sendCmd( pCommand::MESG, headers, messageData.data(), messageData.size() );
+        headers = data.setData();
+        return QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
     }
 }
 
@@ -282,7 +298,7 @@ void QPalringoConnection::joinGroup( QString groupName )
     headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
     headers["NAME"] = groupName.toStdString();
 
-    sendCmd( pCommand::GROUP_SUBSCRIBE, headers, "" );
+    PalringoConnection::sendCmd( pCommand::GROUP_SUBSCRIBE, headers, "" );
 }
 
 void QPalringoConnection::createGroup( QString groupName, QString groupDescription, QString groupPassword )
@@ -300,16 +316,22 @@ void QPalringoConnection::createGroup( QString groupName, QString groupDescripti
         headers["CONTENT-LENGTH"] = groupPassword.size();
     }
 
-    sendCmd( pCommand::GROUP_CREATE, headers, groupPassword.toStdString() );
+    PalringoConnection::sendCmd( pCommand::GROUP_CREATE, headers, groupPassword.toStdString() );
 }
 
 void QPalringoConnection::leaveGroup( quint64 groupID )
 {
+    /*
+    QMap<QString, QString> headers;
+    headers.insert( "MESG-ID", QString::number( ++mesg_id_ ) );
+    headers.insert( "GROUP-ID", QString::number( groupID ) );
+    */
+
     headers_t headers;
     headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
     headers["GROUP-ID"] = QString::number( groupID ).toStdString();
 
-    sendCmd( pCommand::GROUP_UNSUB, headers, "" );
+    PalringoConnection::sendCmd( pCommand::GROUP_UNSUB, headers, "" );
 }
 
 int QPalringoConnection::onSubProfileReceived(headers_t& headers,
@@ -322,31 +344,88 @@ int QPalringoConnection::onSubProfileReceived(headers_t& headers,
 
 bool QPalringoConnection::updateContactDetail( QString detail, QString value )
 {
-    headers_t h;
-    h[ "MESG-ID" ] = toString(++mesg_id_);
-    h[ detail.toStdString() ] = value.toStdString();
-    PalringoConnection::sendCmd( pCommand::CONTACT_DETAIL, h );
+    Headers headers;
+    headers.insert( qpHeaderAttribute::MESG_ID, ++mesg_id_ );
+    headers.insert( detail, value );
+
+    QPalringoConnection::sendCmd( qpCommand::CONTACT_DETAIL, headers );
 
     return true;
 }
 
 void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qint32 count )
 {
-    headers_t headers;
-    headers["MESG-ID"] = QString::number( ++mesg_id_ ).toStdString();
-    headers["COUNT"] = QString::number( count ).toStdString();
-    headers["SOURCE-ID"] = QString::number( target->getID() ).toStdString();
+    Headers headers;
+    headers.insert( qpHeaderAttribute::MESG_ID, ++mesg_id_ );
+    headers.insert( qpHeaderAttribute::COUNT, count );
+    headers.insert( qpHeaderAttribute::SOURCE_ID, target->getID() );
 
     if( target->getType() == Target::CONTACT )
     {
-        headers["FROM-PRIVATE"] = timestampStr.toStdString();
+        headers.insert( qpHeaderAttribute::FROM_PRIVATE, timestampStr );
     }
     else if( target->getType() == Target::GROUP )
     {
-        headers["FROM-GROUP"] = timestampStr.toStdString();
+        headers.insert( qpHeaderAttribute::FROM_GROUP, timestampStr );
     }
 
-    PalringoConnection::sendCmd( pCommand::MESG_HIST, headers, "" );
+    QPalringoConnection::sendCmd( qpCommand::MESG_HIST, headers, "" );
+}
+
+bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray body)
+{
+    QString outPacket;
+    outPacket.append( command + "\n" );
+
+    // Headers
+    QHashIterator<QString, QVariant> headerIterator(headers);
+    while( headerIterator.hasNext() )
+    {
+        headerIterator.next();
+
+        outPacket.append( headerIterator.key() );
+        outPacket.append( ": " );
+        outPacket.append( headerIterator.value().toString() );
+        outPacket.append( "\n" );
+    }
+
+    // Content-Length
+    if (body.size() > 0 )
+    {
+        outPacket.append( "CONTENT-LENGTH: " );
+        outPacket.append( QString::number( body.size() ) );
+        outPacket.append( "\n" );
+    }
+
+    // End of headers
+    outPacket.append("\n");
+
+    outStream_.append( outPacket.toStdString() );
+    outStream_.append( body.constData() );
+    outMessageCount_++;
+
+    if( outSignals.contains( command ) )
+    {
+        qDebug( "emitting signal - %s", qPrintable( outSignals.value( command ) ) );
+        QMetaObject::invokeMethod( this, outSignals.value( command ).toAscii().constData(), Qt::DirectConnection,
+                                   Q_ARG( Headers, headers ),
+                                   Q_ARG( QByteArray, body ),
+                                   Q_ARG( qpGenericData*, NULL ) );
+    }
+/*
+    CmdCallbackFunctionsMap::iterator fit( outCallbackFunctions_.find( command.toStdString() ) );
+
+    if( fit != outCallbackFunctions_.end() )
+    {
+        (this->*fit->second)(headers, const_cast<std::string&>(body), NULL);
+    }
+
+    else
+    {
+        processUnknownOutgoing(cmd, headers, const_cast<std::string&>(body));
+    }
+*/
+    return true;
 }
 
 
