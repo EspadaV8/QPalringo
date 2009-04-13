@@ -1343,47 +1343,6 @@ PalringoConnection::setPassword(const std::string &password)
   password_.assign(password);
 }
 
-int
-PalringoConnection::getContact(uint64_t id, contact_t& contact)
-{
-  contacts_t::iterator it(contacts_.find(id));
-  if (it != contacts_.end())
-    {
-      contact_t res = it->second;
-      contact.onlineStatus_ = res.onlineStatus_;
-      contact.status_ = res.status_;
-      contact.nickname_ = res.nickname_;
-      contact.isContact_ = res.isContact_;
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-}
-
-
-int
-PalringoConnection::getGroup(uint64_t id, group_t& group)
-{
-  groups_t::iterator it(groups_.find(id));
-  if (it != groups_.end())
-    {
-      group = it->second;
-      return 1;
-    }
-  else
-    {
-      return 0;
-    }
-}
-
-void
-PalringoConnection::getGroups(groups_t& groups)
-{
-  groups = groups_;
-}
-
 void PalringoConnection::groupSubscribe( std::string groupName )
 {
     headers_t headers;

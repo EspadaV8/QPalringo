@@ -1107,29 +1107,6 @@ public:
   void setPassword(const std::string &password);
 
   /**
-   * @brief Gets contact details
-   *
-   * Gets contact details using the ID.
-   * @param id is the ID of the contact.
-   * @return An structure with contact details
-   */
-  int32_t getContact(uint64_t id, contact_t& contact);
-
-  /**
-   * @brief Gets group details
-   *
-   * Gets group details using the ID.
-   * @param id is the ID of the group.
-   * @return An structure with group details
-   */
-  int getGroup(uint64_t id, group_t& group);
-
-  /**
-   * @brief Get a copy of the list of groups
-   */
-  void getGroups(groups_t& groups);
-
-  /**
    * @brief Set the Auto Accept Contacts configuration
    *
    * If you set it to true, it auto accepts any contact add command received
