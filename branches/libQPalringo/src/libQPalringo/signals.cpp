@@ -1,28 +1,21 @@
 #include "qpalringoconnection.h"
 #include "qpdatamap.h"
-
-
+#include "qpgenericdata.h"
 
 /*** out signals ***/
-int QPalringoConnection::onPingSent(Headers headers __attribute__ ((unused)),
-                                    QByteArray body __attribute__ ((unused)),
-                                    qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onPingSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Ping sent" );
     return 1;
 }
 
-int QPalringoConnection::onLogonSent(Headers headers __attribute__ ((unused)),
-                                     QByteArray body __attribute__ ((unused)),
-                                     qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onLogonSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Logon sent" );
     return 1;
 }
 
-int QPalringoConnection::onByeSent(Headers headers __attribute__ ((unused)),
-                                   QByteArray body __attribute__ ((unused)),
-                                   qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onByeSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Bye sent" );
     RK_.clear();
@@ -30,101 +23,79 @@ int QPalringoConnection::onByeSent(Headers headers __attribute__ ((unused)),
     return 1;
 }
 
-int QPalringoConnection::onAuthSent(Headers headers __attribute__ ((unused)),
-                                    QByteArray body __attribute__ ((unused)),
-                                    qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onAuthSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Auth sent" );
     return 1;
 }
 
-int QPalringoConnection::onContactUpdateSent(Headers headers __attribute__ ((unused)),
-                                             QByteArray body __attribute__ ((unused)),
-                                             qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onContactUpdateSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Contact Update sent" );
     return 1;
 }
 
-int QPalringoConnection::onContactAddRespSent(Headers headers __attribute__ ((unused)),
-                                              QByteArray body __attribute__ ((unused)),
-                                              qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onContactAddRespSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Contact Add sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupSubscribeSent(Headers headers __attribute__ ((unused)),
-                                              QByteArray body __attribute__ ((unused)),
-                                              qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onGroupSubscribeSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Group Subscribe sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupUnsubSent(Headers headers __attribute__ ((unused)),
-                                          QByteArray body __attribute__ ((unused)),
-                                          qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onGroupUnsubSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Group Unsub sent" );
     return 1;
 }
-int QPalringoConnection::onGroupCreateSent(Headers headers __attribute__ ((unused)),
-                                           QByteArray body __attribute__ ((unused)),
-                                           qpGenericData *data __attribute__ ((unused)))
+
+int QPalringoConnection::onGroupCreateSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Group Create sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupInviteSent(Headers headers __attribute__ ((unused)),
-                                           QByteArray body __attribute__ ((unused)),
-                                           qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onGroupInviteSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Group Invite sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupAdminSent(Headers headers __attribute__ ((unused)),
-                                          QByteArray body __attribute__ ((unused)),
-                                          qpGenericData *data __attribute__ ((unused)) )
+int QPalringoConnection::onGroupAdminSent( Headers&, QByteArray&, qpGenericData*  )
 {
     qDebug( "Group Admin sent" );
     return 1;
 }
 
-int QPalringoConnection::onMesgSent(Headers headers __attribute__ ((unused)),
-                                    QByteArray body __attribute__ ((unused)),
-                                    qpGenericData *data)
+int QPalringoConnection::onMesgSent( Headers& headers, QByteArray&, qpGenericData* )
 {
-    qpMsgData *msgData = dynamic_cast<qpMsgData*>( data );
+    qpMsgData msgData;
+    msgData.getData( headers );
 
-    if( msgData->last_ == true )
+    if( msgData.last_ == true )
     {
         qDebug( "Message sent" );
     }
     return 1;
 }
 
-int QPalringoConnection::onMesgStoredSent(Headers headers __attribute__ ((unused)),
-                                          QByteArray body __attribute__ ((unused)),
-                                          qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onMesgStoredSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Message Stored sent" );
     return 1;
 }
 
-int QPalringoConnection::onMesgHistSent(Headers headers __attribute__ ((unused)),
-                                        QByteArray body __attribute__ ((unused)),
-                                        qpGenericData *data __attribute__ ((unused)))
+int QPalringoConnection::onMesgHistSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Message History sent" );
     return 1;
 }
 
-int QPalringoConnection::onRegSent(Headers headers __attribute__ ((unused)),
-                                   QByteArray body __attribute__ ((unused)),
-                                   qpGenericData *data __attribute__ ((unused)) )
+int QPalringoConnection::onRegSent( Headers&, QByteArray&, qpGenericData*  )
 {
     qDebug( "Reg sent" );
     return 1;
