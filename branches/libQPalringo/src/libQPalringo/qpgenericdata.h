@@ -15,8 +15,8 @@ class qpGenericData
     public:
         qpGenericData();
 
-        virtual Headers getData( QString body = "" ) = 0;
-        virtual Headers setData( QString body = "" ) = 0;
+        virtual Headers getData( Headers headers, QByteArray body = "" ) = 0;
+        virtual Headers setData( QByteArray body = "" ) = 0;
 
         quint64 mesgId_;
 };
@@ -26,8 +26,8 @@ class qpMsgData : public qpGenericData
     public:
         qpMsgData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         quint64 sourceId_;
         quint64 targetId_;
@@ -50,8 +50,8 @@ class qpLogonData : public qpGenericData
     public:
         qpLogonData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         quint64 subId_;
         QString name_;
@@ -68,8 +68,8 @@ class qpAuthData : public qpGenericData
     public:
         qpAuthData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         qint32 encryptionType_; // -1 means unset
         qint32 ghost_; // -1 means unset
@@ -85,8 +85,8 @@ class qpContactData : public qpGenericData
     public:
         qpContactData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         quint64 contactId_;
         quint64 capabilities_;
@@ -111,8 +111,8 @@ class qpGroupData : public qpGenericData
     public:
         qpGroupData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         quint64 groupId_;
         quint64 contactId_;
@@ -133,8 +133,8 @@ class qpResponseData : public qpGenericData
     public:
         qpResponseData();
 
-        Headers getData( QString body = "" );
-        Headers setData( QString body = "" );
+        Headers getData( Headers headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
 
         qpWhat::What what_;
         qpErrorCodes::ErrorCode errorCode_;
@@ -142,6 +142,5 @@ class qpResponseData : public qpGenericData
         qint32 type_;
         quint32 contentLength_;
 };
-
 
 #endif // QPGENERICDATA_H

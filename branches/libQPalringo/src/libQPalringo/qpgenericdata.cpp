@@ -28,10 +28,8 @@ qpMsgData::qpMsgData()
     last_ = false;
 }
 
-Headers qpMsgData::getData( QString body __attribute__ ((unused)) )
+Headers qpMsgData::getData( Headers headers, QByteArray )
 {
-    Headers headers;
-
     mesgId_         = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
     targetId_       = headers.attribute<quint64>( qpHeaderAttribute::TARGET_ID );
     sourceId_       = headers.attribute<quint64>( qpHeaderAttribute::SOURCE_ID );
@@ -48,11 +46,9 @@ Headers qpMsgData::getData( QString body __attribute__ ((unused)) )
 
     last_           = headers.attribute<bool>( qpHeaderAttribute::LAST );
     hist_           = headers.attribute<bool>( qpHeaderAttribute::HIST );
-
-    return headers;
 }
 
-Headers qpMsgData::setData( QString body __attribute__ ((unused)) )
+Headers qpMsgData::setData( QByteArray )
 {
     Headers headers;
 
@@ -96,13 +92,11 @@ qpLogonData::qpLogonData()
     subId_ = 0;
 }
 
-Headers qpLogonData::getData( QString body )
+Headers qpLogonData::getData( Headers headers, QByteArray body )
 {
-    dataMap_ = new qpDataMap( body.toUtf8() );
+    dataMap_ = new qpDataMap( body );
 
     qDebug( "%s", qPrintable( dataMap_->toString() ) );
-
-    Headers headers;
 
     subId_      = headers.attribute<quint64>( qpHeaderAttribute::SUB_ID );
     name_       = headers.attribute<QString>( qpHeaderAttribute::NAME );
@@ -115,7 +109,7 @@ Headers qpLogonData::getData( QString body )
     return headers;
 }
 
-Headers qpLogonData::setData( QString body __attribute__ ((unused)) )
+Headers qpLogonData::setData( QByteArray )
 {
 }
 
@@ -132,7 +126,7 @@ qpAuthData::qpAuthData()
     contentLength_ = 0;
 }
 
-Headers qpAuthData::getData( QString body __attribute__ ((unused)) )
+Headers qpAuthData::getData( Headers, QByteArray )
 {
     /*
     getAttribute<uint32_t, true>(headers, "WORD-SIZE", wordSize_);
@@ -140,7 +134,7 @@ Headers qpAuthData::getData( QString body __attribute__ ((unused)) )
     */
 }
 
-Headers qpAuthData::setData( QString body __attribute__ ((unused)) )
+Headers qpAuthData::setData( QByteArray )
 {
     /*
     if (encryptionType_ > -1)
@@ -177,7 +171,7 @@ qpContactData::qpContactData()
     contentLength_ = 0;
 }
 
-Headers qpContactData::getData( QString body __attribute__ ((unused)) )
+Headers qpContactData::getData( Headers, QByteArray )
 {
     /*
     getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
@@ -197,7 +191,7 @@ Headers qpContactData::getData( QString body __attribute__ ((unused)) )
     */
 }
 
-Headers qpContactData::setData( QString body __attribute__ ((unused)) )
+Headers qpContactData::setData( QByteArray )
 {
 }
 
@@ -215,7 +209,7 @@ qpGroupData::qpGroupData()
     action_ = static_cast<qpGroupStatus::GroupStatus>( -1 );
 }
 
-Headers qpGroupData::getData( QString body __attribute__ ((unused)) )
+Headers qpGroupData::getData( Headers, QByteArray )
 {
     /*
     getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
@@ -232,7 +226,7 @@ Headers qpGroupData::getData( QString body __attribute__ ((unused)) )
     */
 }
 
-Headers qpGroupData::setData( QString body __attribute__ ((unused)) )
+Headers qpGroupData::setData( QByteArray )
 {
 }
 
@@ -248,7 +242,7 @@ qpResponseData::qpResponseData()
     contentLength_ = -1;
 }
 
-Headers qpResponseData::getData( QString body)
+Headers qpResponseData::getData( Headers, QByteArray )
 {
     /*
     getAttribute<uint32_t>(headers, "MESG-ID", mesgId_);
@@ -268,7 +262,7 @@ Headers qpResponseData::getData( QString body)
     */
 }
 
-Headers qpResponseData::setData( QString body __attribute__ ((unused)) )
+Headers qpResponseData::setData( QByteArray )
 {
 }
 /**
