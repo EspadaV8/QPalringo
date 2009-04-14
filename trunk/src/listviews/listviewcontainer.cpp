@@ -56,11 +56,13 @@ void ListViewContainer::buttonClicked()
     {
         this->layoutContainer->setVisible( false );
         this->button->setIcon( this->rightarrow );
+	this->button->setText( this->name + " (" + QString::number( innerLayout->count() ) + ")" );
     }
     else
     {
         this->layoutContainer->setVisible( true );
         this->button->setIcon( this->downarrow );
+	this->button->setText( this->name );
     }
 }
 
