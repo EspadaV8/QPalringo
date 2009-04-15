@@ -28,7 +28,7 @@ qpMsgData::qpMsgData()
     last_ = false;
 }
 
-Headers qpMsgData::getData( Headers headers, QByteArray )
+void qpMsgData::getData( const Headers& headers, QByteArray )
 {
     mesgId_         = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
     targetId_       = headers.attribute<quint64>( qpHeaderAttribute::TARGET_ID );
@@ -92,7 +92,7 @@ qpLogonData::qpLogonData()
     subId_ = 0;
 }
 
-Headers qpLogonData::getData( Headers headers, QByteArray body )
+void qpLogonData::getData( const Headers& headers, QByteArray body )
 {
     dataMap_ = new qpDataMap( body );
 
@@ -105,8 +105,6 @@ Headers qpLogonData::getData( Headers headers, QByteArray body )
     lastOnline_ = headers.attribute<QString>( qpHeaderAttribute::LAST_ONLINE );
     reason_     = headers.attribute<QString>( qpHeaderAttribute::REASON );
     timestamp_  = headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP );
-
-    return headers;
 }
 
 Headers qpLogonData::setData( QByteArray )
@@ -126,32 +124,20 @@ qpAuthData::qpAuthData()
     contentLength_ = 0;
 }
 
-Headers qpAuthData::getData( Headers, QByteArray )
+void qpAuthData::getData( const Headers& headers, QByteArray )
 {
-    /*
-    getAttribute<uint32_t, true>(headers, "WORD-SIZE", wordSize_);
-    getAttribute<int32_t, true>(headers, "ENCRYPTION-TYPE", encryptionType_);
-    */
+    wordSize_       = headers.attribute<quint32>( qpHeaderAttribute::WORD_SIZE );
+    encryptionType_ = headers.attribute<qint32>( qpHeaderAttribute::ENCRYPTION_TYPE );
 }
 
 Headers qpAuthData::setData( QByteArray )
 {
-    /*
-    if (encryptionType_ > -1)
-    {
-        headers["ENCRYPTION-TYPE"] = toString(encryptionType_);
-    }
+    Headers headers;
+    headers.insert( qpHeaderAttribute::ENCRYPTION_TYPE, encryptionType_ );
+    headers.insert( qpHeaderAttribute::NAME, name_ );
+    headers.insert( qpHeaderAttribute::ONLINE_STATUS, onlineStatus_ );
 
-    if (name_.size())
-    {
-        headers["NAME"] = name_;
-    }
-
-    if (onlineStatus_ > -1)
-    {
-        headers["ONLINE-STATUS"] = toString(onlineStatus_);
-    }
-    */
+    return headers;
 }
 
 /**
@@ -171,7 +157,7 @@ qpContactData::qpContactData()
     contentLength_ = 0;
 }
 
-Headers qpContactData::getData( Headers, QByteArray )
+void qpContactData::getData( const Headers&, QByteArray )
 {
     /*
     getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
@@ -209,7 +195,7 @@ qpGroupData::qpGroupData()
     action_ = static_cast<qpGroupStatus::GroupStatus>( -1 );
 }
 
-Headers qpGroupData::getData( Headers, QByteArray )
+void qpGroupData::getData( const Headers&, QByteArray )
 {
     /*
     getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
@@ -242,7 +228,7 @@ qpResponseData::qpResponseData()
     contentLength_ = -1;
 }
 
-Headers qpResponseData::getData( Headers, QByteArray )
+void qpResponseData::getData( const Headers&, QByteArray )
 {
     /*
     getAttribute<uint32_t>(headers, "MESG-ID", mesgId_);

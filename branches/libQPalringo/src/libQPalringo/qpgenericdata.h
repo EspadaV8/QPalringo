@@ -15,7 +15,7 @@ class qpGenericData
     public:
         qpGenericData();
 
-        virtual Headers getData( Headers headers, QByteArray body = "" ) = 0;
+        virtual void getData( const Headers& headers, QByteArray body = "" ) = 0;
         virtual Headers setData( QByteArray body = "" ) = 0;
 
         quint64 mesgId_;
@@ -26,7 +26,7 @@ class qpMsgData : public qpGenericData
     public:
         qpMsgData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         quint64 sourceId_;
@@ -50,7 +50,7 @@ class qpLogonData : public qpGenericData
     public:
         qpLogonData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         quint64 subId_;
@@ -68,7 +68,7 @@ class qpAuthData : public qpGenericData
     public:
         qpAuthData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         qint32 encryptionType_; // -1 means unset
@@ -85,7 +85,7 @@ class qpContactData : public qpGenericData
     public:
         qpContactData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         quint64 contactId_;
@@ -111,7 +111,7 @@ class qpGroupData : public qpGenericData
     public:
         qpGroupData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         quint64 groupId_;
@@ -133,7 +133,7 @@ class qpResponseData : public qpGenericData
     public:
         qpResponseData();
 
-        Headers getData( Headers headers, QByteArray body = "" );
+        void getData( const Headers& headers, QByteArray body = "" );
         Headers setData( QByteArray body = "" );
 
         qpWhat::What what_;
