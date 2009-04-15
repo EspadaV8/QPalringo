@@ -9,6 +9,8 @@ class Headers : public QHash<QString, QVariant>
     public:
         Headers();
 
+        QString toString() const;
+
         template <class T> T attribute( const QString& key )
         {
             QVariant v = value( key );
