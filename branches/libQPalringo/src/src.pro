@@ -31,7 +31,8 @@ FORMS = ui/signinwindow.ui \
     ui/contactProperties.ui \
     ui/settingswindow.ui
 QT += gui \
-    svg
+    svg \
+    network
 HEADERS += palringowindow.h \
     listviews/palringolistview.h \
     listviews/listviewcontainer.h \
