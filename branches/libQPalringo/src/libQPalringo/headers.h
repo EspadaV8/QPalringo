@@ -11,7 +11,7 @@ class Headers : public QHash<QString, QVariant>
 
         QString toString() const;
 
-        template <class T> T attribute( const QString& key )
+        template <class T> T attribute( const QString& key ) const
         {
             QVariant v = value( key );
             return v.value<T>();
