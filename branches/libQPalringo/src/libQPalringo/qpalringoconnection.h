@@ -22,6 +22,7 @@
 #ifndef QPALRINGOCONNECTION_H
 #define QPALRINGOCONNECTION_H
 
+#include <QtNetwork>
 #include <QThread>
 #include <QMap>
 #include <QReadWriteLock>
@@ -39,28 +40,27 @@
 #include "errorcodes.h"
 #include "qpgenericdata.h"
 
+struct IncomingCommand
+{
+    Headers headers;
+    QString command;
+    QByteArray body;
+};
+
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
 class QPalringoConnection : public QThread, public PalringoConnection
 {
     Q_OBJECT
-    signals:
-        int logonSuccessful();
-        int logonSuccessful( QString timestamp );
-        void messageReceived( QString message, quint64 senderID, quint64 groupID, QString ct );
-        void messageReceived( Message message );
-        void historyMessageReceived( Message message );
-        void gotContactDetails( Contact *contact );
-        void gotGroupDetails( Group *group );
-
     public:
         QPalringoConnection(QString login = "",
                             QString password = "",
                             QString clientType = "Linux",
                             QString host = "primary.palringo.com",
-                            unsigned int port = 443 );
+                            quint16 port = 443 );
 
+        virtual int connectClient( bool reconnect = false );
         void run();
 
         bool sendMessage( Target* target, Message message );
@@ -87,6 +87,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
         virtual int onSubProfileReceived(headers_t& headers, std::string& body, GenericData *data );
 
     protected slots:
+        /** out going message slots **/
         int onPingSent( Headers& headers, QByteArray& body, qpGenericData *data );
         int onLogonSent( Headers& headers, QByteArray& body, qpGenericData *data );
         int onByeSent( Headers& headers, QByteArray& body, qpGenericData *data );
@@ -103,12 +104,21 @@ class QPalringoConnection : public QThread, public PalringoConnection
         int onMesgHistSent( Headers& headers, QByteArray& body, qpGenericData *data );
         int onRegSent( Headers& headers, QByteArray& body, qpGenericData *data );
 
+        /** incoming message slots **/
+        void onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+
     private:
+        QTcpSocket* socket;
+        QByteArray inBuffer;
+        QByteArray outBuffer;
+        quint64 messageId;
+
+        QString clientType;
+        QString host;
+        quint16 port;
+
         QMap<QString, QString> outSignals;
         QMap<QString, QString> inSignals;
-
-        void initOutSignals();
-        void initInSignals();
 
         QMap<quint64, Message> unfinishedMessages;
         QHash<quint64, Contact* > contacts;
@@ -120,7 +130,24 @@ class QPalringoConnection : public QThread, public PalringoConnection
         User user;
         QString serverTimestamp;
 
+        void initOutSignals();
+        void initInSignals();
+        IncomingCommand parseCmd( const QByteArray& data );
+
+    private slots:
+        void socketError( QAbstractSocket::SocketError socketError );
+        void pollRead();
+
     signals:
+        int logonSuccessful();
+        int logonSuccessful( QString timestamp );
+        void messageReceived( QString message, quint64 senderID, quint64 groupID, QString ct );
+        void messageReceived( Message message );
+        void historyMessageReceived( Message message );
+        void gotContactDetails( Contact *contact );
+        void gotGroupDetails( Group *group );
+
+        /** out going message signals **/
         void pingSent( Headers& headers, QByteArray& body, qpGenericData* data );
         void logonSent( Headers& headers, QByteArray& body, qpGenericData* data );
         void byeSent( Headers& headers, QByteArray& body, qpGenericData* data );
@@ -136,5 +163,8 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void mesgStoredSent( Headers& headers, QByteArray& body, qpGenericData* data );
         void mesgHistSent( Headers& headers, QByteArray& body, qpGenericData* data );
         void regSent( Headers& headers, QByteArray& body, qpGenericData* data );
+
+        /** incoming message signals **/
+        void authRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif

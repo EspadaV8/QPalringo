@@ -31,13 +31,20 @@ QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString clientType,
                                          QString host,
-                                         unsigned int port ) :
+                                         quint16 port ) :
         PalringoConnection(host.toStdString(), port, login.toStdString(), password.toStdString(), "", true, 1, false, 0, clientType.toStdString() )
 {
+    this->host = host;
+    this->port = port;
+    this->clientType = clientType;
+
     this->user.email = login;
     this->user.password = password;
 
+    this->socket = new QTcpSocket(this);
+
     initOutSignals();
+    initInSignals();
 }
 
 void QPalringoConnection::initOutSignals()
@@ -73,16 +80,140 @@ void QPalringoConnection::initOutSignals()
     connect( this, SIGNAL( mesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onMesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( mesgHistSent( Headers&, QByteArray&, qpGenericData* ) ),          this, SLOT( onMesgHistSent( Headers&, QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( regSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onRegSent( Headers&, QByteArray&, qpGenericData* ) ) );
+}
 
+void QPalringoConnection::initInSignals()
+{
+    inSignals.insert( qpCommand::AUTH, "authRecieved" );
+/*
+    outSignals.insert( qpCommand::LOGON, "logonSent" );
+    outSignals.insert( qpCommand::BYE, "byeSent" );
+    outSignals.insert( qpCommand::AUTH, "authSent" );
+    outSignals.insert( qpCommand::CONTACT_UPDATE, "contactUpdateSent" );
+    outSignals.insert( qpCommand::CONTACT_ADD_RESP, "contactAddRespSent" );
+    outSignals.insert( qpCommand::GROUP_SUBSCRIBE, "groupSubscribeSent" );
+    outSignals.insert( qpCommand::GROUP_UNSUB, "groupUnsubSent" );
+    outSignals.insert( qpCommand::GROUP_CREATE, "groupCreateSent" );
+    outSignals.insert( qpCommand::GROUP_INVITE, "groupInviteSent" );
+    outSignals.insert( qpCommand::GROUP_ADMIN, "groupAdminSent" );
+    outSignals.insert( qpCommand::MESG, "mesgSent" );
+    outSignals.insert( qpCommand::MESG_STORED, "mesgStoredSent" );
+    outSignals.insert( qpCommand::MESG_HIST, "mesgHistSent" );
+    outSignals.insert( qpCommand::REG, "regSent" );
+*/
+
+    connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
+/*
+    connect( this, SIGNAL( logonSent( Headers&, QByteArray&, qpGenericData* ) ),             this, SLOT( onLogonSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( byeSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onByeSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( authSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( contactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ),     this, SLOT( onContactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( contactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onContactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onGroupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupCreateSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupCreateSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupInviteSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupInviteSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupAdminSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupAdminSent ( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onMesgSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onMesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgHistSent( Headers&, QByteArray&, qpGenericData* ) ),          this, SLOT( onMesgHistSent( Headers&, QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( regSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onRegSent( Headers&, QByteArray&, qpGenericData* ) ) );
+*/
+}
+
+int QPalringoConnection::connectClient( bool reconnect )
+{
+    if( ghosted_ )
+    {
+        ghosted_ = false;
+    }
+
+    socket->connectToHost( this->host, this->port );
+    connect(socket, SIGNAL(readyRead()), this, SLOT(pollRead()));
+    connect( socket, SIGNAL( error( QAbstractSocket::SocketError ) ), this, SLOT( socketError( QAbstractSocket::SocketError ) ) );
+
+    Headers headers;
+
+    if (protocolVersion_ == 1)
+    {
+        headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "1.0" );
+    }
+
+    else if (protocolVersion_ == 2)
+    {
+        headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "2.0" );
+        if( encryption_ )
+        {
+            headers.insert( qpHeaderAttribute::NAME, this->user.email );
+        }
+
+        if( reconnect && RK_.size() )
+        {
+            headers.insert( qpHeaderAttribute::SUB_ID, this->user.userID );
+        }
+
+        if( !reconnect || !RK_.size() )
+        {
+            packetSeq_ = 0;
+        }
+
+        if( compression_ )
+        {
+            headers.insert( qpHeaderAttribute::COMPRESSION, compression_ );
+        }
+    }
+
+    headers.insert( qpHeaderAttribute::APP_TYPE, this->clientType );
+    headers.insert( qpHeaderAttribute::OPERATOR, "PC_CLIENT" );
+    sendCmd( qpCommand::LOGON, headers, "" );
+
+    return 1;
+}
+
+void QPalringoConnection::socketError( QAbstractSocket::SocketError socketError )
+{
+    qDebug( "%s", qPrintable( socket->errorString() ) );
+}
+
+void QPalringoConnection::pollRead()
+{
+    qDebug( "something to read" );
+    qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
+
+    QByteArray tmp = socket->readAll();
+    if( tmp.size() == 0 )
+    {
+        return;
+    }
+    this->inBuffer.append( tmp );
+
+    IncomingCommand ic = parseCmd( this->inBuffer.constData() );
+
+    if( ic.headers.contains( qpHeaderAttribute::MESG_ID ) )
+    {
+        this->messageId = ic.headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+    }
+    
+    if( inSignals.contains( ic.command ) )
+    {
+        qDebug( "emitting signal - %s", qPrintable( inSignals.value( ic.command ) ) );
+        QMetaObject::invokeMethod( this, inSignals.value( ic.command ).toAscii().constData(), Qt::DirectConnection,
+                                   Q_ARG( const Headers&, ic.headers ),
+                                   Q_ARG( const QByteArray&, ic.body ),
+                                   Q_ARG( qpGenericData*, NULL ) );
+    }
+
+    this->inBuffer.clear();
 }
 
 void QPalringoConnection::run()
 {
     try
     {
-        while( this->poll() > -1 )
+        while( 1 ) //this->poll() > -1 )
         {
-            msleep( 42 );
+            //msleep( 42 );
+            msleep( 3000 );
         }
     }
     catch (int error)
@@ -385,7 +516,7 @@ void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qin
 
 bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray body)
 {
-    QString outPacket;
+    QByteArray outPacket;
     outPacket.append( command + "\n" );
 
     // Headers
@@ -410,16 +541,19 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
 
     // End of headers
     outPacket.append("\n");
+    outPacket.append( body );
 
+    this->socket->write( outPacket );
+/*
     outStream_.append( outPacket.toStdString() );
     outStream_.append( body.constData() );
     outMessageCount_++;
-
+*/
     if( outSignals.contains( command ) )
     {
         qDebug( "emitting signal - %s", qPrintable( outSignals.value( command ) ) );
         QMetaObject::invokeMethod( this, outSignals.value( command ).toAscii().constData(), Qt::DirectConnection,
-                                   Q_ARG( Headers&, headers ),
+                                   Q_ARG( Headers, headers ),
                                    Q_ARG( QByteArray&, body ),
                                    Q_ARG( qpGenericData*, NULL ) );
     }
@@ -504,4 +638,264 @@ QHash<quint64, Contact*> QPalringoConnection::getGroupContacts( quint64 groupID 
     this->contactLock.unlock();
 
     return groupContacts;
+}
+
+
+/** incoming slots */
+void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    qpAuthData authData;
+    authData.getData(headers, body);
+
+    qDebug( "%d", authData.wordSize_ );
+
+    if( authData.wordSize_ )
+    {
+        // Save the word-size, we need it for later
+        wordSize_ = authData.wordSize_;
+    }
+
+    connectionStatus_ = CONN_AUTHENTICATION;
+
+    // Let's send our login and password
+    Headers newHeaders;
+
+    qpAuthData outAuthData;
+    QByteArray newBody;
+    if( authData.encryptionType_ > -1 )
+    {
+        outAuthData.onlineStatus_ = qpOnlineStatus::ONLINE;
+
+        // No Encryption
+        if( authData.encryptionType_ == 0 )
+        {
+            outAuthData.encryptionType_ = 0;
+            outAuthData.name_ = this->user.email;
+            newBody.append( this->user.password );
+            if( encryption_ )
+            {
+                encryption_ = false;
+            }
+        }
+//
+//        // Salsa20/MD5
+//        else if( authData.encryptionType_ == 1 )
+//        {
+//            return;
+//            /*
+//            std::string challenge(body.substr(0, 16));
+//            DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
+//            std::string IV(body.substr(16, 8));
+//            DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
+//            std::string keyBundle(passwordMD5_ + IV);
+//            std::string keyStr(crypto::md5(keyBundle));
+//            DBGOUT << "passwordMD5_:\n" << hexDump(passwordMD5_) << std::endl;
+//            DBGOUT << "passwordMD5_ + IV:\n" << hexDump(keyBundle) << std::endl;
+//            DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
+//
+//            crypto::SalsaCipher salsa(IV, keyStr);
+//            uint32_t randomness[4];
+//            randomness[0] = rand();
+//            randomness[1] = rand();
+//            randomness[2] = rand();
+//            randomness[3] = rand();
+//            std::string randStr(reinterpret_cast<const char*>(randomness), 16);
+//            std::string beforeEncrypt(challenge + randStr);
+//            salsa.encrypt(beforeEncrypt, newBody);
+//
+//            DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
+//            DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
+//
+//            std::string newKey(crypto::md5(passwordMD5_ + randStr));
+//            DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
+//
+//            delete salsa_;
+//            salsa_ = new crypto::SalsaCipher(IV, newKey);
+//            */
+//        }
+//
+//        // Salsa20/oldpassword
+//        else if( authData.encryptionType_ == 2 )
+//        {
+//            return;
+//            /*
+//            std::string challenge(body.substr(0, 16));
+//            DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
+//            std::string IV(body.substr(16, 8));
+//            DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
+//            std::string oldPass(crypto::oldPassword(password_));
+//            std::string keyBundle(oldPass + IV);
+//            std::string keyStr(crypto::md5(keyBundle));
+//            DBGOUT << "oldPass:\n" << hexDump(oldPass) << std::endl;
+//            DBGOUT << "oldPass + IV:\n" << hexDump(keyBundle) << std::endl;
+//            DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
+//
+//            crypto::SalsaCipher salsa(IV, keyStr);
+//            uint32_t randomness[4];
+//            randomness[0] = rand();
+//            randomness[1] = rand();
+//            randomness[2] = rand();
+//            randomness[3] = rand();
+//            std::string randStr(reinterpret_cast<const char*>(randomness), 16);
+//            std::string beforeEncrypt(challenge +
+//                                      randStr +
+//                                      password_ +
+//                                      std::string(50 - password_.size(), '\0'));
+//            salsa.encrypt(beforeEncrypt, newBody);
+//            DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
+//            DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
+//
+//            std::string newKey(crypto::md5(passwordMD5_ + randStr));
+//            DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
+//
+//            delete salsa_;
+//            salsa_ = new crypto::SalsaCipher(IV, newKey);
+//            */
+//        }
+//
+        newHeaders = outAuthData.setData();
+    }
+//
+//    // Reconnection
+//    else
+//    {
+//        /*
+//    std::string reconnectChallenge(RK_);
+//    reconnectChallenge.append(body);
+//    newBody = crypto::md5(reconnectChallenge);
+//    char tmp[64];
+//    sprintf(tmp, "%lu", --packetSeq_);
+//    headers["PS"] = tmp;
+//    loggedOn_ = true;
+//    receivedData_ = 0;
+//    */
+//        return;
+//    }
+//
+//
+    sendCmd( qpCommand::AUTH, newHeaders, newBody );
+}
+
+IncomingCommand QPalringoConnection::parseCmd( const QByteArray& data )
+{
+    IncomingCommand ic;
+
+    QByteArray endOfLine = "\r\n";
+    QByteArray endOfPacket = "\r\n\r\n";
+    QByteArray headerSpliter = ": ";
+
+    int endOfPacketPos = data.indexOf( endOfPacket );
+    int contentLength;
+
+    if( endOfPacketPos > -1 )
+    {
+        qDebug( "got a full packet" );
+        int contentLengthPos = data.indexOf( qpHeaderAttribute::CONTENT_LENGTH );
+        qDebug( "contentLengthPos = %d", contentLengthPos );
+
+        if( ( contentLengthPos > -1 ) && ( contentLengthPos < endOfPacketPos ) )
+        {
+            qDebug( "We have a content length in the message" );
+            int eol = data.indexOf( endOfLine, contentLengthPos );
+            qDebug( "eol - %d", eol );
+
+            if( ( eol > -1 ) && ( eol <= data.size() ) )
+            {
+                QByteArray s = data.mid( contentLengthPos + qpHeaderAttribute::CONTENT_LENGTH.length() + 2, eol );
+                contentLength = s.toInt();
+                qDebug( "Content Length = %d", contentLength );
+            }
+            else
+            {
+                return ic;
+            }
+        }
+        else
+        {
+            contentLength = endOfPacketPos + endOfPacket.size();
+            qDebug( "No content length, assume that content length endOfPacketPos + endOfPacket.size() = %d", contentLength );
+        }
+    }
+    else
+    {
+        /**
+         * do we have the end of the header?
+        // See if we have a full message in the buffer, either with a content
+        // length found in the headers or without
+        else
+        {
+            // if we get some user data, just skip over it
+            // FIXME
+            const char* const ud = strstr(inBuf, "USER_DATA");
+            if( ud != 0 )
+            {
+                sofar_ += endBuf - inBuf;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        **/
+        return ic;
+    }
+
+    Headers headers;
+
+    int i = data.indexOf( endOfLine ) + endOfLine.size();
+    while( i < data.size() )
+    {
+        if( data.indexOf( endOfLine, i ) == i )
+        {
+            i += 2;
+            break;
+        }
+
+        int x = data.indexOf( headerSpliter, i );
+        int eol = data.indexOf( endOfLine, i );
+
+        QString key = data.mid( i, x - i );
+        QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
+
+        qDebug( "inserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
+        headers.insert( key, value );
+
+        i = eol + endOfLine.size();
+    }
+
+    ic.command = data.mid( 0, data.indexOf( endOfLine ) );
+    ic.headers = headers;
+    ic.body = data.mid( i, data.size() - i );
+
+    return ic;
+/**
+    // Extract headers
+    headers.clear();
+    const char* header = crlf + 2;
+    while (true)
+    {
+        if (strncmp(header, "\r\n", 2) == 0)
+        {
+            header += 2;
+            break;
+        }
+        const char* const cs = strstr(header, ": ");
+        const char* const crlf = strstr(header, "\r\n");
+        if (cs == 0 || crlf == 0)
+        {
+            std::cerr << "Should never happen!" << std::endl;
+            return false; // Should never happen!
+        }
+        headers[std::string (header, cs - header)] =
+                std::string (cs + 2, crlf - cs - 2);
+        header = crlf + 2;
+    }
+
+    // And the rest is the body (if any)
+    body = std::string(header, eom - header);
+    sofar_ += eom - inBuf;
+
+    return true;
+**/
 }
