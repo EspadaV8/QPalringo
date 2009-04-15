@@ -85,8 +85,8 @@ void QPalringoConnection::initOutSignals()
 void QPalringoConnection::initInSignals()
 {
     inSignals.insert( qpCommand::AUTH, "authRecieved" );
+    inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
 /*
-    outSignals.insert( qpCommand::LOGON, "logonSent" );
     outSignals.insert( qpCommand::BYE, "byeSent" );
     outSignals.insert( qpCommand::AUTH, "authSent" );
     outSignals.insert( qpCommand::CONTACT_UPDATE, "contactUpdateSent" );
@@ -103,6 +103,7 @@ void QPalringoConnection::initInSignals()
 */
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 /*
     connect( this, SIGNAL( logonSent( Headers&, QByteArray&, qpGenericData* ) ),             this, SLOT( onLogonSent( Headers&, QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( byeSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onByeSent( Headers&, QByteArray&, qpGenericData* ) ) );
@@ -187,20 +188,28 @@ void QPalringoConnection::pollRead()
     }
     this->inBuffer.append( tmp );
 
-    IncomingCommand ic = parseCmd( this->inBuffer.constData() );
+    parseCmd( this->inBuffer.constData() );
 
-    if( ic.headers.contains( qpHeaderAttribute::MESG_ID ) )
+    while( !this->incomingCommands.isEmpty() )
     {
-        this->messageId = ic.headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
-    }
-    
-    if( inSignals.contains( ic.command ) )
-    {
-        qDebug( "emitting signal - %s", qPrintable( inSignals.value( ic.command ) ) );
-        QMetaObject::invokeMethod( this, inSignals.value( ic.command ).toAscii().constData(), Qt::DirectConnection,
-                                   Q_ARG( const Headers&, ic.headers ),
-                                   Q_ARG( const QByteArray&, ic.body ),
-                                   Q_ARG( qpGenericData*, NULL ) );
+        IncomingCommand ic = this->incomingCommands.dequeue();
+
+        if( ic.complete )
+        {
+            if( ic.headers.contains( qpHeaderAttribute::MESG_ID ) )
+            {
+                this->messageId = ic.headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+            }
+
+            if( inSignals.contains( ic.command ) )
+            {
+                qDebug( "emitting signal - %s", qPrintable( inSignals.value( ic.command ) ) );
+                QMetaObject::invokeMethod( this, inSignals.value( ic.command ).toAscii().constData(), Qt::DirectConnection,
+                                           Q_ARG( const Headers&, ic.headers ),
+                                           Q_ARG( const QByteArray&, ic.body ),
+                                           Q_ARG( qpGenericData*, NULL ) );
+            }
+        }
     }
 
     this->inBuffer.clear();
@@ -484,8 +493,6 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
     qpAuthData authData;
     authData.getData(headers, body);
 
-    qDebug( "%d", authData.wordSize_ );
-
     if( authData.wordSize_ )
     {
         // Save the word-size, we need it for later
@@ -680,18 +687,20 @@ void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, con
 {
     /*
     PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
+*/
 
-    this->user.userID = userId_;
-    this->user.nickname = QString::fromStdString( nickname_ );
-    this->user.status = QString::fromStdString( status_ );
-    this->user.lastOnline = QString::fromStdString( lastOnline_ );
+    qpLogonData logonData;
+    logonData.getData( headers, body );
 
-    this->serverTimestamp = QString::fromStdString( serverTimestamp_ );
+    this->user.userID = logonData.subId_;
+    this->user.nickname = logonData.nickname_;
+    this->user.status = logonData.status_;
+    this->user.lastOnline = logonData.lastOnline_;
 
-    emit( logonSuccessful( serverTimestamp ) );
+    this->serverTimestamp = logonData.timestamp_;
 
-    return 1;
-    */
+    qDebug( "emitting logonSuccessful" );
+    emit logonSuccessful( serverTimestamp );
 }
 
 void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
@@ -778,126 +787,140 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
     */
 }
 
-IncomingCommand QPalringoConnection::parseCmd( const QByteArray& data )
+void QPalringoConnection::parseCmd( const QByteArray& data )
 {
-    IncomingCommand ic;
-
     QByteArray endOfLine = "\r\n";
     QByteArray endOfPacket = "\r\n\r\n";
     QByteArray headerSpliter = ": ";
 
-    int endOfPacketPos = data.indexOf( endOfPacket );
-    int contentLength;
+    int totalProcessed = 0;
 
-    if( endOfPacketPos > -1 )
+    while( totalProcessed < data.size() )
     {
-        qDebug( "got a full packet" );
-        int contentLengthPos = data.indexOf( qpHeaderAttribute::CONTENT_LENGTH );
-        qDebug( "contentLengthPos = %d", contentLengthPos );
+        qDebug( "\ttotalProcessed = %d", totalProcessed );
 
-        if( ( contentLengthPos > -1 ) && ( contentLengthPos < endOfPacketPos ) )
+        int endOfPacketPos = data.indexOf( endOfPacket, totalProcessed );
+        qDebug( "\tendOfPacketPos = %d", endOfPacketPos );
+        int contentLength;
+
+        if( endOfPacketPos > -1 )
         {
-            qDebug( "We have a content length in the message" );
-            int eol = data.indexOf( endOfLine, contentLengthPos );
-            qDebug( "eol - %d", eol );
+            qDebug( "\t\tgot a full packet" );
+            int contentLengthPos = data.indexOf( qpHeaderAttribute::CONTENT_LENGTH, totalProcessed );
+            qDebug( "\t\tcontentLengthPos = %d", contentLengthPos );
 
-            if( ( eol > -1 ) && ( eol <= data.size() ) )
+            if( ( contentLengthPos > -1 ) && ( contentLengthPos < endOfPacketPos ) )
             {
-                QByteArray s = data.mid( contentLengthPos + qpHeaderAttribute::CONTENT_LENGTH.length() + 2, eol );
-                contentLength = s.toInt();
-                qDebug( "Content Length = %d", contentLength );
+                qDebug( "\t\t\tWe have a content length in the message" );
+                int eol = data.indexOf( endOfLine, contentLengthPos );
+                qDebug( "\t\t\teol - %d", eol );
+
+                if( ( eol > -1 ) && ( eol < data.size() ) )
+                {
+                    int offset = contentLengthPos + qpHeaderAttribute::CONTENT_LENGTH.length() + headerSpliter.length();
+
+                    QByteArray s = data.mid( offset, eol - offset );;
+                    contentLength = s.toInt();
+                    qDebug( "\t\t\t\tContent Length = %d", contentLength );
+                }
+                else
+                {
+                    return;
+                }
             }
             else
             {
-                return ic;
+                contentLength = endOfPacketPos + endOfPacket.size();
+                qDebug( "\t\t\tNo content length, assume that content length endOfPacketPos + endOfPacket.size() = %d", contentLength );
             }
         }
         else
         {
-            contentLength = endOfPacketPos + endOfPacket.size();
-            qDebug( "No content length, assume that content length endOfPacketPos + endOfPacket.size() = %d", contentLength );
-        }
-    }
-    else
-    {
-        /**
-         * do we have the end of the header?
-        // See if we have a full message in the buffer, either with a content
-        // length found in the headers or without
-        else
-        {
-            // if we get some user data, just skip over it
-            // FIXME
-            const char* const ud = strstr(inBuf, "USER_DATA");
-            if( ud != 0 )
-            {
-                sofar_ += endBuf - inBuf;
-                return true;
-            }
+            /**
+             * do we have the end of the header?
+            // See if we have a full message in the buffer, either with a content
+            // length found in the headers or without
             else
             {
-                return false;
+                // if we get some user data, just skip over it
+                // FIXME
+                const char* const ud = strstr(inBuf, "USER_DATA");
+                if( ud != 0 )
+                {
+                    sofar_ += endBuf - inBuf;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
+            **/
+            //return ic;
+            return;
         }
-        **/
-        return ic;
-    }
 
-    Headers headers;
+        Headers headers;
 
-    int i = data.indexOf( endOfLine ) + endOfLine.size();
-    while( i < data.size() )
-    {
-        if( data.indexOf( endOfLine, i ) == i )
+        int i = data.indexOf( endOfLine, totalProcessed ) + endOfLine.size();
+        qDebug( "Starting key:value checking at = %d", i );
+        while( i < endOfPacketPos )
         {
-            i += 2;
-            break;
+            if( data.indexOf( endOfLine, i ) == i )
+            {
+                i += 2;
+                break;
+            }
+
+            int x = data.indexOf( headerSpliter, i );
+            int eol = data.indexOf( endOfLine, i );
+
+            QString key = data.mid( i, x - i );
+            QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
+
+            qDebug( "\t\tinserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
+            headers.insert( key, value );
+
+            i = eol + endOfLine.size();
         }
 
-        int x = data.indexOf( headerSpliter, i );
-        int eol = data.indexOf( endOfLine, i );
+        IncomingCommand ic;
+        ic.command = data.mid( totalProcessed, data.indexOf( endOfLine, totalProcessed ) );
+        ic.headers = headers;
+        ic.body = data.mid( i + totalProcessed, data.size() - ( i + totalProcessed ) );
+        ic.complete = true;
 
-        QString key = data.mid( i, x - i );
-        QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
+        this->incomingCommands.enqueue( ic );
 
-        qDebug( "inserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
-        headers.insert( key, value );
-
-        i = eol + endOfLine.size();
-    }
-
-    ic.command = data.mid( 0, data.indexOf( endOfLine ) );
-    ic.headers = headers;
-    ic.body = data.mid( i, data.size() - i );
-
-    return ic;
-/**
-    // Extract headers
-    headers.clear();
-    const char* header = crlf + 2;
-    while (true)
-    {
-        if (strncmp(header, "\r\n", 2) == 0)
+        totalProcessed += i + endOfLine.size();
+    /**
+        // Extract headers
+        headers.clear();
+        const char* header = crlf + 2;
+        while (true)
         {
-            header += 2;
-            break;
+            if (strncmp(header, "\r\n", 2) == 0)
+            {
+                header += 2;
+                break;
+            }
+            const char* const cs = strstr(header, ": ");
+            const char* const crlf = strstr(header, "\r\n");
+            if (cs == 0 || crlf == 0)
+            {
+                std::cerr << "Should never happen!" << std::endl;
+                return false; // Should never happen!
+            }
+            headers[std::string (header, cs - header)] =
+                    std::string (cs + 2, crlf - cs - 2);
+            header = crlf + 2;
         }
-        const char* const cs = strstr(header, ": ");
-        const char* const crlf = strstr(header, "\r\n");
-        if (cs == 0 || crlf == 0)
-        {
-            std::cerr << "Should never happen!" << std::endl;
-            return false; // Should never happen!
-        }
-        headers[std::string (header, cs - header)] =
-                std::string (cs + 2, crlf - cs - 2);
-        header = crlf + 2;
+
+        // And the rest is the body (if any)
+        body = std::string(header, eom - header);
+        sofar_ += eom - inBuf;
+
+        return true;
+    **/
     }
-
-    // And the rest is the body (if any)
-    body = std::string(header, eom - header);
-    sofar_ += eom - inBuf;
-
-    return true;
-**/
 }

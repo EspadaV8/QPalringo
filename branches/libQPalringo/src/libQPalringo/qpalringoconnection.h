@@ -23,6 +23,7 @@
 #define QPALRINGOCONNECTION_H
 
 #include <QtNetwork>
+#include <QQueue>
 #include <QThread>
 #include <QMap>
 #include <QReadWriteLock>
@@ -45,6 +46,7 @@ struct IncomingCommand
     Headers headers;
     QString command;
     QByteArray body;
+    bool complete;
 };
 
 /**
@@ -111,6 +113,8 @@ class QPalringoConnection : public QThread, public PalringoConnection
         QByteArray outBuffer;
         quint64 messageId;
 
+        QQueue<IncomingCommand> incomingCommands;
+
         QString clientType;
         QString host;
         quint16 port;
@@ -130,7 +134,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         void initOutSignals();
         void initInSignals();
-        IncomingCommand parseCmd( const QByteArray& data );
+        void parseCmd( const QByteArray& data );
 
     private slots:
         void socketError( QAbstractSocket::SocketError socketError );
@@ -164,5 +168,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         /** incoming message signals **/
         void authRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void logonSuccessfulRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void logonFailedRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif
