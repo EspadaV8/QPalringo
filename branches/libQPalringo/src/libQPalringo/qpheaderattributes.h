@@ -27,6 +27,13 @@ namespace qpHeaderAttribute
     static const QString REASON = "REASON";
     static const QString DESC = "DESC";
     static const QString GROUP_ID = "GROUP-ID";
+    static const QString COMPRESSION = "COMPRESSION";
+    static const QString ENCRYPTION_TYPE = "ENCRYPTION-TYPE";
+    static const QString ONLINE_STATUS = "ONLINE-STATUS";
+    static const QString WORD_SIZE = "WORD-SIZE";
+    static const QString PROTOCOL_VERSION = "Protocol-Version";
+    static const QString APP_TYPE = "App-Type";
+    static const QString OPERATOR = "Operator";
 }
 
 #endif // QPHEADERATTRIBUTES_H
