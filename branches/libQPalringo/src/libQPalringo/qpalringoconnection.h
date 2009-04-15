@@ -79,13 +79,6 @@ class QPalringoConnection : public QThread, public PalringoConnection
         QHash<quint64, Contact*> getContactListContacts();
         QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
 
-    protected:
-        virtual int onLogonSuccessfulReceived( headers_t&, std::string&, GenericData* );
-        virtual int onMesgReceived( headers_t&, std::string&, GenericData*);
-        virtual int onContactDetailReceived(headers_t& headers, std::string& body, GenericData *data);
-        virtual int onGroupDetailReceived(headers_t&, std::string&, GenericData*);
-        virtual int onSubProfileReceived(headers_t& headers, std::string& body, GenericData *data );
-
     protected slots:
         /** out going message slots **/
         int onPingSent( Headers& headers, QByteArray& body, qpGenericData *data );
@@ -106,6 +99,11 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         /** incoming message slots **/
         void onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
 
     private:
         QTcpSocket* socket;

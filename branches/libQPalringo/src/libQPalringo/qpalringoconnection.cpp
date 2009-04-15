@@ -222,161 +222,6 @@ void QPalringoConnection::run()
     }
 }
 
-int QPalringoConnection::onMesgReceived(headers_t& headers,
-                                         std::string& body,
-                                         GenericData *data __attribute__ ((unused)) )
-{
-    MsgData msgData;
-    PalringoConnection::onMesgReceived( headers, body, &msgData );
-
-    Message message;
-    bool last = msgData.last_;
-    quint64 correlationID = msgData.correlationId_;
-    quint64 messageID = msgData.mesgId_;
-    if( !last )
-    {
-        if( correlationID > 0 )
-        {
-            // don't really need to do anything
-        }
-        else if( !unfinishedMessages.contains( messageID ) )
-        {
-            QString timestamp = QString::fromStdString( msgData.timestamp_ );
-            message.setType( QString::fromStdString( msgData.contentType_ ) );
-            message.setSenderID( msgData.sourceId_ );
-            message.setGroupID( msgData.targetId_ | 0 );
-            //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-            message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
-            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
-            message.setHist( msgData.hist_ );
-            unfinishedMessages.insert( messageID, message );
-        }
-        return 0;
-    }
-    else if( correlationID > 0 )
-    {
-        message = unfinishedMessages.value( correlationID );
-        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
-        message.setPayload( message.payload().append( tmp ) );
-        unfinishedMessages.remove( correlationID );
-    }
-    else
-    {
-        QString timestamp = QString::fromStdString( msgData.timestamp_ );
-        message.setType( QString::fromStdString( msgData.contentType_ ) );
-        message.setSenderID( msgData.sourceId_ );
-        message.setGroupID( msgData.targetId_ | 0 );
-        //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-        message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
-        message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
-        message.setHist( msgData.hist_ );
-        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
-        message.setPayload( message.payload().append( tmp ) );
-    }
-
-    if( message.hist() == true )
-    {
-        emit( historyMessageReceived( message ) );
-    }
-    else
-    {
-        emit( messageReceived( message ) );
-    }
-    return 1;
-}
-
-int QPalringoConnection::onLogonSuccessfulReceived( headers_t &headers, std::string &body, GenericData *data )
-{
-    PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
-
-    this->user.userID = userId_;
-    this->user.nickname = QString::fromStdString( nickname_ );
-    this->user.status = QString::fromStdString( status_ );
-    this->user.lastOnline = QString::fromStdString( lastOnline_ );
-
-    this->serverTimestamp = QString::fromStdString( serverTimestamp_ );
-
-    emit( logonSuccessful( serverTimestamp ) );
-
-    return 1;
-}
-
-int QPalringoConnection::onContactDetailReceived(headers_t& headers,
-                                               std::string& body,
-                                               GenericData *data __attribute__ ((unused)) )
-{
-    ContactData contactData;
-    if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
-    {
-        if( this->contacts.contains( contactData.contactId_ ) )
-        {
-            Contact* contact = this->contacts.value( contactData.contactId_ );
-
-            if( contactData.nickname_.size() )
-            {
-                contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
-            }
-            if( contactData.status_.size() )
-            {
-                contact->setStatusline( QString::fromStdString( contactData.status_ ) );
-            }
-            if( contactData.onlineStatus_ > -1 )
-            {
-                contact->setOnlineStatus( contactData.onlineStatus_ );
-            }
-        }
-        else
-        {
-            Contact *contact = new Contact;
-            contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
-            contact->setStatusline( QString::fromStdString( contactData.status_ ) );
-            contact->setOnlineStatus( contactData.onlineStatus_ );
-            contact->setIsContact( contactData.isContact_ );
-            contact->setDeviceType( contactData.deviceType_ );
-            contact->setID( contactData.contactId_ );
-
-            this->contactLock.lockForWrite();
-            this->contacts.insert( contactData.contactId_, contact );
-            this->contactLock.unlock();
-
-            emit( gotContactDetails( contact ) );
-        }
-    }
-    return 1;
-}
-
-int QPalringoConnection::onGroupDetailReceived(headers_t& headers,
-                          std::string& body,
-                          GenericData *data __attribute__ ((unused)) )
-{
-    GroupData groupData;
-    if( PalringoConnection::onGroupDetailReceived( headers, body, &groupData ) )
-    {
-        QString groupName = QString::fromStdString( groupData.name_ );
-
-        group_t &group_ = groups_[groupData.groupId_];
-        std::set<uint64_t>::iterator it;
-
-        QSet<quint64> group_contacts;
-
-        for( it = group_.contacts_.begin(); it != group_.contacts_.end(); it++)
-        {
-            group_contacts.insert( *it );
-        }
-
-        Group *group = new Group;
-        group->setID( groupData.groupId_ );
-        group->setName( QString::fromStdString( group_.name_ ) );
-        group->setDescription( QString::fromStdString( group_.desc_ ) );
-        group->setContacts( group_contacts );
-
-        this->groups.insert( group->getID(), group );
-
-        emit( gotGroupDetails( group ) );
-    }
-    return 0;
-}
-
 bool QPalringoConnection::sendMessage( Target* target, Message message )
 {
     // store this here for easy access
@@ -474,14 +319,6 @@ void QPalringoConnection::leaveGroup( quint64 groupID )
     headers.insert( qpHeaderAttribute::GROUP_ID, QString::number( groupID ) );
 
     QPalringoConnection::sendCmd( qpCommand::GROUP_UNSUB, headers, "" );
-}
-
-int QPalringoConnection::onSubProfileReceived(headers_t& headers,
-                                               std::string& body,
-                                               GenericData *data )
-{
-    qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
-    return PalringoConnection::onSubProfileReceived( headers, body, data );
 }
 
 bool QPalringoConnection::updateContactDetail( QString detail, QString value )
@@ -774,6 +611,171 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
 //
 //
     sendCmd( qpCommand::AUTH, newHeaders, newBody );
+}
+
+void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    /*
+    MsgData msgData;
+    PalringoConnection::onMesgReceived( headers, body, &msgData );
+
+    Message message;
+    bool last = msgData.last_;
+    quint64 correlationID = msgData.correlationId_;
+    quint64 messageID = msgData.mesgId_;
+    if( !last )
+    {
+        if( correlationID > 0 )
+        {
+            // don't really need to do anything
+        }
+        else if( !unfinishedMessages.contains( messageID ) )
+        {
+            QString timestamp = QString::fromStdString( msgData.timestamp_ );
+            message.setType( QString::fromStdString( msgData.contentType_ ) );
+            message.setSenderID( msgData.sourceId_ );
+            message.setGroupID( msgData.targetId_ | 0 );
+            //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
+            message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
+            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
+            message.setHist( msgData.hist_ );
+            unfinishedMessages.insert( messageID, message );
+        }
+        return 0;
+    }
+    else if( correlationID > 0 )
+    {
+        message = unfinishedMessages.value( correlationID );
+        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
+        message.setPayload( message.payload().append( tmp ) );
+        unfinishedMessages.remove( correlationID );
+    }
+    else
+    {
+        QString timestamp = QString::fromStdString( msgData.timestamp_ );
+        message.setType( QString::fromStdString( msgData.contentType_ ) );
+        message.setSenderID( msgData.sourceId_ );
+        message.setGroupID( msgData.targetId_ | 0 );
+        //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
+        message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
+        message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
+        message.setHist( msgData.hist_ );
+        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
+        message.setPayload( message.payload().append( tmp ) );
+    }
+
+    if( message.hist() == true )
+    {
+        emit( historyMessageReceived( message ) );
+    }
+    else
+    {
+        emit( messageReceived( message ) );
+    }
+    return 1;
+    */
+}
+
+void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    /*
+    PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
+
+    this->user.userID = userId_;
+    this->user.nickname = QString::fromStdString( nickname_ );
+    this->user.status = QString::fromStdString( status_ );
+    this->user.lastOnline = QString::fromStdString( lastOnline_ );
+
+    this->serverTimestamp = QString::fromStdString( serverTimestamp_ );
+
+    emit( logonSuccessful( serverTimestamp ) );
+
+    return 1;
+    */
+}
+
+void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    /*
+    ContactData contactData;
+    if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
+    {
+        if( this->contacts.contains( contactData.contactId_ ) )
+        {
+            Contact* contact = this->contacts.value( contactData.contactId_ );
+
+            if( contactData.nickname_.size() )
+            {
+                contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
+            }
+            if( contactData.status_.size() )
+            {
+                contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+            }
+            if( contactData.onlineStatus_ > -1 )
+            {
+                contact->setOnlineStatus( contactData.onlineStatus_ );
+            }
+        }
+        else
+        {
+            Contact *contact = new Contact;
+            contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
+            contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+            contact->setOnlineStatus( contactData.onlineStatus_ );
+            contact->setIsContact( contactData.isContact_ );
+            contact->setDeviceType( contactData.deviceType_ );
+            contact->setID( contactData.contactId_ );
+
+            this->contactLock.lockForWrite();
+            this->contacts.insert( contactData.contactId_, contact );
+            this->contactLock.unlock();
+
+            emit( gotContactDetails( contact ) );
+        }
+    }
+    return 1;
+    */
+}
+
+void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    /*
+    GroupData groupData;
+    if( PalringoConnection::onGroupDetailReceived( headers, body, &groupData ) )
+    {
+        QString groupName = QString::fromStdString( groupData.name_ );
+
+        group_t &group_ = groups_[groupData.groupId_];
+        std::set<uint64_t>::iterator it;
+
+        QSet<quint64> group_contacts;
+
+        for( it = group_.contacts_.begin(); it != group_.contacts_.end(); it++)
+        {
+            group_contacts.insert( *it );
+        }
+
+        Group *group = new Group;
+        group->setID( groupData.groupId_ );
+        group->setName( QString::fromStdString( group_.name_ ) );
+        group->setDescription( QString::fromStdString( group_.desc_ ) );
+        group->setContacts( group_contacts );
+
+        this->groups.insert( group->getID(), group );
+
+        emit( gotGroupDetails( group ) );
+    }
+    return 0;
+    */
+}
+
+void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    /*
+    qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
+    return PalringoConnection::onSubProfileReceived( headers, body, data );
+    */
 }
 
 IncomingCommand QPalringoConnection::parseCmd( const QByteArray& data )
