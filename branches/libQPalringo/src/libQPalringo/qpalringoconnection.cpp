@@ -86,6 +86,7 @@ void QPalringoConnection::initInSignals()
 {
     inSignals.insert( qpCommand::AUTH, "authRecieved" );
     inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
+    inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
 /*
     outSignals.insert( qpCommand::BYE, "byeSent" );
     outSignals.insert( qpCommand::AUTH, "authSent" );
@@ -104,6 +105,7 @@ void QPalringoConnection::initInSignals()
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onContactDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 /*
     connect( this, SIGNAL( logonSent( Headers&, QByteArray&, qpGenericData* ) ),             this, SLOT( onLogonSent( Headers&, QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( byeSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onByeSent( Headers&, QByteArray&, qpGenericData* ) ) );
@@ -460,7 +462,12 @@ QHash<quint64, Contact*> QPalringoConnection::getContactListContacts()
     {
         if( contact->getIsContact() )
         {
+            qDebug( "Inserting contact" );
             contacts.insert( contact->getID(), contact );
+        }
+        else
+        {
+            qDebug( "not a contact" );
         }
     }
     this->contactLock.unlock();
@@ -705,46 +712,44 @@ void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, con
 
 void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
 {
-    /*
-    ContactData contactData;
-    if( PalringoConnection::onContactDetailReceived( headers, body, &contactData ) )
+    qpContactData contactData;
+    contactData.getData( headers, body );
+
+    if( this->contacts.contains( contactData.contactId_ ) )
     {
-        if( this->contacts.contains( contactData.contactId_ ) )
-        {
-            Contact* contact = this->contacts.value( contactData.contactId_ );
+        qDebug( "We have this contact already" );
+        Contact* contact = this->contacts.value( contactData.contactId_ );
 
-            if( contactData.nickname_.size() )
-            {
-                contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
-            }
-            if( contactData.status_.size() )
-            {
-                contact->setStatusline( QString::fromStdString( contactData.status_ ) );
-            }
-            if( contactData.onlineStatus_ > -1 )
-            {
-                contact->setOnlineStatus( contactData.onlineStatus_ );
-            }
+        if( contactData.nickname_.size() )
+        {
+            contact->setNickname( contactData.nickname_ );
         }
-        else
+        if( contactData.status_.size() )
         {
-            Contact *contact = new Contact;
-            contact->setNickname( QString::fromStdString( contactData.nickname_ ) );
-            contact->setStatusline( QString::fromStdString( contactData.status_ ) );
+            contact->setStatusline( contactData.status_ );
+        }
+        if( contactData.onlineStatus_ > -1 )
+        {
             contact->setOnlineStatus( contactData.onlineStatus_ );
-            contact->setIsContact( contactData.isContact_ );
-            contact->setDeviceType( contactData.deviceType_ );
-            contact->setID( contactData.contactId_ );
-
-            this->contactLock.lockForWrite();
-            this->contacts.insert( contactData.contactId_, contact );
-            this->contactLock.unlock();
-
-            emit( gotContactDetails( contact ) );
         }
     }
-    return 1;
-    */
+    else
+    {
+        Contact *contact = new Contact;
+        contact->setNickname( contactData.nickname_ );
+        contact->setStatusline( contactData.status_ );
+        contact->setOnlineStatus( contactData.onlineStatus_ );
+        contact->setIsContact( contactData.isContact_ );
+        contact->setDeviceType( contactData.deviceType_ );
+        contact->setID( contactData.contactId_ );
+
+        this->contactLock.lockForWrite();
+        this->contacts.insert( contactData.contactId_, contact );
+        this->contactLock.unlock();
+
+        qDebug( "emiting new contact, count = %d", this->contacts.size() );
+        emit gotContactDetails( contact );
+    }
 }
 
 void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
