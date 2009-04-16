@@ -31,6 +31,12 @@ namespace qpHeaderAttribute
     static const QString ENCRYPTION_TYPE = "ENCRYPTION-TYPE";
     static const QString ONLINE_STATUS = "ONLINE-STATUS";
     static const QString WORD_SIZE = "WORD-SIZE";
+    static const QString REMOVE = "REMOVE";
+    static const QString BLOCK = "BLOCK";
+    static const QString IS_CONTACT = "CONTACT";
+    static const QString CONTACT_ID = "CONTACT-ID";
+    static const QString CAPABILITIES = "CAPABILITIES";
+    static const QString DEVICE_TYPE = "DEVICE-TYPE";
     static const QString PROTOCOL_VERSION = "Protocol-Version";
     static const QString APP_TYPE = "App-Type";
     static const QString OPERATOR = "Operator";
