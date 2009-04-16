@@ -170,5 +170,6 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void authRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void logonSuccessfulRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void logonFailedRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void contactDetailRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif
