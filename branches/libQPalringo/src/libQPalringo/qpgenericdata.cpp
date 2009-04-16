@@ -100,8 +100,8 @@ void qpLogonData::getData( const Headers& headers, QByteArray body )
 
     subId_      = headers.attribute<quint64>( qpHeaderAttribute::SUB_ID );
     name_       = headers.attribute<QString>( qpHeaderAttribute::NAME );
-    nickname_   = headers.attribute<QString>( qpHeaderAttribute::EMAIL );
-    status_     = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    nickname_   = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    status_     = headers.attribute<QString>( qpHeaderAttribute::STATUS );
     lastOnline_ = headers.attribute<QString>( qpHeaderAttribute::LAST_ONLINE );
     reason_     = headers.attribute<QString>( qpHeaderAttribute::REASON );
     timestamp_  = headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP );
@@ -157,24 +157,22 @@ qpContactData::qpContactData()
     contentLength_ = 0;
 }
 
-void qpContactData::getData( const Headers&, QByteArray )
+void qpContactData::getData( const Headers& headers, QByteArray )
 {
-    /*
-    getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
-    getAttribute<uint64_t, true>(headers, "CONTACT-ID", contactId_);
-    getAttribute<OnlineStatus, true>(headers, "ONLINE-STATUS", onlineStatus_);
-    getAttribute<std::string, true>(headers, "NICKNAME", nickname_);
-    getAttribute<std::string, true>(headers, "STATUS", status_);
-    getAttribute<DeviceType, true>(headers, "DEVICE-TYPE", deviceType_);
-    getAttribute<bool>(headers, "REMOVE", remove_);
-    getAttribute<bool>(headers, "BLOCK", block_);
-    getAttribute<uint64_t, true>(headers, "CAPABILITIES", capabilities_);
-    getAttribute<uint64_t, true>(headers, "SOURCE-ID", sourceId_);
-    getAttribute<uint64_t, true>(headers, "TARGET-ID", targetId_);
-    getAttribute<std::string, true>(headers, "NAME", name_);
-    getAttribute<uint32_t, true>(headers, "CONTENT-LENGTH", contentLength_);
-    getAttribute<bool>(headers, "CONTACT", isContact_);
-    */
+    mesgId_ = headers.attribute<qint32>( qpHeaderAttribute::MESG_ID );
+    contentLength_ = headers.attribute<qint32>( qpHeaderAttribute::CONTENT_LENGTH );
+    onlineStatus_ = (qpOnlineStatus::OnlineStatus) headers.attribute<qint32>( qpHeaderAttribute::ONLINE_STATUS );
+    nickname_ = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    status_ = headers.attribute<QString>( qpHeaderAttribute::STATUS );
+    name_ = headers.attribute<QString>( qpHeaderAttribute::NAME );
+    remove_  = headers.attribute<bool>( qpHeaderAttribute::REMOVE );
+    block_  = headers.attribute<bool>( qpHeaderAttribute::BLOCK );
+    isContact_ = headers.attribute<bool>( qpHeaderAttribute::IS_CONTACT );
+    contactId_ = headers.attribute<quint64>( qpHeaderAttribute::CONTACT_ID );
+    capabilities_ = headers.attribute<quint64>( qpHeaderAttribute::CAPABILITIES );
+    sourceId_ = headers.attribute<quint64>( qpHeaderAttribute::SOURCE_ID );
+    targetId_ = headers.attribute<quint64>( qpHeaderAttribute::TARGET_ID );
+    deviceType_ = (qpDeviceType::DeviceType)headers.attribute<qint32>( qpHeaderAttribute::DEVICE_TYPE );
 }
 
 Headers qpContactData::setData( QByteArray )
