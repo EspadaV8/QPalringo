@@ -188,7 +188,7 @@ void QPalringoConnection::pollRead()
     }
     this->inBuffer.append( tmp );
 
-    parseCmd( this->inBuffer.constData() );
+    parseCmd( this->inBuffer );
 
     while( !this->incomingCommands.isEmpty() )
     {
@@ -830,8 +830,8 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
             }
             else
             {
-                contentLength = endOfPacketPos + endOfPacket.size();
-                qDebug( "\t\t\tNo content length, assume that content length endOfPacketPos + endOfPacket.size() = %d", contentLength );
+                contentLength = 0;
+                qDebug( "\t\t\tNo content length, assume that there's no content length = %d", contentLength );
             }
         }
         else
@@ -863,7 +863,6 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
         Headers headers;
 
         int i = data.indexOf( endOfLine, totalProcessed ) + endOfLine.size();
-        qDebug( "Starting key:value checking at = %d", i );
         while( i < endOfPacketPos )
         {
             if( data.indexOf( endOfLine, i ) == i )
@@ -875,24 +874,36 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
             int x = data.indexOf( headerSpliter, i );
             int eol = data.indexOf( endOfLine, i );
 
-            QString key = data.mid( i, x - i );
-            QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
+            if( ( x == -1) || ( eol > endOfPacketPos ) )
+            {
+                break;
+            }
+            else
+            {
+                QString key = data.mid( i, x - i );
+                QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
 
-            qDebug( "\t\tinserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
-            headers.insert( key, value );
+                qDebug( "\t\tinserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
+                headers.insert( key, value );
 
-            i = eol + endOfLine.size();
+                i = eol + endOfLine.size();
+            }
         }
+        i += endOfLine.size();
 
         IncomingCommand ic;
-        ic.command = data.mid( totalProcessed, data.indexOf( endOfLine, totalProcessed ) );
+        ic.command = data.mid( totalProcessed, data.indexOf( endOfLine, totalProcessed ) - totalProcessed );
         ic.headers = headers;
-        ic.body = data.mid( i + totalProcessed, data.size() - ( i + totalProcessed ) );
         ic.complete = true;
+
+        if( contentLength > 0 )
+        {
+            ic.body = data.mid( i + endOfLine.size(), contentLength );
+        }
 
         this->incomingCommands.enqueue( ic );
 
-        totalProcessed += i + endOfLine.size();
+        totalProcessed = i + contentLength;
     /**
         // Extract headers
         headers.clear();
