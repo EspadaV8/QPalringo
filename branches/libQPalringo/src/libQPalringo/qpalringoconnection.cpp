@@ -87,41 +87,10 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::AUTH, "authRecieved" );
     inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
     inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
-/*
-    outSignals.insert( qpCommand::BYE, "byeSent" );
-    outSignals.insert( qpCommand::AUTH, "authSent" );
-    outSignals.insert( qpCommand::CONTACT_UPDATE, "contactUpdateSent" );
-    outSignals.insert( qpCommand::CONTACT_ADD_RESP, "contactAddRespSent" );
-    outSignals.insert( qpCommand::GROUP_SUBSCRIBE, "groupSubscribeSent" );
-    outSignals.insert( qpCommand::GROUP_UNSUB, "groupUnsubSent" );
-    outSignals.insert( qpCommand::GROUP_CREATE, "groupCreateSent" );
-    outSignals.insert( qpCommand::GROUP_INVITE, "groupInviteSent" );
-    outSignals.insert( qpCommand::GROUP_ADMIN, "groupAdminSent" );
-    outSignals.insert( qpCommand::MESG, "mesgSent" );
-    outSignals.insert( qpCommand::MESG_STORED, "mesgStoredSent" );
-    outSignals.insert( qpCommand::MESG_HIST, "mesgHistSent" );
-    outSignals.insert( qpCommand::REG, "regSent" );
-*/
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onContactDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
-/*
-    connect( this, SIGNAL( logonSent( Headers&, QByteArray&, qpGenericData* ) ),             this, SLOT( onLogonSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( byeSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onByeSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( authSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( contactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ),     this, SLOT( onContactUpdateSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( contactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onContactAddRespSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( groupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ),    this, SLOT( onGroupSubscribeSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( groupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupUnsubSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( groupCreateSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupCreateSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( groupInviteSent( Headers&, QByteArray&, qpGenericData* ) ),       this, SLOT( onGroupInviteSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( groupAdminSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onGroupAdminSent ( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( mesgSent( Headers&, QByteArray&, qpGenericData* ) ),              this, SLOT( onMesgSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( mesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ),        this, SLOT( onMesgStoredSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( mesgHistSent( Headers&, QByteArray&, qpGenericData* ) ),          this, SLOT( onMesgHistSent( Headers&, QByteArray&, qpGenericData* ) ) );
-    connect( this, SIGNAL( regSent( Headers&, QByteArray&, qpGenericData* ) ),               this, SLOT( onRegSent( Headers&, QByteArray&, qpGenericData* ) ) );
-*/
 }
 
 int QPalringoConnection::connectClient( bool reconnect )
@@ -392,11 +361,7 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
     outPacket.append( body );
 
     this->socket->write( outPacket );
-/*
-    outStream_.append( outPacket.toStdString() );
-    outStream_.append( body.constData() );
-    outMessageCount_++;
-*/
+
     if( outSignals.contains( command ) )
     {
         qDebug( "emitting signal - %s", qPrintable( outSignals.value( command ) ) );
@@ -405,19 +370,7 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
                                    Q_ARG( QByteArray&, body ),
                                    Q_ARG( qpGenericData*, NULL ) );
     }
-/*
-    CmdCallbackFunctionsMap::iterator fit( outCallbackFunctions_.find( command.toStdString() ) );
 
-    if( fit != outCallbackFunctions_.end() )
-    {
-        (this->*fit->second)(headers, const_cast<std::string&>(body), NULL);
-    }
-
-    else
-    {
-        processUnknownOutgoing(cmd, headers, const_cast<std::string&>(body));
-    }
-*/
     return true;
 }
 
@@ -692,10 +645,6 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
 
 void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
 {
-    /*
-    PalringoConnection::onLogonSuccessfulReceived( headers, body, data );
-*/
-
     qpLogonData logonData;
     logonData.getData( headers, body );
 
@@ -843,8 +792,6 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
         {
             /**
              * do we have the end of the header?
-            // See if we have a full message in the buffer, either with a content
-            // length found in the headers or without
             else
             {
                 // if we get some user data, just skip over it
