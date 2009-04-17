@@ -96,8 +96,6 @@ void qpLogonData::getData( const Headers& headers, QByteArray body )
 {
     dataMap_ = new qpDataMap( body );
 
-    qDebug( "%s", qPrintable( dataMap_->toString() ) );
-
     subId_      = headers.attribute<quint64>( qpHeaderAttribute::SUB_ID );
     name_       = headers.attribute<QString>( qpHeaderAttribute::NAME );
     nickname_   = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
@@ -193,21 +191,19 @@ qpGroupData::qpGroupData()
     action_ = static_cast<qpGroupStatus::GroupStatus>( -1 );
 }
 
-void qpGroupData::getData( const Headers&, QByteArray )
+void qpGroupData::getData( const Headers& headers, QByteArray )
 {
-    /*
-    getAttribute<uint32_t, true>(headers, "MESG-ID", mesgId_);
-    getAttribute<uint64_t, true>(headers, "GROUP-ID", groupId_);
-    getAttribute<std::string, true>(headers, "NAME", name_);
-    getAttribute<uint32_t, true>(headers, "CONTENT-LENGTH", contentLength_);
-    getAttribute<std::string, true>(headers, "ADMIN", admin_);
-    getAttribute<uint64_t, true>(headers, "CONTACT-ID", contactId_);
-    getAttribute<int32_t, true>(headers, "TYPE", type_);
-    getAttribute<std::string, true>(headers, "DESC", desc_);
-    getAttribute<std::string, true>(headers, "MESSAGE", message_);
-    getAttribute<uint64_t, true>(headers, "TARGET-ID", targetId_);
-    getAttribute<GroupStatus, true>(headers, "ACTION", action_);
-    */
+    mesgId_ = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+    groupId_ = headers.attribute<quint64>( qpHeaderAttribute::GROUP_ID );
+    contactId_ = headers.attribute<quint64>( qpHeaderAttribute::CONTACT_ID );
+    targetId_ = headers.attribute<quint64>( qpHeaderAttribute::TARGET_ID );
+    contentLength_ = headers.attribute<quint32>( qpHeaderAttribute::CONTENT_LENGTH );
+    type_ = headers.attribute<qint32>( qpHeaderAttribute::TYPE );
+    message_ = headers.attribute<QString>( qpHeaderAttribute::MESSAGE );
+    name_ = headers.attribute<QString>( qpHeaderAttribute::NAME );
+    admin_ = headers.attribute<QString>( qpHeaderAttribute::ADMIN );
+    desc_ = headers.attribute<QString>( qpHeaderAttribute::DESC );
+    action_ = (qpGroupStatus::GroupStatus)headers.attribute<qint32>( qpHeaderAttribute::ACTION );
 }
 
 Headers qpGroupData::setData( QByteArray )
