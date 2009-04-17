@@ -37,6 +37,10 @@ namespace qpHeaderAttribute
     static const QString CONTACT_ID = "CONTACT-ID";
     static const QString CAPABILITIES = "CAPABILITIES";
     static const QString DEVICE_TYPE = "DEVICE-TYPE";
+    static const QString TYPE = "TYPE";
+    static const QString ADMIN = "ADMIN";
+    static const QString MESSAGE = "MESSAGE";
+    static const QString ACTION = "ACTION";
     static const QString PROTOCOL_VERSION = "Protocol-Version";
     static const QString APP_TYPE = "App-Type";
     static const QString OPERATOR = "Operator";
