@@ -903,7 +903,7 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
 
         if( contentLength > 0 )
         {
-            ic.body = data.mid( i + endOfLine.size(), contentLength );
+            ic.body = data.mid( i, contentLength );
         }
 
         this->incomingCommands.enqueue( ic );
