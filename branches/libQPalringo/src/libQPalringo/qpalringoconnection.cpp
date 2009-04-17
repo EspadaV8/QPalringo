@@ -87,10 +87,12 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::AUTH, "authRecieved" );
     inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
     inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
+    inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onContactDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 int QPalringoConnection::connectClient( bool reconnect )
@@ -149,7 +151,6 @@ void QPalringoConnection::socketError( QAbstractSocket::SocketError socketError 
 
 void QPalringoConnection::pollRead()
 {
-    qDebug( "something to read" );
     qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
 
     QByteArray tmp = socket->readAll();
@@ -684,6 +685,7 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
     }
     else
     {
+        qDebug( "New contact recieved" );
         Contact *contact = new Contact;
         contact->setNickname( contactData.nickname_ );
         contact->setStatusline( contactData.status_ );
@@ -696,41 +698,44 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
         this->contacts.insert( contactData.contactId_, contact );
         this->contactLock.unlock();
 
-        qDebug( "emiting new contact, count = %d", this->contacts.size() );
+        qDebug( "emiting new contact" );
         emit gotContactDetails( contact );
     }
 }
 
 void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
 {
-    /*
-    GroupData groupData;
-    if( PalringoConnection::onGroupDetailReceived( headers, body, &groupData ) )
+    qpGroupData groupData;
+    groupData.getData( headers, body );
+
+    QSet<quint64> groupContacts;
+
+    for( qint32 i = 0; i < ( body.size() / 8 ); ++i )
     {
-        QString groupName = QString::fromStdString( groupData.name_ );
+        QByteArray t1 = body.mid( i * 8, 8 );
 
-        group_t &group_ = groups_[groupData.groupId_];
-        std::set<uint64_t>::iterator it;
-
-        QSet<quint64> group_contacts;
-
-        for( it = group_.contacts_.begin(); it != group_.contacts_.end(); it++)
+        /**
+         * Thanks to Sotek and thiago_home from #qt for the following code
+         */
+        quint64 temp = 0;
+        for( int j = 0; j < 8; j++ )
         {
-            group_contacts.insert( *it );
+            temp <<= 8;
+            char c = t1.at( j );
+            temp |= ( c & 0xff ) ;
         }
-
-        Group *group = new Group;
-        group->setID( groupData.groupId_ );
-        group->setName( QString::fromStdString( group_.name_ ) );
-        group->setDescription( QString::fromStdString( group_.desc_ ) );
-        group->setContacts( group_contacts );
-
-        this->groups.insert( group->getID(), group );
-
-        emit( gotGroupDetails( group ) );
+        groupContacts.insert( temp );
     }
-    return 0;
-    */
+
+    Group *group = new Group;
+    group->setID( groupData.groupId_ );
+    group->setName( groupData.name_ );
+    group->setDescription( groupData.desc_ );
+    group->setContacts( groupContacts );
+
+    this->groups.insert( group->getID(), group );
+
+    emit gotGroupDetails( group );
 }
 
 void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
