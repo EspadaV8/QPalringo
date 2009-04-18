@@ -222,24 +222,28 @@ qpResponseData::qpResponseData()
     contentLength_ = -1;
 }
 
-void qpResponseData::getData( const Headers&, QByteArray )
+void qpResponseData::getData( const Headers& headers, QByteArray body )
 {
-    /*
-    getAttribute<uint32_t>(headers, "MESG-ID", mesgId_);
-    getAttribute<What>(headers, "WHAT", what_);
-    getAttribute<int32_t>(headers, "TYPE", type_);
-    getAttribute<uint32_t>(headers, "CONTENT_LENGTH", contentLength_);
+    mesgId_ = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+    contentLength_ = headers.attribute<quint64>( qpHeaderAttribute::CONTENT_LENGTH );
+    type_ = headers.attribute<quint64>( qpHeaderAttribute::TYPE );
+    what_ = (qpWhat::What)headers.attribute<quint32>( qpHeaderAttribute::WHAT );
 
-    if (type_)
+    if( type_ )
     {
         errorMessage_ = body;
     }
     else
     {
-        errorCode_ = static_cast<ErrorCode>(ntohl(
-                *reinterpret_cast<const int*>(body.data() + 4)));
+        int temp;
+        for( int i = 0; i < body.size(); i++ )
+        {
+            temp <<= 8;
+            char c = body.at( i );
+            temp |= ( c & 0xff ) ;
+        }
+        errorCode_ = static_cast<qpErrorCodes::ErrorCode>( temp );
     }
-    */
 }
 
 Headers qpResponseData::setData( QByteArray )
