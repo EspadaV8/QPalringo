@@ -611,32 +611,22 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
     msgData.getData( headers, body );
 
     Message message;
-    if( !msgData.last_ )
-    {
-        if( msgData.correlationId_ > 0 )
-        {
-            message = unfinishedMessages.value( msgData.correlationId_ );
-            message.setPayload( message.payload().append( body ) );
-            unfinishedMessages.insert( msgData.correlationId_, message );
-        }
-        else if( !unfinishedMessages.contains( msgData.mesgId_ ) )
-        {
-            message.setType( msgData.contentType_ );
-            message.setSenderID( msgData.sourceId_ );
-            message.setGroupID( msgData.targetId_ | 0 );
-            //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-            message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
-            message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
-            message.setHist( msgData.hist_ );
-            unfinishedMessages.insert( msgData.mesgId_, message );
-        }
-        return;
-    }
-    else if( msgData.correlationId_ > 0 )
+    if( msgData.correlationId_ > 0 )
     {
         message = unfinishedMessages.value( msgData.correlationId_ );
         message.setPayload( message.payload().append( body ) );
-        unfinishedMessages.remove( msgData.correlationId_ );
+        unfinishedMessages.insert( msgData.correlationId_, message );
+    }
+    else if( !unfinishedMessages.contains( msgData.mesgId_ ) )
+    {
+        message.setType( msgData.contentType_ );
+        message.setSenderID( msgData.sourceId_ );
+        message.setGroupID( msgData.targetId_ | 0 );
+        //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
+        message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
+        message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
+        message.setHist( msgData.hist_ );
+        unfinishedMessages.insert( msgData.mesgId_, message );
     }
     else
     {
@@ -650,7 +640,14 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setPayload( message.payload().append( body ) );
     }
 
-    if( message.hist() == true )
+    if( !msgData.last_ )
+    {
+#if SIGNALS
+        qDebug( "not the last part of the message" );
+#endif
+        return;
+    }
+    else if( message.hist() == true )
     {
 #if SIGNALS
         qDebug( "emitting historyMessageReceived( Message )" );
@@ -857,6 +854,13 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
             break;
         }
 
+        if( ( contentLength + endOfPacketPos ) > data.size() )
+        {
+#if PARSING
+            qDebug( "\t\tCONTENT LENGTH GOES BEYOND DATA SIZE." );
+#endif
+            break;
+        }
         QString s = data.mid( totalProcessed, data.indexOf( endOfLine, totalProcessed ) - totalProcessed );
 #if PARSING
         qDebug( "\t\tCommand - %s", qPrintable( s ) );
