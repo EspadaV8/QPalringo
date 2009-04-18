@@ -134,7 +134,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
 
         void initOutSignals();
         void initInSignals();
-        void parseCmd( const QByteArray& data );
+        int parseCmd( const QByteArray& data );
 
     private slots:
         void socketError( QAbstractSocket::SocketError socketError );
