@@ -94,11 +94,13 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
     inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
     inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
+    inSignals.insert( qpCommand::MESG, "mesgRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onContactDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( mesgRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onMesgReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 int QPalringoConnection::connectClient( bool reconnect )
@@ -603,65 +605,63 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
 
 void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
 {
-    /*
-    MsgData msgData;
-    PalringoConnection::onMesgReceived( headers, body, &msgData );
+    qpMsgData msgData;
+    msgData.getData( headers, body );
 
     Message message;
-    bool last = msgData.last_;
-    quint64 correlationID = msgData.correlationId_;
-    quint64 messageID = msgData.mesgId_;
-    if( !last )
+    if( !msgData.last_ )
     {
-        if( correlationID > 0 )
+        if( msgData.correlationId_ > 0 )
         {
-            // don't really need to do anything
+            message = unfinishedMessages.value( msgData.correlationId_ );
+            message.setPayload( message.payload().append( body ) );
+            unfinishedMessages.insert( msgData.correlationId_, message );
         }
-        else if( !unfinishedMessages.contains( messageID ) )
+        else if( !unfinishedMessages.contains( msgData.mesgId_ ) )
         {
-            QString timestamp = QString::fromStdString( msgData.timestamp_ );
-            message.setType( QString::fromStdString( msgData.contentType_ ) );
+            message.setType( msgData.contentType_ );
             message.setSenderID( msgData.sourceId_ );
             message.setGroupID( msgData.targetId_ | 0 );
             //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-            message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
-            message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
+            message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
+            message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
             message.setHist( msgData.hist_ );
-            unfinishedMessages.insert( messageID, message );
+            unfinishedMessages.insert( msgData.mesgId_, message );
         }
-        return 0;
+        return;
     }
-    else if( correlationID > 0 )
+    else if( msgData.correlationId_ > 0 )
     {
-        message = unfinishedMessages.value( correlationID );
-        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
-        message.setPayload( message.payload().append( tmp ) );
-        unfinishedMessages.remove( correlationID );
+        message = unfinishedMessages.value( msgData.correlationId_ );
+        message.setPayload( message.payload().append( body ) );
+        unfinishedMessages.remove( msgData.correlationId_ );
     }
     else
     {
-        QString timestamp = QString::fromStdString( msgData.timestamp_ );
-        message.setType( QString::fromStdString( msgData.contentType_ ) );
+        message.setType( msgData.contentType_ );
         message.setSenderID( msgData.sourceId_ );
         message.setGroupID( msgData.targetId_ | 0 );
         //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-        message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() );
-        message.setUseconds( timestamp.right( timestamp.indexOf( "." ) ).toInt() );
+        message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
+        message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
         message.setHist( msgData.hist_ );
-        QByteArray tmp = QByteArray::fromRawData( body.data(), body.size() );
-        message.setPayload( message.payload().append( tmp ) );
+        message.setPayload( message.payload().append( body ) );
     }
 
     if( message.hist() == true )
     {
-        emit( historyMessageReceived( message ) );
+#if SIGNALS
+        qDebug( "emitting historyMessageReceived( Message )" );
+#endif
+        emit historyMessageReceived( message );
     }
     else
     {
-        emit( messageReceived( message ) );
+#if SIGNALS
+        qDebug( "emitting messageReceived( Message )" );
+#endif
+        emit messageReceived( message );
     }
-    return 1;
-    */
 }
 
 void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
