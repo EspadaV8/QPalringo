@@ -82,6 +82,8 @@ void Tools::historyMessageReceived( Message message )
 
 void Tools::messageReceived( Message message )
 {
+    QSettings settings;
+
     this->playSound( ":/sounds/new-message.wav" );
     Target* t = NULL;
     if( message.groupID() == 0 )
@@ -96,9 +98,16 @@ void Tools::messageReceived( Message message )
     if( t != NULL )
     {
         t->addMessage( message );
-        if( t->getPendingMessages().size() == 1 )
+
+        if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
+              ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
+              !tools_->checkChatWindowOpen( t ) )
         {
-            emit( newPendingMessage( t ) );
+            this->openChatWindow( t );
+        }
+        else if( t->getPendingMessages().size() == 1 )
+        {
+            emit newPendingMessage( t );
         }
     }
 }
