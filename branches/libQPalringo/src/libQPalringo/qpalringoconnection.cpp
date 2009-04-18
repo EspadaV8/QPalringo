@@ -27,6 +27,12 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
+#define SIGNALS 0
+#define PARSING 1
+#define ERRORS 1
+#define qpDEBUG 0
+#define INFO 1
+
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString clientType,
@@ -146,12 +152,16 @@ int QPalringoConnection::connectClient( bool reconnect )
 
 void QPalringoConnection::socketError( QAbstractSocket::SocketError socketError )
 {
+#if ERRORS
     qDebug( "%s", qPrintable( socket->errorString() ) );
+#endif
 }
 
 void QPalringoConnection::pollRead()
 {
-    qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
+#if qpDEBUG
+        qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
+#endif
 
     QByteArray tmp = socket->readAll();
     if( tmp.size() == 0 )
@@ -175,7 +185,9 @@ void QPalringoConnection::pollRead()
 
             if( inSignals.contains( ic.command ) )
             {
+#if SIGNALS
                 qDebug( "emitting signal - %s", qPrintable( inSignals.value( ic.command ) ) );
+#endif
                 QMetaObject::invokeMethod( this, inSignals.value( ic.command ).toAscii().constData(), Qt::DirectConnection,
                                            Q_ARG( const Headers&, ic.headers ),
                                            Q_ARG( const QByteArray&, ic.body ),
@@ -199,7 +211,9 @@ void QPalringoConnection::run()
     }
     catch (int error)
     {
+#if ERRORS
         qDebug( "error %d", error );
+#endif
     }
 }
 
@@ -365,7 +379,9 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
 
     if( outSignals.contains( command ) )
     {
+#if SIGNALS
         qDebug( "emitting signal - %s", qPrintable( outSignals.value( command ) ) );
+#endif
         QMetaObject::invokeMethod( this, outSignals.value( command ).toAscii().constData(), Qt::DirectConnection,
                                    Q_ARG( Headers, headers ),
                                    Q_ARG( QByteArray&, body ),
@@ -416,12 +432,16 @@ QHash<quint64, Contact*> QPalringoConnection::getContactListContacts()
     {
         if( contact->getIsContact() )
         {
+#if qpDEBUG
             qDebug( "Inserting contact" );
+#endif
             contacts.insert( contact->getID(), contact );
         }
         else
         {
+#if qpDEBUG
             qDebug( "not a contact" );
+#endif
         }
     }
     this->contactLock.unlock();
@@ -656,7 +676,9 @@ void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, con
 
     this->serverTimestamp = logonData.timestamp_;
 
-    qDebug( "emitting logonSuccessful" );
+#if SIGNALS
+    qDebug( "emitting logonSuccessful( QString )" );
+#endif
     emit logonSuccessful( serverTimestamp );
 }
 
@@ -667,7 +689,9 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
 
     if( this->contacts.contains( contactData.contactId_ ) )
     {
+#if qpDEBUG
         qDebug( "We have this contact already" );
+#endif
         Contact* contact = this->contacts.value( contactData.contactId_ );
 
         if( contactData.nickname_.size() )
@@ -685,7 +709,9 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
     }
     else
     {
+#if qpDEBUG
         qDebug( "New contact recieved" );
+#endif
         Contact *contact = new Contact;
         contact->setNickname( contactData.nickname_ );
         contact->setStatusline( contactData.status_ );
@@ -697,8 +723,9 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
         this->contactLock.lockForWrite();
         this->contacts.insert( contactData.contactId_, contact );
         this->contactLock.unlock();
-
-        qDebug( "emiting new contact" );
+#if SIGNALS
+        qDebug( "emitting gotContactDetails( Contact* )" );
+#endif
         emit gotContactDetails( contact );
     }
 }
@@ -735,6 +762,9 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
 
     this->groups.insert( group->getID(), group );
 
+#if SIGNALS
+    qDebug( "emitting gotContactDetails( Contact* )" );
+#endif
     emit gotGroupDetails( group );
 }
 
@@ -748,6 +778,9 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
 
 int QPalringoConnection::parseCmd( const QByteArray& data )
 {
+#if PARSING
+    qDebug( "processing - %d", data.size() );
+#endif
     QByteArray endOfLine = "\r\n";
     QByteArray endOfPacket = "\r\n\r\n";
     QByteArray headerSpliter = ": ";
@@ -756,23 +789,29 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
 
     while( totalProcessed < data.size() )
     {
-        qDebug( "\ttotalProcessed = %d", totalProcessed );
-
         int endOfPacketPos = data.indexOf( endOfPacket, totalProcessed );
-        qDebug( "\tendOfPacketPos = %d", endOfPacketPos );
         int contentLength;
+
+#if PARSING
+            qDebug( "\ttotalProcessed = %d", totalProcessed );
+            qDebug( "\tendOfPacketPos = %d", endOfPacketPos );
+#endif
 
         if( endOfPacketPos > -1 )
         {
-            qDebug( "\t\tgot a full packet" );
             int contentLengthPos = data.indexOf( qpHeaderAttribute::CONTENT_LENGTH, totalProcessed );
+#if PARSING
+            qDebug( "\t\tgot a full packet" );
             qDebug( "\t\tcontentLengthPos = %d", contentLengthPos );
+#endif
 
             if( ( contentLengthPos > -1 ) && ( contentLengthPos < endOfPacketPos ) )
             {
-                qDebug( "\t\t\tWe have a content length in the message" );
                 int eol = data.indexOf( endOfLine, contentLengthPos );
+#if PARSING
+                qDebug( "\t\t\tWe have a content length in the message" );
                 qDebug( "\t\t\teol - %d", eol );
+#endif
 
                 if( ( eol > -1 ) && ( eol < data.size() ) )
                 {
@@ -780,7 +819,9 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
 
                     QByteArray s = data.mid( offset, eol - offset );;
                     contentLength = s.toInt();
+#if PARSING
                     qDebug( "\t\t\t\tContent Length = %d", contentLength );
+#endif
                 }
                 else
                 {
@@ -790,15 +831,23 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
             else
             {
                 contentLength = 0;
+#if PARSING
                 qDebug( "\t\t\tNo content length, assume that there's no content length = %d", contentLength );
+#endif
             }
         }
         else
         {
-            qDebug( "Don't have the end of packet, totalProcessed = %d", totalProcessed );
+#if PARSING
+            qDebug( "Don't have the end of packet" );
+#endif
             break;
         }
 
+        QString s = data.mid( totalProcessed, data.indexOf( endOfLine, totalProcessed ) - totalProcessed );
+#if PARSING
+        qDebug( "\t\tCommand - %s", qPrintable( s ) );
+#endif
         Headers headers;
 
         int i = data.indexOf( endOfLine, totalProcessed ) + endOfLine.size();
@@ -821,8 +870,9 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
             {
                 QString key = data.mid( i, x - i );
                 QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
-
+#if PARSING
                 qDebug( "\t\tinserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
+#endif
                 headers.insert( key, value );
 
                 i = eol + endOfLine.size();
@@ -873,6 +923,8 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
         return true;
     **/
     }
-
+#if PARSING
+    qDebug( "totalProcessed = %d", totalProcessed );
+#endif
     return totalProcessed;
 }
