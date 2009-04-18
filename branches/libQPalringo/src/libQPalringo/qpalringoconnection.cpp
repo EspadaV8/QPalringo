@@ -617,7 +617,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setPayload( message.payload().append( body ) );
         unfinishedMessages.insert( msgData.correlationId_, message );
     }
-    else if( !unfinishedMessages.contains( msgData.mesgId_ ) )
+    else if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( msgData.mesgId_ ) ) )
     {
         message.setType( msgData.contentType_ );
         message.setSenderID( msgData.sourceId_ );
@@ -626,6 +626,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
         message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
         message.setHist( msgData.hist_ );
+        message.setPayload( body );
         unfinishedMessages.insert( msgData.mesgId_, message );
     }
     else
