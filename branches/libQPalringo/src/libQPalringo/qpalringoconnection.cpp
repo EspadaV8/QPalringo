@@ -27,8 +27,8 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
-#define SIGNALS 0
-#define PARSING 1
+#define SIGNALS 1
+#define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
 #define INFO 1
@@ -95,12 +95,14 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
     inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
     inSignals.insert( qpCommand::MESG, "mesgRecieved" );
+    inSignals.insert( qpCommand::PING, "pingRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onContactDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( mesgRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onMesgReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( pingRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),              this, SLOT( onPingReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 int QPalringoConnection::connectClient( bool reconnect )
@@ -774,6 +776,17 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
     qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
     return PalringoConnection::onSubProfileReceived( headers, body, data );
     */
+}
+
+void QPalringoConnection::onPingReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+{
+    Headers h;
+    if( protocolVersion_ == 2 )
+    {
+        h.insert( qpHeaderAttribute::PS, packetSeq_ );
+    }
+
+    sendCmd( qpCommand::PING, h, "");
 }
 
 int QPalringoConnection::parseCmd( const QByteArray& data )

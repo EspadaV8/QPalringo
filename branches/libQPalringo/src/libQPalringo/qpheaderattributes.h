@@ -41,6 +41,7 @@ namespace qpHeaderAttribute
     static const QString ADMIN = "ADMIN";
     static const QString MESSAGE = "MESSAGE";
     static const QString ACTION = "ACTION";
+    static const QString PS = "PS";
     static const QString PROTOCOL_VERSION = "Protocol-Version";
     static const QString APP_TYPE = "App-Type";
     static const QString OPERATOR = "Operator";
