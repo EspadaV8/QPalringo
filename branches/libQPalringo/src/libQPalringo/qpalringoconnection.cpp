@@ -224,12 +224,12 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
         qint64 a = messageData.size() - ( messageData.size() % MAX_PACKET_SIZE );
 
         // set the data of the message
-        headers = data.setData( "" );
+        headers = data.setData();
 
         // get the first MAX_PACKET_SIZE bytes
         QByteArray cdata = messageData.left( i );
         // send the first MAX_PACKET_SIZE bytes of the message
-        QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
+        sendCmd( qpCommand::MESG, headers, cdata );
 
         // set the correlarion ID for the rest of the messages
         data.correlationId_ = data.mesgId_;
@@ -246,7 +246,7 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
             cdata = messageData.mid( i, MAX_PACKET_SIZE );
 
             // send the next 512 bytes of the message
-            QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
+            sendCmd( qpCommand::MESG, headers, cdata );
         }
 
         // now got the last little bit to send
@@ -255,14 +255,14 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
         headers = data.setData();
 
         cdata = messageData.right( messageData.size() - i );
-        return QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
+        return sendCmd( qpCommand::MESG, headers, cdata );
     }
     else
     {
         // we just have a small message so we don't need to break it down into smaller chunks
         data.last_ = true;
         headers = data.setData();
-        return QPalringoConnection::sendCmd( qpCommand::MESG, headers, messageData );
+        return sendCmd( qpCommand::MESG, headers, messageData );
     }
 }
 
