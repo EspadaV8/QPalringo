@@ -160,7 +160,7 @@ void QPalringoConnection::pollRead()
     }
     this->inBuffer.append( tmp );
 
-    parseCmd( this->inBuffer );
+    int processed = parseCmd( this->inBuffer );
 
     while( !this->incomingCommands.isEmpty() )
     {
@@ -184,7 +184,7 @@ void QPalringoConnection::pollRead()
         }
     }
 
-    this->inBuffer.clear();
+    this->inBuffer = this->inBuffer.right( this->inBuffer.size() - processed );
 }
 
 void QPalringoConnection::run()
@@ -746,7 +746,7 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
     */
 }
 
-void QPalringoConnection::parseCmd( const QByteArray& data )
+int QPalringoConnection::parseCmd( const QByteArray& data )
 {
     QByteArray endOfLine = "\r\n";
     QByteArray endOfPacket = "\r\n\r\n";
@@ -784,7 +784,7 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
                 }
                 else
                 {
-                    return;
+                    return 0;
                 }
             }
             else
@@ -795,26 +795,8 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
         }
         else
         {
-            /**
-             * do we have the end of the header?
-            else
-            {
-                // if we get some user data, just skip over it
-                // FIXME
-                const char* const ud = strstr(inBuf, "USER_DATA");
-                if( ud != 0 )
-                {
-                    sofar_ += endBuf - inBuf;
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            **/
-            //return ic;
-            return;
+            qDebug( "Don't have the end of packet, totalProcessed = %d", totalProcessed );
+            break;
         }
 
         Headers headers;
@@ -891,4 +873,6 @@ void QPalringoConnection::parseCmd( const QByteArray& data )
         return true;
     **/
     }
+
+    return totalProcessed;
 }
