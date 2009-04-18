@@ -107,6 +107,7 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void onPingReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onResponseReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
 
     private:
         QTcpSocket* socket;
@@ -175,5 +176,6 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void groupDetailRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void mesgRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void pingRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void responseRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif
