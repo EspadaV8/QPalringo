@@ -136,8 +136,6 @@ void Tools::openPalringoConnection( QString email, QString password )
             connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
             connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
             connect( connection, SIGNAL( finished() ), tools_, SLOT( disconnected() ) );
-
-            connection->start();
         }
     }
 }
