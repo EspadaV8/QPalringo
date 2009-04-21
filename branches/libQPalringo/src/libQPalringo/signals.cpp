@@ -19,7 +19,6 @@ int QPalringoConnection::onByeSent( Headers&, QByteArray&, qpGenericData* )
 {
     qDebug( "Bye sent" );
     RK_.clear();
-    poll();
     return 1;
 }
 
