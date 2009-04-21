@@ -24,12 +24,10 @@
 
 #include <QtNetwork>
 #include <QQueue>
-#include <QThread>
 #include <QMap>
 #include <QReadWriteLock>
 #include <QString>
 #include <QVariant>
-#include "../libPalringo/libPalringo.h"
 #include "targets/target.h"
 #include "targets/contact.h"
 #include "targets/group.h"
@@ -52,7 +50,7 @@ struct IncomingCommand
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
-class QPalringoConnection : public QThread, public PalringoConnection
+class QPalringoConnection : public QObject
 {
     Q_OBJECT
     public:
@@ -63,7 +61,6 @@ class QPalringoConnection : public QThread, public PalringoConnection
                             quint16 port = 443 );
 
         virtual int connectClient( bool reconnect = false );
-        void run();
 
         bool sendMessage( Target* target, Message message );
         void getMesgHist( Target* target, QString timestampStr, qint32 count );
@@ -137,6 +134,16 @@ class QPalringoConnection : public QThread, public PalringoConnection
         void initOutSignals();
         void initInSignals();
         int parseCmd( const QByteArray& data );
+
+        /** taken from libPalringo **/
+        qint32 wordSize_;
+        quint32 receivedData_;
+        qint32 protocolVersion_;
+        qint32 compression_;
+        quint64 packetSeq_;
+        quint32 outMessageCount_;
+        qint32 mesg_id_;
+        QString RK_;
 
     private slots:
         void socketError( QAbstractSocket::SocketError socketError );

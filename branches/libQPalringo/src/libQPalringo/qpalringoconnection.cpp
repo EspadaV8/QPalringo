@@ -37,12 +37,18 @@ QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString clientType,
                                          QString host,
-                                         quint16 port ) :
-        PalringoConnection(host.toStdString(), port, login.toStdString(), password.toStdString(), "", true, 1, false, 0, clientType.toStdString() )
+                                         quint16 port )
 {
     this->host = host;
     this->port = port;
     this->clientType = clientType;
+
+    protocolVersion_ = 1;
+    compression_ = 0;
+    packetSeq_ = 0;
+    receivedData_ = 0;
+    outMessageCount_ = 0;
+    mesg_id_ = 0;
 
     this->user.email = login;
     this->user.password = password;
@@ -131,11 +137,6 @@ void QPalringoConnection::initInSignals()
 
 int QPalringoConnection::connectClient( bool reconnect )
 {
-    if( ghosted_ )
-    {
-        ghosted_ = false;
-    }
-
     socket->connectToHost( this->host, this->port );
     connect(socket, SIGNAL(readyRead()), this, SLOT(pollRead()));
     connect( socket, SIGNAL( error( QAbstractSocket::SocketError ) ), this, SLOT( socketError( QAbstractSocket::SocketError ) ) );
@@ -146,7 +147,7 @@ int QPalringoConnection::connectClient( bool reconnect )
     {
         headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "1.0" );
     }
-
+/*
     else if (protocolVersion_ == 2)
     {
         headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "2.0" );
@@ -170,7 +171,7 @@ int QPalringoConnection::connectClient( bool reconnect )
             headers.insert( qpHeaderAttribute::COMPRESSION, compression_ );
         }
     }
-
+*/
     headers.insert( qpHeaderAttribute::APP_TYPE, this->clientType );
     headers.insert( qpHeaderAttribute::OPERATOR, "PC_CLIENT" );
     sendCmd( qpCommand::LOGON, headers, "" );
@@ -225,24 +226,6 @@ void QPalringoConnection::pollRead()
     }
 
     this->inBuffer = this->inBuffer.right( this->inBuffer.size() - processed );
-}
-
-void QPalringoConnection::run()
-{
-    try
-    {
-        while( 1 ) //this->poll() > -1 )
-        {
-            //msleep( 42 );
-            msleep( 3000 );
-        }
-    }
-    catch (int error)
-    {
-#if ERRORS
-        qDebug( "error %d", error );
-#endif
-    }
 }
 
 bool QPalringoConnection::sendMessage( Target* target, Message message )
@@ -508,8 +491,6 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
         wordSize_ = authData.wordSize_;
     }
 
-    connectionStatus_ = CONN_AUTHENTICATION;
-
     // Let's send our login and password
     Headers newHeaders;
 
@@ -525,10 +506,10 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
             outAuthData.encryptionType_ = 0;
             outAuthData.name_ = this->user.email;
             newBody.append( this->user.password );
-            if( encryption_ )
-            {
-                encryption_ = false;
-            }
+//            if( encryption_ )
+//            {
+//                encryption_ = false;
+//            }
         }
 //
 //        // Salsa20/MD5
