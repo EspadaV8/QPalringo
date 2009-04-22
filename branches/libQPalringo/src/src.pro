@@ -57,7 +57,6 @@ HEADERS += palringowindow.h \
 
 LIBS += -L../bin \
     -lQPalringo \
-    -lPalringo \
     -lssl \
     -lspeex \
     -lz
