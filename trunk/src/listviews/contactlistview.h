@@ -23,7 +23,7 @@
 #define CONTACTLISTVIEW_H
 
 #include "palringolistview.h"
-#include "../targets/contact.h"
+#include "../libQPalringo/targets/contact.h"
 #include "../listitems/contactlistitem.h"
 
 /**
@@ -45,6 +45,7 @@ class ContactListView : public PalringoListView
         void contactReceived( Contact *contact );
         void getContacts( quint64 groupID = 0 );
         void checkContainerGroups( ContactListItem* );
+        void removeContacts();
 
     public slots:
         virtual void inFocus();

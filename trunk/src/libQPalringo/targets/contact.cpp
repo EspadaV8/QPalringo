@@ -19,9 +19,7 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include <QSettings>
 #include "contact.h"
-#include "tools.h"
 
 Contact::Contact(QObject *parent)
  : Target(parent)
@@ -165,19 +163,6 @@ bool     Contact::getIsContact() const
 
 void Contact::addMessage( Message message )
 {
-    QSettings settings;
-
     this->pendingMessages.append( message );
-    if( settings.value( "alerts/privateAutoOpen" ).toBool() && !tools_->checkChatWindowOpen( this ) )
-    {
-        tools_->openChatWindow( this );
-    }
-    else if( tools_->checkChatWindowOpen( this ) )
-    {
-        emit( this->insertMessage() );
-    }
-    else
-    {
-        emit( this->pendingMessage() );
-    }
+    emit( this->pendingMessage() );
 }

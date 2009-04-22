@@ -23,7 +23,7 @@
 #define TARGET_H
 
 #include <QObject>
-#include "message.h"
+#include "../message.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

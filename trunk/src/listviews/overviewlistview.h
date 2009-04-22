@@ -24,9 +24,9 @@
 
 #include <QList>
 #include "services/service.h"
-#include "message.h"
+#include "libQPalringo/message.h"
 #include "palringolistview.h"
-#include "targets/target.h"
+#include "libQPalringo/targets/target.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

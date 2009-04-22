@@ -25,23 +25,14 @@
 #include <QObject>
 #include <QHash>
 #include <QMultiMap>
-#include <QReadWriteLock>
 #include <QDateTime>
+
+#include "libQPalringo/targets/target.h"
+#include "libQPalringo/qpalringoconnection.h"
+
 #include "palringowindow.h"
-#include "targets/target.h"
 #include "messageitem.h"
 #include "chatwindow.h"
-#include "connection.h"
-
-struct User
-{
-    quint64 userID;
-    QString nickname;
-    QString status;
-    QString lastOnline;
-    QString email;
-    QString password;
-};
 
 class Tools;
 extern Tools *tools_;
@@ -65,13 +56,6 @@ class Tools : public QObject
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
-        Contact* getContact( quint64 contactID );
-        QHash<quint64, Contact*> getContacts();
-        QHash<quint64, Contact*> getContacts( quint64 groupID = 0 );
-
-        User *user;
-        void setUser( quint64 userID, QString nickname, QString status, QString lastOnline );
-
         QString formatMessageText( QByteArray messagePayload );
         QString tagURLs( QString text );
 
@@ -93,10 +77,14 @@ class Tools : public QObject
 
         void playSound( QString filename );
 
+        User getUser();
+        Contact* getContact( quint64 contactID );
+        QHash<quint64, Contact*> getContactListContacts();
+        QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
+
     public slots:
         void logonSuccessful();
         void logonSuccessful( QString timestamp );
-        void addGroup( Group *group );
         void addContact( Contact *contact );
         void messageReceived( Message message );
         void historyMessageReceived( Message message );
@@ -105,6 +93,7 @@ class Tools : public QObject
 
     signals:
         void connected();
+        void cleanUp();
         void newGroupAdded( Group *group );
         void newContact( Contact *contact );
 
@@ -117,17 +106,12 @@ class Tools : public QObject
     private:
         bool loggedIn;
         PalringoWindow *mainWindow ;
-        Connection *connection;
+        QPalringoConnection *connection;
 
         QHash<Target*, ChatWindow *> openWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message> unreadMessages;
-
-        QHash<quint64, Contact* > contacts;
-        QHash<quint64, Group* > groups;
-
-        QReadWriteLock contactLock;
 
         // history tracking
         bool gettingHistory;

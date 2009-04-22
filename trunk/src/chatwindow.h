@@ -29,7 +29,7 @@
 #include <QSplitter>
 #include <QDateTime>
 #include "palringowindow.h"
-#include "targets/target.h"
+#include "libQPalringo/targets/target.h"
 #include "messagelist.h"
 #include "chattextedit.h"
 

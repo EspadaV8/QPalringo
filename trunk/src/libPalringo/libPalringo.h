@@ -1101,152 +1101,10 @@ public:
 
   virtual bool sendRawData(const std::string& data);
 
-  /**
-   * @brief Send a string type message
-   *
-   * The message is stored in a string.
-   * @param msg is the string containing the message.
-   * @param contentType is the content type of the message.
-   * @param id is the ID of the contact or group.
-   * @param type is the destination type (0 for contact and 1 for group).
-   * @see sendCmd()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @see pollWrite()
-   */
-  virtual bool sendMessage(const std::string& msg,
-      std::string& contentType,
-      uint64_t id,
-      int32_t type /* 0 for contact, 1 for group */);
-
-  /**
-   * @brief Send any type of message
-   *
-   * The message is stored in a buffer called msg.
-   * @param msg is the buffer containing the message.
-   * @param length is the length of the message.
-   * @param contentType is the content type of the message.
-   * @param id is the ID of the contact or group.
-   * @param type is the destination type (0 for contact and 1 for group).
-   * @see sendCmd()
-   * @see sendToContact()
-   * @see sendToGroup()
-   * @see pollWrite()
-   */
-  virtual bool sendMessage(char* msg,
-      uint32_t length,
-      std::string& contentType,
-      uint64_t id,
-      int32_t type /* 0 for contact, 1 for group */);
-
-  /**
-   * @brief Send a string type message to a contact
-   *
-   * The message is stored in a string.
-   * @param msg is the string containing the message.
-   * @param contact is the ID of the contact.
-   * @param contentType is the content type of the message.
-   * "text/plain" by default
-   * @see sendCmd()
-   * @see sendMessage()
-   * @see pollWrite()
-   * @return True if successfully sent, false if not
-   */
-  virtual bool sendToContact(const std::string& msg,
-      uint64_t contact,
-      std::string contentType = "text/plain");
-
-  /**
-   * @brief Send any type of message to a contact
-   *
-   * The message is stored in a buffer called msg.
-   * @param msg is the buffer containing the message.
-   * @param length is the length of the message.
-   * @param contact is the ID of the contact.
-   * @param contentType is the content type of the message.
-   * "text/plain" by default.
-   * @see sendCmd()
-   * @see sendMessage()
-   * @see pollWrite()
-   * @return True if successfully sent, false if not
-   */
-  virtual bool sendToContact(char* msg,
-      uint32_t length,
-      uint64_t contact,
-      std::string contentType = "text/plain");
-
-  /**
-   * @brief Send a string type message to a group
-   *
-   * The message is stored in a string.
-   * @param msg is the string containing the message.
-   * @param group is the ID of the group.
-   * @param contentType is the content type of the message.
-   * "text/plain" by default.
-   * @see sendCmd()
-   * @see sendMessage()
-   * @see pollWrite()
-   * @return True if successfully sent, false if not
-   */
-  virtual bool sendToGroup(const std::string& msg,
-      uint64_t group,
-      std::string contentType = "text/plain");
-
-  /**
-   * @brief Send any type of message to a group
-   *
-   * The message is stored in a buffer called msg.
-   * @param msg is the buffer containing the message.
-   * @param length is the length of the message.
-   * @param group is the ID of the group.
-   * @param contentType is the content type of the message.
-   * "text/plain" by default.
-   * @see sendMessage()
-   * @see sendToGroup()
-   * @see pollWrite()
-   * @return True if successfully sent, false if not
-   */
-  virtual bool sendToGroup(char* msg,
-      uint32_t length,
-      uint64_t group,
-      std::string contentType = "text/plain");
-
   virtual bool sendPls(std::string &data);
-
-  virtual void getMesgHist(int32_t count,
-                           uint32_t timestamp,
-			   uint64_t sourceId,
-                           int32_t type);
-  virtual void getMesgHist(int32_t count,
-                           const std::string &timestampStr,
-                           uint64_t sourceId,
-                           int32_t type);
 
   void setLogin(const std::string &login);
   void setPassword(const std::string &password);
-
-  /**
-   * @brief Gets contact details
-   *
-   * Gets contact details using the ID.
-   * @param id is the ID of the contact.
-   * @return An structure with contact details
-   */
-  int32_t getContact(uint64_t id, contact_t& contact);
-
-  /**
-   * @brief Gets group details
-   *
-   * Gets group details using the ID.
-   * @param id is the ID of the group.
-   * @return An structure with group details
-   */
-  int getGroup(uint64_t id, group_t& group);
-
-  /**
-   * @brief Get a copy of the list of groups
-   */
-  void getGroups(groups_t& groups);
 
   /**
    * @brief Set the Auto Accept Contacts configuration
@@ -1258,11 +1116,5 @@ public:
   {
     auto_accept_contacts_ = accept;
   }
-  
-  
-  void groupSubscribe( std::string groupName );
-  void groupCreate( std::string groupName, std::string groupDesc = "", std::string groupPassword = "" );
-  void groupUnsubscribe( uint64_t groupID );
-
 };
 #endif

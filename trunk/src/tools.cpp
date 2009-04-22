@@ -30,7 +30,6 @@ Tools::Tools( PalringoWindow *mainWindow )
 {
     this->mainWindow = mainWindow;
     this->loggedIn = false;
-    this->user = new User;
 
     // used for tracking history requests
     this->gettingHistory = false;
@@ -83,36 +82,61 @@ void Tools::historyMessageReceived( Message message )
 
 void Tools::messageReceived( Message message )
 {
+    QSettings settings;
+
     this->playSound( ":/sounds/new-message.wav" );
     Target* t = NULL;
     if( message.groupID() == 0 )
     {
-        t = this->contacts.value( message.senderID() );
+        t = this->connection->getContact( message.senderID() );
     }
     else
     {
-        t = this->groups.value( message.groupID() );
+        t = this->connection->getGroup( message.groupID() );
     }
 
     if( t != NULL )
     {
         t->addMessage( message );
-        if( t->getPendingMessages().size() == 1 )
+
+        if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
+              ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
+              !tools_->checkChatWindowOpen( t ) )
         {
-            emit( newPendingMessage( t ) );
+            this->openChatWindow( t );
+        }
+        else if( t->getPendingMessages().size() == 1 )
+        {
+            emit newPendingMessage( t );
         }
     }
 }
 
 void Tools::openPalringoConnection( QString email, QString password )
 {
-    if( !email.isEmpty() ) this->user->email = email;
-    if( !password.isEmpty() ) this->user->password = password;
-
     if( this->loggedIn == false )
     {
-        this->connection = new Connection( this->user->email, this->user->password );
-        connection->start();
+        QString client;
+        #ifdef Q_WS_WIN
+            client = "x86";
+        #endif
+        #ifdef Q_WS_MAC
+            client = "Mac";
+        #endif
+        #ifdef Q_WS_X11
+            client = "Linux";
+        #endif
+        this->connection = new QPalringoConnection( email, password, client );
+
+        if( connection->connectClient() == 1 )
+        {
+            connect( connection, SIGNAL( logonSuccessful( QString ) ), this, SLOT( logonSuccessful( QString ) ) );
+            connect( connection, SIGNAL( gotGroupDetails( Group* ) ), this, SIGNAL( newGroupAdded( Group* ) ) );
+            connect( connection, SIGNAL( gotContactDetails( Contact* ) ), this, SLOT( addContact( Contact* ) ) );
+            connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
+            connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
+            connect( connection, SIGNAL( finished() ), tools_, SLOT( disconnected() ) );
+        }
     }
 }
 
@@ -128,79 +152,20 @@ void Tools::getHistoryMessage( Target *target, QString timestamp )
         this->gettingHistory = true;
         this->historyTarget = target;
 
-        this->connection->getHistoryMessage( target, timestamp );
+        this->connection->getMesgHist( target, timestamp, 1 );
     }
 }
 
 void Tools::addContact( Contact *contact )
 {
-    this->contactLock.lockForWrite();
-    if( !this->contacts.contains( contact->getID() ) )
+    if( this->loggedIn )
     {
-        this->contacts.insert( contact->getID(),  contact );
-
-        if( this->loggedIn )
+        if( contact->getIsContact() )
         {
-            if( contact->getIsContact() )
-            {
-                emit( userContactReceived( contact ) );
-            }
-            emit( contactDetailReceived( contact ) );
+            emit( userContactReceived( contact ) );
         }
+        emit( contactDetailReceived( contact ) );
     }
-    else
-    {
-    }
-    this->contactLock.unlock();
-}
-
-QHash<quint64, Contact*> Tools::getContacts()
-{
-    return this->contacts;
-}
-
-Contact* Tools::getContact( quint64 contactID )
-{
-    Contact* c = NULL;
-    this->contactLock.lockForRead();
-    if( this->contacts.contains( contactID ) )
-    {
-        c = this->contacts.value( contactID );
-    }
-    this->contactLock.unlock();
-    return c;
-}
-
-QHash<quint64, Contact*> Tools::getContacts( quint64 groupID )
-{
-    QHash<quint64, Contact*> groupContacts;
-    if( groupID == 0 )
-    {
-        foreach( Contact *contact, this->contacts )
-        {
-            if( contact->getIsContact() )
-            {
-                groupContacts.insert( contact->getID(), contact );
-            }
-        }
-    }
-    else
-    {
-        Group *group = this->groups.value( groupID );
-        QSet<quint64> groupContactIDs = group->getContacts();
-        foreach( quint64 contactID, groupContactIDs )
-        {
-            Contact* contact = this->contacts.value( contactID );
-            groupContacts.insert( contactID, contact );
-        }
-    }
-    return groupContacts;
-}
-
-void Tools::addGroup( Group *group )
-{
-    this->groups.insert( group->getID(),  group );
-    emit( newGroupAdded( group ) );
 }
 
 void Tools::logonSuccessful()
@@ -219,14 +184,6 @@ void Tools::logonSuccessful( QString timestamp )
 quint32 Tools::getTimestampDifference()
 {
     return this->timestampDifference;
-}
-
-void Tools::setUser( quint64 userID, QString nickname, QString status, QString lastOnline )
-{
-    this->user->userID = userID;
-    this->user->nickname = nickname;
-    this->user->status = status;
-    this->user->lastOnline = lastOnline;
 }
 
 /*
@@ -453,6 +410,10 @@ void Tools::disconnected()
     {
         this->openPalringoConnection();
     }
+    else
+    {
+        emit( cleanUp() );
+    }
 }
 
 QPixmap Tools::getPixmap( QString iconFilename )
@@ -499,7 +460,7 @@ bool Tools::isLoggedIn()
     return this->loggedIn;
 }
 
-void Tools::playSound( QString fileName )
+void Tools::playSound( QString fileName __attribute__ ((unused)) )
 {
     /*
     Phonon::MediaObject *mediaObject = new Phonon::MediaObject( this );
@@ -508,4 +469,24 @@ void Tools::playSound( QString fileName )
     Phonon::Path path = Phonon::createPath( mediaObject, audioOutput );
     mediaObject->play();
     */
+}
+
+User Tools::getUser()
+{
+    return this->connection->getUser();
+}
+
+Contact* Tools::getContact( quint64 contactID )
+{
+    return this->connection->getContact( contactID );
+}
+
+QHash<quint64, Contact*> Tools::getContactListContacts()
+{
+    return this->connection->getContactListContacts();
+}
+
+QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
+{
+    return this->connection->getGroupContacts( groupID );
 }

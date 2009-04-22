@@ -19,77 +19,73 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "connection.h"
-#include "tools.h"
+#include "group.h"
 
-Connection::Connection( QString emailAddress, QString password, QString host, int port )
- : QThread()
+Group::Group(QObject *parent)
+ : Target(parent)
 {
-    this->emailAddress = emailAddress;
-    this->password = password;
-    this->host = host;
-    this->port = port;
-    
-    QString client;
-    #ifdef Q_WS_WIN
-        client = "x86";
-    #endif
-    #ifdef Q_WS_MAC
-        client = "Mac";
-    #endif
-    #ifdef Q_WS_X11
-        client = "Linux";
-    #endif
-    
-    this->conn = new QPalringoConnection( this->emailAddress, this->password, this->host, this->port, client );
-    
-    connect( this, SIGNAL( finished() ), tools_, SLOT( disconnected() ) );
+    this->type = Target::GROUP;
 }
 
-Connection::~Connection() { }
-
-void Connection::run()
+Group::~Group()
 {
-    try
+}
+
+QString         Group::getName() const
+{
+    return this->name;
+}
+
+QString         Group::getDescription() const
+{
+    return this->description;
+}
+
+
+QSet<quint64>  Group::getContacts() const
+{
+    return this->contacts;
+}
+
+QString Group::getTitle() const
+{
+    return this->getName();
+}
+
+QString Group::getIcon() const
+{
+    return ":/svg/group.svg";
+}
+
+bool Group::hasContact( quint64 id ) const
+{
+    return this->contacts.contains( id );
+}
+
+void            Group::setName( QString name )
+{
+    this->name = name;
+}
+
+void            Group::setDescription( QString description )
+{
+    if( description == "" )
     {
-        while( this->conn->poll() > -1 )
-        {
-            msleep( 42 );
-        }
-        delete this->conn;
+        this->description = "Group Chat";
     }
-    catch (int error)
+    else
     {
-        qDebug( "error %d", error );
+        this->description = description;
     }
 }
 
-void Connection::sendMessage( Target* target, Message message )
+void            Group::setContacts( QSet<quint64> contacts )
 {
-    this->conn->sendMessage( message.payload(), message.type(), target );
+    this->contacts = contacts;
 }
 
-void Connection::getHistoryMessage( Target* target, QString timestamp )
+void Group::addMessage( Message message )
 {
-    this->conn->getHistoryMessage( target, timestamp );
-}
-
-void Connection::joinGroup( QString groupName )
-{
-    this->conn->joinGroup( groupName );
-}
-
-void Connection::createGroup( QString groupName )
-{
-    this->conn->createGroup( groupName );
-}
-
-void Connection::leaveGroup( quint64 groupID )
-{
-    this->conn->leaveGroup( groupID );
-}
-
-bool Connection::updateContactDetail( QString detail, QString value )
-{
-    return this->conn->updateContactDetail( detail, value );
+    this->pendingMessages.append( message );
+    emit( pendingMessage() );
 }

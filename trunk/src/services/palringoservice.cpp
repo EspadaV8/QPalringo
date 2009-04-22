@@ -21,7 +21,6 @@
  ***************************************************************************/
 #include "palringoservice.h"
 #include "tools.h"
-#include "libPalringo/libPalringo.h"
 
 PalringoService::PalringoService()
  : Service()
@@ -32,8 +31,8 @@ PalringoService::PalringoService()
 
 void PalringoService::loggedOn()
 {
-    this->Nickname = tools_->user->nickname;
-    this->Status = tools_->user->status;
+    this->Nickname = tools_->getUser().nickname;
+    this->Status = tools_->getUser().status;
     this->OnlineStatus = "Online";
     emit( serviceUpdated() );
 }
@@ -57,19 +56,19 @@ void PalringoService::changeOnlineStatus()
         QString status;
         if( action->text() == "Online" )
         {
-            status = QString::number(ONLINE);
+            status = QString::number(qpOnlineStatus::ONLINE);
         }
         else if( action->text() == "Away" )
         {
-            status = QString::number(AWAY);
+            status = QString::number(qpOnlineStatus::AWAY);
         }
         else if( action->text() == "Invisible" )
         {
-            status = QString::number(INVISIBLE);
+            status = QString::number(qpOnlineStatus::INVISIBLE);
         }
         else if( action->text() == "Busy" )
         {
-            status = QString::number(BUSY);
+            status = QString::number(qpOnlineStatus::BUSY);
         }
 
         if( tools_->isLoggedIn() )
