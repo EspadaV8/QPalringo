@@ -480,7 +480,7 @@ QHash<quint64, Contact*> QPalringoConnection::getGroupContacts( quint64 groupID 
 
 
 /** incoming slots */
-void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpAuthData authData;
     authData.getData(headers, body);
@@ -610,7 +610,7 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
     sendCmd( qpCommand::AUTH, newHeaders, newBody );
 }
 
-void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpMsgData msgData;
     msgData.getData( headers, body );
@@ -669,7 +669,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
     }
 }
 
-void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpLogonData logonData;
     logonData.getData( headers, body );
@@ -687,7 +687,7 @@ void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, con
     emit logonSuccessful( serverTimestamp );
 }
 
-void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpContactData contactData;
     contactData.getData( headers, body );
@@ -735,7 +735,7 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
     }
 }
 
-void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpGroupData groupData;
     groupData.getData( headers, body );
@@ -773,7 +773,7 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
     emit gotGroupDetails( group );
 }
 
-void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onSubProfileReceived( const Headers&, const QByteArray&, qpGenericData* )
 {
     /*
     qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
@@ -781,7 +781,7 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
     */
 }
 
-void QPalringoConnection::onPingReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onPingReceived( const Headers&, const QByteArray&, qpGenericData* )
 {
     Headers h;
     if( protocolVersion_ == 2 )
@@ -792,7 +792,7 @@ void QPalringoConnection::onPingReceived( const Headers& headers, const QByteArr
     sendCmd( qpCommand::PING, h, "");
 }
 
-void QPalringoConnection::onResponseReceived( const Headers& headers, const QByteArray& body, qpGenericData* data )
+void QPalringoConnection::onResponseReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
 {
     qpResponseData responseData;
     responseData.getData(headers, body);
