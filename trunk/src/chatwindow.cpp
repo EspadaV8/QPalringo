@@ -151,10 +151,12 @@ void ChatWindow::sendMessage( Message message )
 
 void ChatWindow::checkMessageInput()
 {
-
-    QString message = this->multiLineInput->toPlainText().toUtf8();
-    this->multiLineInput->setPlainText("");
-    this->sendTextMessage( message );
+    QString message = this->multiLineInput->toPlainText();
+    if( !message.isEmpty() )
+    {
+        this->multiLineInput->setPlainText("");
+        this->sendTextMessage( message.toUtf8() );
+    }
 }
 
 void ChatWindow::appendMessage( Message message )
