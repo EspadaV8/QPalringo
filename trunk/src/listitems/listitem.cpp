@@ -29,11 +29,13 @@ ListItem::ListItem( QWidget *parent )
     this->type = ListItem::UNDEFINED;
 
     QHBoxLayout *hbox = new QHBoxLayout;
+    hbox->setContentsMargins( 0, 0, 0, 0 );
 
     this->svgIcon = new QSvgWidget;
     this->svgIcon->setFixedSize( 24, 24 );
 
     QVBoxLayout *vbox = new QVBoxLayout;
+    vbox->setContentsMargins( 0, 0, 0, 0 );
 
     this->firstLine = new QLabel;
     this->firstLine->setObjectName( "firstLine" );
