@@ -235,7 +235,7 @@ void qpResponseData::getData( const Headers& headers, QByteArray body )
     }
     else
     {
-        int temp;
+        int temp = 0;
         for( int i = 0; i < body.size(); i++ )
         {
             temp <<= 8;
