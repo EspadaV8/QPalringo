@@ -164,8 +164,21 @@ void ChatWindow::appendMessage( Message message )
 
 void ChatWindow::askForHistory()
 {
-    Message m = this->messageList->getMessageAt( 0 );
-    QString timestamp = QString::number( m.seconds() ) + "." + QString::number( m.useconds() );
+    Message m;
+    m = this->messageList->getMessageAt( 0 );
+    QString timestamp ;
+
+    if( m.seconds() != 0 )
+    {
+        qDebug( "has seconds" );
+        timestamp = QString::number( m.seconds() ) + "." + QString::number( m.useconds() );
+    }
+    else
+    {
+        qDebug( "doesn't" );
+        timestamp = QString::number( QDateTime::currentDateTime().toTime_t() ) + ".0";
+    }
+    qDebug( "timestamp = %s", qPrintable( timestamp ) );
     tools_->getHistoryMessage( this->target, timestamp );
 }
 
