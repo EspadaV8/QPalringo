@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QSettings>
+#include <QIntValidator>
 #include "settingswindow.h"
 #include "tools.h"
 
@@ -27,6 +28,7 @@ SettingsWindow::SettingsWindow(QWidget *parent)
  : QDialog(parent), QPalringoSettingsWindow()
 {
     setupUi(this);
+
     this->setFeildValues();
 
     connect( this->OkButton, SIGNAL(clicked()), this, SLOT(saveSettings()));
@@ -41,6 +43,13 @@ void SettingsWindow::setFeildValues()
     this->RememberMe->setChecked( settings.value( "signin/rememberme" ).toBool() );
     this->privateAutoOpen->setChecked( settings.value( "alerts/privateAutoOpen" ).toBool() );
     this->groupAutoOpen->setChecked( settings.value( "alerts/groupAutoOpen" ).toBool() );
+
+    this->guiLayoutComboBox->setCurrentIndex( settings.value( "gui/layout" ).toInt() );
+    this->showMessageIcons->setChecked( settings.value( "gui/showMessageIcons" ).toBool() );
+
+    this->proxyEnable->setChecked( settings.value( "networt/proxy/enabled" ).toBool() );
+    this->proxyHostEdit->setText( settings.value( "networt/proxy/host" ).toString() );
+    this->proxyPortEdit->setText( settings.value( "networt/proxy/port" ).toString() );
 }
 
 void SettingsWindow::saveSettings()
@@ -50,6 +59,13 @@ void SettingsWindow::saveSettings()
     settings.setValue( "signin/rememberme", this->RememberMe->isChecked() );
     settings.setValue( "alerts/privateAutoOpen", this->privateAutoOpen->isChecked() );
     settings.setValue( "alerts/groupAutoOpen", this->groupAutoOpen->isChecked() );
+
+    settings.setValue( "gui/layout", this->guiLayoutComboBox->currentIndex() );
+    settings.setValue( "gui/showMessageIcons", this->showMessageIcons->isChecked() );
+
+    settings.setValue( "networt/proxy/enabled", this->proxyEnable->isChecked() );
+    settings.setValue( "networt/proxy/host", this->proxyHostEdit->text() );
+    settings.setValue( "networt/proxy/port", this->proxyPortEdit->text() );
 }
 
 SettingsWindow::~SettingsWindow() { }

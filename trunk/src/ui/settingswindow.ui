@@ -130,6 +130,100 @@
        </item>
       </layout>
      </widget>
+     <widget class="QWidget" name="InterfaceSettings">
+      <attribute name="title">
+       <string>Interface</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QComboBox" name="guiLayoutComboBox">
+         <item>
+          <property name="text">
+           <string>Tabbed Layout</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Drop down menu</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item>
+        <widget class="QCheckBox" name="showMessageIcons">
+         <property name="text">
+          <string>Show message type icons</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_5">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="NetworkSettings">
+      <attribute name="title">
+       <string>Network</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QCheckBox" name="proxyEnable">
+         <property name="text">
+          <string>Connect via HTTPS proxy</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="proxyHostLabel">
+         <property name="text">
+          <string>Host</string>
+         </property>
+         <property name="buddy">
+          <cstring>proxyHostEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="proxyHostEdit"/>
+       </item>
+       <item>
+        <widget class="QLabel" name="proxyPortLabel">
+         <property name="text">
+          <string>Port</string>
+         </property>
+         <property name="buddy">
+          <cstring>proxyPortEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="proxyPortEdit"/>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_6">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
    <item>
