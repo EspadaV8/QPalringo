@@ -22,7 +22,8 @@ LIBS += -L../bin \
     -lQPalringo \
     -lssl \
     -lspeex \
-    -lz
+    -lz \
+    -lqp_default_ui
 RESOURCES += ../resources/qpalringo.qrc
 DISTFILES += ../qss/qpalringo.css \
     ../qss/listitem.qss \
