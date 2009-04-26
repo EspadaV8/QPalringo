@@ -19,41 +19,56 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef GROUPLISTITEM_H
-#define GROUPLISTITEM_H
-
-#include <QWidget>
-#include "listitem.h"
-#include "targets/group.h"
+#ifndef CONTACTLISTITEM_H
+#define CONTACTLISTITEM_H
 
 /**
-	@author Andrew Smith <espadav8@gmail.com>
+ @author Andrew Smith <espadav8@gmail.com>
 */
-class GroupListItem : public ListItem
+
+#include <QWidget>
+#include <QAction>
+#include <QList>
+#include "listitem.h"
+#include "message.h"
+#include "targets/contact.h"
+
+class ContactListItem : public ListItem
 {
     Q_OBJECT
     public:
-        GroupListItem( QWidget *parent = 0, Group *group = NULL );
-        ~GroupListItem();
+        ContactListItem( QWidget *parent = 0, Contact *contact = NULL );
+        ~ContactListItem();
 
-        Group* getGroup();
-        virtual QString getContainerGroup();
+        Contact* getContact();
 
-    private:
-        Group *group;
-        QAction *groupChatAction;
-        QAction *leaveGroupAction;
+        QString getContainerGroup();
+
+    signals:
+        void containerGroupChanged( ContactListItem* );
+        void startChat( Target* );
+        void showContactProperties( Target* );
         
     private slots:
         void startChat();
-        void leaveGroup();
+        void showContactProperties();
         void pendingMessage();
         void resetDetails();
 
+        void updateNickname();
+        void updateStatusLine();
+        void setContactOnlineStatus();
+
     protected:
+        void paintEvent( QPaintEvent *event );
         void mouseDoubleClickEvent( QMouseEvent *event );
         virtual void setMenu();
 
+    private:
+        Contact *contact;
+        
+        QAction *chatMenuAction;
+        QAction *propertiesMenuAction;
 };
 
 #endif

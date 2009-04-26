@@ -20,7 +20,6 @@
  *                                                                         *
  ***************************************************************************/
 #include "contactlistitem.h"
-#include "uitools.h"
 
 ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     : ListItem( parent )
@@ -58,7 +57,7 @@ void ContactListItem::updateStatusLine()
 void ContactListItem::setContactOnlineStatus()
 {
     this->setIcon( this->contact->getIcon() );
-    emit( containerGroupChanged( this ) );
+    emit containerGroupChanged( this );
 }
 
 Contact* ContactListItem::getContact()
@@ -81,17 +80,17 @@ QString ContactListItem::getContainerGroup()
 void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     event->accept();
-    this->startChat();
-}
-
-void ContactListItem::startChat()
-{
-    uitools_->openChatWindow( this->contact );
+    startChat();
 }
 
 void ContactListItem::showContactProperties()
 {
-    uitools_->showContactProperties( this->contact );
+    emit showContactProperties( this->contact );
+}
+
+void ContactListItem::startChat()
+{
+    emit startChat( this->contact );
 }
 
 void ContactListItem::paintEvent(QPaintEvent *)
