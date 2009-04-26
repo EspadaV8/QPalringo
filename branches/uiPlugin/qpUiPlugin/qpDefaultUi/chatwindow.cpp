@@ -24,11 +24,9 @@
 #include "chatwindow.h"
 #include "tools.h"
 
-ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
-    : QWidget ( parent )
+ChatWindow::ChatWindow ( Target *target )
 {
     this->setWindowFlags ( Qt::Window );
-    this->parent = parent;
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
