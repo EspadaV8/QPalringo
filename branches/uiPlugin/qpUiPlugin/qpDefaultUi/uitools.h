@@ -17,8 +17,10 @@ class uiTools : public QObject
     public:
         uiTools();
         bool checkChatWindowOpen( Target *target );
-        void openChatWindow( Target *target );
         void showContactProperties( Contact *contact );
+
+    public slots:
+        void openChatWindow( Target *target );
 
     private slots:
         void removeChatWindow( Target *target );
