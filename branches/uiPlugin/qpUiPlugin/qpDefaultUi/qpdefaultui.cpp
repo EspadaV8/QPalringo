@@ -8,10 +8,10 @@ void qpDefaultUi::setUp()
     mainTabs = new QTabWidget();
     connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
 
-    OverviewListView *overviewList = new OverviewListView( mainTabs );
+    overviewList = new OverviewListView( mainTabs );
     overviewList->setupContainers();
 
-    ContactListView *contactList = new ContactListView( mainTabs );
+    contactList = new ContactListView( mainTabs );
     contactList->setupContainers();
     connect(contactList, SIGNAL( startChat( Target* ) ), uitools_, SLOT( openChatWindow( Target* ) ) );
 
@@ -19,6 +19,7 @@ void qpDefaultUi::setUp()
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
 
     connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
+    connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
 }
 
 void qpDefaultUi::tabFocusChanged( int tabIndex )
@@ -80,5 +81,22 @@ QString qpDefaultUi::getName()
     return "QPalringo Default UI";
 }
 
+
+void qpDefaultUi::newPendingMessage( Target* target )
+{
+    qDebug( "newPendingMessage" );
+    QSettings settings;
+
+    if( ( ( target->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
+          ( target->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
+        !uitools_->checkChatWindowOpen( target ) )
+    {
+        uitools_->openChatWindow( target );
+    }
+    else
+    {
+        this->overviewList->newPendingMessage( target );
+    }
+}
 
 Q_EXPORT_PLUGIN2(qp_default_ui, qpDefaultUi)

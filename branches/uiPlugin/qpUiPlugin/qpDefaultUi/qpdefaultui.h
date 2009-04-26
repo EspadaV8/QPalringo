@@ -28,9 +28,13 @@ class qpDefaultUi : public qpUiPlugin
         QWidget *overviewPage;
         QWidget *contactsPage;
 
+        OverviewListView* overviewList;
+        ContactListView* contactList;
+
     public slots:
         void addGroup( Group* group );
         void removeGroup( quint64 groupId );
+        void newPendingMessage( Target* target );
 
     private slots:
         void tabFocusChanged( int tabIndex );
