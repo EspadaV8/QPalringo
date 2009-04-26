@@ -1,5 +1,5 @@
-SUBDIRS += src/libPalringo \
-    src/libQPalringo \
+SUBDIRS += libQPalringo \
+    qpUiPlugin/qpDefaultUi \
     src
 TEMPLATE = subdirs
 CONFIG += warn_on \
