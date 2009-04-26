@@ -50,6 +50,11 @@ void GroupListView::getContacts()
     ContactListView::getContacts( groupID );
 }
 
+Group* GroupListView::getGroup()
+{
+    return this->group;
+}
+
 void GroupListView::inFocus()
 {
     if( this->contacts.size() == 0 )

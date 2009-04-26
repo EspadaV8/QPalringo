@@ -36,6 +36,7 @@ class GroupListView : public ContactListView
         ~GroupListView();
 
         virtual void setupContainers();
+        Group* getGroup();
 
     private:
         Group *group;
