@@ -10,6 +10,7 @@ void qpDefaultUi::setUp()
 
     overviewList = new OverviewListView( mainTabs );
     overviewList->setupContainers();
+    connect(overviewList, SIGNAL( startChat( Target* ) ), uitools_, SLOT( openChatWindow( Target* ) ) );
 
     contactList = new ContactListView( mainTabs );
     contactList->setupContainers();
