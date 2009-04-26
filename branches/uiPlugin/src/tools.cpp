@@ -100,7 +100,7 @@ void Tools::messageReceived( Message message )
 
         if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
               ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
-              !tools_->checkChatWindowOpen( t ) )
+              !this->checkChatWindowOpen( t ) )
         {
             this->openChatWindow( t );
         }
@@ -134,7 +134,7 @@ void Tools::openPalringoConnection( QString email, QString password )
             connect( connection, SIGNAL( gotContactDetails( Contact* ) ), this, SLOT( addContact( Contact* ) ) );
             connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
             connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
-            connect( connection, SIGNAL( disconnected() ), tools_, SLOT( disconnected() ) );
+            connect( connection, SIGNAL( disconnected() ), this, SLOT( disconnected() ) );
         }
     }
 }
