@@ -38,15 +38,8 @@ PalringoWindow::PalringoWindow()
     CreateMenuBar();
     loadUi();
 
-    //SetupTabs();
-
-    //setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
-
-    connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
-    connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
-    // connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
 
     readSettings();
 }
@@ -81,6 +74,8 @@ void PalringoWindow::loadUi()
                 qDebug( "%s", qPrintable( uiPlugin->getName() ) );
                 QWidget *w = uiPlugin->getCentralWidget();
                 setCentralWidget( w );
+
+                connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
             }
         }
     }
@@ -198,15 +193,6 @@ void PalringoWindow::CreateTrayIcon()
     this->systrayicon = new QSystemTrayIcon();
     this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
-}
-
-void PalringoWindow::newGroupAdded( Group *group )
-{
-    /*
-    GroupListView *groupTab = new GroupListView( mainTabs, group );
-    groupTab->setupContainers();
-    mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
-    */
 }
 
 void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )

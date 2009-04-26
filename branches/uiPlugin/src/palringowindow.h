@@ -44,7 +44,6 @@ class PalringoWindow : public QMainWindow
         ~PalringoWindow();
 
     public slots:
-        void newGroupAdded( Group *group );
         void groupLeft( quint64 groupID );
         
     private slots:
