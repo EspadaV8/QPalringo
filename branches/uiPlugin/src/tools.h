@@ -30,9 +30,6 @@
 #include "targets/target.h"
 #include "qpalringoconnection.h"
 
-//#include "messageitem.h"
-//#include "chatwindow.h"
-
 class Tools;
 extern Tools *tools_;
 
@@ -45,10 +42,6 @@ class Tools : public QObject
     public:
         Tools();
         ~Tools();
-
-        bool checkChatWindowOpen( Target *target );
-        void openChatWindow( Target *target );
-        void removeChatWindow( Target *target );
 
         void openPalringoConnection( QString email = "", QString password = "");
 
@@ -65,9 +58,7 @@ class Tools : public QObject
         quint32 getTimestampDifference();
         
         QPixmap getPixmap( QString iconFilename );
-        
-        void showContactProperties( Contact *contact );
-        
+
         void joinGroup( QString groupName );
         void createGroup( QString groupName );
         void leaveGroup( quint64 groupID );

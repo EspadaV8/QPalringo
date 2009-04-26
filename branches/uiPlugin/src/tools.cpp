@@ -41,32 +41,6 @@ Tools::Tools()
 
 Tools::~Tools() { }
 
-bool Tools::checkChatWindowOpen( Target *target )
-{
-    //return ( this->openWindows.value( target ) != NULL );
-}
-
-void Tools::openChatWindow( Target *target )
-{
-    if ( this->checkChatWindowOpen( target ) )
-    {
-        /*ChatWindow *w = this->openWindows.value( target );
-        w->raise();
-        w->activateWindow();*/
-    }
-    else
-    {
-        /*ChatWindow *w = new ChatWindow( target );
-        this->openWindows[ target ] = w;
-        w->show();*/
-    }
-}
-
-void Tools::removeChatWindow( Target *target )
-{
-    //this->openWindows.remove( target );
-}
-
 void Tools::historyMessageReceived( Message message )
 {
     if( this->gettingHistory )
@@ -97,7 +71,7 @@ void Tools::messageReceived( Message message )
     if( t != NULL )
     {
         t->addMessage( message );
-
+/*
         if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
               ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
               !this->checkChatWindowOpen( t ) )
@@ -108,6 +82,7 @@ void Tools::messageReceived( Message message )
         {
             emit newPendingMessage( t );
         }
+*/
     }
 }
 
@@ -424,13 +399,6 @@ QPixmap Tools::getPixmap( QString iconFilename )
         QPixmapCache::insert( iconFilename, p );
     }
     return p;
-}
-
-void Tools::showContactProperties( Contact *contact )
-{
-    /*ContactPropertiesWindow *c = ContactPropertiesWindow::getInstance();
-    c->update( contact );
-    c->show();*/
 }
 
 void Tools::joinGroup( QString groupName )
