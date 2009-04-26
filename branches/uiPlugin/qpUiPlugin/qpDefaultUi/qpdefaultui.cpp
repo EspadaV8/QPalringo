@@ -1,4 +1,5 @@
 #include "qpdefaultui.h"
+#include "tools.h"
 
 void qpDefaultUi::setUp()
 {
@@ -13,8 +14,8 @@ void qpDefaultUi::setUp()
     ContactListView *contactList = new ContactListView( mainTabs );
     contactList->setupContainers();
 
-    mainTabs->addTab( overviewList, tr( "Overview" ) );
-    mainTabs->addTab( contactList, tr( "&Contacts" ) );
+    mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/logo.svg" ), tr( "Overview" ) );
+    mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
 
     connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
 }
@@ -60,7 +61,7 @@ void qpDefaultUi::addGroup( Group* group )
 {
     GroupListView *groupTab = new GroupListView( mainTabs, group );
     groupTab->setupContainers();
-    mainTabs->addTab( groupTab, group->getName() );
+    mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
 QMenu* qpDefaultUi::getMenu()
