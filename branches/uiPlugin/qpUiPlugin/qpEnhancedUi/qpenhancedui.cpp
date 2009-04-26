@@ -1,7 +1,7 @@
-#include "qpdefaultui.h"
+#include "qpenhancedui.h"
 #include "tools.h"
 
-void qpDefaultUi::setUp()
+void qpEnhancedUi::setUp()
 {
     uitools_ = new uiTools();
 
@@ -23,7 +23,7 @@ void qpDefaultUi::setUp()
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
 }
 
-void qpDefaultUi::tabFocusChanged( int tabIndex )
+void qpEnhancedUi::tabFocusChanged( int tabIndex )
 {
     PalringoListView *p = qobject_cast<PalringoListView*>( this->mainTabs->widget(tabIndex) );
     if( p )
@@ -32,7 +32,7 @@ void qpDefaultUi::tabFocusChanged( int tabIndex )
     }
 }
 
-void qpDefaultUi::removeGroup( quint64 groupId )
+void qpEnhancedUi::removeGroup( quint64 groupId )
 {
     for( int i = 0; i < mainTabs->count(); i++ )
     {
@@ -50,7 +50,7 @@ void qpDefaultUi::removeGroup( quint64 groupId )
     }
 }
 
-void qpDefaultUi::cleanUp()
+void qpEnhancedUi::cleanUp()
 {
     for( int i = mainTabs->count(); i > 1; i-- )
     {
@@ -60,7 +60,7 @@ void qpDefaultUi::cleanUp()
     }
 }
 
-void qpDefaultUi::addGroup( Group* group )
+void qpEnhancedUi::addGroup( Group* group )
 {
     GroupListView *groupTab = new GroupListView( mainTabs, group );
     groupTab->setupContainers();
@@ -68,22 +68,22 @@ void qpDefaultUi::addGroup( Group* group )
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
-QMenu* qpDefaultUi::getMenu()
+QMenu* qpEnhancedUi::getMenu()
 {
 }
 
-QWidget* qpDefaultUi::getCentralWidget()
+QWidget* qpEnhancedUi::getCentralWidget()
 {
     return mainTabs;
 }
 
-QString qpDefaultUi::getName()
+QString qpEnhancedUi::getName()
 {
-    return "QPalringo Default UI";
+    return "QPalringo Enhanced UI";
 }
 
 
-void qpDefaultUi::newPendingMessage( Target* target )
+void qpEnhancedUi::newPendingMessage( Target* target )
 {
     qDebug( "newPendingMessage" );
     QSettings settings;
@@ -100,4 +100,4 @@ void qpDefaultUi::newPendingMessage( Target* target )
     }
 }
 
-Q_EXPORT_PLUGIN2(qp_default_ui, qpDefaultUi)
+Q_EXPORT_PLUGIN2(qp_enhanced_ui, qpEnhancedUi)

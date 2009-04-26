@@ -1,5 +1,5 @@
-#ifndef QPDEFAULTUI_H
-#define QPDEFAULTUI_H
+#ifndef QPENHANCEDUI_H
+#define QPENHANCEDUI_H
 
 #include <QObject>
 #include <QMenu>
@@ -11,7 +11,7 @@
 #include "defaultListViews/contactlistview.h"
 #include "defaultListViews/grouplistview.h"
 
-class qpDefaultUi : public qpUiPlugin
+class qpEnhancedUi : public qpUiPlugin
 {
     Q_OBJECT
     Q_INTERFACES(qpUiPlugin)
@@ -40,4 +40,4 @@ class qpDefaultUi : public qpUiPlugin
         void tabFocusChanged( int tabIndex );
 };
 
-#endif // QPDEFAULTUI_H
+#endif // QPENHANCEDUI_H

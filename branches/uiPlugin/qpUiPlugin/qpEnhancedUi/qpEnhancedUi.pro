@@ -2,17 +2,17 @@
 # Project created by QtCreator 2009-04-25T10:47:06
 # -------------------------------------------------
 TEMPLATE = lib
-CONFIG += plugin static
+CONFIG += plugin
 INCLUDEPATH += ../../src \
     ../../libQPalringo
-HEADERS += qpdefaultui.h \
+HEADERS += qpenhancedui.h \
     contactpropertieswindow.h \
     uitools.h
-SOURCES += qpdefaultui.cpp \
+SOURCES += qpenhancedui.cpp \
     contactpropertieswindow.cpp \
     uitools.cpp
 FORMS = ui/contactProperties.ui
-TARGET = $$qtLibraryTarget(qp_default_ui)
+TARGET = $$qtLibraryTarget(qp_enhanced_ui)
 DESTDIR = ../../bin
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
