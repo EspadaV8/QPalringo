@@ -21,7 +21,7 @@ void uiTools::openChatWindow( Target *target )
     }
     else
     {
-        ChatWindow *w = tools_->createDefaultChatWindow( target );
+        ChatWindow *w = new ChatWindow( target );
         this->openWindows[ target ] = w;
         w->show();
         connect( w, SIGNAL(removeChatWindow(Target*)), this, SLOT(removeChatWindow(Target*)));
