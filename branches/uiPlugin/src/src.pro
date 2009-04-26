@@ -45,7 +45,12 @@ HEADERS += palringowindow.h \
     defaultListItems/contactlistitem.h \
     defaultListItems/grouplistitem.h \
     defaultListItems/listitem.h \
-    defaultListItems/serviceitem.h
+    defaultListItems/serviceitem.h \
+    defaultListViews/contactlistview.h \
+    defaultListViews/grouplistview.h \
+    defaultListViews/overviewlistview.h \
+    defaultListViews/palringolistview.h \
+    defaultListViews/listviewcontainer.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \
