@@ -71,18 +71,11 @@ void Tools::messageReceived( Message message )
     if( t != NULL )
     {
         t->addMessage( message );
-/*
-        if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
-              ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
-              !this->checkChatWindowOpen( t ) )
-        {
-            this->openChatWindow( t );
-        }
-        else if( t->getPendingMessages().size() == 1 )
+
+        if( t->getPendingMessages().size() == 1 )
         {
             emit newPendingMessage( t );
         }
-*/
     }
 }
 
