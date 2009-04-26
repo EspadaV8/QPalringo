@@ -2,6 +2,8 @@
 
 void qpDefaultUi::setUp()
 {
+    uitools_ = new uiTools();
+
     mainTabs = new QTabWidget();
     connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
 

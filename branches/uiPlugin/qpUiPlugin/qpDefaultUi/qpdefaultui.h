@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QTabWidget>
 
+#include "uitools.h"
 #include "qpuiplugin.h"
 #include "listviews/overviewlistview.h"
 #include "listviews/contactlistview.h"
