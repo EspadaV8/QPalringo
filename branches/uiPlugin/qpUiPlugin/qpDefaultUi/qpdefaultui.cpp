@@ -13,12 +13,17 @@ void qpDefaultUi::setUp()
 
     mainTabs->addTab( overviewList, tr( "Overview" ) );
     mainTabs->addTab( contactList, tr( "&Contacts" ) );
+
+    connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
 }
 
 void qpDefaultUi::tabFocusChanged( int tabIndex )
 {
-    PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
-    emit p->inFocus();
+    PalringoListView *p = qobject_cast<PalringoListView*>( this->mainTabs->widget(tabIndex) );
+    if( p )
+    {
+        emit p->inFocus();
+    }
 }
 
 void qpDefaultUi::cleanUp()
