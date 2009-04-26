@@ -9,7 +9,11 @@ SOURCES += main.cpp \
     defaultChatWindow/messageitem.cpp \
     services/service.cpp \
     services/palringoservice.cpp \
-    signinwindow.cpp
+    signinwindow.cpp \
+    defaultListItems/contactlistitem.cpp \
+    defaultListItems/grouplistitem.cpp \
+    defaultListItems/listitem.cpp \
+    defaultListItems/serviceitem.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -32,7 +36,11 @@ HEADERS += palringowindow.h \
     defaultChatWindow/messageitem.h \
     services/service.h \
     services/palringoservice.h \
-    signinwindow.h
+    signinwindow.h \
+    defaultListItems/contactlistitem.h \
+    defaultListItems/grouplistitem.h \
+    defaultListItems/listitem.h \
+    defaultListItems/serviceitem.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \
