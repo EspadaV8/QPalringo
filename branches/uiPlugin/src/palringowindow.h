@@ -34,6 +34,8 @@
 #include "listitems/listitem.h"
 #include "settingswindow.h"
 
+class qpUiPlugin;
+
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
@@ -53,9 +55,7 @@ class PalringoWindow : public QMainWindow
     private slots:
         void joinAGroup();
         void createAGroup();
-        void tabFocusChanged( int tabIndex );
         void showSettingsWindow();
-        void cleanUp();
 
     private:
         QMenu *fileMenu;
@@ -77,17 +77,12 @@ class PalringoWindow : public QMainWindow
         QIcon *systraySvg;
         QSystemTrayIcon *systrayicon;
 
+        void loadUi();
         void SetupActions();
         void CreateMenuBar();
         void UpdateContact();
 
-        QScrollArea *qsa1;
-        QTabWidget *mainTabs;
-        QWidget *overviewPage;
-        QWidget *contactsPage;
-
         void CreateTrayIcon();
-        void SetupTabs();
 
         QList<ListItem *> usersContacts;
         QList<ListItem *> userServices;
@@ -97,6 +92,8 @@ class PalringoWindow : public QMainWindow
         void readSettings();
         void writeSettings();
         void closeEvent(QCloseEvent *event);
+
+        qpUiPlugin* uiPlugin;
 };
 
 #endif

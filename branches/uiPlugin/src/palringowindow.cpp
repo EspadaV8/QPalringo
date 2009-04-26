@@ -20,6 +20,8 @@
  *                                                                         *
  ***************************************************************************/
 #include <QtGui>
+#include <QPluginLoader>
+#include <QDir>
 #include "palringowindow.h"
 #include "tools.h"
 #include "listviews/contactlistview.h"
@@ -29,23 +31,59 @@
 PalringoWindow::PalringoWindow()
  : QMainWindow()
 {
-    tools_ = new Tools( this );
+    tools_ = new Tools();
     this->settingsWindow = NULL;
     CreateTrayIcon();
     SetupActions();
     CreateMenuBar();
+    loadUi();
 
-    SetupTabs();
+    //SetupTabs();
 
-    setCentralWidget( mainTabs );
+    //setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
-    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
+    // connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
 
     readSettings();
+}
+
+void PalringoWindow::loadUi()
+{
+    foreach (QObject *plugin, QPluginLoader::staticInstances())
+    {
+         uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
+         if( uiPlugin )
+         {
+             uiPlugin->setUp();
+             qDebug( "%s", qPrintable( uiPlugin->getName() ) );
+             QWidget *w = uiPlugin->getCentralWidget();
+             setCentralWidget( w );
+         }
+    }
+
+    QDir pluginsDir = QDir(qApp->applicationDirPath());
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files))
+    {
+        QPluginLoader loader( pluginsDir.absoluteFilePath(fileName) );
+        QObject *plugin = loader.instance();
+
+        if( plugin )
+        {
+            uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
+            if( uiPlugin )
+            {
+                uiPlugin->setUp();
+                qDebug( "%s", qPrintable( uiPlugin->getName() ) );
+                QWidget *w = uiPlugin->getCentralWidget();
+                setCentralWidget( w );
+            }
+        }
+    }
 }
 
 void PalringoWindow::SetupActions()
@@ -150,27 +188,6 @@ void PalringoWindow::CreateMenuBar()
     groupMenu->addAction( createGroup );
 }
 
-void PalringoWindow::SetupTabs()
-{
-    mainTabs = new QTabWidget();
-    connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
-
-    OverviewListView *overviewList = new OverviewListView( mainTabs );
-    overviewList->setupContainers();
-
-    ContactListView *contactList = new ContactListView( mainTabs );
-    contactList->setupContainers();
-
-    mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
-    mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
-}
-
-void PalringoWindow::tabFocusChanged(int tabIndex )
-{
-    PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
-    emit( p->inFocus() );
-}
-
 PalringoWindow::~PalringoWindow()
 {
     delete this->settingsWindow;
@@ -185,17 +202,21 @@ void PalringoWindow::CreateTrayIcon()
 
 void PalringoWindow::newGroupAdded( Group *group )
 {
+    /*
     GroupListView *groupTab = new GroupListView( mainTabs, group );
     groupTab->setupContainers();
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
+    */
 }
 
 void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )
 {
+    /*
     QWidget *w = mainTabs->currentWidget();
     mainTabs->setCurrentIndex( 0 );
     mainTabs->removeTab( mainTabs->indexOf( w ) );
     w->deleteLater();
+    */
 }
 
 void PalringoWindow::joinAGroup()
@@ -265,14 +286,4 @@ void PalringoWindow::closeEvent(QCloseEvent *event)
 {
     writeSettings();
     event->accept();
-}
-
-void PalringoWindow::cleanUp()
-{
-    for( int i = mainTabs->count(); i > 1; i-- )
-    {
-        QWidget *w = mainTabs->widget( i );
-        mainTabs->removeTab( i );
-        delete w;
-    }
 }
