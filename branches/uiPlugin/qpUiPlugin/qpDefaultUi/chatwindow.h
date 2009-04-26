@@ -28,7 +28,6 @@
 #include <QPushButton>
 #include <QSplitter>
 #include <QDateTime>
-#include "palringowindow.h"
 #include "targets/target.h"
 #include "messagelist.h"
 #include "chattextedit.h"
@@ -40,7 +39,7 @@ class ChatWindow : public QWidget
 {
 Q_OBJECT
     public:
-        ChatWindow(PalringoWindow *parent = 0, Target *target = NULL );
+        ChatWindow( Target *target = NULL );
         ~ChatWindow();
 
         void appendMessage( Message message );
@@ -52,7 +51,6 @@ Q_OBJECT
         void getMessages();
 
     private:
-        PalringoWindow *parent;
         Target *target;
 
         QPushButton *historyButton;
