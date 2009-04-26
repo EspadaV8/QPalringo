@@ -21,7 +21,8 @@ class qpUiPlugin : public QObject
         virtual QString getName() = 0;
 
     public slots:
-        virtual void addGroup( Group* ) = 0;
+        virtual void addGroup( Group* group ) = 0;
+        virtual void removeGroup( quint64 groupId ) = 0;
 };
 
  Q_DECLARE_INTERFACE(qpUiPlugin, "qpalringo.qpUiPlugin/0.1")
