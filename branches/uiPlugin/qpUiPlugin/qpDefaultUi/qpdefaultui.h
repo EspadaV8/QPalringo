@@ -29,6 +29,7 @@ class qpDefaultUi : public qpUiPlugin
 
     public slots:
         void addGroup( Group* group );
+        void removeGroup( quint64 groupId );
 
     private slots:
         void tabFocusChanged( int tabIndex );

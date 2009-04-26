@@ -26,6 +26,24 @@ void qpDefaultUi::tabFocusChanged( int tabIndex )
     }
 }
 
+void qpDefaultUi::removeGroup( quint64 groupId )
+{
+    for( int i = 0; i < mainTabs->count(); i++ )
+    {
+        GroupListView *w = qobject_cast<GroupListView*>( mainTabs->widget( i ) );
+        if( w && ( w->getGroup()->getID() == groupId ) )
+        {
+            if( i == mainTabs->currentIndex() )
+            {
+                mainTabs->setCurrentIndex( 0 );
+            }
+            mainTabs->removeTab( i );
+            w->deleteLater();
+            break;
+        }
+    }
+}
+
 void qpDefaultUi::cleanUp()
 {
     for( int i = mainTabs->count(); i > 1; i-- )
