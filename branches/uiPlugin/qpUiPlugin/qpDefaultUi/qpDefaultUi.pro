@@ -7,19 +7,9 @@ INCLUDEPATH += ../../src \
     ../../libQPalringo
 HEADERS += qpdefaultui.h \
     contactpropertieswindow.h \
-    listviews/contactlistview.h \
-    listviews/grouplistview.h \
-    listviews/overviewlistview.h \
-    listviews/palringolistview.h \
-    listviews/listviewcontainer.h \
     uitools.h
 SOURCES += qpdefaultui.cpp \
     contactpropertieswindow.cpp \
-    listviews/contactlistview.cpp \
-    listviews/grouplistview.cpp \
-    listviews/overviewlistview.cpp \
-    listviews/palringolistview.cpp \
-    listviews/listviewcontainer.cpp \
     uitools.cpp
 FORMS = ui/contactProperties.ui
 TARGET = $$qtLibraryTarget(qp_default_ui)

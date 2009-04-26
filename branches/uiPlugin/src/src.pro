@@ -13,7 +13,12 @@ SOURCES += main.cpp \
     defaultListItems/contactlistitem.cpp \
     defaultListItems/grouplistitem.cpp \
     defaultListItems/listitem.cpp \
-    defaultListItems/serviceitem.cpp
+    defaultListItems/serviceitem.cpp \
+    defaultListViews/contactlistview.cpp \
+    defaultListViews/grouplistview.cpp \
+    defaultListViews/overviewlistview.cpp \
+    defaultListViews/palringolistview.cpp \
+    defaultListViews/listviewcontainer.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
