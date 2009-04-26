@@ -28,10 +28,7 @@
 #include <QScrollArea>
 #include "targets/contact.h"
 #include "targets/group.h"
-#include "signinwindow.h"
 #include "qpuiplugin.h"
-#include "messageitem.h"
-#include "listitems/listitem.h"
 #include "settingswindow.h"
 
 class qpUiPlugin;
@@ -45,8 +42,6 @@ class PalringoWindow : public QMainWindow
     public:
         PalringoWindow();
         ~PalringoWindow();
-
-        void sendMessage( Contact *contact, Message *message );
 
     public slots:
         void newGroupAdded( Group *group );
@@ -84,8 +79,8 @@ class PalringoWindow : public QMainWindow
 
         void CreateTrayIcon();
 
-        QList<ListItem *> usersContacts;
-        QList<ListItem *> userServices;
+        //QList<ListItem *> usersContacts;
+        //QList<ListItem *> userServices;
 
         SettingsWindow* settingsWindow;
 

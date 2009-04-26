@@ -30,8 +30,8 @@
 #include "targets/target.h"
 #include "qpalringoconnection.h"
 
-#include "messageitem.h"
-#include "chatwindow.h"
+//#include "messageitem.h"
+//#include "chatwindow.h"
 
 class Tools;
 extern Tools *tools_;

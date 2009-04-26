@@ -24,9 +24,9 @@
 #include <QDir>
 #include "palringowindow.h"
 #include "tools.h"
-#include "listviews/contactlistview.h"
-#include "listviews/grouplistview.h"
-#include "listviews/overviewlistview.h"
+//#include "listviews/contactlistview.h"
+//#include "listviews/grouplistview.h"
+//#include "listviews/overviewlistview.h"
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()

@@ -23,7 +23,7 @@
 #include <QTextDocument>
 #include <QMessageBox>
 #include "tools.h"
-#include "contactpropertieswindow.h"
+//#include "contactpropertieswindow.h"
 Tools *tools_;
 
 Tools::Tools()
@@ -56,9 +56,9 @@ void Tools::openChatWindow( Target *target )
     }
     else
     {
-        ChatWindow *w = new ChatWindow( target );
-        //this->openWindows[ target ] = w;
-        w->show();
+        /*ChatWindow *w = new ChatWindow( target );
+        this->openWindows[ target ] = w;
+        w->show();*/
     }
 }
 
@@ -428,9 +428,9 @@ QPixmap Tools::getPixmap( QString iconFilename )
 
 void Tools::showContactProperties( Contact *contact )
 {
-    ContactPropertiesWindow *c = ContactPropertiesWindow::getInstance();
+    /*ContactPropertiesWindow *c = ContactPropertiesWindow::getInstance();
     c->update( contact );
-    c->show();
+    c->show();*/
 }
 
 void Tools::joinGroup( QString groupName )
