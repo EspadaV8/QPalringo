@@ -26,9 +26,8 @@
 #include "contactpropertieswindow.h"
 Tools *tools_;
 
-Tools::Tools( PalringoWindow *mainWindow )
+Tools::Tools()
 {
-    this->mainWindow = mainWindow;
     this->loggedIn = false;
 
     // used for tracking history requests
@@ -44,39 +43,39 @@ Tools::~Tools() { }
 
 bool Tools::checkChatWindowOpen( Target *target )
 {
-    return ( this->openWindows.value( target ) != NULL );
+    //return ( this->openWindows.value( target ) != NULL );
 }
 
 void Tools::openChatWindow( Target *target )
 {
     if ( this->checkChatWindowOpen( target ) )
     {
-        ChatWindow *w = this->openWindows.value( target );
+        /*ChatWindow *w = this->openWindows.value( target );
         w->raise();
-        w->activateWindow();
+        w->activateWindow();*/
     }
     else
     {
-        ChatWindow *w = new ChatWindow( this->mainWindow, target );
-        this->openWindows[ target ] = w;
+        ChatWindow *w = new ChatWindow( target );
+        //this->openWindows[ target ] = w;
         w->show();
     }
 }
 
 void Tools::removeChatWindow( Target *target )
 {
-    this->openWindows.remove( target );
+    //this->openWindows.remove( target );
 }
 
 void Tools::historyMessageReceived( Message message )
 {
     if( this->gettingHistory )
     {
-        ChatWindow *w = this->openWindows.value( this->historyTarget );
+        /*ChatWindow *w = this->openWindows.value( this->historyTarget );
         w->appendMessage( message );
 
         this->gettingHistory = false;
-        this->historyTarget = NULL;
+        this->historyTarget = NULL;*/
     }
 }
 

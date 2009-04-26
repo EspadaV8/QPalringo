@@ -30,7 +30,6 @@
 #include "targets/target.h"
 #include "qpalringoconnection.h"
 
-#include "palringowindow.h"
 #include "messageitem.h"
 #include "chatwindow.h"
 
@@ -44,7 +43,7 @@ class Tools : public QObject
 {
     Q_OBJECT
     public:
-        Tools( PalringoWindow *parent = 0 );
+        Tools();
         ~Tools();
 
         bool checkChatWindowOpen( Target *target );
@@ -105,10 +104,9 @@ class Tools : public QObject
 
     private:
         bool loggedIn;
-        PalringoWindow *mainWindow ;
         QPalringoConnection *connection;
 
-        QHash<Target*, ChatWindow *> openWindows;
+        //QHash<Target*, ChatWindow *> openWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message> unreadMessages;
