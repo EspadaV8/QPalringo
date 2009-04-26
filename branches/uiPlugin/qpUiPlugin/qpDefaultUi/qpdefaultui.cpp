@@ -13,6 +13,7 @@ void qpDefaultUi::setUp()
 
     ContactListView *contactList = new ContactListView( mainTabs );
     contactList->setupContainers();
+    connect(contactList, SIGNAL( startChat( Target* ) ), uitools_, SLOT( openChatWindow( Target* ) ) );
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/logo.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
@@ -61,6 +62,7 @@ void qpDefaultUi::addGroup( Group* group )
 {
     GroupListView *groupTab = new GroupListView( mainTabs, group );
     groupTab->setupContainers();
+    connect(groupTab, SIGNAL( startChat( Target* ) ), uitools_, SLOT( openChatWindow( Target* ) ) );
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
 }
 
