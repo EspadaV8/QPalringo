@@ -457,9 +457,3 @@ QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
 {
     return this->connection->getGroupContacts( groupID );
 }
-
-ChatWindow* Tools::createDefaultChatWindow( Target* t )
-{
-    ChatWindow* w = new ChatWindow( t );
-    return w;
-}
