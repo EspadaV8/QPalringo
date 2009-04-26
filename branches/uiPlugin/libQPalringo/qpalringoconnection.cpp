@@ -796,6 +796,7 @@ void QPalringoConnection::onResponseReceived( const Headers& headers, const QByt
     qpResponseData responseData;
     responseData.getData(headers, body);
 
+#if qpDEBUG
     qDebug( "Response Message:\n\tWhat: %d\n\tMesg-Id: %llu\n\tType: %d",
             responseData.what_, responseData.mesgId_, responseData.type_ );
     if(!responseData.type_)
@@ -806,6 +807,7 @@ void QPalringoConnection::onResponseReceived( const Headers& headers, const QByt
     {
         qDebug( "\tError Message: %s", qPrintable( responseData.errorMessage_ ) );
     }
+#endif
 }
 
 int QPalringoConnection::parseCmd( const QByteArray& data )
