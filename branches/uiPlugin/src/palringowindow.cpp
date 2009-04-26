@@ -76,6 +76,7 @@ void PalringoWindow::loadUi()
                 setCentralWidget( w );
 
                 connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
+                connect( tools_, SIGNAL( groupLeft( quint64 )), uiPlugin, SLOT( removeGroup( quint64 ) ) );
             }
         }
     }
@@ -193,16 +194,6 @@ void PalringoWindow::CreateTrayIcon()
     this->systrayicon = new QSystemTrayIcon();
     this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
-}
-
-void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )
-{
-    /*
-    QWidget *w = mainTabs->currentWidget();
-    mainTabs->setCurrentIndex( 0 );
-    mainTabs->removeTab( mainTabs->indexOf( w ) );
-    w->deleteLater();
-    */
 }
 
 void PalringoWindow::joinAGroup()
