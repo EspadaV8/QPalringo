@@ -96,6 +96,20 @@ void OverviewListView::newPendingMessage( Target* target )
 
         connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
         connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
+
+        ContactListItem* cli = qobject_cast<ContactListItem*>(li);
+        if( cli )
+        {
+            connect( cli, SIGNAL( startChat( Target* ) ), this, SIGNAL( startChat( Target* ) ) );
+        }
+        else
+        {
+            GroupListItem* gli = qobject_cast<GroupListItem*>(li);
+            if( gli )
+            {
+                connect( gli, SIGNAL( startChat( Target* ) ), this, SIGNAL( startChat( Target* ) ) );
+            }
+        }
     }
 }
 

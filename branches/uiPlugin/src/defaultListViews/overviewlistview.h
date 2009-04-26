@@ -46,6 +46,9 @@ class OverviewListView : public PalringoListView
 
     private:
         QList<Target*> knownTargets;
+
+    signals:
+        void startChat( Target* );
 };
 
 #endif
