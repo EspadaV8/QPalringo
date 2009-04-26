@@ -27,6 +27,7 @@
 #include <QMultiMap>
 #include <QDateTime>
 
+#include "defaultChatWindow/chatwindow.h"
 #include "targets/target.h"
 #include "qpalringoconnection.h"
 
@@ -71,6 +72,8 @@ class Tools : public QObject
         Contact* getContact( quint64 contactID );
         QHash<quint64, Contact*> getContactListContacts();
         QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
+
+        ChatWindow* createDefaultChatWindow( Target* t );
 
     public slots:
         void logonSuccessful();

@@ -5,8 +5,7 @@
 
 #include "targets/target.h"
 
-#include "messageitem.h"
-#include "chatwindow.h"
+#include "defaultChatWindow/chatwindow.h"
 #include "contactpropertieswindow.h"
 
 class uiTools;
@@ -19,11 +18,13 @@ class uiTools : public QObject
         uiTools();
         bool checkChatWindowOpen( Target *target );
         void openChatWindow( Target *target );
-        void removeChatWindow( Target *target );
         void showContactProperties( Contact *contact );
 
+    private slots:
+        void removeChatWindow( Target *target );
+
     private:
-        QHash<Target*, ChatWindow *> openWindows;
+        QHash<Target*, ChatWindow*> openWindows;
 };
 
 #endif // UITOOLS_H

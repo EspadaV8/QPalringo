@@ -7,11 +7,7 @@ INCLUDEPATH += ../../src \
     ../../libQPalringo
 HEADERS += qpdefaultui.h \
     signinwindow.h \
-    messagelist.h \
-    messageitem.h \
     contactpropertieswindow.h \
-    chatwindow.h \
-    chattextedit.h \
     services/service.h \
     services/palringoservice.h \
     listviews/contactlistview.h \
@@ -26,11 +22,7 @@ HEADERS += qpdefaultui.h \
     uitools.h
 SOURCES += qpdefaultui.cpp \
     signinwindow.cpp \
-    messagelist.cpp \
-    messageitem.cpp \
     contactpropertieswindow.cpp \
-    chatwindow.cpp \
-    chattextedit.cpp \
     services/service.cpp \
     services/palringoservice.cpp \
     listviews/contactlistview.cpp \

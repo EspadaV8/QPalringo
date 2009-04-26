@@ -65,6 +65,9 @@ Q_OBJECT
 
     protected:
         virtual void keyPressEvent( QKeyEvent *event );
+
+    signals:
+        void removeChatWindow( Target* target );
 };
 
 #endif

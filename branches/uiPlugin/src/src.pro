@@ -2,7 +2,11 @@ SOURCES += main.cpp \
     palringowindow.cpp \
     tools.cpp \
     settingswindow.cpp \
-    speexdecoder.cpp
+    speexdecoder.cpp \
+    defaultChatWindow/chatwindow.cpp \
+    defaultChatWindow/chattextedit.cpp \
+    defaultChatWindow/messagelist.cpp \
+    defaultChatWindow/messageitem.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -17,7 +21,11 @@ HEADERS += palringowindow.h \
     tools.h \
     settingswindow.h \
     speexdecoder.h \
-    qpuiplugin.h
+    qpuiplugin.h \
+    defaultChatWindow/chatwindow.h \
+    defaultChatWindow/chattextedit.h \
+    defaultChatWindow/messagelist.h \
+    defaultChatWindow/messageitem.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \

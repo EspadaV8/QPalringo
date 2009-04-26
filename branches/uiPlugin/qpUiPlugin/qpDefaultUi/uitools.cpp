@@ -1,4 +1,5 @@
 #include "uitools.h"
+#include "tools.h"
 uiTools *uitools_;
 
 uiTools::uiTools()
@@ -20,9 +21,10 @@ void uiTools::openChatWindow( Target *target )
     }
     else
     {
-        ChatWindow *w = new ChatWindow( target );
+        ChatWindow *w = tools_->createDefaultChatWindow( target );
         this->openWindows[ target ] = w;
         w->show();
+        connect( w, SIGNAL(removeChatWindow(Target*)), this, SLOT(removeChatWindow(Target*)));
     }
 }
 

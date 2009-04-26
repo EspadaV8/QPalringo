@@ -23,7 +23,6 @@
 #include <QBuffer>
 #include "chatwindow.h"
 #include "tools.h"
-#include "uitools.h"
 
 ChatWindow::ChatWindow ( Target *target )
 {
@@ -92,7 +91,7 @@ ChatWindow::ChatWindow ( Target *target )
 
 ChatWindow::~ChatWindow()
 {
-    uitools_->removeChatWindow ( this->target );
+    emit removeChatWindow( this->target );
 }
 
 void ChatWindow::loadImageFile()
