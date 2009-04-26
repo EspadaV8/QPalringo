@@ -27,8 +27,8 @@
 #include <QMultiMap>
 #include <QDateTime>
 
-#include "libQPalringo/targets/target.h"
-#include "libQPalringo/qpalringoconnection.h"
+#include "targets/target.h"
+#include "qpalringoconnection.h"
 
 #include "palringowindow.h"
 #include "messageitem.h"

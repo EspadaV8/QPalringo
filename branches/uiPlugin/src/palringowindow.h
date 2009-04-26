@@ -26,14 +26,13 @@
 #include <QTabWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
-#include "libQPalringo/targets/contact.h"
-#include "libQPalringo/targets/group.h"
+#include "targets/contact.h"
+#include "targets/group.h"
 #include "signinwindow.h"
+#include "qpuiplugin.h"
 #include "messageitem.h"
 #include "listitems/listitem.h"
 #include "settingswindow.h"
-
-class Connection;
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
