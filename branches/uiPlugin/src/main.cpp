@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QApplication>
+#include <QFile>
 #include "palringowindow.h"
 
 int main ( int argc, char *argv[] )
@@ -27,7 +28,7 @@ int main ( int argc, char *argv[] )
     QApplication app ( argc, argv );
     app.setApplicationName( "QPalringo" );
     //QFile sheet ( ":/styles/QPalringo.css" );
-    QFile sheet ( "/home/espadav8/workspace/qpalringo/trunk/qss/qpalringo.css" );
+    QFile sheet ( "../qss/qpalringo.css" );
 
     if ( ! sheet.open ( QIODevice::ReadOnly ) )
     {
