@@ -5,9 +5,12 @@
 
 class QMenu;
 class QWidget;
+class Group;
+class Contact;
 
-class qpUiPlugin
+class qpUiPlugin : public QObject
 {
+    Q_OBJECT
     public:
         virtual ~qpUiPlugin() {}
 
@@ -16,6 +19,9 @@ class qpUiPlugin
         virtual QMenu* getMenu() = 0;
         virtual QWidget* getCentralWidget() = 0;
         virtual QString getName() = 0;
+
+    public slots:
+        virtual void addGroup( Group* ) = 0;
 };
 
  Q_DECLARE_INTERFACE(qpUiPlugin, "qpalringo.qpUiPlugin/0.1")

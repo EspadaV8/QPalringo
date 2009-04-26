@@ -8,8 +8,9 @@
 #include "qpuiplugin.h"
 #include "listviews/overviewlistview.h"
 #include "listviews/contactlistview.h"
+#include "listviews/grouplistview.h"
 
-class qpDefaultUi : public QObject, public qpUiPlugin
+class qpDefaultUi : public qpUiPlugin
 {
     Q_OBJECT
     Q_INTERFACES(qpUiPlugin)
@@ -26,6 +27,8 @@ class qpDefaultUi : public QObject, public qpUiPlugin
         QWidget *overviewPage;
         QWidget *contactsPage;
 
+    public slots:
+        void addGroup( Group* group );
 
     private slots:
         void tabFocusChanged( int tabIndex );

@@ -36,6 +36,13 @@ void qpDefaultUi::cleanUp()
     }
 }
 
+void qpDefaultUi::addGroup( Group* group )
+{
+    GroupListView *groupTab = new GroupListView( mainTabs, group );
+    groupTab->setupContainers();
+    mainTabs->addTab( groupTab, group->getName() );
+}
+
 QMenu* qpDefaultUi::getMenu()
 {
 }
