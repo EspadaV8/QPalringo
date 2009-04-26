@@ -6,6 +6,8 @@
 #include <QTabWidget>
 
 #include "qpuiplugin.h"
+#include "listviews/overviewlistview.h"
+#include "listviews/contactlistview.h"
 
 class qpDefaultUi : public QObject, public qpUiPlugin
 {
