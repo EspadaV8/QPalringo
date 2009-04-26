@@ -22,6 +22,7 @@
 #include <QFile>
 #include <QStringList>
 #include <QBuffer>
+#include <QMouseEvent>
 #include "messageitem.h"
 #include "tools.h"
 #include "speexdecoder.h"
