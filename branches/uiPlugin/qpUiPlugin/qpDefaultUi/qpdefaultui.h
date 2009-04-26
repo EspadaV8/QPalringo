@@ -7,9 +7,9 @@
 
 #include "uitools.h"
 #include "qpuiplugin.h"
-#include "listviews/overviewlistview.h"
-#include "listviews/contactlistview.h"
-#include "listviews/grouplistview.h"
+#include "defaultListViews/overviewlistview.h"
+#include "defaultListViews/contactlistview.h"
+#include "defaultListViews/grouplistview.h"
 
 class qpDefaultUi : public qpUiPlugin
 {
