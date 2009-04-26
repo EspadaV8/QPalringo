@@ -48,11 +48,7 @@ void PalringoWindow::loadUi()
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances())
     {
-         uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
-         if( uiPlugin )
-         {
-             this->initUiPlugin( plugin );
-         }
+         this->initUiPlugin( plugin );
     }
 
     QDir pluginsDir = QDir(qApp->applicationDirPath());
