@@ -2,7 +2,7 @@
 # Project created by QtCreator 2009-04-25T10:47:06
 # -------------------------------------------------
 TEMPLATE = lib
-CONFIG += plugin
+CONFIG += plugin static
 INCLUDEPATH += ../../src \
     ../../libQPalringo
 HEADERS += qpdefaultui.h \
