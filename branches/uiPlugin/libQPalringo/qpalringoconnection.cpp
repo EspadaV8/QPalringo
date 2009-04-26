@@ -27,11 +27,10 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
-#define SIGNALS 1
+#define SIGNALS 0
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
-#define INFO 1
 
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
