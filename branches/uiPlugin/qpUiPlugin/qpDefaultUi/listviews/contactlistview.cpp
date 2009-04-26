@@ -56,6 +56,7 @@ void ContactListView::contactReceived( Contact *contact )
 {
     ContactListItem *pc = new ContactListItem( this, contact );
     connect( pc, SIGNAL( containerGroupChanged( ContactListItem* ) ), this, SLOT( checkContainerGroups( ContactListItem* ) ) );
+    connect( pc, SIGNAL( startChat( Target* ) ), this, SIGNAL( startChat( Target* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
 }

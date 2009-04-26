@@ -38,6 +38,9 @@ class GroupListView : public ContactListView
         virtual void setupContainers();
         Group* getGroup();
 
+    signals:
+        void startChat( Target* );
+
     private:
         Group *group;
 

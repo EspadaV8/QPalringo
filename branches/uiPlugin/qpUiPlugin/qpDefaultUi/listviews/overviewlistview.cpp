@@ -19,9 +19,9 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "listitems/serviceitem.h"
-#include "listitems/contactlistitem.h"
-#include "listitems/grouplistitem.h"
+#include "defaultListItems/serviceitem.h"
+#include "defaultListItems/contactlistitem.h"
+#include "defaultListItems/grouplistitem.h"
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
 #include "tools.h"

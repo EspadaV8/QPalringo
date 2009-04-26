@@ -30,7 +30,7 @@
 #include <QWidget>
 #include <QList>
 #include "listviewcontainer.h"
-#include "../listitems/listitem.h"
+#include "defaultListItems/listitem.h"
 
 class PalringoListView : public QScrollArea
 {

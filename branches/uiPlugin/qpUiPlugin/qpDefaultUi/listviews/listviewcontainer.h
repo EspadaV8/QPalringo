@@ -24,7 +24,7 @@
 
 #include <QtGui>
 #include <QWidget>
-#include "../listitems/listitem.h"
+#include "defaultListItems/listitem.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

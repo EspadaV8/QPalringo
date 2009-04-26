@@ -21,7 +21,7 @@
  ***************************************************************************/
 #include "tools.h"
 #include "grouplistview.h"
-#include "../listitems/grouplistitem.h"
+#include "defaultListItems/grouplistitem.h"
 
 GroupListView::GroupListView(QWidget *parent, Group *group)
  : ContactListView(parent)
@@ -39,6 +39,7 @@ void GroupListView::setupContainers()
     GroupListItem *gli = new GroupListItem( this, this->group );
     this->addWidgetToView( gli );
 
+    connect( gli, SIGNAL( startChat( Target* ) ), this, SIGNAL( startChat( Target* ) ) );
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
     
     this->addLayoutsToSelf();
