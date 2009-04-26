@@ -82,6 +82,7 @@ class PalringoWindow : public QMainWindow
         void closeEvent(QCloseEvent *event);
 
         qpUiPlugin* uiPlugin;
+        void initUiPlugin( QObject* plugin );
 };
 
 #endif

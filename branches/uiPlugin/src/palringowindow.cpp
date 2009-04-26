@@ -20,13 +20,13 @@
  *                                                                         *
  ***************************************************************************/
 #include <QtGui>
+#include <QtPlugin>
 #include <QPluginLoader>
 #include <QDir>
 #include "palringowindow.h"
 #include "tools.h"
-//#include "listviews/contactlistview.h"
-//#include "listviews/grouplistview.h"
-//#include "listviews/overviewlistview.h"
+
+Q_IMPORT_PLUGIN(qp_default_ui)
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()
@@ -51,10 +51,7 @@ void PalringoWindow::loadUi()
          uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
          if( uiPlugin )
          {
-             uiPlugin->setUp();
-             qDebug( "%s", qPrintable( uiPlugin->getName() ) );
-             QWidget *w = uiPlugin->getCentralWidget();
-             setCentralWidget( w );
+             this->initUiPlugin( plugin );
          }
     }
 
@@ -67,18 +64,23 @@ void PalringoWindow::loadUi()
 
         if( plugin )
         {
-            uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
-            if( uiPlugin )
-            {
-                uiPlugin->setUp();
-                qDebug( "%s", qPrintable( uiPlugin->getName() ) );
-                QWidget *w = uiPlugin->getCentralWidget();
-                setCentralWidget( w );
-
-                connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
-                connect( tools_, SIGNAL( groupLeft( quint64 )), uiPlugin, SLOT( removeGroup( quint64 ) ) );
-            }
+            this->initUiPlugin( plugin );
         }
+    }
+}
+
+void PalringoWindow::initUiPlugin( QObject* plugin )
+{
+    uiPlugin = qobject_cast<qpUiPlugin *>(plugin);
+    if( uiPlugin )
+    {
+        uiPlugin->setUp();
+        qDebug( "%s", qPrintable( uiPlugin->getName() ) );
+        QWidget *w = uiPlugin->getCentralWidget();
+        setCentralWidget( w );
+
+        connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
+        connect( tools_, SIGNAL( groupLeft( quint64 )), uiPlugin, SLOT( removeGroup( quint64 ) ) );
     }
 }
 
