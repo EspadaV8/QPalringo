@@ -25,6 +25,7 @@
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
 #include "tools.h"
+#include "uitools.h"
 
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)
@@ -58,7 +59,7 @@ void OverviewListView::serviceReceived( Service *service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-    if( !tools_->checkChatWindowOpen( target ) )
+    if( !uitools_->checkChatWindowOpen( target ) )
     {
         if( this->knownTargets.contains( target ) )
         {

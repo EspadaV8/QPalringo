@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include "grouplistitem.h"
 #include "tools.h"
+#include "uitools.h"
 
 GroupListItem::GroupListItem( QWidget *parent, Group *group )
     : ListItem( parent )
@@ -61,7 +62,7 @@ void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )
 
 void GroupListItem::startChat()
 {
-    tools_->openChatWindow( this->group );
+    uitools_->openChatWindow( this->group );
 }
 
 void GroupListItem::setMenu()

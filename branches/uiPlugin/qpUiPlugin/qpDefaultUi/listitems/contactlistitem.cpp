@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "contactlistitem.h"
-#include "tools.h"
+#include "uitools.h"
 
 ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
     : ListItem( parent )
@@ -86,12 +86,12 @@ void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 
 void ContactListItem::startChat()
 {
-    tools_->openChatWindow( this->contact );
+    uitools_->openChatWindow( this->contact );
 }
 
 void ContactListItem::showContactProperties()
 {
-    tools_->showContactProperties( this->contact );
+    uitools_->showContactProperties( this->contact );
 }
 
 void ContactListItem::paintEvent(QPaintEvent *)
