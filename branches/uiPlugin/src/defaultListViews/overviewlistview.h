@@ -39,15 +39,13 @@ class OverviewListView : public PalringoListView
         ~OverviewListView();
 
         virtual void setupContainers();
+        void newPendingMessage( Target* target );
         
     public slots:
         void serviceReceived( Service *service );
 
     private:
         QList<Target*> knownTargets;
-
-    private slots:
-        void newPendingMessage( Target* target );
 };
 
 #endif

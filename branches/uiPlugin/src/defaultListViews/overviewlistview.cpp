@@ -25,7 +25,6 @@
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
 #include "tools.h"
-#include "uitools.h"
 
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)
@@ -44,8 +43,6 @@ void OverviewListView::setupContainers()
     s->Type = "palringo";
     s->Group = "Services";
 
-    connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
-
     this->serviceReceived( s );
     this->addLayoutsToSelf();
 }
@@ -59,49 +56,46 @@ void OverviewListView::serviceReceived( Service *service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-    if( !uitools_->checkChatWindowOpen( target ) )
+    if( this->knownTargets.contains( target ) )
     {
-        if( this->knownTargets.contains( target ) )
+        foreach( ListItem* li, this->listItems )
         {
-            foreach( ListItem* li, this->listItems )
+            if( target->getType() == Target::CONTACT && li->getType() == ListItem::CONTACT )
             {
-                if( target->getType() == Target::CONTACT && li->getType() == ListItem::CONTACT )
+                if( ((ContactListItem*)li)->getContact() == target )
                 {
-                    if( ((ContactListItem*)li)->getContact() == target )
-                    {
-                        li->show();
-                        break;
-                    }
+                    li->show();
+                    break;
                 }
-                else if( target->getType() == Target::GROUP && li->getType() == ListItem::GROUP )
+            }
+            else if( target->getType() == Target::GROUP && li->getType() == ListItem::GROUP )
+            {
+                if( ((GroupListItem*)li)->getGroup() == target )
                 {
-                    if( ((GroupListItem*)li)->getGroup() == target )
-                    {
-                        li->show();
-                        break;
-                    }
+                    li->show();
+                    break;
                 }
             }
         }
-        else
+    }
+    else
+    {
+        ListItem* li;
+        if( target->getType() == Target::CONTACT )
         {
-            ListItem* li;
-            if( target->getType() == Target::CONTACT )
-            {
-                li = new ContactListItem( this, (Contact*)target );
-            }
-            else if( target->getType() == Target::GROUP )
-            {
-                li = new GroupListItem( this, (Group*)target );
-            }
-
-            this->listItems.append( li );
-            this->addWidgetToView( li, "Messages" );
-            this->knownTargets.append( target );
-
-            connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
-            connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
+            li = new ContactListItem( this, (Contact*)target );
         }
+        else if( target->getType() == Target::GROUP )
+        {
+            li = new GroupListItem( this, (Group*)target );
+        }
+
+        this->listItems.append( li );
+        this->addWidgetToView( li, "Messages" );
+        this->knownTargets.append( target );
+
+        connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
+        connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
     }
 }
 
