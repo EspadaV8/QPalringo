@@ -48,8 +48,11 @@ void SettingsWindow::setFeildValues()
     this->showMessageIcons->setChecked( settings.value( "gui/showMessageIcons" ).toBool() );
 
     this->proxyEnable->setChecked( settings.value( "networt/proxy/enabled" ).toBool() );
+    this->proxyTypeComboBox->setCurrentIndex( settings.value( "networt/proxy/proxytype" ).toInt() );
     this->proxyHostEdit->setText( settings.value( "networt/proxy/host" ).toString() );
     this->proxyPortEdit->setText( settings.value( "networt/proxy/port" ).toString() );
+    this->proxyUsernameEdit->setText( settings.value( "networt/proxy/username" ).toString() );
+    this->proxyPasswordEdit->setText( settings.value( "networt/proxy/password" ).toString() );
 }
 
 void SettingsWindow::saveSettings()
@@ -64,8 +67,11 @@ void SettingsWindow::saveSettings()
     settings.setValue( "gui/showMessageIcons", this->showMessageIcons->isChecked() );
 
     settings.setValue( "networt/proxy/enabled", this->proxyEnable->isChecked() );
+    settings.setValue( "networt/proxy/proxytype", this->proxyTypeComboBox->currentIndex() );
     settings.setValue( "networt/proxy/host", this->proxyHostEdit->text() );
     settings.setValue( "networt/proxy/port", this->proxyPortEdit->text() );
+    settings.setValue( "networt/proxy/username", this->proxyUsernameEdit->text() );
+    settings.setValue( "networt/proxy/password", this->proxyPasswordEdit->text() );
 }
 
 SettingsWindow::~SettingsWindow() { }
