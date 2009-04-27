@@ -114,6 +114,8 @@ void Tools::messageReceived( Message message )
 
 void Tools::openPalringoConnection( QString email, QString password )
 {
+    QSettings settings;
+
     if( this->loggedIn == false )
     {
         QString client;
@@ -127,6 +129,23 @@ void Tools::openPalringoConnection( QString email, QString password )
             client = "Linux";
         #endif
         this->connection = new QPalringoConnection( email, password, client );
+        if( settings.value( "networt/proxy/enabled" ).toBool() == true )
+        {
+            QNetworkProxy proxy;
+            if( settings.value( "networt/proxy/proxytype" ).toInt() == 1 )
+            {
+                proxy.setType(QNetworkProxy::Socks5Proxy);
+            }
+            else
+            {
+                proxy.setType(QNetworkProxy::HttpProxy);
+            }
+            proxy.setHostName( settings.value( "networt/proxy/host" ).toString() );
+            proxy.setPort( settings.value( "networt/proxy/port" ).toInt() );
+            proxy.setUser( settings.value( "networt/proxy/username" ).toString() );
+            proxy.setPassword( settings.value( "networt/proxy/password" ).toString() );
+            this->connection->setProxy( proxy );
+        }
 
         if( connection->connectClient() == 1 )
         {
