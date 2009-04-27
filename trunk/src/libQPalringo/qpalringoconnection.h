@@ -61,6 +61,7 @@ class QPalringoConnection : public QObject
                             quint16 port = 443 );
 
         virtual int connectClient( bool reconnect = false );
+        void setProxy( QNetworkProxy proxy );
 
         bool sendMessage( Target* target, Message message );
         void getMesgHist( Target* target, QString timestampStr, qint32 count );

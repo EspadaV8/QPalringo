@@ -135,6 +135,11 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onResponseReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
+void QPalringoConnection::setProxy( QNetworkProxy proxy )
+{
+    this->socket->setProxy( proxy );
+}
+
 int QPalringoConnection::connectClient( bool reconnect )
 {
     socket->connectToHost( this->host, this->port );
