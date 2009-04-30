@@ -27,11 +27,11 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
-#define SIGNALS 1
+#define SIGNALS 0
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
-#define INFO 1
+#define INFO 0
 
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
@@ -118,6 +118,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::MESG, "mesgRecieved" );
     inSignals.insert( qpCommand::PING, "pingRecieved" );
     inSignals.insert( qpCommand::RESPONSE, "responseRecieved" );
+    inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
@@ -133,6 +134,8 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onPingReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( responseRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onResponseReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( bridgeRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
+             this, SLOT( onBridgeReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )
@@ -802,6 +805,7 @@ void QPalringoConnection::onResponseReceived( const Headers& headers, const QByt
     qpResponseData responseData;
     responseData.getData(headers, body);
 
+#if INFO
     qDebug( "Response Message:\n\tWhat: %d\n\tMesg-Id: %llu\n\tType: %d",
             responseData.what_, responseData.mesgId_, responseData.type_ );
     if(!responseData.type_)
@@ -812,6 +816,26 @@ void QPalringoConnection::onResponseReceived( const Headers& headers, const QByt
     {
         qDebug( "\tError Message: %s", qPrintable( responseData.errorMessage_ ) );
     }
+#endif
+}
+
+void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
+{
+    qpBridgeData bridgeData;
+    bridgeData.getData(headers, body);
+
+    Bridge *bridge = new Bridge;
+    bridge->setNickname( bridgeData.nickname_ );
+    bridge->setUsername( bridgeData.username_ );
+    bridge->setType( bridgeData.type_ );
+    bridge->setId( bridgeData.bridgeId_ );
+
+    this->bridges.insert( bridgeData.bridgeId_, bridge );
+
+#if SIGNALS
+    qDebug( "emitting onBridgeReceived( Bridge* )" );
+#endif
+    emit gotBridgeDetails( bridge );
 }
 
 int QPalringoConnection::parseCmd( const QByteArray& data )

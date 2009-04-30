@@ -31,6 +31,7 @@
 #include "targets/target.h"
 #include "targets/contact.h"
 #include "targets/group.h"
+#include "bridge.h"
 #include "message.h"
 #include "user.h"
 #include "headers.h"
@@ -106,6 +107,7 @@ class QPalringoConnection : public QObject
         void onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void onPingReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void onResponseReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onBridgeReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
 
     private:
         QTcpSocket* socket;
@@ -125,6 +127,7 @@ class QPalringoConnection : public QObject
         QMap<quint64, Message> unfinishedMessages;
         QHash<quint64, Contact* > contacts;
         QHash<quint64, Group* > groups;
+        QHash<quint64, Bridge* > bridges;
 
         QReadWriteLock contactLock;
 
@@ -158,6 +161,7 @@ class QPalringoConnection : public QObject
         void historyMessageReceived( Message message );
         void gotContactDetails( Contact *contact );
         void gotGroupDetails( Group *group );
+        void gotBridgeDetails( Bridge *bridge );
 
         /** out going message signals **/
         void pingSent( Headers& headers, QByteArray& body, qpGenericData* data );
@@ -185,5 +189,6 @@ class QPalringoConnection : public QObject
         void mesgRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void pingRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void responseRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void bridgeRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif
