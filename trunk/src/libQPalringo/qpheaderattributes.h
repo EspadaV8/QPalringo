@@ -7,6 +7,8 @@ namespace qpHeaderAttribute
     static const QString ADMIN = "ADMIN";
     static const QString APP_TYPE = "App-Type";
     static const QString BLOCK = "BLOCK";
+    static const QString BRIDGE_ID = "BRIDGE-ID";
+    static const QString BRIDGE_TYPE = "BRIDGE-TYPE";
     static const QString CAPABILITIES = "CAPABILITIES";
     static const QString COMPRESSION = "COMPRESSION";
     static const QString CONTACT_ID = "CONTACT-ID";
@@ -43,6 +45,7 @@ namespace qpHeaderAttribute
     static const QString TIMESTAMP = "TIMESTAMP";
     static const QString TOTAL_LENGTH = "TOTAL-LENGTH";
     static const QString TYPE = "TYPE";
+    static const QString USERNAME = "USERNAME";
     static const QString WHAT = "WHAT";
     static const QString WORD_SIZE = "WORD-SIZE";
 }
