@@ -249,6 +249,31 @@ void qpResponseData::getData( const Headers& headers, QByteArray body )
 Headers qpResponseData::setData( QByteArray )
 {
 }
+
+/**
+ * qpBridgeData
+ */
+qpBridgeData::qpBridgeData()
+    : qpGenericData()
+{
+    bridgeId_ = 0;
+    type_ = static_cast<qpBridgeType::Type>( -1 );
+    nickname_ = "";
+    username_ = "";
+}
+
+void qpBridgeData::getData( const Headers& headers, QByteArray body )
+{
+    mesgId_ = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+    bridgeId_ = headers.attribute<quint32>( qpHeaderAttribute::BRIDGE_ID );
+    type_ = (qpBridgeType::Type)headers.attribute<quint64>( qpHeaderAttribute::BRIDGE_TYPE );
+    nickname_ = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    username_ = headers.attribute<QString>( qpHeaderAttribute::USERNAME );
+}
+
+Headers qpBridgeData::setData( QByteArray )
+{
+}
 /**
  * END INLINE CLASSES
  */

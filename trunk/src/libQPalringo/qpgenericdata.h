@@ -9,6 +9,7 @@
 #include "groupstatus.h"
 #include "what.h"
 #include "errorcodes.h"
+#include "bridgetype.h"
 
 class qpGenericData
 {
@@ -141,6 +142,20 @@ class qpResponseData : public qpGenericData
         QString errorMessage_;
         qint32 type_;
         quint32 contentLength_;
+};
+
+class qpBridgeData : public qpGenericData
+{
+    public:
+        qpBridgeData();
+
+        void getData( const Headers& headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
+
+        quint32 bridgeId_;
+        qpBridgeType::Type type_;
+        QString nickname_;
+        QString username_;
 };
 
 #endif // QPGENERICDATA_H
