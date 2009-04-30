@@ -31,6 +31,8 @@
 MessageItem::MessageItem( QWidget *parent, Message message ) :
         QFrame( parent )
 {
+    QSettings settings;
+
     this->contact = tools_->getContact( message.senderID() );
     this->message = message;
 
@@ -45,10 +47,6 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 
     QFont font = this->font();
     font.setPixelSize( FONT_SIZE );
-
-    this->messageIcon = new QSvgWidget;
-    this->messageIcon->setObjectName( "messageIcon" );
-    this->messageIcon->setFixedSize( 18, 18 );
 
     this->messageText = new QLabel;
     this->messageText->setObjectName( "messageText" );
@@ -92,15 +90,9 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         messageTypeIcon = ":/svg/voice.svg";
     }
 
-    this->messageIcon->load( messageTypeIcon );
-
     this->layout = new QHBoxLayout;
     this->layout->setSpacing( 0 );
     this->layout->setContentsMargins( 0, 0, 0, 0 );
-
-    this->leftside = new QVBoxLayout;
-    this->leftside->setSpacing( 0 );
-    this->leftside->setContentsMargins( 0, 0, 0, 0 );
 
     this->rightside = new QVBoxLayout;
     this->rightside->setSpacing( 0 );
@@ -114,9 +106,6 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->headers->setSpacing( 0 );
     this->headers->setContentsMargins( 0, 0, 0, 0 );
 
-    this->leftside->addWidget( this->messageIcon );
-    this->leftside->addStretch( 1 );
-
     this->headers->addWidget( this->sender );
     this->headers->addWidget( this->timestamp );
 
@@ -124,7 +113,23 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->rightside->addWidget( this->messageText );
     this->rightside->addStretch( 1 );
 
-    this->layout->addLayout( this->leftside );
+    if( settings.value( "gui/showMessageIcons", true ).toBool() == true )
+    {
+        this->messageIcon = new QSvgWidget;
+        this->messageIcon->setObjectName( "messageIcon" );
+        this->messageIcon->setFixedSize( 18, 18 );
+        this->messageIcon->load( messageTypeIcon );
+
+        this->leftside = new QVBoxLayout;
+        this->leftside->setSpacing( 0 );
+        this->leftside->setContentsMargins( 0, 0, 0, 0 );
+
+        this->leftside->addWidget( this->messageIcon );
+        this->leftside->addStretch( 1 );
+
+        this->layout->addLayout( this->leftside );
+    }
+
     this->layout->addWidget( w, 1 );
     this->setLayout( layout );
 }
