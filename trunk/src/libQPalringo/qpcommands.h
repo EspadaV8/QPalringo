@@ -3,9 +3,8 @@
 
 namespace qpCommand
 {
-    static const QString PING = "P";
-    static const QString BYE = "BYE";
     static const QString AUTH = "AUTH";
+    static const QString BYE = "BYE";
     static const QString CONTACT_ADD = "CONTACT ADD";
     static const QString CONTACT_ADD_RESP = "CONTACT ADD RESP";
     static const QString CONTACT_DETAIL = "CONTACT DETAIL";
@@ -24,6 +23,7 @@ namespace qpCommand
     static const QString MESG = "MESG";
     static const QString MESG_HIST = "MESG HIST";
     static const QString MESG_STORED = "MESG STORED";
+    static const QString PING = "P";
     static const QString REG = "REG";
     static const QString RESPONSE = "RESPONSE";
     static const QString SESSION_END = "SESSION END";
