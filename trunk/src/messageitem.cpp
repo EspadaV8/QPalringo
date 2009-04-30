@@ -137,6 +137,14 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 
 MessageItem::~MessageItem()
 {
+    delete this->sender;
+    delete this->timestamp;
+    delete this->messageText;
+    delete this->messageIcon;
+    delete this->headers;
+    delete this->leftside;
+    delete this->rightside;
+    delete this->layout;
 }
 
 void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
