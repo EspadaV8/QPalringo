@@ -94,6 +94,11 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
 ChatWindow::~ChatWindow()
 {
     tools_->removeChatWindow ( this->target );
+    delete this->historyButton;
+    delete this->voiceButton;
+    delete this->imageButton;
+    delete this->messageList;
+    delete this->multiLineInput;
 }
 
 void ChatWindow::loadImageFile()
