@@ -40,6 +40,52 @@ void Service::changeOnlineStatus()
 {
 }
 
+void Service::setType( QString type )
+{
+    this->type = type;
+}
+
+void Service::setOnlineStatus( QString onlineStatus )
+{
+    this->onlineStatus = onlineStatus;
+}
+
+void Service::setNickname( QString nickname )
+{
+    this->nickname = nickname;
+}
+
+void Service::setStatus( QString status )
+{
+    this->status = status;
+}
+
+
+QString Service::getType() const
+{
+    return this->type;
+}
+
+QString Service::getOnlineStatus() const
+{
+    return this->onlineStatus;
+}
+
+QString Service::getNickname() const
+{
+    return this->nickname;
+}
+
+QString Service::getStatus() const
+{
+    return this->status;
+}
+
+QString Service::getIcon() const
+{
+    return ":/svg/palringoService.svg";
+}
+
 Service::~Service()
 {
 }

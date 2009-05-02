@@ -34,13 +34,24 @@ class Service : public QObject
         Service(QObject *parent = 0);
         ~Service();
         
-        QString Type;
-        QString OnlineStatus;
-        QString Nickname;
-        QString Status;
-        QString Group;
-        
         void goOnline();
+
+        void setType( QString type );
+        void setOnlineStatus( QString onlineStatus );
+        void setNickname( QString nickname );
+        void setStatus( QString status );
+
+        QString setType() const;
+        QString setOnlineStatus() const;
+        QString setNickname() const;
+        QString setStatus() const;
+        virtual QString getIcon() const;
+
+    private:
+        QString type;
+        QString onlineStatus;
+        QString nickname;
+        QString status;
         
     signals:
         virtual void serviceUpdated();
