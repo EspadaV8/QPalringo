@@ -47,7 +47,7 @@ class Service : public QObject
         QString getStatus() const;
         virtual QString getIcon() const;
 
-    private:
+    protected:
         QString type;
         QString onlineStatus;
         QString nickname;
