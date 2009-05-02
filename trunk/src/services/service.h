@@ -41,10 +41,10 @@ class Service : public QObject
         void setNickname( QString nickname );
         void setStatus( QString status );
 
-        QString setType() const;
-        QString setOnlineStatus() const;
-        QString setNickname() const;
-        QString setStatus() const;
+        QString getType() const;
+        QString getOnlineStatus() const;
+        QString getNickname() const;
+        QString getStatus() const;
         virtual QString getIcon() const;
 
     private:
