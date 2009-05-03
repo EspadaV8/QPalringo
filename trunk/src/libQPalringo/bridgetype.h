@@ -5,13 +5,15 @@ namespace qpBridgeType
 {
     enum Type
     {
-        PALRINGO,
-        MSN = 1,
-        YAHOO,
-        AIM,
-        GADUGADU,
-        ICQ,
-        XMPP
+        PALRINGO,   // 0
+        MSN = 1,    // 1
+        YAHOO,      // 2
+        AIM,        // 3
+        GADUGADU,   // 4
+        ICQ,        // 5
+        XMPP,       // 6
+        QQ,         // 7
+        FACEBOOK    // 8
     };
 }
 
