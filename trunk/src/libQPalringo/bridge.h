@@ -9,21 +9,33 @@ class Bridge : public QObject
     public:
         Bridge();
 
+        void setId( quint32 id );
+        void setType( qpBridgeType::Type type );
         void setNickname( QString nickname );
         void setUsername( QString username );
-        void setType( qpBridgeType::Type type );
-        void setId( quint32 id );
+        void setResource( QString resource );
+        void setVendor( QString vendor );
+        void setDomain( QString domain );
+        void setDisabled( bool disabled );
 
+        quint32 getId();
+        qpBridgeType::Type getType();
         QString getNickname();
         QString getUsername();
-        qpBridgeType::Type getType();
-        quint32 getId();
+        QString getResource();
+        QString getVendor();
+        QString getDomain();
+        bool isDisabled();
 
     private:
+        quint32 id;
+        qpBridgeType::Type type;
         QString nickname;
         QString username;
-        qpBridgeType::Type type;
-        quint32 id;
+        QString resource;
+        QString vendor;
+        QString domain;
+        bool disabled;
 };
 
 #endif // BRIDGE_H

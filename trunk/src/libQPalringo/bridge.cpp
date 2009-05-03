@@ -4,6 +4,17 @@ Bridge::Bridge()
 {
 }
 
+
+void Bridge::setId( quint32 id )
+{
+    this->id = id;
+}
+
+void Bridge::setType( qpBridgeType::Type type )
+{
+    this->type = type;
+}
+
 void Bridge::setNickname( QString nickname )
 {
     this->nickname = nickname;
@@ -14,14 +25,35 @@ void Bridge::setUsername( QString username )
     this->username = username;
 }
 
-void Bridge::setType( qpBridgeType::Type type )
+void Bridge::setResource( QString resource )
 {
-    this->type = type;
+    this->resource = resource;
 }
 
-void Bridge::setId( quint32 id )
+void Bridge::setVendor( QString vendor )
 {
-    this->id = id;
+    this->vendor = vendor;
+}
+
+void Bridge::setDomain( QString domain )
+{
+    this->domain = domain;
+}
+
+void Bridge::setDisabled( bool disabled )
+{
+    this->disabled = disabled;
+}
+
+
+quint32 Bridge::getId()
+{
+    return this->id;
+}
+
+qpBridgeType::Type Bridge::getType()
+{
+    return this->type;
 }
 
 QString Bridge::getNickname()
@@ -34,12 +66,22 @@ QString Bridge::getUsername()
     return this->username;
 }
 
-qpBridgeType::Type Bridge::getType()
+QString Bridge::getResource()
 {
-    return this->type;
+    return this->resource;
 }
 
-quint32 Bridge::getId()
+QString Bridge::getVendor()
 {
-    return this->id;
+    return this->vendor;
+}
+
+QString Bridge::getDomain()
+{
+    return this->domain;
+}
+
+bool Bridge::isDisabled()
+{
+    return this->disabled;
 }
