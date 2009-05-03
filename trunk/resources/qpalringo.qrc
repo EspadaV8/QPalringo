@@ -41,11 +41,11 @@
     </qresource>
     <qresource prefix="/services" >
         <file alias="gaduGadu.png" >images/svg/services/ox32-app-gadu_protocol.png</file>
-        <file alias="aim.png" >images/svg/services/ox128-app-aim_protocol.png</file>
-        <file alias="icq.png" >images/svg/services/ox128-app-icq_protocol.png</file>
-        <file alias="jabber.png" >images/svg/services/ox128-app-jabber_protocol.png</file>
+        <file alias="aim.svg" >images/svg/services/app-aim_protocol.svg</file>
+        <file alias="icq.svg" >images/svg/services/app-icq_protocol.svg</file>
+        <file alias="jabber.svg" >images/svg/services/app-jabber_protocol.svg</file>
         <file alias="qq.png" >images/svg/services/ox128-app-qq_protocol.png</file>
-        <file alias="yahoo.png" >images/svg/services/ox128-app-yahoo_protocol.png</file>
+        <file alias="yahoo.svg" >images/svg/services/app-yahoo_protocol.svg</file>
         <file alias="msn.svg" >images/svg/services/wlm_protocol.svg</file>
     </qresource>
 </RCC>
