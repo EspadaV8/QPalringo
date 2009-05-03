@@ -31,10 +31,14 @@
          id="stop3216" />
       <stop
          id="stop3222"
-         offset="0.68049592"
+         offset="0.37795141"
          style="stop-color:#fff810;stop-opacity:1;" />
       <stop
          style="stop-color:#fff810;stop-opacity:1;"
+         offset="0.82128513"
+         id="stop3224" />
+      <stop
+         style="stop-color:#ffffff;stop-opacity:1;"
          offset="1"
          id="stop3218" />
     </linearGradient>
@@ -343,10 +347,10 @@
        inkscape:collect="always"
        xlink:href="#linearGradient3214"
        id="linearGradient3220"
-       x1="628.03125"
-       y1="939.9375"
-       x2="277.3125"
-       y2="589.21875"
+       x1="579.93964"
+       y1="891.84589"
+       x2="315.38586"
+       y2="627.29211"
        gradientUnits="userSpaceOnUse" />
   </defs>
   <sodipodi:namedview
@@ -359,9 +363,9 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.92630988"
-     inkscape:cx="317.32509"
-     inkscape:cy="162.18078"
+     inkscape:zoom="1.31"
+     inkscape:cx="259.39445"
+     inkscape:cy="146.41178"
      inkscape:document-units="px"
      inkscape:current-layer="layer6"
      showgrid="false"
