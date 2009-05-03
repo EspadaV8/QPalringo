@@ -14,8 +14,8 @@
         <file alias="darryl.jpg" >images/people/darryl.jpg</file>
     </qresource>
     <qresource prefix="/styles" >
-        <file alias="ListItem.css">qss/listitem.css</file>
-        <file alias="QPalringo.css">qss/qpalringo.css</file>
+        <file alias="ListItem.css" >qss/listitem.css</file>
+        <file alias="QPalringo.css" >qss/qpalringo.css</file>
     </qresource>
     <qresource prefix="/svg" >
         <file alias="onlineContact.svg" >images/svg/person-blue.svg</file>
@@ -38,5 +38,14 @@
         <file alias="originator-off.gif" >images/backgrounds/originator-off.gif</file>
         <file alias="recieved-on.gif" >images/backgrounds/recieved-on.gif</file>
         <file alias="recieved-off.gif" >images/backgrounds/recieved-off.gif</file>
+    </qresource>
+    <qresource prefix="/services" >
+        <file>images/svg/services/ox32-app-gadu_protocol.png</file>
+        <file>images/svg/services/ox128-app-aim_protocol.png</file>
+        <file>images/svg/services/ox128-app-icq_protocol.png</file>
+        <file>images/svg/services/ox128-app-jabber_protocol.png</file>
+        <file>images/svg/services/ox128-app-qq_protocol.png</file>
+        <file>images/svg/services/ox128-app-yahoo_protocol.png</file>
+        <file>images/svg/services/wlm_protocol.svg</file>
     </qresource>
 </RCC>
