@@ -26,6 +26,8 @@
 #include "services/palringoservice.h"
 #include "tools.h"
 
+#include "services/bridgeservice.h"
+
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)
 {
@@ -51,6 +53,22 @@ void OverviewListView::setupContainers()
 
 void OverviewListView::newBridge( Bridge* bridge )
 {
+    Service *s;
+    switch( bridge->getType() )
+    {
+        case qpBridgeType::PALRINGO:
+            s = new Service();
+            break;
+        default:
+            s = new BridgeService();
+            break;
+    }
+    s->setNickname( bridge->getNickname() );
+    s->setStatus( bridge->getUsername() );
+    s->setOnlineStatus( "Offline" );
+    s->setType( bridge->getType() );
+
+   this->serviceReceived( s );
 }
 
 void OverviewListView::serviceReceived( Service *service )
