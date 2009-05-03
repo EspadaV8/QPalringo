@@ -35,7 +35,6 @@ class ServiceItem : public ListItem
     public:
         ServiceItem( QWidget *parent = 0, Service *service = NULL, bool isPalringoService = false );
         ~ServiceItem();
-        QString getContainerGroup();
     
     private slots:
         void updateDetails();
