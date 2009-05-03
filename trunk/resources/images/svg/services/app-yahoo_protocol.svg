@@ -363,11 +363,11 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.4142136"
-     inkscape:cx="325.70688"
-     inkscape:cy="136.35024"
+     inkscape:zoom="2.8284271"
+     inkscape:cx="415.67226"
+     inkscape:cy="104.05121"
      inkscape:document-units="px"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="layer9"
      showgrid="false"
      inkscape:window-width="1272"
      inkscape:window-height="969"
@@ -376,13 +376,13 @@
      showguides="true"
      inkscape:guide-bbox="true">
     <sodipodi:guide
-       orientation="1,0"
-       position="376.71756,212.59542"
-       id="guide5617" />
-    <sodipodi:guide
        orientation="0,1"
        position="389.31298,175.19084"
        id="guide5619" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="369.64007,110.83899"
+       id="guide6313" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -454,7 +454,7 @@
      transform="translate(-75.933267,-349.19292)">
     <path
        style="fill:url(#radialGradient4650);fill-opacity:1;fill-rule:evenodd;stroke:#bf3600;stroke-width:4;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 374.81018,795.49195 L 374.81018,829.07974 C 374.4285,867.62936 434.69255,892.13844 453.42441,892.05684 C 472.15628,891.97523 530.52347,873.10009 530.52365,834.04157 L 530.53537,795.49195 L 374.81018,795.49195 z"
+       d="M 374.81018,795.49195 L 374.81018,829.0985 C 374.4285,867.64812 433.91897,894.96687 452.65083,894.88527 C 471.3827,894.80366 530.52347,868.15702 530.52365,829.0985 L 530.53537,795.49195 L 374.81018,795.49195 z"
        id="path4634"
        sodipodi:nodetypes="cczccc" />
   </g>
