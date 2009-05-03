@@ -6,6 +6,11 @@ MessageList #list
                         stop:1 rgba( 225, 234, 242, 100% ) );
 }
 
+PalringoListView
+{
+    border: none;
+}
+
 #firstLine,
 #secondLine
 {
@@ -29,6 +34,59 @@ MessageList #list
     background: #bfcfe3;
     color: #406593;
     font-size: 10px;
+}
+
+/***** Buttons *****/
+#buttonsContainer
+{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop: 0.0 rgba( 80, 80, 80, 100% ),
+                    stop: 0.5 rgba( 53, 53, 53, 100% ),
+                    stop: 0.51 rgba( 0, 0, 0, 100% ) );
+}
+
+#overviewButton,
+#contactsButton,
+#groupsButton
+{
+    border: 1px solid #000;
+    border-bottom: none;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop: 0.0 rgba( 155, 155, 155, 100% ),
+                    stop: 0.5 rgba( 134, 134, 134, 100% ),
+                    stop: 0.51 rgba( 106, 106, 106, 100% ),
+                    stop: 1 rgba( 131, 131, 131, 100% ));
+    padding: 2px 4px 1px 3px;
+    margin: 3px 0 0 0;
+    color: #fff;
+    font-size: 10px;
+}
+
+#overviewButton:checked,
+#contactsButton:checked,
+#groupsButton:checked
+{
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop: 0.0 rgba( 204, 204, 204, 100% ),
+                    stop: 1.0 rgba( 255, 255, 255, 100% ) );
+    color: #000;
+}
+
+#overviewButton
+{
+    margin-left: 2px;
+}
+#contactsButton
+{
+    padding-right: 6px;
+}
+#groupsButton
+{
+    margin-right: 2px;
+    padding-left: 0;
 }
 
 
