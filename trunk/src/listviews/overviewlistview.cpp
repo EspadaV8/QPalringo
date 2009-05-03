@@ -37,11 +37,10 @@ void OverviewListView::setupContainers()
     this->addContainer( tr( "Messages" ) );
 
     PalringoService *s = new PalringoService;
-    s->Nickname = QString("Palringo");
-    s->Status = QString("Offline");
-    s->OnlineStatus = "Offline";
-    s->Type = "palringo";
-    s->Group = "Services";
+    s->setType( "palringo" );
+    s->setNickname( "Palringo" );
+    s->setStatus( "Offline" );
+    s->setOnlineStatus( "Offline" );
 
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
 
@@ -53,7 +52,7 @@ void OverviewListView::serviceReceived( Service *service )
 {
     ServiceItem *si = new ServiceItem( 0, service, true );
     this->listItems.append( si );
-    this->addWidgetToView( si );
+    this->addWidgetToView( si, "Services" );
 }
 
 void OverviewListView::newPendingMessage( Target* target )
