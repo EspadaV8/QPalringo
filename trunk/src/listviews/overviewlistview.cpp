@@ -37,7 +37,7 @@ void OverviewListView::setupContainers()
     this->addContainer( tr( "Messages" ) );
 
     PalringoService *s = new PalringoService;
-    s->setType( "palringo" );
+    s->setType( qpBridgeType::PALRINGO );
     s->setNickname( "Palringo" );
     s->setStatus( "Offline" );
     s->setOnlineStatus( "Offline" );
