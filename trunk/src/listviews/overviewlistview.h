@@ -25,6 +25,7 @@
 #include <QList>
 #include "services/service.h"
 #include "libQPalringo/message.h"
+#include "libQPalringo/bridge.h"
 #include "palringolistview.h"
 #include "libQPalringo/targets/target.h"
 
@@ -48,6 +49,7 @@ class OverviewListView : public PalringoListView
 
     private slots:
         void newPendingMessage( Target* target );
+        void newBridge( Bridge* bridge );
 };
 
 #endif

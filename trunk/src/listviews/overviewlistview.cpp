@@ -42,10 +42,15 @@ void OverviewListView::setupContainers()
     s->setStatus( "Offline" );
     s->setOnlineStatus( "Offline" );
 
+    connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
 
     this->serviceReceived( s );
     this->addLayoutsToSelf();
+}
+
+void OverviewListView::newBridge( Bridge* bridge )
+{
 }
 
 void OverviewListView::serviceReceived( Service *service )
