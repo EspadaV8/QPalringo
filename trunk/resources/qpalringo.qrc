@@ -26,6 +26,7 @@
         <file alias="iPhoneContact.svg" >images/svg/iphone.svg</file>
         <file alias="palringoService.svg" >images/svg/palringo-service.svg</file>
         <file alias="logo.svg" >images/svg/logo.svg</file>
+        <file alias="logo_offline.svg" >images/svg/logo_offline.svg</file>
         <file alias="image.svg" >images/svg/image.svg</file>
         <file alias="text.svg" >images/svg/text.svg</file>
         <file alias="voice.svg" >images/svg/voice.svg</file>
@@ -47,5 +48,13 @@
         <file alias="qq.svg" >images/svg/services/app-qq_protocol.svg</file>
         <file alias="yahoo.svg" >images/svg/services/app-yahoo_protocol.svg</file>
         <file alias="msn.svg" >images/svg/services/wlm_protocol.svg</file>
+
+        <file alias="gaduGadu_offline.svg" >images/svg/services/app-gadu_protocol_offline.svg</file>
+        <file alias="aim_offline.svg" >images/svg/services/app-aim_protocol_offline.svg</file>
+        <file alias="icq_offline.svg" >images/svg/services/app-icq_protocol_offline.svg</file>
+        <file alias="jabber_offline.svg" >images/svg/services/app-jabber_protocol_offline.svg</file>
+        <file alias="qq_offline.svg" >images/svg/services/app-qq_protocol_offline.svg</file>
+        <file alias="yahoo_offline.svg" >images/svg/services/app-yahoo_protocol_offline.svg</file>
+        <file alias="msn_offline.svg" >images/svg/services/wlm_protocol_offline.svg</file>
     </qresource>
 </RCC>
