@@ -5,6 +5,7 @@ namespace qpBridgeType
 {
     enum Type
     {
+        PALRINGO,
         MSN = 1
     };
 }
