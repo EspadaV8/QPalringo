@@ -525,3 +525,8 @@ Bridge* Tools::getBridge( quint32 bridgeID )
 {
     return this->connection->getBridge( bridgeID );
 }
+
+BridgeContact* Tools::getBridgeContact( quint32 bridgeID, quint64 contactID )
+{
+    return this->connection->getBridgeContact( bridgeID, contactID );
+}
