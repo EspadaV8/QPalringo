@@ -17,7 +17,7 @@ class qpGenericData
         qpGenericData();
 
         virtual void getData( const Headers& headers, QByteArray body = "" ) = 0;
-        virtual Headers setData( QByteArray body = "" ) = 0;
+        virtual Headers setData( QByteArray body = "" );
 
         quint64 mesgId_;
 };
@@ -52,7 +52,6 @@ class qpLogonData : public qpGenericData
         qpLogonData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         quint64 subId_;
         QString name_;
@@ -87,7 +86,6 @@ class qpContactData : public qpGenericData
         qpContactData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         quint64 contactId_;
         quint64 capabilities_;
@@ -113,7 +111,6 @@ class qpGroupData : public qpGenericData
         qpGroupData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         quint64 groupId_;
         quint64 contactId_;
@@ -135,7 +132,6 @@ class qpResponseData : public qpGenericData
         qpResponseData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         qpWhat::What what_;
         qpErrorCodes::ErrorCode errorCode_;
@@ -150,7 +146,6 @@ class qpBridgeData : public qpGenericData
         qpBridgeData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         quint32 bridgeId_;
         qpBridgeType::Type type_;
@@ -164,7 +159,6 @@ class qpBridgeContactData : public qpGenericData
         qpBridgeContactData();
 
         void getData( const Headers& headers, QByteArray body = "" );
-        Headers setData( QByteArray body = "" );
 
         quint32 bridgeId_;
         quint64 contactId_;

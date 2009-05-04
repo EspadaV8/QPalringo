@@ -13,6 +13,12 @@ qpGenericData::qpGenericData()
     mesgId_ = 0;
 }
 
+Headers qpGenericData::setData( QByteArray )
+{
+    Headers h;
+    return h;
+}
+
 /**
  * qpMsgData
  */
@@ -105,10 +111,6 @@ void qpLogonData::getData( const Headers& headers, QByteArray body )
     timestamp_  = headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP );
 }
 
-Headers qpLogonData::setData( QByteArray )
-{
-}
-
 /**
  * qpAuthData
  */
@@ -173,10 +175,6 @@ void qpContactData::getData( const Headers& headers, QByteArray )
     deviceType_ = (qpDeviceType::DeviceType)headers.attribute<qint32>( qpHeaderAttribute::DEVICE_TYPE );
 }
 
-Headers qpContactData::setData( QByteArray )
-{
-}
-
 /**
  * qpGroupData
  */
@@ -204,10 +202,6 @@ void qpGroupData::getData( const Headers& headers, QByteArray )
     admin_ = headers.attribute<QString>( qpHeaderAttribute::ADMIN );
     desc_ = headers.attribute<QString>( qpHeaderAttribute::DESC );
     action_ = (qpGroupStatus::GroupStatus)headers.attribute<qint32>( qpHeaderAttribute::ACTION );
-}
-
-Headers qpGroupData::setData( QByteArray )
-{
 }
 
 /**
@@ -246,10 +240,6 @@ void qpResponseData::getData( const Headers& headers, QByteArray body )
     }
 }
 
-Headers qpResponseData::setData( QByteArray )
-{
-}
-
 /**
  * qpBridgeData
  */
@@ -271,10 +261,6 @@ void qpBridgeData::getData( const Headers& headers, QByteArray )
     username_ = headers.attribute<QString>( qpHeaderAttribute::USERNAME );
 }
 
-Headers qpBridgeData::setData( QByteArray )
-{
-}
-
 /**
  * qpBridgeContactData
  */
@@ -294,10 +280,6 @@ void qpBridgeContactData::getData( const Headers& headers, QByteArray )
     contactId_ = headers.attribute<quint64>( qpHeaderAttribute::CONTACT_ID );
     name_ = headers.attribute<QString>( qpHeaderAttribute::NAME );
     nickname_ = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
-}
-
-Headers qpBridgeContactData::setData( QByteArray )
-{
 }
 /**
  * END INLINE CLASSES
