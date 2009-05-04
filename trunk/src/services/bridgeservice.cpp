@@ -1,8 +1,15 @@
 #include "bridgeservice.h"
+#include "tools.h"
 
 BridgeService::BridgeService()
     : Service()
 {
+}
+
+BridgeService::BridgeService( quint32 bridgeId )
+    : Service()
+{
+    setBridgeId( bridgeId );
 }
 
 QString BridgeService::getIcon() const
@@ -51,4 +58,14 @@ QString BridgeService::getIcon() const
                 return ":/svg/logo.svg";
         }
     }
+}
+
+void BridgeService::setBridgeId( quint32 bridgeId )
+{
+    this->bridgeId = bridgeId;
+}
+
+quint32 BridgeService::getBridgeId()
+{
+    return this->bridgeId;
 }
