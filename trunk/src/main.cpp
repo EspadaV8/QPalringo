@@ -26,8 +26,7 @@ int main ( int argc, char *argv[] )
 {
     QApplication app ( argc, argv );
     app.setApplicationName( "QPalringo" );
-    //QFile sheet ( ":/styles/QPalringo.css" );
-    QFile sheet ( "/home/espadav8/workspace/qpalringo/trunk/qss/qpalringo.css" );
+    QFile sheet ( ":/styles/QPalringo.css" );
 
     if ( ! sheet.open ( QIODevice::ReadOnly ) )
     {
