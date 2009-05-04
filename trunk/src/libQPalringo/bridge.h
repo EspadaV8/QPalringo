@@ -2,7 +2,9 @@
 #define BRIDGE_H
 
 #include <QObject>
+#include <QHash>
 #include "bridgetype.h"
+#include "targets/bridgecontact.h"
 
 class Bridge : public QObject
 {
@@ -17,6 +19,7 @@ class Bridge : public QObject
         void setVendor( QString vendor );
         void setDomain( QString domain );
         void setDisabled( bool disabled );
+        void addContact( BridgeContact* contact );
 
         quint32 getId();
         qpBridgeType::Type getType();
@@ -26,6 +29,7 @@ class Bridge : public QObject
         QString getVendor();
         QString getDomain();
         bool isDisabled();
+        QHash<quint64, BridgeContact*> getContacts();
 
     private:
         quint32 id;
@@ -36,6 +40,7 @@ class Bridge : public QObject
         QString vendor;
         QString domain;
         bool disabled;
+        QHash<quint64, BridgeContact*> contacts;
 };
 
 #endif // BRIDGE_H

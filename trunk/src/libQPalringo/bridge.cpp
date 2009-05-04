@@ -45,6 +45,11 @@ void Bridge::setDisabled( bool disabled )
     this->disabled = disabled;
 }
 
+void Bridge::addContact( BridgeContact* contact )
+{
+    this->contacts.insert( contact->getContactId(), contact );
+}
+
 
 quint32 Bridge::getId()
 {
@@ -84,4 +89,9 @@ QString Bridge::getDomain()
 bool Bridge::isDisabled()
 {
     return this->disabled;
+}
+
+QHash<quint64, BridgeContact*> Bridge::getContacts()
+{
+    return this->contacts;
 }
