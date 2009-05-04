@@ -20,8 +20,8 @@ SOURCES += main.cpp \
     listviews/contactlistview.cpp \
     listviews/grouplistview.cpp \
     listviews/overviewlistview.cpp \
-    services/bridgeservice.cpp
-
+    services/bridgeservice.cpp \
+    listitems/bridgecontactlistitem.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -55,8 +55,8 @@ HEADERS += palringowindow.h \
     listviews/contactlistview.h \
     listviews/grouplistview.h \
     listviews/overviewlistview.h \
-    services/bridgeservice.h
-
+    services/bridgeservice.h \
+    listitems/bridgecontactlistitem.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \
