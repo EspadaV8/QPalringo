@@ -48,6 +48,7 @@ class ListItem : public QWidget
         static const int CONTACT = 1;
         static const int GROUP = 2;
         static const int SERVICE = 3;
+        static const int BRIDGECONTACT = 4;
 
         virtual QString getContainerGroup();
 
