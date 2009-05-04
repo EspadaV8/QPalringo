@@ -48,6 +48,7 @@
         <file alias="qq.svg" >images/svg/services/app-qq_protocol.svg</file>
         <file alias="yahoo.svg" >images/svg/services/app-yahoo_protocol.svg</file>
         <file alias="msn.svg" >images/svg/services/wlm_protocol.svg</file>
+        <file alias="facebook.svg" >images/svg/services/app-facebook_protocol.svg</file>
 
         <file alias="gaduGadu_offline.svg" >images/svg/services/app-gadu_protocol_offline.svg</file>
         <file alias="aim_offline.svg" >images/svg/services/app-aim_protocol_offline.svg</file>
@@ -56,5 +57,6 @@
         <file alias="qq_offline.svg" >images/svg/services/app-qq_protocol_offline.svg</file>
         <file alias="yahoo_offline.svg" >images/svg/services/app-yahoo_protocol_offline.svg</file>
         <file alias="msn_offline.svg" >images/svg/services/wlm_protocol_offline.svg</file>
+        <file alias="facebook_offline.svg" >images/svg/services/app-facebook_protocol_offline.svg</file>
     </qresource>
 </RCC>
