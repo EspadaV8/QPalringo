@@ -77,6 +77,7 @@ class QPalringoConnection : public QObject
         User getUser();
         Group* getGroup( quint64 groupID );
         Contact* getContact( quint64 contactID );
+        Bridge* getBridge( quint32 bridgeID );
 
         QHash<quint64, Contact*> getAllContacts();
         QHash<quint64, Contact*> getContactListContacts();

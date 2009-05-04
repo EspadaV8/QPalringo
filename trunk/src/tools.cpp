@@ -520,3 +520,8 @@ Group* Tools::getGroup( quint64 groupID )
 {
     return this->connection->getGroup( groupID );
 }
+
+Bridge* Tools::getBridge( quint32 bridgeID )
+{
+    return this->connection->getBridge( bridgeID );
+}

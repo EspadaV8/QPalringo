@@ -83,6 +83,7 @@ class Tools : public QObject
         QHash<quint64, Contact*> getContactListContacts();
         QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
         Group* getGroup( quint64 groupID );
+        Bridge* getBridge( quint32 bridgeID );
 
     public slots:
         void logonSuccessful();
