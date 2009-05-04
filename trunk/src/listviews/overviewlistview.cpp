@@ -22,6 +22,7 @@
 #include "listitems/serviceitem.h"
 #include "listitems/contactlistitem.h"
 #include "listitems/grouplistitem.h"
+#include "listitems/bridgecontactlistitem.h"
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
 #include "tools.h"
@@ -115,6 +116,10 @@ void OverviewListView::newPendingMessage( Target* target )
             else if( target->getType() == Target::GROUP )
             {
                 li = new GroupListItem( this, (Group*)target );
+            }
+            else if( target->getType() == Target::BRIDGECONTACT )
+            {
+                li = new BridgeContactListItem( this, (BridgeContact*)target );
             }
 
             this->listItems.append( li );
