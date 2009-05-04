@@ -192,6 +192,7 @@ void QPalringoConnection::socketError( QAbstractSocket::SocketError socketError 
 #if ERRORS
     qDebug( "%s", qPrintable( socket->errorString() ) );
 #endif
+    emit disconnected();
 }
 
 void QPalringoConnection::pollRead()

@@ -154,6 +154,7 @@ class QPalringoConnection : public QObject
         void pollRead();
 
     signals:
+        void disconnected();
         int logonSuccessful();
         int logonSuccessful( QString timestamp );
         void messageReceived( QString message, quint64 senderID, quint64 groupID, QString ct );
