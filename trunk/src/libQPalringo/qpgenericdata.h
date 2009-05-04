@@ -36,6 +36,7 @@ class qpMsgData : public qpGenericData
         quint32 correlationId_;
         quint32 contentLength_;
         quint32 totalLength_;
+        quint32 bridgeId_;
 
         QString contentType_;
         QString email_;

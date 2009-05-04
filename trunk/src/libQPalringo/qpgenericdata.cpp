@@ -44,6 +44,7 @@ void qpMsgData::getData( const Headers& headers, QByteArray )
     correlationId_  = headers.attribute<quint32>( qpHeaderAttribute::CORRELATION_ID );
     contentLength_  = headers.attribute<quint32>( qpHeaderAttribute::CONTENT_LENGTH );
     totalLength_    = headers.attribute<quint32>( qpHeaderAttribute::TOTAL_LENGTH );
+    bridgeId_       = headers.attribute<quint32>( qpHeaderAttribute::BRIDGE_ID );
 
     contentType_    = headers.attribute<QString>( qpHeaderAttribute::CONTENT_TYPE );
     email_          = headers.attribute<QString>( qpHeaderAttribute::EMAIL );
