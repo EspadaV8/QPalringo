@@ -24,6 +24,7 @@
 
 #include <QMainWindow>
 #include <QTabWidget>
+#include <QStackedWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
 #include "libQPalringo/targets/contact.h"
@@ -59,6 +60,9 @@ class PalringoWindow : public QMainWindow
         void showSettingsWindow();
         void cleanUp();
         void showTrayMessage( Target* target );
+        void showOverview();
+        void showContacts();
+        void showGroup( quint64 groupID );
 
     private:
         QMenu *fileMenu;
@@ -89,9 +93,12 @@ class PalringoWindow : public QMainWindow
         QWidget *overviewPage;
         QWidget *contactsPage;
 
+        QStackedWidget *pages;
+
         void setupUi();
         void CreateTrayIcon();
         void SetupTabs();
+        void setupButtonLayout();
 
         QList<ListItem *> usersContacts;
         QList<ListItem *> userServices;

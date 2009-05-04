@@ -40,7 +40,20 @@ void PalringoWindow::setupUi()
     CreateTrayIcon();
     SetupActions();
     CreateMenuBar();
-    SetupTabs();
+
+    QSettings settings;
+    int uiLayout = settings.value( "gui/layout" ).toInt();
+
+    switch( uiLayout )
+    {
+        case 1:
+            setupButtonLayout();
+            break;
+        case 0:
+        default:
+            SetupTabs();
+            break;
+    }
 
     setWindowTitle( tr( "QPalringo" ) );
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
@@ -167,6 +180,78 @@ void PalringoWindow::SetupTabs()
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
     connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
+}
+
+void PalringoWindow::setupButtonLayout()
+{
+    pages = new QStackedWidget;
+
+    QWidget *buttons = new QWidget;
+    buttons->setObjectName( "buttonsContainer" );
+    QHBoxLayout *buttonsLayout = new QHBoxLayout;
+    buttonsLayout->setContentsMargins( 0, 0, 0, 0 );
+    buttonsLayout->setSpacing( 0 );
+
+    QPushButton *overviewButton = new QPushButton( tools_->getPixmap( ":/svg/logo.svg" ), "", this);
+    overviewButton->setObjectName( "overviewButton" );
+    //overviewButton->setCheckable(true);
+    QPushButton *contactsButton = new QPushButton( tools_->getPixmap( ":/svg/onlineContact.svg" ), "&Contacts", this);
+    contactsButton->setObjectName( "contactsButton" );
+    //contactsButton->setCheckable(true);
+    QPushButton *groupsButton = new QPushButton( tools_->getPixmap( ":/svg/group.svg" ), "&Groups", this);
+    groupsButton->setObjectName( "groupsButton" );
+    //groupsButton->setCheckable(true);
+
+    connect( overviewButton, SIGNAL( clicked() ), this, SLOT( showOverview() ) );
+    connect( contactsButton, SIGNAL( clicked() ), this, SLOT( showContacts() ) );
+
+    QMenu *m = new QMenu;
+    m->addAction( tools_->getPixmap( ":/svg/group.svg" ), "Palringo" );
+    m->addAction( tools_->getPixmap( ":/svg/group.svg" ), "uk" );
+    m->addAction( tools_->getPixmap( ":/svg/group.svg" ), "987654321" );
+
+    groupsButton->setMenu( m );
+
+    buttonsLayout->addWidget( overviewButton );
+    buttonsLayout->addWidget( contactsButton );
+    buttonsLayout->addWidget( groupsButton );
+    buttonsLayout->addStretch(1);
+    buttons->setLayout( buttonsLayout );
+
+    OverviewListView *overviewList = new OverviewListView( this );
+    overviewList->setupContainers();
+
+    ContactListView *contactList = new ContactListView( this );
+    contactList->setupContainers();
+
+    pages->addWidget( overviewList );
+    pages->addWidget( contactList );
+
+    QWidget *w = new QWidget;
+    QVBoxLayout *vb = new QVBoxLayout;
+    vb->setContentsMargins( 0, 0, 0, 0 );
+    vb->setSpacing( 0 );
+
+    vb->addWidget( buttons );
+    vb->addWidget( pages );
+
+    w->setLayout( vb );
+
+    this->setCentralWidget( w );
+}
+
+void PalringoWindow::showOverview()
+{
+    pages->setCurrentIndex( 0 );
+}
+
+void PalringoWindow::showContacts()
+{
+    pages->setCurrentIndex( 1 );
+}
+
+void PalringoWindow::showGroup( quint64 groupID )
+{
 }
 
 void PalringoWindow::tabFocusChanged(int tabIndex )
