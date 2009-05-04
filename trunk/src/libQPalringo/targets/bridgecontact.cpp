@@ -54,24 +54,29 @@ void BridgeContact::setContactId( quint64 contactId )
 void BridgeContact::setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus )
 {
     this->onlineStatus = onlineStatus;
+    emit onlineStatusChanged();
 }
 
 void BridgeContact::setName( QString name )
 {
     this->name = name;
+    emit nameChanged();
 }
 
 void BridgeContact::setNickname( QString nickname )
 {
     this->nickname = nickname;
+    emit nicknameChanged();
 }
 
 void BridgeContact::setStatus( QString status )
 {
     this->status = status;
+    emit statusChanged();
 }
 
 void BridgeContact::setCurrentMedia( QString currentMedia )
 {
     this->currentMedia = currentMedia;
+    emit currentMediaChanged();
 }

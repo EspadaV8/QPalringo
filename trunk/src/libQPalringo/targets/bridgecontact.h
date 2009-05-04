@@ -34,6 +34,13 @@ class BridgeContact : public Target
         QString nickname;
         QString status;
         QString currentMedia;
+
+    signals:
+        void onlineStatusChanged();
+        void nameChanged();
+        void nicknameChanged();
+        void statusChanged();
+        void currentMediaChanged();
 };
 
 #endif // BRIDGECONTACT_H
