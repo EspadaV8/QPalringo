@@ -33,7 +33,10 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 {
     QSettings settings;
 
-    this->contact = tools_->getContact( message.senderID() );
+    if( message.bridgeID() > 0 )
+        this->contact = tools_->getBridgeContact( message.bridgeID(), message.senderID() );
+    else
+        this->contact = tools_->getContact( message.senderID() );
     this->message = message;
 
     if( this->message.senderID() == tools_->getUser().userID )
