@@ -72,6 +72,7 @@ class Tools : public QObject
         void joinGroup( QString groupName );
         void createGroup( QString groupName );
         void leaveGroup( quint64 groupID );
+        void setBridgeStatus( quint32 bridgeId, qpOnlineStatus::OnlineStatus onlineStatus );
 
         bool isLoggedIn();
 

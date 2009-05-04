@@ -470,6 +470,11 @@ void Tools::leaveGroup( quint64 groupID )
     emit( groupLeft( groupID ) );
 }
 
+void Tools::setBridgeStatus( quint32 bridgeId, qpOnlineStatus::OnlineStatus onlineStatus )
+{
+    this->connection->setBridgeStatus( bridgeId, onlineStatus );
+}
+
 bool Tools::updateContactDetail( QString detail, QString value )
 {
     return this->connection->updateContactDetail( detail, value );
