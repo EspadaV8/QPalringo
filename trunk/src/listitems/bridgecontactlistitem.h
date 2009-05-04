@@ -14,11 +14,15 @@ class BridgeContactListItem : public ListItem
     signals:
         void containerGroupChanged( ListItem* );
 
+    protected:
+        void mouseDoubleClickEvent( QMouseEvent *event );
+
     private:
         BridgeContact *contact;
         QString getIcon();
 
     private slots:
+        void startChat();
         void updateDetails();
         void updateOnlineStatus();
 };

@@ -8,10 +8,10 @@ BridgeContactListItem::BridgeContactListItem( QWidget *parent, BridgeContact *co
     this->contact = contact;
     updateDetails();
 
-    connect( contact, SIGNAL(onlineStatusChanged()), this, SLOT(updateOnlineStatus()));
+    connect( contact, SIGNAL(updateOnlineStatus()), this, SLOT(updateOnlineStatus()));
     connect( contact, SIGNAL(nameChanged()), this, SLOT(updateDetails()));
-    connect( contact, SIGNAL(nicknameChanged()), this, SLOT(updateDetails()));
-    connect( contact, SIGNAL(statusChanged()), this, SLOT(updateDetails()));
+    connect( contact, SIGNAL(updateNickname()), this, SLOT(updateDetails()));
+    connect( contact, SIGNAL(updateStatusline()), this, SLOT(updateDetails()));
     connect( contact, SIGNAL(currentMediaChanged()), this, SLOT(updateDetails()));
 
     emit( containerGroupChanged( this ) );
@@ -30,9 +30,9 @@ void BridgeContactListItem::updateDetails()
     }
 
     QString secondLine;
-    if( this->contact->getStatus().size() > 0 )
+    if( this->contact->getStatusline().size() > 0 )
     {
-        secondLine = this->contact->getStatus();
+        secondLine = this->contact->getStatusline();
     }
     else
     {
@@ -113,4 +113,15 @@ void BridgeContactListItem::updateOnlineStatus()
 {
     this->setIcon( this->getIcon() );
     emit containerGroupChanged( this );
+}
+
+void BridgeContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
+{
+    event->accept();
+    this->startChat();
+}
+
+void BridgeContactListItem::startChat()
+{
+    tools_->openChatWindow( this->contact );
 }
