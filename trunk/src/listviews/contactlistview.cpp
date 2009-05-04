@@ -55,7 +55,7 @@ void ContactListView::setupContainers()
 void ContactListView::contactReceived( Contact *contact )
 {
     ContactListItem *pc = new ContactListItem( this, contact );
-    connect( pc, SIGNAL( containerGroupChanged( ContactListItem* ) ), this, SLOT( checkContainerGroups( ContactListItem* ) ) );
+    connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
 }
@@ -93,7 +93,7 @@ void ContactListView::inFocus()
     }
 }
 
-void ContactListView::checkContainerGroups( ContactListItem *li )
+void ContactListView::checkContainerGroups( ListItem *li )
 {
     for( int i = 0; i < this->listViewContainers.size(); i++ )
     {

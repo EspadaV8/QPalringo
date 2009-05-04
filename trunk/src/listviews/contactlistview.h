@@ -44,7 +44,7 @@ class ContactListView : public PalringoListView
     protected slots:
         void contactReceived( Contact *contact );
         void getContacts( quint64 groupID = 0 );
-        void checkContainerGroups( ContactListItem* );
+        void checkContainerGroups( ListItem* );
         void removeContacts();
 
     public slots:

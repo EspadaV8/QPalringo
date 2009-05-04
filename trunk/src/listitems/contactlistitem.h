@@ -45,7 +45,7 @@ class ContactListItem : public ListItem
         QString getContainerGroup();
 
     signals:
-        void containerGroupChanged( ContactListItem* );
+        void containerGroupChanged( ListItem* );
         
     private slots:
         void startChat();
