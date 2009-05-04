@@ -27,7 +27,7 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
-#define SIGNALS 1
+#define SIGNALS 0
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
@@ -146,7 +146,7 @@ void QPalringoConnection::setProxy( QNetworkProxy proxy )
     this->socket->setProxy( proxy );
 }
 
-int QPalringoConnection::connectClient( bool reconnect )
+int QPalringoConnection::connectClient( bool )
 {
     socket->connectToHost( this->host, this->port );
     connect(socket, SIGNAL(readyRead()), this, SLOT(pollRead()));
@@ -190,7 +190,7 @@ int QPalringoConnection::connectClient( bool reconnect )
     return 1;
 }
 
-void QPalringoConnection::socketError( QAbstractSocket::SocketError socketError )
+void QPalringoConnection::socketError( QAbstractSocket::SocketError )
 {
 #if ERRORS
     qDebug( "%s", qPrintable( socket->errorString() ) );
@@ -857,19 +857,50 @@ void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const
     qpBridgeContactData bridgeContactData;
     bridgeContactData.getData(headers, body);
 
-    BridgeContact* contact = new BridgeContact;
-    contact->setContactId( bridgeContactData.contactId_ );
-    contact->setBridgeId( bridgeContactData.bridgeId_ );
-    contact->setName( bridgeContactData.name_ );
-    contact->setNickname( bridgeContactData.nickname_ );
+    Bridge* b = this->bridges.value( bridgeContactData.bridgeId_ );
 
-    Bridge* b = this->bridges.value( contact->getBridgeId() );
-    b->addContact( contact );
+    if( b->getContacts().contains( bridgeContactData.contactId_ ) )
+    {
+        BridgeContact* contact = b->getContacts().value( bridgeContactData.contactId_ );
 
+        if( bridgeContactData.name_.size() )
+        {
+            contact->setName( bridgeContactData.name_ );
+        }
+        if( bridgeContactData.nickname_.size() )
+        {
+            contact->setNickname( bridgeContactData.nickname_ );
+        }
+        if( bridgeContactData.status_.size() )
+        {
+            contact->setStatus( bridgeContactData.status_ );
+        }
+        if( bridgeContactData.currentMedia_.size() )
+        {
+            contact->setCurrentMedia( bridgeContactData.currentMedia_ );
+        }
+        if( bridgeContactData.onlineStatus_ > -1 )
+        {
+            contact->setOnlineStatus( bridgeContactData.onlineStatus_ );
+        }
+    }
+    else
+    {
+        BridgeContact* contact = new BridgeContact;
+        contact->setContactId( bridgeContactData.contactId_ );
+        contact->setBridgeId( bridgeContactData.bridgeId_ );
+        contact->setName( bridgeContactData.name_ );
+        contact->setNickname( bridgeContactData.nickname_ );
+        contact->setStatus( bridgeContactData.status_ );
+        contact->setCurrentMedia( bridgeContactData.currentMedia_ );
+        contact->setOnlineStatus( bridgeContactData.onlineStatus_ );
+
+        b->addContact( contact );
 #if SIGNALS
-    qDebug( "emitting gotBridgeContact( BridgeContact* )" );
+        qDebug( "emitting gotBridgeContact( BridgeContact* )" );
 #endif
-    emit gotBridgeContact( contact );
+        emit gotBridgeContact( contact );
+    }
 }
 
 int QPalringoConnection::parseCmd( const QByteArray& data )
