@@ -82,6 +82,7 @@ class Tools : public QObject
         Contact* getContact( quint64 contactID );
         QHash<quint64, Contact*> getContactListContacts();
         QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
+        Group* getGroup( quint64 groupID );
 
     public slots:
         void logonSuccessful();

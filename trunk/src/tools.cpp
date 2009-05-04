@@ -515,3 +515,8 @@ QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
 {
     return this->connection->getGroupContacts( groupID );
 }
+
+Group* Tools::getGroup( quint64 groupID )
+{
+    return this->connection->getGroup( groupID );
+}
