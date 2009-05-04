@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     contactpropertieswindow.cpp \
     listviews/contactlistview.cpp \
     listviews/grouplistview.cpp \
-    listviews/overviewlistview.cpp
+    listviews/overviewlistview.cpp \
+    services/bridgeservice.cpp
 
 TEMPLATE = app
 CONFIG += warn_on \
@@ -53,7 +54,8 @@ HEADERS += palringowindow.h \
     contactpropertieswindow.h \
     listviews/contactlistview.h \
     listviews/grouplistview.h \
-    listviews/overviewlistview.h
+    listviews/overviewlistview.h \
+    services/bridgeservice.h
 
 LIBS += -L../bin \
     -lQPalringo \
