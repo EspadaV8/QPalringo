@@ -900,7 +900,7 @@ void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const
         }
         if( bridgeContactData.status_.size() )
         {
-            contact->setStatus( bridgeContactData.status_ );
+            contact->setStatusline( bridgeContactData.status_ );
         }
         if( bridgeContactData.currentMedia_.size() )
         {
@@ -914,11 +914,11 @@ void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const
     else
     {
         BridgeContact* contact = new BridgeContact;
-        contact->setContactId( bridgeContactData.contactId_ );
+        contact->setID( bridgeContactData.contactId_ );
         contact->setBridgeId( bridgeContactData.bridgeId_ );
         contact->setName( bridgeContactData.name_ );
         contact->setNickname( bridgeContactData.nickname_ );
-        contact->setStatus( bridgeContactData.status_ );
+        contact->setStatusline( bridgeContactData.status_ );
         contact->setCurrentMedia( bridgeContactData.currentMedia_ );
         contact->setOnlineStatus( bridgeContactData.onlineStatus_ );
 

@@ -47,7 +47,7 @@ void Bridge::setDisabled( bool disabled )
 
 void Bridge::addContact( BridgeContact* contact )
 {
-    this->contacts.insert( contact->getContactId(), contact );
+    this->contacts.insert( contact->getID(), contact );
 }
 
 
