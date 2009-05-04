@@ -158,4 +158,18 @@ class qpBridgeData : public qpGenericData
         QString username_;
 };
 
+class qpBridgeContactData : public qpGenericData
+{
+    public:
+        qpBridgeContactData();
+
+        void getData( const Headers& headers, QByteArray body = "" );
+        Headers setData( QByteArray body = "" );
+
+        quint32 bridgeId_;
+        quint64 contactId_;
+        QString name_;
+        QString nickname_;
+};
+
 #endif // QPGENERICDATA_H
