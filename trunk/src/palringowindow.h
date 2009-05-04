@@ -28,6 +28,7 @@
 #include <QScrollArea>
 #include "libQPalringo/targets/contact.h"
 #include "libQPalringo/targets/group.h"
+#include "libQPalringo/targets/target.h"
 #include "signinwindow.h"
 #include "messageitem.h"
 #include "listitems/listitem.h"
@@ -57,6 +58,7 @@ class PalringoWindow : public QMainWindow
         void tabFocusChanged( int tabIndex );
         void showSettingsWindow();
         void cleanUp();
+        void showTrayMessage( Target* target );
 
     private:
         QMenu *fileMenu;

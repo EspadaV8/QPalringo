@@ -185,6 +185,35 @@ void PalringoWindow::CreateTrayIcon()
     this->systrayicon = new QSystemTrayIcon();
     this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
+
+    connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( showTrayMessage( Target* ) ) );
+}
+
+void PalringoWindow::showTrayMessage( Target* target )
+{
+    QString text;
+    QString sender;
+
+    Message message = target->getPendingMessages().last();
+    if( message.type() == "text/plain" )
+        text = message.payload();
+    else if( message.type().startsWith( "image" ) )
+        text = "Image message";
+    else if ( message.type().startsWith( "audio" ) )
+        text = "Audio message";
+    else
+        text = "Unknown message";
+
+    if( message.groupID() == 0 )
+    {
+        sender = "Private message from " + tools_->getContact( message.senderID() )->getNickname();
+    }
+    else
+    {
+        sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
+    }
+
+    this->systrayicon->showMessage( sender, text );
 }
 
 void PalringoWindow::newGroupAdded( Group *group )
