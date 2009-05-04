@@ -37,6 +37,8 @@ QString BridgeService::getIcon() const
                 return ":/services/jabber_offline.svg";
             case qpBridgeType::QQ:
                 return ":/services/qq_offline.svg";
+            case qpBridgeType::FACEBOOK:
+                return ":/services/facebook_offline.svg";
             default:
                 return ":/svg/logo_offline.svg";
         }
@@ -59,6 +61,8 @@ QString BridgeService::getIcon() const
                 return ":/services/jabber.svg";
             case qpBridgeType::QQ:
                 return ":/services/qq.svg";
+            case qpBridgeType::FACEBOOK:
+                return ":/services/facebook.svg";
             default:
                 return ":/svg/logo.svg";
         }
