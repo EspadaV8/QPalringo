@@ -3,16 +3,6 @@
         <file alias="downarrow.png" >images/downarrow.png</file>
         <file alias="rightarrow.png" >images/rightarrow.png</file>
     </qresource>
-    <qresource prefix="/people" >
-        <file alias="chris.jpg" >images/people/chris.jpg</file>
-        <file alias="martin.jpg" >images/people/martin.jpg</file>
-        <file alias="mchammer.jpg" >images/people/mchammer.jpg</file>
-        <file alias="bush.jpg" >images/people/bush.jpg</file>
-        <file alias="alex.jpg" >images/people/alex.jpg</file>
-        <file alias="ross.jpg" >images/people/ross.jpg</file>
-        <file alias="sam.jpg" >images/people/sam.jpg</file>
-        <file alias="darryl.jpg" >images/people/darryl.jpg</file>
-    </qresource>
     <qresource prefix="/styles" >
         <file alias="ListItem.css" >qss/listitem.css</file>
         <file alias="QPalringo.css" >qss/qpalringo.css</file>
