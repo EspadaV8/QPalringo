@@ -57,7 +57,7 @@ class Contact : public Target
         void        updateStatusline();
         void        updateOnlineStatus();
 
-    private:
+    protected:
         QString     nickname;
         QString     statusline;
         quint64     group;
