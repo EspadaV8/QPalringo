@@ -61,7 +61,7 @@ void OverviewListView::newBridge( Bridge* bridge )
             s = new Service();
             break;
         default:
-            s = new BridgeService();
+            s = new BridgeService( bridge->getId() );
             break;
     }
     s->setNickname( bridge->getNickname() );
