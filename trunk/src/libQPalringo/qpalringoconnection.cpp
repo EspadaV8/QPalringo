@@ -463,6 +463,19 @@ Bridge* QPalringoConnection::getBridge( quint32 bridgeID )
     return NULL;
 }
 
+BridgeContact* QPalringoConnection::getBridgeContact( quint32 bridgeID, quint64 contactID )
+{
+    Bridge* b = this->bridges.value( bridgeID );
+    if( b )
+    {
+        if( b->getContacts().contains( contactID ) )
+        {
+            return b->getContacts().value( contactID );
+        }
+    }
+    return NULL;
+}
+
 QHash<quint64, Contact*> QPalringoConnection::getAllContacts()
 {
     return this->contacts;
