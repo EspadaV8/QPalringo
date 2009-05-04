@@ -105,7 +105,7 @@ void Tools::messageReceived( Message message )
         {
             this->openChatWindow( t );
         }
-        else if( t->getPendingMessages().size() == 1 )
+        else
         {
             emit newPendingMessage( t );
         }
