@@ -29,7 +29,7 @@ ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoServ
     this->isPalringoService = isPalringoService;
 
     setFirstLine( this->service->getNickname() + " - " + this->service->getStatus() );
-    setSecondLine( this->service->getOnlineStatus() );
+    setSecondLine( qpOnlineStatus::OnlineStatusText[ this->service->getOnlineStatus() ] );
     setIcon( this->service->getIcon() );
     
     connect( this, SIGNAL( doubleClick() ), service, SLOT( loginService() ) );
@@ -42,7 +42,7 @@ void ServiceItem::updateDetails()
 {
     setIcon( this->service->getIcon() );
     setFirstLine( this->service->getNickname() + " - " + this->service->getStatus() );
-    setSecondLine( this->service->getOnlineStatus() );
+    setSecondLine( qpOnlineStatus::OnlineStatusText[ this->service->getOnlineStatus() ] );
 }
 
 void ServiceItem::mouseDoubleClickEvent( QMouseEvent *event )
