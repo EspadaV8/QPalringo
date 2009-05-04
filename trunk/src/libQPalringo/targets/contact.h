@@ -52,8 +52,6 @@ class Contact : public Target
         void        setDeviceType( int );
         void        setIsContact( bool );
 
-        virtual void addMessage( Message message );
-
     signals:
         void        updateNickname();
         void        updateStatusline();

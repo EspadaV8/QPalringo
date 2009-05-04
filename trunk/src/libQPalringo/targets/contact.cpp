@@ -160,9 +160,3 @@ bool     Contact::getIsContact() const
 {
     return this->isContact;
 }
-
-void Contact::addMessage( Message message )
-{
-    this->pendingMessages.append( message );
-    emit( this->pendingMessage() );
-}

@@ -83,9 +83,3 @@ void            Group::setContacts( QSet<quint64> contacts )
 {
     this->contacts = contacts;
 }
-
-void Group::addMessage( Message message )
-{
-    this->pendingMessages.append( message );
-    emit( pendingMessage() );
-}

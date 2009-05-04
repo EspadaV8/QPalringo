@@ -55,8 +55,10 @@ int Target::getType()
     return this->type;
 }
 
-void Target::addMessage( Message message __attribute__ ((unused)) )
+void Target::addMessage( Message message )
 {
+    this->pendingMessages.append( message );
+    emit pendingMessage();
 }
 
 void Target::clearPending()
