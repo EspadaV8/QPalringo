@@ -16,6 +16,7 @@ namespace qpHeaderAttribute
     static const QString CONTENT_TYPE = "CONTENT-TYPE";
     static const QString CORRELATION_ID = "CORRELATION-ID";
     static const QString COUNT = "COUNT";
+    static const QString CURRENT_MEDIA = "CURRENTMEIDA";
     static const QString DESC = "DESC";
     static const QString DEVICE_TYPE = "DEVICE-TYPE";
     static const QString EMAIL = "EMAIL";
