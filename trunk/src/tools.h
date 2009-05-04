@@ -101,6 +101,7 @@ class Tools : public QObject
         void newGroupAdded( Group *group );
         void newContact( Contact *contact );
         void gotBridgeDetails( Bridge* bridge );
+        void gotBridgeContact( BridgeContact* contact );
 
         void userContactReceived( Contact *contact );
         void contactDetailReceived( Contact *contact );
