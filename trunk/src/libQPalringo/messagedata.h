@@ -41,6 +41,7 @@ class MessageData : public QSharedData
                 groupID( other.groupID ),
                 seconds( other.seconds ),
                 useconds( other.useconds ),
+                bridgeID( other.bridgeID ),
                 hist( other.hist ) { }
         ~MessageData() { }
 
@@ -48,6 +49,7 @@ class MessageData : public QSharedData
         QByteArray payload;
         quint64 senderID;
         quint64 groupID;
+        quint32 bridgeID;
         quint32 seconds;
         quint32 useconds;
         bool hist;

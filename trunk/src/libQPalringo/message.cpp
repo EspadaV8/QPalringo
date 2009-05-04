@@ -28,7 +28,7 @@ Message::Message()
 }
 
 Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID,
-                    quint32 seconds, quint32 useconds, bool hist )
+                    quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist )
 {
     d = new MessageData;
     qRegisterMetaType<Message>("Message");
@@ -39,6 +39,7 @@ Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 gr
     setGroupID( groupID );
     setSeconds( seconds );
     setUseconds( useconds );
+    setBridgeID( bridgeID );
     setHist( hist );
 }
 
@@ -81,6 +82,11 @@ void Message::setUseconds( quint32 useconds )
     d->useconds = useconds;
 }
 
+void Message::setBridgeID( quint32 bridgeID )
+{
+    d->bridgeID = bridgeID;
+}
+
 void Message::setHist( bool hist )
 {
     d->hist = hist;
@@ -114,6 +120,11 @@ quint32 Message::seconds() const
 quint32 Message::useconds() const
 {
     return d->useconds;
+}
+
+quint32 Message::bridgeID() const
+{
+    return d->bridgeID;
 }
 
 bool Message::hist() const
