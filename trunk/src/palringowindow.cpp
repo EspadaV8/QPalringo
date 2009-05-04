@@ -211,6 +211,7 @@ void PalringoWindow::showTrayMessage( Target* target )
     else
     {
         sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
+        text = tools_->getContact( message.senderID() )->getNickname() + ": " + text;
     }
 
     this->systrayicon->showMessage( sender, text );
