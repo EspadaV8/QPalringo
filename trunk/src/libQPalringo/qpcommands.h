@@ -5,6 +5,8 @@ namespace qpCommand
 {
     static const QString AUTH = "AUTH";
     static const QString BRIDGE = "BRIDGE";
+    static const QString BRIDGE_OFF = "BRIDGE OFF";
+    static const QString BRIDGE_ON = "BRIDGE ON";
     static const QString BYE = "BYE";
     static const QString CONTACT_ADD = "CONTACT ADD";
     static const QString CONTACT_ADD_RESP = "CONTACT ADD RESP";
