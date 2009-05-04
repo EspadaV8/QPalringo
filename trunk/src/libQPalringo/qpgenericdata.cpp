@@ -278,8 +278,11 @@ void qpBridgeContactData::getData( const Headers& headers, QByteArray )
     mesgId_ = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
     bridgeId_ = headers.attribute<quint32>( qpHeaderAttribute::BRIDGE_ID );
     contactId_ = headers.attribute<quint64>( qpHeaderAttribute::CONTACT_ID );
+    onlineStatus_ = (qpOnlineStatus::OnlineStatus) headers.attribute<qint32>( qpHeaderAttribute::ONLINE_STATUS );
     name_ = headers.attribute<QString>( qpHeaderAttribute::NAME );
     nickname_ = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    status_ = headers.attribute<QString>( qpHeaderAttribute::STATUS );
+    currentMedia_ = headers.attribute<QString>( qpHeaderAttribute::CURRENT_MEDIA );
 }
 /**
  * END INLINE CLASSES

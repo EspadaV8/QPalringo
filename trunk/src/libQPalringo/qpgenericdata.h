@@ -162,8 +162,11 @@ class qpBridgeContactData : public qpGenericData
 
         quint32 bridgeId_;
         quint64 contactId_;
+        qpOnlineStatus::OnlineStatus onlineStatus_; // -1 means unset
         QString name_;
         QString nickname_;
+        QString status_;
+        QString currentMedia_;
 };
 
 #endif // QPGENERICDATA_H
