@@ -12,6 +12,11 @@ BridgeService::BridgeService( quint32 bridgeId )
     setBridgeId( bridgeId );
 }
 
+void BridgeService::loginService()
+{
+    tools_->setBridgeStatus( this->bridgeId, qpOnlineStatus::ONLINE );
+}
+
 QString BridgeService::getIcon() const
 {
     if( true )

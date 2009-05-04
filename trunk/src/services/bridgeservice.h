@@ -9,6 +9,7 @@ class BridgeService : public Service
         BridgeService();
         BridgeService( quint32 bridgeId );
         QString getIcon() const;
+        void loginService();
 
         void setBridgeId( quint32 bridgeId );
         quint32 getBridgeId();
