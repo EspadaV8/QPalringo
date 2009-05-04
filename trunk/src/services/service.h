@@ -24,6 +24,7 @@
 
 #include <QObject>
 #include "libQPalringo/bridgetype.h"
+#include "libQPalringo/onlinestatus.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -38,19 +39,19 @@ class Service : public QObject
         void goOnline();
 
         void setType( qpBridgeType::Type type );
-        void setOnlineStatus( QString onlineStatus );
+        void setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus );
         void setNickname( QString nickname );
         void setStatus( QString status );
 
         qpBridgeType::Type getType() const;
-        QString getOnlineStatus() const;
+        qpOnlineStatus::OnlineStatus getOnlineStatus() const;
         QString getNickname() const;
         QString getStatus() const;
         virtual QString getIcon() const;
 
     protected:
         qpBridgeType::Type type;
-        QString onlineStatus;
+        qpOnlineStatus::OnlineStatus onlineStatus;
         QString nickname;
         QString status;
         

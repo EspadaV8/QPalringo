@@ -45,7 +45,7 @@ void Service::setType( qpBridgeType::Type type )
     this->type = type;
 }
 
-void Service::setOnlineStatus( QString onlineStatus )
+void Service::setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus )
 {
     this->onlineStatus = onlineStatus;
 }
@@ -66,7 +66,7 @@ qpBridgeType::Type Service::getType() const
     return this->type;
 }
 
-QString Service::getOnlineStatus() const
+qpOnlineStatus::OnlineStatus Service::getOnlineStatus() const
 {
     return this->onlineStatus;
 }
