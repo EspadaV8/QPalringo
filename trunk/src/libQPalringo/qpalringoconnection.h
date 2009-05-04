@@ -71,6 +71,7 @@ class QPalringoConnection : public QObject
         void createGroup( QString groupName, QString groupDescription = "", QString groupPassword = "");
         void leaveGroup( quint64 groupID );
         bool updateContactDetail( QString detail, QString value );
+        void setBridgeStatus( quint32 bridgeId, qpOnlineStatus::OnlineStatus onlineStatus );
 
         User getUser();
         Group* getGroup( quint64 groupID );

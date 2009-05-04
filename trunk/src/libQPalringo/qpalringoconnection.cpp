@@ -347,6 +347,16 @@ bool QPalringoConnection::updateContactDetail( QString detail, QString value )
     return true;
 }
 
+void QPalringoConnection::setBridgeStatus( quint32 bridgeId, qpOnlineStatus::OnlineStatus onlineStatus )
+{
+    Headers headers;
+    headers.insert( qpHeaderAttribute::MESG_ID, ++mesg_id_ );
+    headers.insert( qpHeaderAttribute::BRIDGE_ID, bridgeId );
+    headers.insert( qpHeaderAttribute::ONLINE_STATUS, onlineStatus );
+
+    QPalringoConnection::sendCmd( qpCommand::BRIDGE_ON, headers );
+}
+
 void QPalringoConnection::getMesgHist( Target *target, QString timestampStr, qint32 count )
 {
     Headers headers;
