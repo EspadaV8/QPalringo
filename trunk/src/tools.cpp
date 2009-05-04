@@ -86,7 +86,11 @@ void Tools::messageReceived( Message message )
 
     this->playSound( ":/sounds/new-message.wav" );
     Target* t = NULL;
-    if( message.groupID() == 0 )
+    if( message.bridgeID() > 0 )
+    {
+        t = this->connection->getBridgeContact( message.bridgeID(), message.senderID() );
+    }
+    else if( message.groupID() == 0 )
     {
         t = this->connection->getContact( message.senderID() );
     }
