@@ -39,11 +39,14 @@ void PalringoService::loggedOn()
 
 void PalringoService::loginService()
 {
-    if( this->signinWindow == NULL )
+    if( this->onlineStatus == qpOnlineStatus::OFFLINE )
     {
-        this->signinWindow = new SigninWindow();
+        if( this->signinWindow == NULL )
+        {
+            this->signinWindow = new SigninWindow();
+        }
+        this->signinWindow->show();
     }
-    this->signinWindow->show();
 }
 
 void PalringoService::changeOnlineStatus()
