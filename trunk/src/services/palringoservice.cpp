@@ -33,8 +33,8 @@ void PalringoService::loggedOn()
 {
     this->nickname = tools_->getUser().nickname;
     this->status = tools_->getUser().status;
-    this->onlineStatus = "Online";
-    emit( serviceUpdated() );
+    this->onlineStatus = qpOnlineStatus::ONLINE;
+    emit serviceUpdated();
 }
 
 void PalringoService::loginService()

@@ -27,6 +27,7 @@
 #include "tools.h"
 
 #include "services/bridgeservice.h"
+#include "libQPalringo/onlinestatus.h"
 
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)
@@ -42,7 +43,7 @@ void OverviewListView::setupContainers()
     s->setType( qpBridgeType::PALRINGO );
     s->setNickname( "Palringo" );
     s->setStatus( "Offline" );
-    s->setOnlineStatus( "Offline" );
+    s->setOnlineStatus( qpOnlineStatus::OFFLINE );
 
     connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
@@ -65,7 +66,7 @@ void OverviewListView::newBridge( Bridge* bridge )
     }
     s->setNickname( bridge->getNickname() );
     s->setStatus( bridge->getUsername() );
-    s->setOnlineStatus( "Offline" );
+    s->setOnlineStatus( qpOnlineStatus::OFFLINE );
     s->setType( bridge->getType() );
 
    this->serviceReceived( s );
