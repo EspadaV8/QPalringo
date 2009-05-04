@@ -27,13 +27,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.27541809"
-     inkscape:cx="783.42506"
-     inkscape:cy="153.79017"
+     inkscape:zoom="1"
+     inkscape:cx="287.68925"
+     inkscape:cy="192.79689"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     showguides="true"
+     showguides="false"
      inkscape:guide-bbox="true"
      inkscape:window-width="1272"
      inkscape:window-height="969"
@@ -44,6 +44,38 @@
        visible="true"
        id="grid3245"
        type="xygrid" />
+    <sodipodi:guide
+       id="guide3175"
+       position="298.10156,306.64063"
+       orientation="0,1" />
+    <sodipodi:guide
+       id="guide3177"
+       position="262,269"
+       orientation="1,0" />
+    <sodipodi:guide
+       id="guide3179"
+       position="262.19531,271.91016"
+       orientation="0,1" />
+    <sodipodi:guide
+       id="guide3181"
+       position="298.48438,306.60938"
+       orientation="1,0" />
+    <sodipodi:guide
+       id="guide3183"
+       position="322.5,56"
+       orientation="0,1" />
+    <sodipodi:guide
+       id="guide3185"
+       position="342.88672,56.515625"
+       orientation="1,0" />
+    <sodipodi:guide
+       id="guide3187"
+       position="390.15234,272.01172"
+       orientation="1,0" />
+    <sodipodi:guide
+       id="guide3189"
+       position="316.375,333.125"
+       orientation="0,1" />
   </sodipodi:namedview>
   <defs
      id="defs4">
@@ -93,21 +125,21 @@
        x2="477.14285"
        y1="98.076469"
        x1="134.28571"
-       id="linearGradient3161-977"
-       xlink:href="#linearGradient3155-485"
+       id="linearGradient3161-449"
+       xlink:href="#linearGradient3155-826"
        inkscape:collect="always" />
     <linearGradient
-       id="linearGradient3155-485">
+       id="linearGradient3155-826">
       <stop
-         id="stop3374"
+         id="stop3205"
          offset="0"
          style="stop-color:#848484;stop-opacity:1;" />
       <stop
          style="stop-color:#5d5d5d;stop-opacity:1;"
          offset="0.5258944"
-         id="stop3376" />
+         id="stop3207" />
       <stop
-         id="stop3378"
+         id="stop3209"
          offset="1"
          style="stop-color:#4e4e4e;stop-opacity:1;" />
     </linearGradient>
@@ -124,6 +156,7 @@
     </rdf:RDF>
   </metadata>
   <g
+     style="display:inline"
      transform="translate(-102.04736,-293.32385)"
      id="layer1"
      inkscape:groupmode="layer"
@@ -134,19 +167,17 @@
        height="500"
        width="500"
        id="rect2383"
-       style="opacity:1;fill:url(#linearGradient3161-977);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
-    <flowRoot
-       transform="matrix(5.0923558,0,0,5.0923453,2018.3928,-913.04584)"
-       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda"
-       id="flowRoot3165"
-       xml:space="preserve"><flowRegion
-         id="flowRegion3167"><rect
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda"
-           y="198.07646"
-           x="-325.71429"
-           height="677.14288"
-           width="351.42856"
-           id="rect3169" /></flowRegion><flowPara
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda Bold"
-         id="flowPara3171">f</flowPara></flowRoot>  </g>
+       style="opacity:1;fill:url(#linearGradient3161-449);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1" />
+  </g>
+  <g
+     style="display:inline"
+     inkscape:label="f"
+     id="layer2"
+     inkscape:groupmode="layer">
+    <path
+       sodipodi:nodetypes="cccccccccccscccscc"
+       id="path3192"
+       d="M 298.48438,193.35937 L 262,193.35937 L 262,228.08984 L 298.48438,228.08984 L 298.48438,444 L 342.88672,444 L 342.88672,228.08984 L 390.15234,228.08984 L 390.15234,193.35937 L 342.88672,193.35937 C 342.88672,193.35937 342.88672,166.875 342.88672,166.875 C 343.29286,153.49855 345.06955,145.32351 351.73828,138.45703 C 363.94165,125.89177 395.375,133.20703 401.625,133.20703 L 401.625,94.535153 C 401.625,94.535153 389.95201,91.224528 370.6875,91.249998 C 350.4014,91.011626 331.70972,95.363792 317.23438,109.57812 C 301.05732,125.46349 298.73438,155.875 298.48438,166.875 L 298.48438,193.35937 z"
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+  </g>
 </svg>

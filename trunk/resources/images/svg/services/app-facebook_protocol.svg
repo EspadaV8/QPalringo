@@ -69,13 +69,13 @@
      objecttolerance="10"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.27541809"
-     inkscape:cx="783.42506"
-     inkscape:cy="153.79017"
+     inkscape:zoom="1"
+     inkscape:cx="287.68925"
+     inkscape:cy="192.79689"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     showguides="true"
+     showguides="false"
      inkscape:guide-bbox="true"
      inkscape:window-width="1272"
      inkscape:window-height="969"
@@ -86,6 +86,38 @@
        id="grid3245"
        visible="true"
        enabled="true" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="298.10156,306.64063"
+       id="guide3175" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="262,269"
+       id="guide3177" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="262.19531,271.91016"
+       id="guide3179" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="298.48438,306.60938"
+       id="guide3181" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="322.5,56"
+       id="guide3183" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="342.88672,56.515625"
+       id="guide3185" />
+    <sodipodi:guide
+       orientation="1,0"
+       position="390.15234,272.01172"
+       id="guide3187" />
+    <sodipodi:guide
+       orientation="0,1"
+       position="316.375,333.125"
+       id="guide3189" />
   </sodipodi:namedview>
   <metadata
      id="metadata7">
@@ -102,7 +134,8 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-102.04736,-293.32385)">
+     transform="translate(-102.04736,-293.32385)"
+     style="display:inline">
     <rect
        style="opacity:1;fill:url(#linearGradient3161);fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:5;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect2383"
@@ -110,18 +143,16 @@
        height="500"
        x="102.04736"
        y="293.32385" />
-    <flowRoot
-       xml:space="preserve"
-       id="flowRoot3165"
-       style="font-size:12px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda"
-       transform="matrix(5.0923558,0,0,5.0923453,2018.3928,-913.04584)"><flowRegion
-         id="flowRegion3167"><rect
-           id="rect3169"
-           width="351.42856"
-           height="677.14288"
-           x="-325.71429"
-           y="198.07646"
-           style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda" /></flowRegion><flowPara
-         id="flowPara3171"
-         style="font-size:144px;font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;fill:#ffffff;fill-opacity:1;font-family:Vrinda;-inkscape-font-specification:Vrinda Bold">f</flowPara></flowRoot>  </g>
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="f"
+     style="display:inline">
+    <path
+       style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 298.48438,193.35937 L 262,193.35937 L 262,228.08984 L 298.48438,228.08984 L 298.48438,444 L 342.88672,444 L 342.88672,228.08984 L 390.15234,228.08984 L 390.15234,193.35937 L 342.88672,193.35937 C 342.88672,193.35937 342.88672,166.875 342.88672,166.875 C 343.29286,153.49855 345.06955,145.32351 351.73828,138.45703 C 363.94165,125.89177 395.375,133.20703 401.625,133.20703 L 401.625,94.535153 C 401.625,94.535153 389.95201,91.224528 370.6875,91.249998 C 350.4014,91.011626 331.70972,95.363792 317.23438,109.57812 C 301.05732,125.46349 298.73438,155.875 298.48438,166.875 L 298.48438,193.35937 z"
+       id="path3192"
+       sodipodi:nodetypes="cccccccccccscccscc" />
+  </g>
 </svg>
