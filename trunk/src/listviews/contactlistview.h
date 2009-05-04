@@ -24,7 +24,9 @@
 
 #include "palringolistview.h"
 #include "../libQPalringo/targets/contact.h"
+#include "../libQPalringo/targets/bridgecontact.h"
 #include "../listitems/contactlistitem.h"
+#include "../listitems/bridgecontactlistitem.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -43,6 +45,7 @@ class ContactListView : public PalringoListView
 
     protected slots:
         void contactReceived( Contact *contact );
+        void bridgeContactReceived( BridgeContact *contact );
         void getContacts( quint64 groupID = 0 );
         void checkContainerGroups( ListItem* );
         void removeContacts();

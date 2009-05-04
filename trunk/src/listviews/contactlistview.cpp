@@ -48,6 +48,7 @@ void ContactListView::setupContainers()
     this->addContainer( tr( "Offline" ) );
 
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    connect( tools_, SIGNAL( gotBridgeContact( BridgeContact* ) ), this, SLOT( bridgeContactReceived( BridgeContact* ) ) );
 
     this->addLayoutsToSelf();
 }
@@ -55,6 +56,14 @@ void ContactListView::setupContainers()
 void ContactListView::contactReceived( Contact *contact )
 {
     ContactListItem *pc = new ContactListItem( this, contact );
+    connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
+    this->listItems.append( pc );
+    this->addWidgetToView( pc );
+}
+
+void ContactListView::bridgeContactReceived( BridgeContact *contact )
+{
+    BridgeContactListItem *pc = new BridgeContactListItem( this, contact );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
