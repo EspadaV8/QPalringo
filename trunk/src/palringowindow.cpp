@@ -204,7 +204,11 @@ void PalringoWindow::showTrayMessage( Target* target )
     else
         text = "Unknown message";
 
-    if( message.groupID() == 0 )
+    if( message.bridgeID() > 0 )
+    {
+        sender = "Private message from " + tools_->getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
+    }
+    else if( message.groupID() == 0 )
     {
         sender = "Private message from " + tools_->getContact( message.senderID() )->getNickname();
     }
