@@ -17,7 +17,8 @@ SOURCES += qpalringoconnection.cpp \
     qpdatamap.cpp \
     signals.cpp \
     qpgenericdata.cpp \
-    bridge.cpp
+    bridge.cpp \
+    targets/bridgecontact.cpp
 HEADERS += qpalringoconnection.h \
     targets/target.h \
     targets/contact.h \
@@ -36,7 +37,8 @@ HEADERS += qpalringoconnection.h \
     devicetype.h \
     groupstatus.h \
     bridgetype.h \
-    bridge.h
+    bridge.h \
+    targets/bridgecontact.h
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
