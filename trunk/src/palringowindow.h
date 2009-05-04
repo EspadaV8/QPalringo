@@ -87,6 +87,7 @@ class PalringoWindow : public QMainWindow
         QWidget *overviewPage;
         QWidget *contactsPage;
 
+        void setupUi();
         void CreateTrayIcon();
         void SetupTabs();
 

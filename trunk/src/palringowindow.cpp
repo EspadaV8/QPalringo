@@ -31,21 +31,19 @@ PalringoWindow::PalringoWindow()
 {
     tools_ = new Tools( this );
     this->settingsWindow = NULL;
+    setupUi();
+    readSettings();
+}
+
+void PalringoWindow::setupUi()
+{
     CreateTrayIcon();
     SetupActions();
     CreateMenuBar();
-
     SetupTabs();
 
-    setCentralWidget( mainTabs );
     setWindowTitle( tr( "QPalringo" ) );
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
-
-    connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
-    connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
-    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
-
-    readSettings();
 }
 
 void PalringoWindow::SetupActions()
@@ -163,6 +161,12 @@ void PalringoWindow::SetupTabs()
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
+
+    setCentralWidget( mainTabs );
+
+    connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
+    connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
+    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
 }
 
 void PalringoWindow::tabFocusChanged(int tabIndex )
