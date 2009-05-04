@@ -27,7 +27,7 @@
 // the max packet size we can send
 #define MAX_PACKET_SIZE 512
 
-#define SIGNALS 0
+#define SIGNALS 1
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
@@ -119,6 +119,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::PING, "pingRecieved" );
     inSignals.insert( qpCommand::RESPONSE, "responseRecieved" );
     inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
+    inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
@@ -136,6 +137,8 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onResponseReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( bridgeRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onBridgeReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
+             this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )
@@ -847,6 +850,26 @@ void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteA
     qDebug( "emitting onBridgeReceived( Bridge* )" );
 #endif
     emit gotBridgeDetails( bridge );
+}
+
+void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const QByteArray& body, qpGenericData* )
+{
+    qpBridgeContactData bridgeContactData;
+    bridgeContactData.getData(headers, body);
+
+    BridgeContact* contact = new BridgeContact;
+    contact->setContactId( bridgeContactData.contactId_ );
+    contact->setBridgeId( bridgeContactData.bridgeId_ );
+    contact->setName( bridgeContactData.name_ );
+    contact->setNickname( bridgeContactData.nickname_ );
+
+    Bridge* b = this->bridges.value( contact->getBridgeId() );
+    b->addContact( contact );
+
+#if SIGNALS
+    qDebug( "emitting gotBridgeContact( BridgeContact* )" );
+#endif
+    emit gotBridgeContact( contact );
 }
 
 int QPalringoConnection::parseCmd( const QByteArray& data )
