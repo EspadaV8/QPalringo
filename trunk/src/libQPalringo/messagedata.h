@@ -49,9 +49,9 @@ class MessageData : public QSharedData
         QByteArray payload;
         quint64 senderID;
         quint64 groupID;
-        quint32 bridgeID;
         quint32 seconds;
         quint32 useconds;
+        quint32 bridgeID;
         bool hist;
 };
 
