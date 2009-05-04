@@ -120,6 +120,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::RESPONSE, "responseRecieved" );
     inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
     inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
+    inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray&, qpGenericData* ) ) );
@@ -139,6 +140,8 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onBridgeReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
     connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
              this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
+    connect( this, SIGNAL( bridgeMesgRecieved( const Headers&, const QByteArray&, qpGenericData* ) ),
+             this, SLOT( onMesgReceived( const Headers&, const QByteArray&, qpGenericData* ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )

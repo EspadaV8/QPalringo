@@ -197,5 +197,6 @@ class QPalringoConnection : public QObject
         void responseRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void bridgeRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
         void bridgeContactRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void bridgeMesgRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
 };
 #endif
