@@ -37,6 +37,7 @@ class Target : public QObject
 
         static const int CONTACT = 1;
         static const int GROUP = 2;
+        static const int BRIDGECONTACT = 3;
 
         quint64 getID() const;
         void setID( quint64 );
