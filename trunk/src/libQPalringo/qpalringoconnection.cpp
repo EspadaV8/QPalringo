@@ -248,14 +248,25 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
     // store this here for easy access
     QByteArray messageData = message.payload();
 
+    QString command = qpCommand::MESG;
     Headers headers;
 
     // the data of the message
     qpMsgData data;
         data.targetId_ = target->getID();
-        data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;;
+        data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;
         data.mesgId_ = ++mesg_id_;
         data.contentType_ = message.type();
+
+    if( target->getType() == Target::BRIDGECONTACT )
+    {
+        BridgeContact* bc = qobject_cast<BridgeContact*>( target );
+        if( bc )
+        {
+            data.bridgeId_ = bc->getBridgeId();
+            command = qpCommand::BRIDGE_MESG;
+        }
+    }
 
     // if the message is too big to go in 1 block
     if( message.payload().size() > MAX_PACKET_SIZE )
@@ -286,7 +297,7 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
             cdata = messageData.mid( i, MAX_PACKET_SIZE );
 
             // send the next 512 bytes of the message
-            sendCmd( qpCommand::MESG, headers, cdata );
+            sendCmd( command, headers, cdata );
         }
 
         // now got the last little bit to send
@@ -295,14 +306,14 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
         headers = data.setData();
 
         cdata = messageData.right( messageData.size() - i );
-        return sendCmd( qpCommand::MESG, headers, cdata );
+        return sendCmd( command, headers, cdata );
     }
     else
     {
         // we just have a small message so we don't need to break it down into smaller chunks
         data.last_ = true;
         headers = data.setData();
-        return sendCmd( qpCommand::MESG, headers, messageData );
+        return sendCmd( command, headers, messageData );
     }
 }
 
