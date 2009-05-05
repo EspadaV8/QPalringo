@@ -82,6 +82,11 @@ Headers qpMsgData::setData( QByteArray )
         headers.insert( qpHeaderAttribute::CONTENT_LENGTH, contentLength_ );
     }
 
+    if( bridgeId_ > 0 )
+    {
+        headers.insert( qpHeaderAttribute::BRIDGE_ID, bridgeId_ );
+    }
+
     if( last_ == true )
     {
         headers.insert( qpHeaderAttribute::LAST, "T" );
