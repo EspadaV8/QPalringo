@@ -118,18 +118,13 @@ void ChatWindow::loadImageFile()
 
 void ChatWindow::sendImageMessage( QImage image )
 {
-    Message m;
-
     QBuffer buffer;
     buffer.open(QIODevice::WriteOnly);
     image.save(&buffer, "jpg");
 
-    m.setPayload( buffer.data() );
+    Message m;
     m.setType( "image/jpeg" );
-    m.setSeconds( QDateTime::currentDateTime().toTime_t() );
-    m.setUseconds( 0 );
-    m.setSenderID ( tools_->getUser().userID );
-    m.setHist( false );
+    m.setPayload( buffer.data() );
 
     this->sendMessage( m );
 }
@@ -137,19 +132,28 @@ void ChatWindow::sendImageMessage( QImage image )
 void ChatWindow::sendTextMessage( QString message )
 {
     Message m;
-
     m.setType( "text/plain" );
     m.setPayload( message.toUtf8() );
-    m.setSeconds( QDateTime::currentDateTime().toTime_t() );
-    m.setUseconds( 0 );
-    m.setSenderID ( tools_->getUser().userID );
-    m.setHist( false );
 
     this->sendMessage( m );
 }
 
 void ChatWindow::sendMessage( Message message )
 {
+    message.setSeconds( QDateTime::currentDateTime().toTime_t() );
+    message.setUseconds( 0 );
+    if( this->target->getType() == Target::BRIDGECONTACT )
+    {
+        BridgeContact *b = qobject_cast<BridgeContact*>( this->target );
+        message.setBridgeID( b->getBridgeId() );
+    }
+    else
+    {
+        message.setBridgeID( 0 );
+    }
+    message.setSenderID ( tools_->getUser().userID );
+    message.setHist( false );
+
     tools_->sendMessage( this->target, message );
     this->messageList->addMessage( message );
 }
