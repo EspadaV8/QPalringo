@@ -276,34 +276,37 @@ void PalringoWindow::CreateTrayIcon()
 
 void PalringoWindow::showTrayMessage( Target* target )
 {
-    QString text;
-    QString sender;
-
-    Message message = target->getPendingMessages().last();
-    if( message.type() == "text/plain" )
-        text = message.payload();
-    else if( message.type().startsWith( "image" ) )
-        text = "Image message";
-    else if ( message.type().startsWith( "audio" ) )
-        text = "Audio message";
-    else
-        text = "Unknown message";
-
-    if( message.bridgeID() > 0 )
+    if( target->getPendingMessages().size() > 0 )
     {
-        sender = "Private message from " + tools_->getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
-    }
-    else if( message.groupID() == 0 )
-    {
-        sender = "Private message from " + tools_->getContact( message.senderID() )->getNickname();
-    }
-    else
-    {
-        sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
-        text = tools_->getContact( message.senderID() )->getNickname() + ": " + text;
-    }
+        QString text;
+        QString sender;
 
-    this->systrayicon->showMessage( sender, text );
+        Message message = target->getPendingMessages().last();
+        if( message.type() == "text/plain" )
+            text = message.payload();
+        else if( message.type().startsWith( "image" ) )
+            text = "Image message";
+        else if ( message.type().startsWith( "audio" ) )
+            text = "Audio message";
+        else
+            text = "Unknown message";
+
+        if( message.bridgeID() > 0 )
+        {
+            sender = "Private message from " + tools_->getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
+        }
+        else if( message.groupID() == 0 )
+        {
+            sender = "Private message from " + tools_->getContact( message.senderID() )->getNickname();
+        }
+        else
+        {
+            sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
+            text = tools_->getContact( message.senderID() )->getNickname() + ": " + text;
+        }
+
+        this->systrayicon->showMessage( sender, text );
+    }
 }
 
 void PalringoWindow::newGroupAdded( Group *group )
