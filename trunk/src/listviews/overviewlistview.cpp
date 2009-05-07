@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "listitems/serviceitem.h"
+#include "listitems/targetlistitem.h"
 #include "listitems/contactlistitem.h"
 #include "listitems/grouplistitem.h"
 #include "listitems/bridgecontactlistitem.h"
@@ -88,38 +89,31 @@ void OverviewListView::newPendingMessage( Target* target )
         {
             foreach( ListItem* li, this->listItems )
             {
-                if( target->getType() == Target::CONTACT && li->getType() == ListItem::CONTACT )
+                TargetListItem* tli = qobject_cast<TargetListItem*>( li );
+                if( tli && tli->getTarget() == target )
                 {
-                    if( ((ContactListItem*)li)->getContact() == target )
-                    {
-                        li->show();
-                        break;
-                    }
-                }
-                else if( target->getType() == Target::GROUP && li->getType() == ListItem::GROUP )
-                {
-                    if( ((GroupListItem*)li)->getGroup() == target )
-                    {
-                        li->show();
-                        break;
-                    }
+                    li->show();
+                    break;
                 }
             }
         }
         else
         {
             ListItem* li;
-            if( target->getType() == Target::CONTACT )
+            int targetType = target->getType();
+            switch( targetType )
             {
-                li = new ContactListItem( this, (Contact*)target );
-            }
-            else if( target->getType() == Target::GROUP )
-            {
-                li = new GroupListItem( this, (Group*)target );
-            }
-            else if( target->getType() == Target::BRIDGECONTACT )
-            {
-                li = new BridgeContactListItem( this, (BridgeContact*)target );
+                case Target::CONTACT:
+                    li = new ContactListItem( this, (Contact*)target );
+                    break;
+                case Target::GROUP:
+                    li = new GroupListItem( this, (Group*)target );
+                    break;
+                case Target::BRIDGECONTACT:
+                    li = new BridgeContactListItem( this, (BridgeContact*)target );
+                    break;
+                default:
+                    return;
             }
 
             this->listItems.append( li );
