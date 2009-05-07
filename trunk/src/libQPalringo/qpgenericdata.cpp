@@ -169,8 +169,11 @@ void qpContactData::getData( const Headers& headers, QByteArray )
     contentLength_ = headers.attribute<qint32>( qpHeaderAttribute::CONTENT_LENGTH );
     onlineStatus_ = (qpOnlineStatus::OnlineStatus) headers.attribute<qint32>( qpHeaderAttribute::ONLINE_STATUS );
     nickname_ = headers.attribute<QString>( qpHeaderAttribute::NICKNAME );
+    nickname_ = QString::fromUtf8( nickname_.toAscii(), nickname_.size() );
     status_ = headers.attribute<QString>( qpHeaderAttribute::STATUS );
+    status_ = QString::fromUtf8( status_.toAscii(), status_.size() );
     name_ = headers.attribute<QString>( qpHeaderAttribute::NAME );
+    name_ = QString::fromUtf8( name_.toAscii(), name_.size() );
     remove_  = headers.attribute<bool>( qpHeaderAttribute::REMOVE );
     block_  = headers.attribute<bool>( qpHeaderAttribute::BLOCK );
     isContact_ = headers.attribute<bool>( qpHeaderAttribute::IS_CONTACT );
