@@ -39,7 +39,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         this->contact = tools_->getContact( message.senderID() );
     this->message = message;
 
-    if( this->message.senderID() == tools_->getUser().userID )
+    if( ( this->message.senderID() == tools_->getUser().userID ) ||
+        ( message.bridgeID() > 0 && message.senderID() == 0 ) )
     {
         this->setProperty( "originator", true );
     }
