@@ -23,13 +23,13 @@
 #define GROUPLISTITEM_H
 
 #include <QWidget>
-#include "listitem.h"
+#include "targetlistitem.h"
 #include "libQPalringo/targets/group.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
-class GroupListItem : public ListItem
+class GroupListItem : public TargetListItem
 {
     Q_OBJECT
     public:

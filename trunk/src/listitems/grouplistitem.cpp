@@ -23,7 +23,7 @@
 #include "tools.h"
 
 GroupListItem::GroupListItem( QWidget *parent, Group *group )
-    : ListItem( parent )
+    : TargetListItem( parent, group )
 {
     this->group = group;
     this->type = ListItem::GROUP;

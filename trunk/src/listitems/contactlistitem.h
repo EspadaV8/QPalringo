@@ -29,11 +29,11 @@
 #include <QWidget>
 #include <QAction>
 #include <QList>
-#include "listitem.h"
+#include "targetlistitem.h"
 #include "libQPalringo/message.h"
 #include "libQPalringo/targets/contact.h"
 
-class ContactListItem : public ListItem
+class ContactListItem : public TargetListItem
 {
     Q_OBJECT
     public:

@@ -2,7 +2,7 @@
 #include "tools.h"
 
 BridgeContactListItem::BridgeContactListItem( QWidget *parent, BridgeContact *contact )
-    : ListItem( parent )
+    : TargetListItem( parent, contact )
 {
     this->type = ListItem::BRIDGECONTACT;
     this->contact = contact;

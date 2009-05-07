@@ -1,10 +1,10 @@
 #ifndef BRIDGECONTACTLISTITEM_H
 #define BRIDGECONTACTLISTITEM_H
 
-#include "listitem.h"
+#include "targetlistitem.h"
 #include "libQPalringo/targets/bridgecontact.h"
 
-class BridgeContactListItem : public ListItem
+class BridgeContactListItem : public TargetListItem
 {
     Q_OBJECT
     public:

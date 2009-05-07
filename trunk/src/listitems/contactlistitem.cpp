@@ -23,7 +23,7 @@
 #include "tools.h"
 
 ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
-    : ListItem( parent )
+    : TargetListItem( parent, contact )
 {
     this->contact = contact;
     this->type = ListItem::CONTACT;
