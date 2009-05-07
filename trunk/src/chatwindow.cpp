@@ -146,12 +146,13 @@ void ChatWindow::sendMessage( Message message )
     {
         BridgeContact *b = qobject_cast<BridgeContact*>( this->target );
         message.setBridgeID( b->getBridgeId() );
+        message.setSenderID ( 0 );
     }
     else
     {
         message.setBridgeID( 0 );
+        message.setSenderID ( tools_->getUser().userID );
     }
-    message.setSenderID ( tools_->getUser().userID );
     message.setHist( false );
 
     tools_->sendMessage( this->target, message );
