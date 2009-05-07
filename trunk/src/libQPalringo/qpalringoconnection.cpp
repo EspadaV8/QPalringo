@@ -884,6 +884,15 @@ void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteA
 
     this->bridges.insert( bridgeData.bridgeId_, bridge );
 
+    BridgeContact *contact = new BridgeContact;
+    contact->setID( 0 );
+    contact->setBridgeId( bridgeData.bridgeId_ );
+    contact->setName( bridgeData.username_ );
+    contact->setNickname( bridgeData.nickname_ );
+    contact->setOnlineStatus( qpOnlineStatus::ONLINE );
+
+    bridge->addContact( contact );
+
 #if SIGNALS
     qDebug( "emitting onBridgeReceived( Bridge* )" );
 #endif
