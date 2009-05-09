@@ -86,33 +86,33 @@ class QPalringoConnection : public QObject
 
     protected slots:
         /** out going message slots **/
-        int onPingSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onLogonSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onByeSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onAuthSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onContactUpdateSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onContactAddRespSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onGroupSubscribeSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onGroupUnsubSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onGroupCreateSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onGroupInviteSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onGroupAdminSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onMesgSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onMesgStoredSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onMesgHistSent( Headers& headers, QByteArray& body, qpGenericData *data );
-        int onRegSent( Headers& headers, QByteArray& body, qpGenericData *data );
+        int onPingSent( Headers& headers, QByteArray& body );
+        int onLogonSent( Headers& headers, QByteArray& body );
+        int onByeSent( Headers& headers, QByteArray& body );
+        int onAuthSent( Headers& headers, QByteArray& body );
+        int onContactUpdateSent( Headers& headers, QByteArray& body );
+        int onContactAddRespSent( Headers& headers, QByteArray& body );
+        int onGroupSubscribeSent( Headers& headers, QByteArray& body );
+        int onGroupUnsubSent( Headers& headers, QByteArray& body );
+        int onGroupCreateSent( Headers& headers, QByteArray& body );
+        int onGroupInviteSent( Headers& headers, QByteArray& body );
+        int onGroupAdminSent( Headers& headers, QByteArray& body );
+        int onMesgSent( Headers& headers, QByteArray& body );
+        int onMesgStoredSent( Headers& headers, QByteArray& body );
+        int onMesgHistSent( Headers& headers, QByteArray& body );
+        int onRegSent( Headers& headers, QByteArray& body );
 
         /** incoming message slots **/
-        void onAuthRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onMesgReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onContactDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onGroupDetailReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onSubProfileReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onPingReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onResponseReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onBridgeReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void onBridgeContactReceived( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void onAuthRecieved( const Headers& headers, const QByteArray& body );
+        void onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body );
+        void onMesgReceived( const Headers& headers, const QByteArray& body );
+        void onContactDetailReceived( const Headers& headers, const QByteArray& body );
+        void onGroupDetailReceived( const Headers& headers, const QByteArray& body );
+        void onSubProfileReceived( const Headers& headers, const QByteArray& body );
+        void onPingReceived( const Headers& headers, const QByteArray& body );
+        void onResponseReceived( const Headers& headers, const QByteArray& body );
+        void onBridgeReceived( const Headers& headers, const QByteArray& body );
+        void onBridgeContactReceived( const Headers& headers, const QByteArray& body );
 
     private:
         QTcpSocket* socket;
@@ -171,33 +171,33 @@ class QPalringoConnection : public QObject
         void gotBridgeContact( BridgeContact *contact );
 
         /** out going message signals **/
-        void pingSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void logonSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void byeSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void authSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void contactUpdateSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void contactAddRespSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void groupSubscribeSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void groupUnsubSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void groupCreateSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void groupInviteSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void groupAdminSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void mesgSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void mesgStoredSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void mesgHistSent( Headers& headers, QByteArray& body, qpGenericData* data );
-        void regSent( Headers& headers, QByteArray& body, qpGenericData* data );
+        void pingSent( Headers& headers, QByteArray& body );
+        void logonSent( Headers& headers, QByteArray& body );
+        void byeSent( Headers& headers, QByteArray& body );
+        void authSent( Headers& headers, QByteArray& body );
+        void contactUpdateSent( Headers& headers, QByteArray& body );
+        void contactAddRespSent( Headers& headers, QByteArray& body );
+        void groupSubscribeSent( Headers& headers, QByteArray& body );
+        void groupUnsubSent( Headers& headers, QByteArray& body );
+        void groupCreateSent( Headers& headers, QByteArray& body );
+        void groupInviteSent( Headers& headers, QByteArray& body );
+        void groupAdminSent( Headers& headers, QByteArray& body );
+        void mesgSent( Headers& headers, QByteArray& body );
+        void mesgStoredSent( Headers& headers, QByteArray& body );
+        void mesgHistSent( Headers& headers, QByteArray& body );
+        void regSent( Headers& headers, QByteArray& body );
 
         /** incoming message signals **/
-        void authRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void logonSuccessfulRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void logonFailedRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void contactDetailRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void groupDetailRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void mesgRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void pingRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void responseRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void bridgeRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void bridgeContactRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
-        void bridgeMesgRecieved( const Headers& headers, const QByteArray& body, qpGenericData* data );
+        void authRecieved( const Headers& headers, const QByteArray& body );
+        void logonSuccessfulRecieved( const Headers& headers, const QByteArray& body );
+        void logonFailedRecieved( const Headers& headers, const QByteArray& body );
+        void contactDetailRecieved( const Headers& headers, const QByteArray& body );
+        void groupDetailRecieved( const Headers& headers, const QByteArray& body );
+        void mesgRecieved( const Headers& headers, const QByteArray& body );
+        void pingRecieved( const Headers& headers, const QByteArray& body );
+        void responseRecieved( const Headers& headers, const QByteArray& body );
+        void bridgeRecieved( const Headers& headers, const QByteArray& body );
+        void bridgeContactRecieved( const Headers& headers, const QByteArray& body );
+        void bridgeMesgRecieved( const Headers& headers, const QByteArray& body );
 };
 #endif

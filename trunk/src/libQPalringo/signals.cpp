@@ -3,74 +3,74 @@
 #include "qpgenericdata.h"
 
 /*** out signals ***/
-int QPalringoConnection::onPingSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onPingSent( Headers&, QByteArray& )
 {
     qDebug( "Ping sent" );
     return 1;
 }
 
-int QPalringoConnection::onLogonSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onLogonSent( Headers&, QByteArray& )
 {
     qDebug( "Logon sent" );
     return 1;
 }
 
-int QPalringoConnection::onByeSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onByeSent( Headers&, QByteArray& )
 {
     qDebug( "Bye sent" );
     RK_.clear();
     return 1;
 }
 
-int QPalringoConnection::onAuthSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onAuthSent( Headers&, QByteArray& )
 {
     qDebug( "Auth sent" );
     return 1;
 }
 
-int QPalringoConnection::onContactUpdateSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onContactUpdateSent( Headers&, QByteArray& )
 {
     qDebug( "Contact Update sent" );
     return 1;
 }
 
-int QPalringoConnection::onContactAddRespSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onContactAddRespSent( Headers&, QByteArray& )
 {
     qDebug( "Contact Add sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupSubscribeSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onGroupSubscribeSent( Headers&, QByteArray& )
 {
     qDebug( "Group Subscribe sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupUnsubSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onGroupUnsubSent( Headers&, QByteArray& )
 {
     qDebug( "Group Unsub sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupCreateSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onGroupCreateSent( Headers&, QByteArray& )
 {
     qDebug( "Group Create sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupInviteSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onGroupInviteSent( Headers&, QByteArray& )
 {
     qDebug( "Group Invite sent" );
     return 1;
 }
 
-int QPalringoConnection::onGroupAdminSent( Headers&, QByteArray&, qpGenericData*  )
+int QPalringoConnection::onGroupAdminSent( Headers&, QByteArray&  )
 {
     qDebug( "Group Admin sent" );
     return 1;
 }
 
-int QPalringoConnection::onMesgSent( Headers& headers, QByteArray&, qpGenericData* )
+int QPalringoConnection::onMesgSent( Headers& headers, QByteArray& )
 {
     qpMsgData msgData;
     msgData.getData( headers );
@@ -82,19 +82,19 @@ int QPalringoConnection::onMesgSent( Headers& headers, QByteArray&, qpGenericDat
     return 1;
 }
 
-int QPalringoConnection::onMesgStoredSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onMesgStoredSent( Headers&, QByteArray& )
 {
     qDebug( "Message Stored sent" );
     return 1;
 }
 
-int QPalringoConnection::onMesgHistSent( Headers&, QByteArray&, qpGenericData* )
+int QPalringoConnection::onMesgHistSent( Headers&, QByteArray& )
 {
     qDebug( "Message History sent" );
     return 1;
 }
 
-int QPalringoConnection::onRegSent( Headers&, QByteArray&, qpGenericData*  )
+int QPalringoConnection::onRegSent( Headers&, QByteArray&  )
 {
     qDebug( "Reg sent" );
     return 1;
