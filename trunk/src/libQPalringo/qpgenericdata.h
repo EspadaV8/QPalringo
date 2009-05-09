@@ -170,4 +170,14 @@ class qpBridgeContactData : public qpGenericData
         QString currentMedia_;
 };
 
+class qpBridgeOnData : public qpGenericData
+{
+    public:
+        qpBridgeOnData();
+
+        void getData( const Headers& headers, QByteArray body = "" );
+
+        quint32 bridgeId_;
+};
+
 #endif // QPGENERICDATA_H

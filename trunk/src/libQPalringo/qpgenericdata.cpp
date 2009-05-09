@@ -293,6 +293,21 @@ void qpBridgeContactData::getData( const Headers& headers, QByteArray )
     status_ = headers.attribute<QString>( qpHeaderAttribute::STATUS );
     currentMedia_ = headers.attribute<QString>( qpHeaderAttribute::CURRENT_MEDIA );
 }
+
+/**
+ * qpBridgeOnData
+ */
+qpBridgeOnData::qpBridgeOnData()
+    : qpGenericData()
+{
+    bridgeId_ = 0;
+}
+
+void qpBridgeOnData::getData( const Headers& headers, QByteArray )
+{
+    mesgId_ = headers.attribute<quint64>( qpHeaderAttribute::MESG_ID );
+    bridgeId_ = headers.attribute<quint32>( qpHeaderAttribute::BRIDGE_ID );
+}
 /**
  * END INLINE CLASSES
  */
