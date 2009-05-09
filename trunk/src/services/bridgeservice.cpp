@@ -6,7 +6,7 @@ BridgeService::BridgeService()
 {
 }
 
-BridgeService::BridgeService( Bridge* bridgeId )
+BridgeService::BridgeService( Bridge* bridge )
     : Service()
 {
     this->bridge = bridge;
