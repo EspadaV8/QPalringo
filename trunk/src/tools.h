@@ -85,6 +85,7 @@ class Tools : public QObject
         Group* getGroup( quint64 groupID );
         Bridge* getBridge( quint32 bridgeID );
         BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
+        QString getTargetIcon( Target* target );
 
     public slots:
         void logonSuccessful();
