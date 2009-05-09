@@ -10,7 +10,7 @@ BridgeService::BridgeService( Bridge* bridge )
     : Service()
 {
     this->bridge = bridge;
-    connect( bridge, SIGNAL( onlineStatusChanged() ), this, SIGNAL( serviceUpdated() ) );
+    connect( bridge, SIGNAL( bridgeUpdated() ), this, SIGNAL( serviceUpdated() ) );
 }
 
 void BridgeService::loginService()
