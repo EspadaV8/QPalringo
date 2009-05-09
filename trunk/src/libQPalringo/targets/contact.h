@@ -42,7 +42,6 @@ class Contact : public Target
         int         getDeviceType() const;
         bool        getIsContact() const;
         virtual QString getTitle() const;
-        virtual QString getIcon() const;
 
         void        setNickname( QString );
         void        setStatusline( QString );

@@ -44,7 +44,6 @@ class Target : public QObject
         int getType();
 
         virtual QString getTitle() const;
-        virtual QString getIcon() const;
 
         virtual void addMessage( Message message );
         void clearPending();

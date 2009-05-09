@@ -40,7 +40,6 @@ class Group : public Target
         QSet<quint64>    getContacts() const;
         bool                        hasContact( quint64 id ) const;
         virtual QString getTitle() const;
-        virtual QString getIcon() const;
 
         void            setName( QString name );
         void            setDescription( QString description );

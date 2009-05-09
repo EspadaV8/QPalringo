@@ -45,11 +45,6 @@ QString Target::getTitle() const
     return "QPalringo";
 }
 
-QString Target::getIcon() const
-{
-    return ":/svg/icon.svg";
-}
-
 int Target::getType()
 {
     return this->type;

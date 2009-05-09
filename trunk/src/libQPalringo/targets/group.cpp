@@ -52,11 +52,6 @@ QString Group::getTitle() const
     return this->getName();
 }
 
-QString Group::getIcon() const
-{
-    return ":/svg/group.svg";
-}
-
 bool Group::hasContact( quint64 id ) const
 {
     return this->contacts.contains( id );
