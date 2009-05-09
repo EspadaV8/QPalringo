@@ -44,9 +44,9 @@ class Service : public QObject
         void setStatus( QString status );
 
         qpBridgeType::Type getType() const;
-        qpOnlineStatus::OnlineStatus getOnlineStatus() const;
-        QString getNickname() const;
-        QString getStatus() const;
+        virtual qpOnlineStatus::OnlineStatus getOnlineStatus() const;
+        virtual QString getNickname() const;
+        virtual QString getStatus() const;
         virtual QString getIcon() const;
 
     protected:
