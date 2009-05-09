@@ -6,20 +6,36 @@ BridgeService::BridgeService()
 {
 }
 
-BridgeService::BridgeService( quint32 bridgeId )
+BridgeService::BridgeService( Bridge* bridgeId )
     : Service()
 {
-    setBridgeId( bridgeId );
+    this->bridge = bridge;
+    connect( bridge, SIGNAL( onlineStatusChanged() ), this, SIGNAL( serviceUpdated() ) );
 }
 
 void BridgeService::loginService()
 {
-    tools_->setBridgeStatus( this->bridgeId, qpOnlineStatus::ONLINE );
+    tools_->setBridgeStatus( this->bridge->getId(), qpOnlineStatus::ONLINE );
+}
+
+qpOnlineStatus::OnlineStatus BridgeService::getOnlineStatus() const
+{
+    return this->bridge->getOnlineStatus();
+}
+
+QString BridgeService::getNickname() const
+{
+    return this->bridge->getNickname();
+}
+
+QString BridgeService::getStatus() const
+{
+    return qpOnlineStatus::OnlineStatusText[ this->bridge->getOnlineStatus() ];
 }
 
 QString BridgeService::getIcon() const
 {
-    if( true )
+    if( this->bridge->getOnlineStatus() == qpOnlineStatus::OFFLINE )
     {
         switch( this->type )
         {
@@ -69,12 +85,7 @@ QString BridgeService::getIcon() const
     }
 }
 
-void BridgeService::setBridgeId( quint32 bridgeId )
-{
-    this->bridgeId = bridgeId;
-}
-
 quint32 BridgeService::getBridgeId()
 {
-    return this->bridgeId;
+    return this->bridge->getId();
 }

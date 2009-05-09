@@ -2,20 +2,26 @@
 #define BRIDGESERVICE_H
 
 #include "service.h"
+#include "libQPalringo/bridge.h"
 
 class BridgeService : public Service
 {
     public:
         BridgeService();
-        BridgeService( quint32 bridgeId );
-        QString getIcon() const;
+        BridgeService( Bridge* bridge );
+
+        virtual qpOnlineStatus::OnlineStatus getOnlineStatus() const;
+        virtual QString getNickname() const;
+        virtual QString getStatus() const;
+        virtual QString getIcon() const;
+
         void loginService();
 
         void setBridgeId( quint32 bridgeId );
         quint32 getBridgeId();
 
     private:
-        quint32 bridgeId;
+        Bridge* bridge;
 };
 
 #endif // BRIDGESERVICE_H
