@@ -32,7 +32,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
-    this->setWindowIcon ( tools_->getPixmap( this->target->getIcon() ) );
+    this->setWindowIcon ( tools_->getPixmap( tools_->getTargetIcon( this->target ) ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts

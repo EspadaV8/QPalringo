@@ -41,60 +41,7 @@ void BridgeContactListItem::updateDetails()
 
     this->setFirstLine( firstLine );
     this->setSecondLine( secondLine );
-    this->setIcon( this->getIcon() );
-}
-
-QString BridgeContactListItem::getIcon()
-{
-    QString icon = ":/services/";
-
-    Bridge* b = tools_->getBridge( this->contact->getBridgeId() );
-    if( b != NULL )
-    {
-        switch( b->getType() )
-        {
-            case qpBridgeType::AIM:
-                icon += "aim";
-                break;
-            case qpBridgeType::FACEBOOK:
-                icon += "facebook";
-                break;
-            case qpBridgeType::GADUGADU:
-                icon += "gaduGadu";
-                break;
-            case qpBridgeType::ICQ:
-                icon += "icq";
-                break;
-            case qpBridgeType::MSN:
-                icon += "msn";
-                break;
-            case qpBridgeType::QQ:
-                icon += "qq";
-                break;
-            case qpBridgeType::XMPP:
-                icon += "jabber";
-                break;
-            case qpBridgeType::YAHOO:
-                icon += "yahoo";
-                break;
-            default:
-                icon = ":/svg/logo";
-                break;
-        }
-    }
-    else
-    {
-        icon = ":/svg/logo";
-    }
-
-    if( this->contact->getOnlineStatus() == qpOnlineStatus::OFFLINE )
-    {
-        icon += "_offline";
-    }
-
-    icon += ".svg";
-
-    return icon;
+    this->setIcon( tools_->getTargetIcon( this->contact ) );
 }
 
 QString BridgeContactListItem::getContainerGroup()
@@ -111,7 +58,7 @@ QString BridgeContactListItem::getContainerGroup()
 
 void BridgeContactListItem::updateOnlineStatus()
 {
-    this->setIcon( this->getIcon() );
+    this->setIcon( tools_->getTargetIcon( this->contact ) );
     emit containerGroupChanged( this );
 }
 

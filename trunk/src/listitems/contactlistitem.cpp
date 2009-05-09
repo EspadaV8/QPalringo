@@ -57,7 +57,7 @@ void ContactListItem::updateStatusLine()
 
 void ContactListItem::setContactOnlineStatus()
 {
-    this->setIcon( this->contact->getIcon() );
+    this->setIcon( tools_->getTargetIcon( this->contact ) );
     emit( containerGroupChanged( this ) );
 }
 
@@ -134,5 +134,5 @@ void ContactListItem::resetDetails()
 {
     this->setFirstLine( this->contact->getNickname() );
     this->setSecondLine( this->contact->getStatusline() );
-    this->setIcon( this->contact->getIcon() );
+    this->setIcon( tools_->getTargetIcon( this->contact ) );
 }

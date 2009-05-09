@@ -41,7 +41,7 @@ ContactPropertiesWindow* ContactPropertiesWindow::getInstance()
 
 void ContactPropertiesWindow::update( Contact *contact )
 {
-    this->setWindowIcon( tools_->getPixmap( contact->getIcon() ) );
+    this->setWindowIcon( tools_->getPixmap( tools_->getTargetIcon( contact ) ) );
     this->setWindowTitle( contact->getNickname() );
     this->nicknameLabel->setText( contact->getNickname() );
     this->statuslineLabel->setText( contact->getStatusline() );

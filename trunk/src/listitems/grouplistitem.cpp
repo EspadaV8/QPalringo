@@ -99,7 +99,7 @@ void GroupListItem::pendingMessage()
 
 void GroupListItem::resetDetails()
 {
-    this->setIcon( ":/svg/group.svg" );
+    this->setIcon( tools_->getTargetIcon( this->group ) );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
 }
