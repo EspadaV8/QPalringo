@@ -121,6 +121,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
     inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
     inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
+    inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray& ) ) );
@@ -142,6 +143,8 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( bridgeMesgRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
+    connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
+             this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )
@@ -879,6 +882,7 @@ void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteA
     bridge->setUsername( bridgeData.username_ );
     bridge->setType( bridgeData.type_ );
     bridge->setId( bridgeData.bridgeId_ );
+    bridge->setOnlineStatus( qpOnlineStatus::OFFLINE );
 
     this->bridges.insert( bridgeData.bridgeId_, bridge );
 
@@ -945,6 +949,17 @@ void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const
         qDebug( "emitting gotBridgeContact( BridgeContact* )" );
 #endif
         emit gotBridgeContact( contact );
+    }
+}
+
+void QPalringoConnection::onBridgeOnReceived( const Headers& headers, const QByteArray& )
+{
+    qpBridgeOnData bridgeOnData;
+    bridgeOnData.getData( headers );
+
+    if( this->bridges.contains( bridgeOnData.bridgeId_ ) )
+    {
+        this->bridges.value( bridgeOnData.bridgeId_ )->setOnlineStatus( qpOnlineStatus::ONLINE );
     }
 }
 

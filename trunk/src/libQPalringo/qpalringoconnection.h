@@ -113,6 +113,7 @@ class QPalringoConnection : public QObject
         void onResponseReceived( const Headers& headers, const QByteArray& body );
         void onBridgeReceived( const Headers& headers, const QByteArray& body );
         void onBridgeContactReceived( const Headers& headers, const QByteArray& body );
+        void onBridgeOnReceived( const Headers& headers, const QByteArray& body );
 
     private:
         QTcpSocket* socket;
@@ -199,5 +200,6 @@ class QPalringoConnection : public QObject
         void bridgeRecieved( const Headers& headers, const QByteArray& body );
         void bridgeContactRecieved( const Headers& headers, const QByteArray& body );
         void bridgeMesgRecieved( const Headers& headers, const QByteArray& body );
+        void bridgeOnRecieved( const Headers& headers, const QByteArray& body );
 };
 #endif
