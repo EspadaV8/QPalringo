@@ -8,6 +8,7 @@
 
 class Bridge : public QObject
 {
+    Q_OBJECT
     public:
         Bridge();
 
@@ -20,6 +21,7 @@ class Bridge : public QObject
         void setDomain( QString domain );
         void setDisabled( bool disabled );
         void addContact( BridgeContact* contact );
+        void setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus );
 
         quint32 getId();
         qpBridgeType::Type getType();
@@ -30,6 +32,10 @@ class Bridge : public QObject
         QString getDomain();
         bool isDisabled();
         QHash<quint64, BridgeContact*> getContacts();
+        qpOnlineStatus::OnlineStatus getOnlineStatus();
+
+    signals:
+        void bridgeUpdated();
 
     private:
         quint32 id;
@@ -41,6 +47,7 @@ class Bridge : public QObject
         QString domain;
         bool disabled;
         QHash<quint64, BridgeContact*> contacts;
+        qpOnlineStatus::OnlineStatus onlineStatus;
 };
 
 #endif // BRIDGE_H
