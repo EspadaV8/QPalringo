@@ -73,10 +73,18 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     vb->addWidget( this->imageButton );
     hbox->addLayout( vb );
 
+    QWidget *w = new QWidget( this );
+    w->setLayout( hbox );
+
+    QSplitter *splitter = new QSplitter( Qt::Vertical, this );
+    splitter->setChildrenCollapsible( false );
+    splitter->addWidget( this->messageList );
+    splitter->addWidget( w );
+    splitter->setStretchFactor( 0, 1 );
+
     // add everything to the window
     layout->addWidget ( this->historyButton );
-    layout->addWidget ( this->messageList );
-    layout->addLayout ( hbox );
+    layout->addWidget( splitter );
 
     this->setLayout ( layout );
     this->resize( 492, 323 );

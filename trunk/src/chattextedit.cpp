@@ -28,7 +28,8 @@ ChatTextEdit::ChatTextEdit( QWidget *parent )
     font.setPixelSize( 10 );
     this->setFont( font );
 
-    this->setMaximumHeight( this->fontMetrics().height() * 4 );
+    this->setMinimumHeight( this->fontMetrics().height() * 4 );
+    this->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
 }
 
 void ChatTextEdit::keyPressEvent( QKeyEvent* event )
