@@ -53,6 +53,9 @@ void SettingsWindow::setFeildValues()
     this->proxyPortEdit->setText( settings.value( "networt/proxy/port" ).toString() );
     this->proxyUsernameEdit->setText( settings.value( "networt/proxy/username" ).toString() );
     this->proxyPasswordEdit->setText( settings.value( "networt/proxy/password" ).toString() );
+
+    this->serverHostEdit->setText( settings.value( "server/host", "primary.palringo.com" ).toString() );
+    this->portSpinBox->setValue( settings.value( "server/port", 443 ).toInt() );
 }
 
 void SettingsWindow::saveSettings()
@@ -72,6 +75,9 @@ void SettingsWindow::saveSettings()
     settings.setValue( "networt/proxy/port", this->proxyPortEdit->text() );
     settings.setValue( "networt/proxy/username", this->proxyUsernameEdit->text() );
     settings.setValue( "networt/proxy/password", this->proxyPasswordEdit->text() );
+
+    settings.setValue( "server/host", this->serverHostEdit->text() );
+    settings.setValue( "server/port", this->portSpinBox->value() );
 }
 
 SettingsWindow::~SettingsWindow() { }
