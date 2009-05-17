@@ -5,11 +5,10 @@
 #include <QByteArray>
 #include <QMap>
 
-class qpDataMap
+class qpDataMap : public QMap<QByteArray, QByteArray>
 {
 private:
     void parse( QByteArray data );
-    QMap<QByteArray, QByteArray> dataMap_;
 
 public:
     static const char *EMPTY;

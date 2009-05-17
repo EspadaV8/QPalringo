@@ -1,12 +1,15 @@
 #include "qpdatamap.h"
 #include <QtEndian>
 #include <QMapIterator>
+#include <QDebug>
 
 qpDataMap::qpDataMap()
+    : QMap<QByteArray, QByteArray>()
 {
 }
 
 qpDataMap::qpDataMap( const QByteArray& data )
+    : QMap<QByteArray, QByteArray>()
 {
     parse( data );
 }
@@ -35,39 +38,41 @@ void qpDataMap::parse( QByteArray data )
         int nullTerm  = data.indexOf( '\0', i );
         int lengthStart = nullTerm + 1;
         int dataStart = lengthStart + 2;
-        attr = data.mid( i, nullTerm );
+        attr = data.mid( i, nullTerm - i );
 
         if( attr.isEmpty() )
         {
-            qDebug( "attr is empty" );
             return;
         }
 
         length = data.mid( lengthStart, 2 );
         // extract the length of the data
-        qint32 valueLength = qFromBigEndian<quint32>( (uchar*)length.data() );
+        qint32 valueLength = 0;
+        for( int j = 0; j < length.size(); j++ )
+        {
+            valueLength <<= 8;
+            char c = length.at( j );
+            valueLength |= ( c & 0xff ) ;
+        }
 
         // out of bounds, parse error!
         if( ( dataStart + valueLength ) > size )
         {
-            qDebug( "out of bounds, parse error - %d - %d - %d", dataStart, valueLength, size );
             //throw DataMapException(OUT_OF_BOUNDS);
             return;
         }
 
         value = data.mid( dataStart, valueLength );
 
-        if( dataMap_.contains( attr ) )
+        if( this->contains( attr ) )
         {
-            qDebug( "dataMap already contains attr" );
-            QByteArray a = dataMap_.value( attr );
+            QByteArray a = this->value( attr );
             a.append( value );
-            dataMap_.insert( attr, a );
+            this->insert( attr, a );
         }
         else
         {
-            qDebug( "dataMap doesn't contain attr" );
-            dataMap_.insert( attr, value );
+            this->insert( attr, value );
         }
 
         i = dataStart + valueLength;
@@ -78,7 +83,7 @@ QString qpDataMap::toString()
 {
     QString result = "{\n";
 
-    QMapIterator<QByteArray, QByteArray> i(dataMap_);
+    QMapIterator<QByteArray, QByteArray> i( *this );
     while( i.hasNext() )
     {
         i.next();
