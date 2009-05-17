@@ -116,6 +116,10 @@ class QPalringoConnection : public QObject
         void onBridgeContactReceived( const Headers& headers, const QByteArray& body );
         void onBridgeOnReceived( const Headers& headers, const QByteArray& body );
 
+        /** sub profile datamaps **/
+        void onContactDataMapReceived( const QByteArray& data );
+        void onGroupDataMapReceived( const QByteArray& data );
+
     private:
         QTcpSocket* socket;
         QByteArray inBuffer;
@@ -203,5 +207,6 @@ class QPalringoConnection : public QObject
         void bridgeContactRecieved( const Headers& headers, const QByteArray& body );
         void bridgeMesgRecieved( const Headers& headers, const QByteArray& body );
         void bridgeOnRecieved( const Headers& headers, const QByteArray& body );
+        void subProfileReceived( const Headers& headers, const QByteArray& body );
 };
 #endif

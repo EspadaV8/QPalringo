@@ -50,7 +50,7 @@ QPalringoConnection::QPalringoConnection(QString login,
     this->receivedData_ = 0;
     this->outMessageCount_ = 0;
     this->mesg_id_ = 0;
-    this->encrtption_ = false;
+    this->encryption_ = false;
 
     this->user.email = login;
     this->user.password = password;
@@ -124,6 +124,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
     inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
     inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
+    inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray& ) ) );
@@ -147,6 +148,8 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
+    connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
+             this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )
@@ -166,7 +169,6 @@ int QPalringoConnection::connectClient( bool )
     {
         headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "1.0" );
     }
-/*
     else if (protocolVersion_ == 2)
     {
         headers.insert( qpHeaderAttribute::PROTOCOL_VERSION, "2.0" );
@@ -174,7 +176,7 @@ int QPalringoConnection::connectClient( bool )
         {
             headers.insert( qpHeaderAttribute::NAME, this->user.email );
         }
-
+/*
         if( reconnect && RK_.size() )
         {
             headers.insert( qpHeaderAttribute::SUB_ID, this->user.userID );
@@ -184,13 +186,13 @@ int QPalringoConnection::connectClient( bool )
         {
             packetSeq_ = 0;
         }
-
+*/
         if( compression_ )
         {
             headers.insert( qpHeaderAttribute::COMPRESSION, compression_ );
         }
     }
-*/
+
     headers.insert( qpHeaderAttribute::APP_TYPE, this->clientType );
     headers.insert( qpHeaderAttribute::OPERATOR, "PC_CLIENT" );
     sendCmd( qpCommand::LOGON, headers, "" );
@@ -836,12 +838,65 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
     emit gotGroupDetails( group );
 }
 
-void QPalringoConnection::onSubProfileReceived( const Headers&, const QByteArray& )
+void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body )
 {
-    /*
-    qDebug( "QPalringoConnection::onSubProfileReceived - not implemented" );
-    return PalringoConnection::onSubProfileReceived( headers, body, data );
-    */
+    //qDebug( "QPalringoConnection::onSubProfileReceived - not implemented - size %d", body.size() );
+    //qDebug() << body;
+
+    if( body.size() )
+    {
+        if( this->compression_ && headers.contains( qpHeaderAttribute::COMPRESSION ) )
+        {
+            // TODO
+            // body.replace( qUncompress( body.data() ) );
+        }
+
+        if( headers.contains( qpHeaderAttribute::RK ) )
+        {
+            if( this->encryption_ )
+            {
+                // TODO
+            }
+            else
+            {
+                this->RK_ = headers.attribute<QString>( qpHeaderAttribute::RK );
+            }
+        }
+
+        qpLogonData logonData;
+        logonData.getData( headers, body );
+        qDebug() << logonData.dataMap_->toString();
+
+        if( logonData.dataMap_->contains( "contacts" ) )
+        {
+            this->onContactDataMapReceived( logonData.dataMap_->value( "contacts" ) );
+        }
+
+        if( logonData.dataMap_->contains( "group_sub" ) )
+        {
+            this->onGroupDataMapReceived( logonData.dataMap_->value( "group_sub" ) );
+        }
+    }
+}
+
+void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
+{
+    qpDataMap contactsDataMap( data );
+
+    QMapIterator<QByteArray, QByteArray> contactsIterator( contactsDataMap );
+    while( contactsIterator.hasNext() )
+    {
+        contactsIterator.next();
+        qpDataMap contactDataMap( contactsIterator.value() );
+        qDebug() << contactsIterator.key() << contactDataMap.toString();
+    }
+}
+
+void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
+{
+    qpDataMap groupsDataMap( data );
+
+    qDebug() << groupsDataMap.toString();
 }
 
 void QPalringoConnection::onPingReceived( const Headers&, const QByteArray& )
