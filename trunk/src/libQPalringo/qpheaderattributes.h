@@ -26,6 +26,7 @@ namespace qpHeaderAttribute
     static const QString GROUP_ID = "GROUP-ID";
     static const QString HIST = "HIST";
     static const QString IS_CONTACT = "CONTACT";
+    static const QString IV = "IV";
     static const QString LAST = "LAST";
     static const QString LAST_ONLINE = "LAST-ONLINE";
     static const QString MESG_ID = "MESG-ID";
@@ -39,6 +40,7 @@ namespace qpHeaderAttribute
     static const QString PS = "PS";
     static const QString REASON = "REASON";
     static const QString REMOVE = "REMOVE";
+    static const QString RK = "RK";
     static const QString SOURCE_ID = "SOURCE-ID";
     static const QString STATUS = "STATUS";
     static const QString SUB_ID = "SUB-ID";
