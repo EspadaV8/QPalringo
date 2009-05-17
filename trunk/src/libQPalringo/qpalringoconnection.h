@@ -60,7 +60,8 @@ class QPalringoConnection : public QObject
                             QString password = "",
                             QString clientType = "Linux",
                             QString host = "primary.palringo.com",
-                            quint16 port = 443 );
+                            quint16 port = 443,
+                            qint32 protocol = 1 );
 
         virtual int connectClient( bool reconnect = false );
         void setProxy( QNetworkProxy proxy );
@@ -154,6 +155,7 @@ class QPalringoConnection : public QObject
         quint32 outMessageCount_;
         qint32 mesg_id_;
         QString RK_;
+        bool encryption_;
 
     private slots:
         void socketError( QAbstractSocket::SocketError socketError );

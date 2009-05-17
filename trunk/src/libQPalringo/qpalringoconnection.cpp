@@ -37,18 +37,20 @@ QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
                                          QString clientType,
                                          QString host,
-                                         quint16 port )
+                                         quint16 port,
+                                         qint32 protocol )
 {
     this->host = host;
     this->port = port;
     this->clientType = clientType;
 
-    protocolVersion_ = 1;
-    compression_ = 0;
-    packetSeq_ = 0;
-    receivedData_ = 0;
-    outMessageCount_ = 0;
-    mesg_id_ = 0;
+    this->protocolVersion_ = protocol;
+    this->compression_ = 0;
+    this->packetSeq_ = 0;
+    this->receivedData_ = 0;
+    this->outMessageCount_ = 0;
+    this->mesg_id_ = 0;
+    this->encrtption_ = false;
 
     this->user.email = login;
     this->user.password = password;
