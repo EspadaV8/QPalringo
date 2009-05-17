@@ -19,6 +19,7 @@ void qpDataMap::parse( QByteArray data )
 {
     if( data.isNull() )
     {
+        qDebug( "data is null" );
         return;
     }
 
@@ -38,6 +39,7 @@ void qpDataMap::parse( QByteArray data )
 
         if( attr.isEmpty() )
         {
+            qDebug( "attr is empty" );
             return;
         }
 
@@ -48,6 +50,7 @@ void qpDataMap::parse( QByteArray data )
         // out of bounds, parse error!
         if( ( dataStart + valueLength ) > size )
         {
+            qDebug( "out of bounds, parse error - %d - %d - %d", dataStart, valueLength, size );
             //throw DataMapException(OUT_OF_BOUNDS);
             return;
         }
@@ -56,12 +59,14 @@ void qpDataMap::parse( QByteArray data )
 
         if( dataMap_.contains( attr ) )
         {
+            qDebug( "dataMap already contains attr" );
             QByteArray a = dataMap_.value( attr );
             a.append( value );
             dataMap_.insert( attr, a );
         }
         else
         {
+            qDebug( "dataMap doesn't contain attr" );
             dataMap_.insert( attr, value );
         }
 
@@ -76,10 +81,11 @@ QString qpDataMap::toString()
     QMapIterator<QByteArray, QByteArray> i(dataMap_);
     while( i.hasNext() )
     {
+        i.next();
         result.append( "\t" );
-        result.append( QString::fromUtf8( i.key().data() ) );
+        result.append( i.key() );
         result.append( ": " );
-        result.append( QString::fromUtf8( i.value().data() ) );
+        result.append( i.value() );
         result.append( "\n" );
     }
     result.append("}");
