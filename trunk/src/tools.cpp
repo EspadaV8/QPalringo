@@ -135,8 +135,9 @@ void Tools::openPalringoConnection( QString email, QString password )
         
         QString serverHost = settings.value( "server/host", "primary.palringo.com" ).toString();
         int serverPort = settings.value( "server/port", 443 ).toInt();
+        int protocolVersion = settings.value( "server/protocolVersion", 1 ).toInt();
         
-        this->connection = new QPalringoConnection( email, password, client, serverHost, serverPort );
+        this->connection = new QPalringoConnection( email, password, client, serverHost, serverPort, protocolVersion );
         if( settings.value( "networt/proxy/enabled" ).toBool() == true )
         {
             QNetworkProxy proxy;
