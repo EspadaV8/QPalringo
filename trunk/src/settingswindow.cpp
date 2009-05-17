@@ -56,6 +56,7 @@ void SettingsWindow::setFeildValues()
 
     this->serverHostEdit->setText( settings.value( "server/host", "primary.palringo.com" ).toString() );
     this->portSpinBox->setValue( settings.value( "server/port", 443 ).toInt() );
+    this->protocolVersionSpinBox->setValue( settings.value( "server/protocolVersion", 1 ).toInt() );
 }
 
 void SettingsWindow::saveSettings()
@@ -78,6 +79,7 @@ void SettingsWindow::saveSettings()
 
     settings.setValue( "server/host", this->serverHostEdit->text() );
     settings.setValue( "server/port", this->portSpinBox->value() );
+    settings.setValue( "server/protocolVersion", this->protocolVersionSpinBox->value() );
 }
 
 SettingsWindow::~SettingsWindow() { }
