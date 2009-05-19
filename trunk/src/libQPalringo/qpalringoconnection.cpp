@@ -59,6 +59,11 @@ QPalringoConnection::QPalringoConnection(QString login,
 
     initOutSignals();
     initInSignals();
+
+    if( this->protocolVersion_ == 2 )
+    {
+        initV2InSignals();
+    }
 }
 
 void QPalringoConnection::initOutSignals()
@@ -124,7 +129,6 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
     inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
     inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
-    inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray& ) ) );
@@ -148,8 +152,21 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
+}
+
+void QPalringoConnection::initV2InSignals()
+{
+    inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
     connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
              this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
+
+    subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );
+    subProfileSignals.insert( qpSubProfileSection::GROUPS, "groupDataMapReceived" );
+
+    connect( this, SIGNAL( contactDataMapReceived( const QByteArray& ) ),
+             this, SLOT( onContactDataMapReceived( const QByteArray& ) ) );
+    connect( this, SIGNAL( groupDataMapReceived( const QByteArray& ) ),
+             this, SLOT( onGroupDataMapReceived( const QByteArray& ) ) );
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )
@@ -865,18 +882,21 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
 
         qpLogonData logonData;
         logonData.getData( headers, body );
-        qDebug() << logonData.dataMap_->toString();
 
-        if( logonData.dataMap_->contains( "contacts" ) )
-        {
-            this->onContactDataMapReceived( logonData.dataMap_->value( "contacts" ) );
-        }
-
-        if( logonData.dataMap_->contains( "group_sub" ) )
-        {
-            this->onGroupDataMapReceived( logonData.dataMap_->value( "group_sub" ) );
-        }
-    }
+         QMapIterator<QString, QString> i( subProfileSignals );
+         while( i.hasNext() )
+         {
+             i.next();
+             if( logonData.dataMap_->contains( i.key().toAscii() ) )
+             {
+#if SIGNALS
+                qDebug( "emitting signal - %s", qPrintable( i.value() ) );
+#endif
+                 QMetaObject::invokeMethod( this, i.value().toAscii(), Qt::DirectConnection,
+                                            Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key().toAscii() ) ) );
+             }
+         }
+     }
 }
 
 void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )

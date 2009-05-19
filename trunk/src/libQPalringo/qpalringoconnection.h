@@ -39,6 +39,7 @@
 #include "qpheaderattributes.h"
 #include "qpcommands.h"
 #include "errorcodes.h"
+#include "qpsubprofilesections.h"
 #include "qpgenericdata.h"
 
 struct IncomingCommand
@@ -134,6 +135,7 @@ class QPalringoConnection : public QObject
 
         QMap<QString, QString> outSignals;
         QMap<QString, QString> inSignals;
+        QMap<QString, QString> subProfileSignals;
 
         QMap<quint64, Message> unfinishedMessages;
         QHash<quint64, Contact* > contacts;
@@ -148,6 +150,7 @@ class QPalringoConnection : public QObject
 
         void initOutSignals();
         void initInSignals();
+        void initV2InSignals();
         int parseCmd( const QByteArray& data );
 
         /** taken from libPalringo **/
@@ -208,5 +211,9 @@ class QPalringoConnection : public QObject
         void bridgeMesgRecieved( const Headers& headers, const QByteArray& body );
         void bridgeOnRecieved( const Headers& headers, const QByteArray& body );
         void subProfileReceived( const Headers& headers, const QByteArray& body );
+
+        /** V2 subprofile signals **/
+        void contactDataMapReceived( const QByteArray& data );
+        void groupDataMapReceived( const QByteArray& data );
 };
 #endif
