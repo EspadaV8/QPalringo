@@ -5,7 +5,7 @@
 #include <QByteArray>
 #include <QMap>
 
-class qpDataMap : public QMap<QByteArray, QByteArray>
+class qpDataMap : public QMap<QString, QByteArray>
 {
 private:
     void parse( QByteArray data );

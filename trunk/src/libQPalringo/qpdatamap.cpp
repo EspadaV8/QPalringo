@@ -4,12 +4,12 @@
 #include <QDebug>
 
 qpDataMap::qpDataMap()
-    : QMap<QByteArray, QByteArray>()
+    : QMap<QString, QByteArray>()
 {
 }
 
 qpDataMap::qpDataMap( const QByteArray& data )
-    : QMap<QByteArray, QByteArray>()
+    : QMap<QString, QByteArray>()
 {
     parse( data );
 }
@@ -83,7 +83,7 @@ QString qpDataMap::toString()
 {
     QString result = "{\n";
 
-    QMapIterator<QByteArray, QByteArray> i( *this );
+    QMapIterator<QString, QByteArray> i( *this );
     while( i.hasNext() )
     {
         i.next();
