@@ -903,7 +903,7 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
 {
     qpDataMap contactsDataMap( data );
 
-    QMapIterator<QByteArray, QByteArray> contactsIterator( contactsDataMap );
+    QMapIterator<QString, QByteArray> contactsIterator( contactsDataMap );
     while( contactsIterator.hasNext() )
     {
         contactsIterator.next();
