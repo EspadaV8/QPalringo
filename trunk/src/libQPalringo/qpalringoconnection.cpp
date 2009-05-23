@@ -859,9 +859,6 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
 
 void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body )
 {
-    //qDebug( "QPalringoConnection::onSubProfileReceived - not implemented - size %d", body.size() );
-    //qDebug() << body;
-
     if( body.size() )
     {
         if( this->compression_ && headers.contains( qpHeaderAttribute::COMPRESSION ) )
@@ -895,8 +892,13 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
                 qDebug( "emitting signal - %s", qPrintable( i.value() ) );
 #endif
                  QMetaObject::invokeMethod( this, i.value().toAscii(), Qt::DirectConnection,
-                                            Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key().toAscii() ) ) );
+                                            Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key() ) ) );
              }
+         }
+
+         if( headers.contains( qpHeaderAttribute::TIMESTAMP ) )
+         {
+             emit logonSuccessful( headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP ) );
          }
      }
 }
@@ -910,15 +912,47 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
     {
         contactsIterator.next();
         qpDataMap contactDataMap( contactsIterator.value() );
-        qDebug() << contactsIterator.key() << contactDataMap.toString();
+        
+        if( this->contacts.contains( contactsIterator.key().toInt() ) )
+        {
+            Contact* contact = this->contacts.value( contactsIterator.key().toInt() );
+
+            if( contactDataMap.contains( qpHeaderAttribute::NICKNAME ) )
+                contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME) );
+
+            if( contactDataMap.contains( qpHeaderAttribute::STATUS ) )
+                contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
+
+            if( contactDataMap.contains( qpHeaderAttribute::ONLINE_STATUS ) )
+                contact->setOnlineStatus( contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt() );
+        }
+        else
+        {
+#if qpDEBUG
+            qDebug( "New contact recieved" );
+#endif
+            Contact *contact = new Contact;
+            contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
+            contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
+            contact->setOnlineStatus( contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt() );
+            contact->setIsContact( contactDataMap.contains( "CONTACT" ) );
+            contact->setDeviceType( contactDataMap.value( qpHeaderAttribute::DEVICE_TYPE ).toInt() );
+            contact->setID( contactsIterator.key().toInt() );
+
+            this->contactLock.lockForWrite();
+            this->contacts.insert( contactsIterator.key().toInt(), contact );
+            this->contactLock.unlock();
+#if SIGNALS
+            qDebug( "emitting gotContactDetails( Contact* )" );
+#endif
+            emit gotContactDetails( contact );
+        }
     }
 }
 
 void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
 {
     qpDataMap groupsDataMap( data );
-
-    qDebug() << groupsDataMap.toString();
 }
 
 void QPalringoConnection::onPingReceived( const Headers&, const QByteArray& )
