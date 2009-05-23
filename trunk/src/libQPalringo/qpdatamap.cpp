@@ -26,7 +26,7 @@ void qpDataMap::parse( QByteArray data )
         return;
     }
 
-    QByteArray attr;
+    QString attr;
     QByteArray length;
     QByteArray value;
 
@@ -38,7 +38,7 @@ void qpDataMap::parse( QByteArray data )
         int nullTerm  = data.indexOf( '\0', i );
         int lengthStart = nullTerm + 1;
         int dataStart = lengthStart + 2;
-        attr = data.mid( i, nullTerm - i );
+        attr = (data.mid( i, nullTerm - i )).toUpper();
 
         if( attr.isEmpty() )
         {
