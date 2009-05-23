@@ -969,6 +969,38 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
 void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
 {
     qpDataMap groupsDataMap( data );
+
+    QMapIterator<QString, QByteArray> groupsIterator( groupsDataMap );
+    while( groupsIterator.hasNext() )
+    {
+        groupsIterator.next();
+        qpDataMap groupDataMap( groupsIterator.value() );
+
+        QSet<quint64> groupContacts;
+        QMapIterator<QString, QByteArray> groupsContactIterator( groupDataMap );
+        while( groupsContactIterator.hasNext() )
+        {
+            groupsContactIterator.next();
+            qpDataMap groupContactDataMap( groupsContactIterator.value() );
+
+            bool ok;
+            int contactId = groupsContactIterator.key().toInt( &ok );
+            if( ok ) groupContacts.insert( contactId );
+        }
+
+        Group *group = new Group;
+        group->setID( groupsIterator.key().toInt() );
+        group->setName( groupDataMap.value( qpHeaderAttribute::NAME ) );
+        group->setDescription( groupDataMap.value( qpHeaderAttribute::DESC ) );
+        group->setContacts( groupContacts );
+
+        this->groups.insert( group->getID(), group );
+
+#if SIGNALS
+        qDebug( "emitting gotContactDetails( Contact* )" );
+#endif
+        emit gotGroupDetails( group );
+    }
 }
 
 void QPalringoConnection::onPingReceived( const Headers&, const QByteArray& )
