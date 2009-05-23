@@ -5,7 +5,7 @@ namespace qpHeaderAttribute
 {
     static const QString ACTION = "ACTION";
     static const QString ADMIN = "ADMIN";
-    static const QString APP_TYPE = "App-Type";
+    static const QString APP_TYPE = "APP-TYPE";
     static const QString BLOCK = "BLOCK";
     static const QString BRIDGE_ID = "BRIDGE-ID";
     static const QString BRIDGE_TYPE = "BRIDGE-TYPE";
@@ -35,8 +35,8 @@ namespace qpHeaderAttribute
     static const QString NAME = "NAME";
     static const QString NICKNAME = "NICKNAME";
     static const QString ONLINE_STATUS = "ONLINE-STATUS";
-    static const QString OPERATOR = "Operator";
-    static const QString PROTOCOL_VERSION = "Protocol-Version";
+    static const QString OPERATOR = "OPERATOR";
+    static const QString PROTOCOL_VERSION = "PROTOCOL-VERSION";
     static const QString PS = "PS";
     static const QString REASON = "REASON";
     static const QString REMOVE = "REMOVE";
