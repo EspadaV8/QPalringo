@@ -896,6 +896,22 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
              }
          }
 
+         if( logonData.dataMap_->contains( qpHeaderAttribute::NICKNAME ) )
+         {
+             this->user.nickname = logonData.dataMap_->value( qpHeaderAttribute::NICKNAME );
+         }
+         if( logonData.dataMap_->contains( qpHeaderAttribute::STATUS ) )
+         {
+             this->user.status = logonData.dataMap_->value( qpHeaderAttribute::STATUS );
+         }
+         if( logonData.dataMap_->contains( qpHeaderAttribute::SUB_ID ) )
+         {
+             this->user.userID = (logonData.dataMap_->value( qpHeaderAttribute::SUB_ID )).toInt();
+         }
+         if( headers.contains( qpHeaderAttribute::LAST_ONLINE ) )
+         {
+             this->user.lastOnline =  headers.attribute<QString>( qpHeaderAttribute::LAST_ONLINE );
+         }
          if( headers.contains( qpHeaderAttribute::TIMESTAMP ) )
          {
              emit logonSuccessful( headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP ) );
