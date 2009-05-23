@@ -223,6 +223,7 @@ void QPalringoConnection::socketError( QAbstractSocket::SocketError )
 #if ERRORS
     qDebug( "%s", qPrintable( socket->errorString() ) );
 #endif
+    this->socket->disconnectFromHost();
     emit disconnected();
 }
 
