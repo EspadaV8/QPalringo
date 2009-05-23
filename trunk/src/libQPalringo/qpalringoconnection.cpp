@@ -230,7 +230,7 @@ void QPalringoConnection::socketError( QAbstractSocket::SocketError )
 void QPalringoConnection::pollRead()
 {
 #if qpDEBUG
-        qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
+    qDebug( "bytesAvailable = %lld", socket->bytesAvailable() );
 #endif
 
     QByteArray tmp = socket->readAll();
@@ -278,10 +278,10 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
 
     // the data of the message
     qpMsgData data;
-        data.targetId_ = target->getID();
-        data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;
-        data.mesgId_ = ++mesg_id_;
-        data.contentType_ = message.type();
+    data.targetId_ = target->getID();
+    data.mesgTarget_ = ( target->getType() == Target::GROUP ) ? 1 : 0;
+    data.mesgId_ = ++mesg_id_;
+    data.contentType_ = message.type();
 
     if( target->getType() == Target::BRIDGECONTACT )
     {
@@ -882,41 +882,41 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
         qpLogonData logonData;
         logonData.getData( headers, body );
 
-         QMapIterator<QString, QString> i( subProfileSignals );
-         while( i.hasNext() )
-         {
-             i.next();
-             if( logonData.dataMap_->contains( i.key().toAscii() ) )
-             {
+        QMapIterator<QString, QString> i( subProfileSignals );
+        while( i.hasNext() )
+        {
+            i.next();
+            if( logonData.dataMap_->contains( i.key().toAscii() ) )
+            {
 #if SIGNALS
                 qDebug( "emitting signal - %s", qPrintable( i.value() ) );
 #endif
-                 QMetaObject::invokeMethod( this, i.value().toAscii(), Qt::DirectConnection,
-                                            Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key() ) ) );
-             }
-         }
+                QMetaObject::invokeMethod( this, i.value().toAscii(), Qt::DirectConnection,
+                                           Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key() ) ) );
+            }
+        }
 
-         if( logonData.dataMap_->contains( qpHeaderAttribute::NICKNAME ) )
-         {
-             this->user.nickname = logonData.dataMap_->value( qpHeaderAttribute::NICKNAME );
-         }
-         if( logonData.dataMap_->contains( qpHeaderAttribute::STATUS ) )
-         {
-             this->user.status = logonData.dataMap_->value( qpHeaderAttribute::STATUS );
-         }
-         if( logonData.dataMap_->contains( qpHeaderAttribute::SUB_ID ) )
-         {
-             this->user.userID = (logonData.dataMap_->value( qpHeaderAttribute::SUB_ID )).toInt();
-         }
-         if( headers.contains( qpHeaderAttribute::LAST_ONLINE ) )
-         {
-             this->user.lastOnline =  headers.attribute<QString>( qpHeaderAttribute::LAST_ONLINE );
-         }
-         if( headers.contains( qpHeaderAttribute::TIMESTAMP ) )
-         {
-             emit logonSuccessful( headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP ) );
-         }
-     }
+        if( logonData.dataMap_->contains( qpHeaderAttribute::NICKNAME ) )
+        {
+            this->user.nickname = logonData.dataMap_->value( qpHeaderAttribute::NICKNAME );
+        }
+        if( logonData.dataMap_->contains( qpHeaderAttribute::STATUS ) )
+        {
+            this->user.status = logonData.dataMap_->value( qpHeaderAttribute::STATUS );
+        }
+        if( logonData.dataMap_->contains( qpHeaderAttribute::SUB_ID ) )
+        {
+            this->user.userID = (logonData.dataMap_->value( qpHeaderAttribute::SUB_ID )).toInt();
+        }
+        if( headers.contains( qpHeaderAttribute::LAST_ONLINE ) )
+        {
+            this->user.lastOnline =  headers.attribute<QString>( qpHeaderAttribute::LAST_ONLINE );
+        }
+        if( headers.contains( qpHeaderAttribute::TIMESTAMP ) )
+        {
+            emit logonSuccessful( headers.attribute<QString>( qpHeaderAttribute::TIMESTAMP ) );
+        }
+    }
 }
 
 void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
@@ -1109,8 +1109,8 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
         int contentLength;
 
 #if PARSING
-            qDebug( "\ttotalProcessed = %d", totalProcessed );
-            qDebug( "\tendOfPacketPos = %d", endOfPacketPos );
+        qDebug( "\ttotalProcessed = %d", totalProcessed );
+        qDebug( "\tendOfPacketPos = %d", endOfPacketPos );
 #endif
 
         if( endOfPacketPos > -1 )
