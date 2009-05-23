@@ -2,7 +2,7 @@
 #define QPSUBPROFILESECTION_H
 namespace qpSubProfileSection
 {
-    static const QString CONTACTS = "contacts";
-    static const QString GROUPS = "group_sub";
+    static const QString CONTACTS = "CONTACTS";
+    static const QString GROUPS = "GROUP_SUB";
 }
 #endif // QPSUBPROFILESECTION_H
