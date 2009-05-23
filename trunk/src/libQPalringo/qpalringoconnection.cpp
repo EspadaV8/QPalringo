@@ -1139,7 +1139,7 @@ int QPalringoConnection::parseCmd( const QByteArray& data )
             }
             else
             {
-                QString key = data.mid( i, x - i );
+                QString key = (data.mid( i, x - i )).toUpper();
                 QString value = data.mid( x + headerSpliter.size(), eol - ( x + headerSpliter.size() ) );
 #if PARSING
                 qDebug( "\t\tinserting key: %s, value: %s", qPrintable( key ), qPrintable( value ) );
