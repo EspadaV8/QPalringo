@@ -37,7 +37,7 @@
 #include <QSvgWidget>
 #include <QMenu>
 
-class ListItem : public QWidget
+class ListItem : public QFrame
 {
     Q_OBJECT
     public:

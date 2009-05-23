@@ -22,7 +22,7 @@
 #include "listitem.h"
 
 ListItem::ListItem( QWidget *parent )
-    : QWidget( parent )
+    : QFrame( parent )
 {
     ReloadStyleSheet();
 
