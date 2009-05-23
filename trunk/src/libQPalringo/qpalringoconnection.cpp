@@ -59,11 +59,6 @@ QPalringoConnection::QPalringoConnection(QString login,
 
     initOutSignals();
     initInSignals();
-
-    if( this->protocolVersion_ == 2 )
-    {
-        initV2InSignals();
-    }
 }
 
 void QPalringoConnection::initOutSignals()
@@ -120,53 +115,59 @@ void QPalringoConnection::initInSignals()
 {
     inSignals.insert( qpCommand::AUTH, "authRecieved" );
     inSignals.insert( qpCommand::LOGON_SUCCESSFUL, "logonSuccessfulRecieved" );
-    inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
-    inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
+
     inSignals.insert( qpCommand::MESG, "mesgRecieved" );
     inSignals.insert( qpCommand::PING, "pingRecieved" );
     inSignals.insert( qpCommand::RESPONSE, "responseRecieved" );
     inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
-    inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
     inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
-    inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
+
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onAuthRecieved( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onContactDetailReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( mesgRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( pingRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onPingReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( responseRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onResponseReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( bridgeRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onBridgeReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( bridgeMesgRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
-}
 
-void QPalringoConnection::initV2InSignals()
-{
-    inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
-    connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
-             this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
+    if( this->protocolVersion_ == 1 )
+    {
+        inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
+        inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
+        inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
+        inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
 
-    subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );
-    subProfileSignals.insert( qpSubProfileSection::GROUPS, "groupDataMapReceived" );
+        connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onContactDetailReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( bridgeRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onBridgeReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
+    }
+    else if( this->protocolVersion_ == 2 )
+    {
+        inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
+        connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
 
-    connect( this, SIGNAL( contactDataMapReceived( const QByteArray& ) ),
-             this, SLOT( onContactDataMapReceived( const QByteArray& ) ) );
-    connect( this, SIGNAL( groupDataMapReceived( const QByteArray& ) ),
-             this, SLOT( onGroupDataMapReceived( const QByteArray& ) ) );
+        subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );
+        subProfileSignals.insert( qpSubProfileSection::GROUPS, "groupDataMapReceived" );
+
+        connect( this, SIGNAL( contactDataMapReceived( const QByteArray& ) ),
+                 this, SLOT( onContactDataMapReceived( const QByteArray& ) ) );
+        connect( this, SIGNAL( groupDataMapReceived( const QByteArray& ) ),
+                 this, SLOT( onGroupDataMapReceived( const QByteArray& ) ) );
+    }
 }
 
 void QPalringoConnection::setProxy( QNetworkProxy proxy )

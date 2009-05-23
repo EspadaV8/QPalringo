@@ -150,7 +150,6 @@ class QPalringoConnection : public QObject
 
         void initOutSignals();
         void initInSignals();
-        void initV2InSignals();
         int parseCmd( const QByteArray& data );
 
         /** taken from libPalringo **/
