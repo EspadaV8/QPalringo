@@ -1,14 +1,20 @@
 ListItem
 {
-    background: transparent;
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba( 255, 255, 255, 100% ),
+                    stop:1 rgba( 232, 232, 232, 100% ) );
 }
 
 ListItem:hover
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba( 255, 255, 255, 0% ), stop:1 rgba( 187, 205, 225, 50% ) );
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba( 255, 255, 255, 0% ),
+                    stop:1 rgba( 187, 205, 225, 60% ) );
 }
 
 ListItem[selected="true"]
 {
-    background: qlineargradient(x1:0, y1:0, x2:1, y2:0, stop:0 rgba( 255, 255, 255, 0% ), stop:1 rgba( 187, 205, 225, 100% ) );
+    background: qlineargradient(x1:0, y1:0, x2:0, y2:1,
+                    stop:0 rgba( 255, 255, 255, 0% ),
+                    stop:1 rgba( 187, 205, 225, 100% ) );
 }
