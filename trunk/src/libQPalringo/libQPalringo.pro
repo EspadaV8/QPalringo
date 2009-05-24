@@ -18,7 +18,9 @@ SOURCES += qpalringoconnection.cpp \
     signals.cpp \
     qpgenericdata.cpp \
     bridge.cpp \
-    targets/bridgecontact.cpp
+    targets/bridgecontact.cpp \
+    v2insignals.cpp \
+    v1insignals.cpp
 HEADERS += qpalringoconnection.h \
     targets/target.h \
     targets/contact.h \
