@@ -160,9 +160,12 @@ void QPalringoConnection::initInSignals()
         connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
                  this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
 
+        subProfileSignals.insert( qpSubProfileSection::BRIDGE, "bridgeDataMapReceived" );
         subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );
         subProfileSignals.insert( qpSubProfileSection::GROUPS, "groupDataMapReceived" );
 
+        connect( this, SIGNAL( bridgeDataMapReceived( const QByteArray& ) ),
+                 this, SLOT( onBridgeDataMapReceived( const QByteArray& ) ) );
         connect( this, SIGNAL( contactDataMapReceived( const QByteArray& ) ),
                  this, SLOT( onContactDataMapReceived( const QByteArray& ) ) );
         connect( this, SIGNAL( groupDataMapReceived( const QByteArray& ) ),
@@ -951,7 +954,7 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
             contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
             contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
             contact->setOnlineStatus( contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt() );
-            contact->setIsContact( contactDataMap.contains( "CONTACT" ) );
+            contact->setIsContact( contactDataMap.contains( qpHeaderAttribute::CONTACT ) );
             contact->setDeviceType( contactDataMap.value( qpHeaderAttribute::DEVICE_TYPE ).toInt() );
             contact->setID( contactsIterator.key().toInt() );
 
@@ -1000,6 +1003,43 @@ void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
         qDebug( "emitting gotContactDetails( Contact* )" );
 #endif
         emit gotGroupDetails( group );
+    }
+}
+
+void QPalringoConnection::onBridgeDataMapReceived( const QByteArray& data )
+{
+    qpDataMap bridgesDataMap( data );
+
+    QMapIterator<QString, QByteArray> bridgesIterator( bridgesDataMap );
+    while( bridgesIterator.hasNext() )
+    {
+        bridgesIterator.next();
+        qpDataMap bridgeDataMap( bridgesIterator.value() );
+
+        int bridgeId = bridgesIterator.key().toInt();
+
+        Bridge *bridge = new Bridge;
+        bridge->setNickname( bridgeDataMap.value( qpHeaderAttribute::NICKNAME ) );
+        bridge->setUsername( bridgeDataMap.value( qpHeaderAttribute::USERNAME ) );
+        bridge->setType( (qpBridgeType::Type)((bridgeDataMap.value( qpHeaderAttribute::BRIDGE_TYPE )).toInt()) );
+        bridge->setId( bridgeId );
+        bridge->setOnlineStatus( qpOnlineStatus::OFFLINE );
+
+        this->bridges.insert( bridgeId, bridge );
+
+        BridgeContact *contact = new BridgeContact;
+        contact->setID( 0 );
+        contact->setBridgeId( bridgeId );
+        contact->setNickname( bridgeDataMap.value( qpHeaderAttribute::NICKNAME ) );
+        contact->setName( bridgeDataMap.value( qpHeaderAttribute::USERNAME ) );
+        contact->setOnlineStatus( qpOnlineStatus::ONLINE );
+
+        bridge->addContact( contact );
+
+#if SIGNALS
+        qDebug( "emitting onBridgeReceived( Bridge* )" );
+#endif
+        emit gotBridgeDetails( bridge );
     }
 }
 

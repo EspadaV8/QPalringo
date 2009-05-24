@@ -118,6 +118,7 @@ class QPalringoConnection : public QObject
         void onBridgeOnReceived( const Headers& headers, const QByteArray& body );
 
         /** sub profile datamaps **/
+        void onBridgeDataMapReceived( const QByteArray& data );
         void onContactDataMapReceived( const QByteArray& data );
         void onGroupDataMapReceived( const QByteArray& data );
 
@@ -212,6 +213,7 @@ class QPalringoConnection : public QObject
         void subProfileReceived( const Headers& headers, const QByteArray& body );
 
         /** V2 subprofile signals **/
+        void bridgeDataMapReceived( const QByteArray& data );
         void contactDataMapReceived( const QByteArray& data );
         void groupDataMapReceived( const QByteArray& data );
 };
