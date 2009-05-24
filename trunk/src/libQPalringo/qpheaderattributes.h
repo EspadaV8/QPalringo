@@ -11,6 +11,7 @@ namespace qpHeaderAttribute
     static const QString BRIDGE_TYPE = "BRIDGE-TYPE";
     static const QString CAPABILITIES = "CAPABILITIES";
     static const QString COMPRESSION = "COMPRESSION";
+    static const QString CONTACT = "CONTACT";
     static const QString CONTACT_ID = "CONTACT-ID";
     static const QString CONTENT_LENGTH  = "CONTENT-LENGTH";
     static const QString CONTENT_TYPE = "CONTENT-TYPE";
