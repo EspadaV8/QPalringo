@@ -12,19 +12,23 @@ class BridgeContact : public Contact
 
         quint32     getBridgeId() const;
         QString     getName() const;
+        QString     getUsername() const;
         QString     getCurrentMedia() const;
 
         void setBridgeId( quint32 bridgeId );
         void setName( QString name );
+        void setUsername( QString username );
         void setCurrentMedia( QString currentMedia );
 
     private:
         quint32 bridgeId;
         QString name;
+        QString username;
         QString currentMedia;
 
     signals:
         void nameChanged();
+        void usernameChanged();
         void currentMediaChanged();
 };
 

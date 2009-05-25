@@ -16,6 +16,11 @@ QString BridgeContact::getName() const
     return this->name;
 }
 
+QString BridgeContact::getUsername() const
+{
+    return this->username;
+}
+
 QString BridgeContact::getCurrentMedia() const
 {
     return this->currentMedia;
@@ -31,6 +36,13 @@ void BridgeContact::setName( QString name )
     this->name = name;
     emit nameChanged();
 }
+
+void BridgeContact::setUsername( QString username )
+{
+    this->username = username;
+    emit usernameChanged();
+}
+
 
 void BridgeContact::setCurrentMedia( QString currentMedia )
 {

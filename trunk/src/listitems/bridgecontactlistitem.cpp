@@ -24,9 +24,13 @@ void BridgeContactListItem::updateDetails()
     {
         firstLine = this->contact->getNickname();
     }
-    else
+    else if( this->contact->getName().size() > 0 )
     {
         firstLine = this->contact->getName();
+    }
+    else
+    {
+        firstLine = this->contact->getUsername();
     }
 
     QString secondLine;
@@ -58,7 +62,7 @@ QString BridgeContactListItem::getContainerGroup()
 
 void BridgeContactListItem::updateOnlineStatus()
 {
-    this->setIcon( tools_->getTargetIcon( this->contact ) );
+    this->updateDetails();
     emit containerGroupChanged( this );
 }
 
