@@ -121,6 +121,7 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::RESPONSE, "responseRecieved" );
     inSignals.insert( qpCommand::BRIDGE, "bridgeRecieved" );
     inSignals.insert( qpCommand::BRIDGE_MESG, "bridgeMesgRecieved" );
+    inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
 
 
     connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
@@ -135,13 +136,14 @@ void QPalringoConnection::initInSignals()
              this, SLOT( onResponseReceived( const Headers&, const QByteArray& ) ) );
     connect( this, SIGNAL( bridgeMesgRecieved( const Headers&, const QByteArray& ) ),
              this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
+    connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
+            this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
 
     if( this->protocolVersion_ == 1 )
     {
         inSignals.insert( qpCommand::CONTACT_DETAIL, "contactDetailRecieved" );
         inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
         inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
-        inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
 
         connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray& ) ),
                  this, SLOT( onContactDetailReceived( const Headers&, const QByteArray& ) ) );
@@ -151,14 +153,15 @@ void QPalringoConnection::initInSignals()
                  this, SLOT( onBridgeReceived( const Headers&, const QByteArray& ) ) );
         connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
                  this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray& ) ) );
-        connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
     }
     else if( this->protocolVersion_ == 2 )
     {
         inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
+        inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
         connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
                  this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
+                 this, SLOT( onBridgeContactV2Received( const Headers&, const QByteArray& ) ) );
 
         subProfileSignals.insert( qpSubProfileSection::BRIDGE, "bridgeDataMapReceived" );
         subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );

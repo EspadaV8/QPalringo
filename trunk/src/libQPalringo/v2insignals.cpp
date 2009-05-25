@@ -182,3 +182,78 @@ void QPalringoConnection::onBridgeDataMapReceived( const QByteArray& data )
         emit gotBridgeDetails( bridge );
     }
 }
+
+void QPalringoConnection::onBridgeContactV2Received( const Headers& headers, const QByteArray& body )
+{
+    qpDataMap bridgeContacts( body );
+
+    QMapIterator<QString, QByteArray> bridgeContactsIterator( bridgeContacts );
+    while( bridgeContactsIterator.hasNext() )
+    {
+        // bridgeContactsIterator.key() is the bridge ID
+        // bridgeContactsIterator.value() has the details of the bridge
+        bridgeContactsIterator.next();
+
+        int bridgeId = bridgeContactsIterator.key().toInt();
+        Bridge* b = this->bridges.value( bridgeId );
+        qpDataMap bridgeDetails( bridgeContactsIterator.value() );
+
+        // if the datamap has some contacts we need to process those
+        if( bridgeDetails.contains( qpSubProfileSection::CONTACTS ) )
+        {
+            qpDataMap contactsDataMap( bridgeDetails.value( qpSubProfileSection::CONTACTS ) );
+            QMapIterator<QString, QByteArray> contactsIterator( contactsDataMap );
+            while( contactsIterator.hasNext() )
+            {
+                contactsIterator.next();
+                bool ok;
+                int contactId = contactsIterator.key().toInt( &ok );
+                qpDataMap contactDataMap( contactsIterator.value() );
+
+                if( ok )
+                {
+                    if( b->getContacts().contains( contactId ) )
+                    {
+                        BridgeContact* contact = b->getContacts().value( contactId );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::NAME ) )
+                            contact->setName( contactDataMap.value( qpHeaderAttribute::NAME ) );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::NICKNAME ) )
+                            contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::USERNAME ) )
+                            contact->setUsername( contactDataMap.value( qpHeaderAttribute::USERNAME ) );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::STATUS ) )
+                            contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::CURRENT_MEDIA ) )
+                            contact->setCurrentMedia( contactDataMap.value( qpHeaderAttribute::CURRENT_MEDIA ) );
+
+                        if( contactDataMap.contains( qpHeaderAttribute::ONLINE_STATUS ) )
+                            contact->setOnlineStatus( (qpOnlineStatus::OnlineStatus)(contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt()) );
+                    }
+                    else
+                    {
+                        BridgeContact* contact = new BridgeContact;
+                        contact->setID( contactId );
+                        contact->setBridgeId( bridgeId );
+                        contact->setName( contactDataMap.value( qpHeaderAttribute::NAME ) );
+                        contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
+                        contact->setUsername( contactDataMap.value( qpHeaderAttribute::USERNAME ) );
+                        contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
+                        contact->setCurrentMedia( contactDataMap.value( qpHeaderAttribute::CURRENT_MEDIA ) );
+                        contact->setOnlineStatus( (qpOnlineStatus::OnlineStatus)(contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt()) );
+
+                        b->addContact( contact );
+#if SIGNALS
+                        qDebug( "emitting gotBridgeContact( BridgeContact* )" );
+#endif
+                        emit gotBridgeContact( contact );
+                    }
+                }
+            }
+        }
+    }
+}

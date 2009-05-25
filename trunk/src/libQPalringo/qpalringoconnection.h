@@ -115,6 +115,7 @@ class QPalringoConnection : public QObject
         void onResponseReceived( const Headers& headers, const QByteArray& body );
         void onBridgeReceived( const Headers& headers, const QByteArray& body );
         void onBridgeContactReceived( const Headers& headers, const QByteArray& body );
+        void onBridgeContactV2Received( const Headers& headers, const QByteArray& body );
         void onBridgeOnReceived( const Headers& headers, const QByteArray& body );
 
         /** sub profile datamaps **/
