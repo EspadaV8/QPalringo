@@ -25,6 +25,14 @@ Message::Message()
 {
     d = new MessageData;
     qRegisterMetaType<Message>("Message");
+    setType( "" );
+    setPayload( "" );
+    setSenderID( 0 );
+    setGroupID( 0 );
+    setSeconds( 0 );
+    setUseconds( 0 );
+    setBridgeID( 0 );
+    setHist( false );
 }
 
 Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID,
