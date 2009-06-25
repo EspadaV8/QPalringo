@@ -60,7 +60,10 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->messageText->setOpenExternalLinks( true );
     this->messageText->setFont( font );
 
-    this->sender = new QLabel( this->contact->getNickname() );
+    if( this->contact )
+        this->sender = new QLabel( this->contact->getNickname() );
+    else
+        this->sender = new QLabel( this->message.name() );
     this->sender->setObjectName( "senderNickname" );
     this->sender->setAlignment( Qt::AlignLeft );
     this->sender->setFont( font );
