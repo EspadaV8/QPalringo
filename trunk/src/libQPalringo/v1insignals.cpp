@@ -152,6 +152,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
         message.setBridgeID( msgData.bridgeId_ );
         message.setHist( msgData.hist_ );
+        message.setName( msgData.name_ );
         message.setPayload( body );
         unfinishedMessages.insert( msgData.mesgId_, message );
     }
@@ -165,6 +166,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
         message.setBridgeID( msgData.bridgeId_ );
         message.setHist( msgData.hist_ );
+        message.setName( msgData.name_ );
         message.setPayload( message.payload().append( body ) );
     }
 
