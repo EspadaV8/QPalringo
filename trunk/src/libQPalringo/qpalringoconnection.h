@@ -168,6 +168,7 @@ class QPalringoConnection : public QObject
     private slots:
         void socketError( QAbstractSocket::SocketError socketError );
         void pollRead();
+        void connected();
 
     signals:
         void disconnected();

@@ -31,7 +31,7 @@
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
-#define INFO 0
+#define INFO 1
 
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
@@ -54,8 +54,6 @@ QPalringoConnection::QPalringoConnection(QString login,
 
     this->user.email = login;
     this->user.password = password;
-
-    this->socket = new QTcpSocket(this);
 
     initOutSignals();
     initInSignals();
@@ -183,10 +181,20 @@ void QPalringoConnection::setProxy( QNetworkProxy proxy )
 
 int QPalringoConnection::connectClient( bool )
 {
+    this->socket = new QTcpSocket(this);
     socket->connectToHost( this->host, this->port );
-    connect(socket, SIGNAL(readyRead()), this, SLOT(pollRead()));
+    connect( socket, SIGNAL( connected() ), this, SLOT( connected() ) );
+    connect( socket, SIGNAL( readyRead() ), this, SLOT( pollRead() ) );
     connect( socket, SIGNAL( error( QAbstractSocket::SocketError ) ), this, SLOT( socketError( QAbstractSocket::SocketError ) ) );
 
+    return 1;
+}
+
+void QPalringoConnection::connected()
+{
+#if INFO
+    qDebug( "Connected to server" );
+#endif
     Headers headers;
 
     if (protocolVersion_ == 1)
@@ -220,8 +228,6 @@ int QPalringoConnection::connectClient( bool )
     headers.insert( qpHeaderAttribute::APP_TYPE, this->clientType );
     headers.insert( qpHeaderAttribute::OPERATOR, "PC_CLIENT" );
     sendCmd( qpCommand::LOGON, headers, "" );
-
-    return 1;
 }
 
 void QPalringoConnection::socketError( QAbstractSocket::SocketError )
@@ -230,6 +236,7 @@ void QPalringoConnection::socketError( QAbstractSocket::SocketError )
     qDebug( "%s", qPrintable( socket->errorString() ) );
 #endif
     this->socket->disconnectFromHost();
+    this->socket = NULL;
     emit disconnected();
 }
 
