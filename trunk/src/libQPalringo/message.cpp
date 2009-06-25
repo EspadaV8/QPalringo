@@ -33,10 +33,12 @@ Message::Message()
     setUseconds( 0 );
     setBridgeID( 0 );
     setHist( false );
+    setName( "Unknown" );
 }
 
 Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID,
-                    quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist )
+                    quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist ,
+                    QString name )
 {
     d = new MessageData;
     qRegisterMetaType<Message>("Message");
@@ -49,6 +51,7 @@ Message::Message( QString type, QByteArray payload, quint64 senderID, quint64 gr
     setUseconds( useconds );
     setBridgeID( bridgeID );
     setHist( hist );
+    setName( name );
 }
 
 Message::Message( const Message &other )
@@ -100,6 +103,11 @@ void Message::setHist( bool hist )
     d->hist = hist;
 }
 
+void Message::setName( QString name )
+{
+    d->name = name;
+}
+
 QString Message::type() const
 {
     return d->type;
@@ -138,6 +146,11 @@ quint32 Message::bridgeID() const
 bool Message::hist() const
 {
     return d->hist;
+}
+
+QString Message::name() const
+{
+    return d->name;
 }
 
 bool Message::operator< ( const Message &other )

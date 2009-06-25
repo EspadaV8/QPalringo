@@ -36,7 +36,8 @@ class Message
     public:
         Message();
         Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID,
-                    quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist );
+                    quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist,
+                    QString name );
         Message( const Message &other );
         ~Message();
 
@@ -48,6 +49,7 @@ class Message
         void setUseconds( quint32 useconds );
         void setBridgeID( quint32 bridgeID );
         void setHist( bool hist );
+        void setName( QString name );
 
         QString type() const;
         QByteArray payload() const;
@@ -57,6 +59,7 @@ class Message
         quint32 useconds() const;
         quint32 bridgeID() const;
         bool hist() const;
+        QString name() const;
 
         bool operator< ( const Message &other );
         bool operator<= ( const Message &other );

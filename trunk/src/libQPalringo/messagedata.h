@@ -42,7 +42,8 @@ class MessageData : public QSharedData
                 seconds( other.seconds ),
                 useconds( other.useconds ),
                 bridgeID( other.bridgeID ),
-                hist( other.hist ) { }
+                hist( other.hist ),
+                name( other.name ) { }
         ~MessageData() { }
 
         QString type;
@@ -53,6 +54,7 @@ class MessageData : public QSharedData
         quint32 useconds;
         quint32 bridgeID;
         bool hist;
+        QString name;
 };
 
 #endif // MESSAGEDATA_H
