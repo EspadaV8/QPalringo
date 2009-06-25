@@ -24,12 +24,14 @@
 #include <QMessageBox>
 #include "tools.h"
 #include "contactpropertieswindow.h"
+#include "messagealertpopup.h"
 Tools *tools_;
 
 Tools::Tools( PalringoWindow *mainWindow )
 {
     this->mainWindow = mainWindow;
     this->loggedIn = false;
+    this->connection = NULL;
 
     // used for tracking history requests
     this->gettingHistory = false;
@@ -137,23 +139,27 @@ void Tools::openPalringoConnection( QString email, QString password )
         int serverPort = settings.value( "server/port", 443 ).toInt();
         int protocolVersion = settings.value( "server/protocolVersion", 1 ).toInt();
         
-        this->connection = new QPalringoConnection( email, password, client, serverHost, serverPort, protocolVersion );
-        if( settings.value( "networt/proxy/enabled" ).toBool() == true )
+        if( this->connection == NULL )
         {
-            QNetworkProxy proxy;
-            if( settings.value( "networt/proxy/proxytype" ).toInt() == 1 )
+            this->connection = new QPalringoConnection( email, password, client, serverHost, serverPort, protocolVersion );
+
+            if( settings.value( "networt/proxy/enabled" ).toBool() == true )
             {
-                proxy.setType(QNetworkProxy::Socks5Proxy);
+                QNetworkProxy proxy;
+                if( settings.value( "networt/proxy/proxytype" ).toInt() == 1 )
+                {
+                    proxy.setType(QNetworkProxy::Socks5Proxy);
+                }
+                else
+                {
+                    proxy.setType(QNetworkProxy::HttpProxy);
+                }
+                proxy.setHostName( settings.value( "networt/proxy/host" ).toString() );
+                proxy.setPort( settings.value( "networt/proxy/port" ).toInt() );
+                proxy.setUser( settings.value( "networt/proxy/username" ).toString() );
+                proxy.setPassword( settings.value( "networt/proxy/password" ).toString() );
+                this->connection->setProxy( proxy );
             }
-            else
-            {
-                proxy.setType(QNetworkProxy::HttpProxy);
-            }
-            proxy.setHostName( settings.value( "networt/proxy/host" ).toString() );
-            proxy.setPort( settings.value( "networt/proxy/port" ).toInt() );
-            proxy.setUser( settings.value( "networt/proxy/username" ).toString() );
-            proxy.setPassword( settings.value( "networt/proxy/password" ).toString() );
-            this->connection->setProxy( proxy );
         }
 
         if( connection->connectClient() == 1 )
@@ -321,12 +327,8 @@ QString Tools::formatMessageText( QByteArray messagePayload )
     return message;
 }
 
-void Tools::HeaderWrite(QByteArray* data,
-                        bool        stereo,
-                        short       bitsPerSample, // 16
-                        int         numberOfSamples,
-                        int         sampleRate // 16,000
-                       )
+void Tools::HeaderWrite(QByteArray* data, bool stereo, short bitsPerSample, /* 16 */
+                        int numberOfSamples, int sampleRate /* 16,000 */ )
 {
     short numberOfChannels = (short)(stereo ? 2 : 1);
     int dataSize = ( numberOfSamples * bitsPerSample * numberOfChannels / 8 );
@@ -425,7 +427,6 @@ void Tools::calcServerTimestampDifference( QString timestamp )
 
 void Tools::disconnected()
 {
-    delete this->connection;
     this->loggedIn = false;
 
     QMessageBox msgBox;
@@ -442,7 +443,7 @@ void Tools::disconnected()
     }
     else
     {
-        emit( cleanUp() );
+        emit cleanUp();
     }
 }
 
