@@ -189,15 +189,12 @@ void ChatWindow::askForHistory()
 
     if( m.seconds() != 0 )
     {
-        qDebug( "has seconds" );
         timestamp = QString::number( m.seconds() ) + "." + QString::number( m.useconds() );
     }
     else
     {
-        qDebug( "doesn't" );
         timestamp = QString::number( QDateTime::currentDateTime().toTime_t() ) + ".0";
     }
-    qDebug( "timestamp = %s", qPrintable( timestamp ) );
     tools_->getHistoryMessage( this->target, timestamp );
 }
 

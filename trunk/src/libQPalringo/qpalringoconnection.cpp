@@ -31,7 +31,7 @@
 #define PARSING 0
 #define ERRORS 1
 #define qpDEBUG 0
-#define INFO 1
+#define INFO 0
 
 QPalringoConnection::QPalringoConnection(QString login,
                                          QString password,
