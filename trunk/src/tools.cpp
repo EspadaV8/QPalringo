@@ -188,7 +188,7 @@ void Tools::getHistoryMessage( Target *target, QString timestamp )
         this->gettingHistory = true;
         this->historyTarget = target;
 
-        this->connection->getMesgHist( target, timestamp, 1 );
+        this->connection->getMesgHist( target, timestamp, -1 );
     }
 }
 
