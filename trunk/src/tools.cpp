@@ -24,7 +24,6 @@
 #include <QMessageBox>
 #include "tools.h"
 #include "contactpropertieswindow.h"
-#include "messagealertpopup.h"
 Tools *tools_;
 
 Tools::Tools( PalringoWindow *mainWindow )
