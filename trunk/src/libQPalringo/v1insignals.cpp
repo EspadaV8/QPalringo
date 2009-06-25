@@ -142,20 +142,6 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setPayload( message.payload().append( body ) );
         unfinishedMessages.insert( msgData.correlationId_, message );
     }
-    else if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( msgData.mesgId_ ) ) )
-    {
-        message.setType( msgData.contentType_ );
-        message.setSenderID( msgData.sourceId_ );
-        message.setGroupID( msgData.targetId_ | 0 );
-        //message.setSeconds( timestamp.left( timestamp.indexOf( "." ) ).toInt() + tools_->getTimestampDifference() );
-        message.setSeconds( msgData.timestamp_.left( msgData.timestamp_.indexOf( "." ) ).toInt() );
-        message.setUseconds( msgData.timestamp_.right( msgData.timestamp_.indexOf( "." ) ).toInt() );
-        message.setBridgeID( msgData.bridgeId_ );
-        message.setHist( msgData.hist_ );
-        message.setName( msgData.name_ );
-        message.setPayload( body );
-        unfinishedMessages.insert( msgData.mesgId_, message );
-    }
     else
     {
         message.setType( msgData.contentType_ );
@@ -167,7 +153,11 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
         message.setBridgeID( msgData.bridgeId_ );
         message.setHist( msgData.hist_ );
         message.setName( msgData.name_ );
-        message.setPayload( message.payload().append( body ) );
+        message.setPayload( body );
+        if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( msgData.mesgId_ ) ) )
+        {
+            unfinishedMessages.insert( msgData.mesgId_, message );
+        }
     }
 
     if( !msgData.last_ )
