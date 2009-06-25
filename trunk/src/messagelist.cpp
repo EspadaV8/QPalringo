@@ -100,10 +100,12 @@ void MessageList::insertMessage( qint64 pos, Message message )
 
 Message MessageList::getMessageAt( int pos )
 {
+    Message m;
     if( this->messages.size() > 0 )
     {
-        return this->messages.at( pos )->getMessage();
+        m = this->messages.at( pos )->getMessage();
     }
+    return m;
 }
 
 void MessageList::setScrollbarPos()
