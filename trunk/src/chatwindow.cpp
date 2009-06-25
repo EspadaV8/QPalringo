@@ -184,8 +184,7 @@ void ChatWindow::appendMessage( Message message )
 
 void ChatWindow::askForHistory()
 {
-    Message m;
-    m = this->messageList->getMessageAt( 0 );
+    Message m = this->messageList->getMessageAt( 0 );
     QString timestamp ;
 
     if( m.seconds() != 0 )
