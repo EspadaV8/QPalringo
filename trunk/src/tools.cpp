@@ -157,7 +157,7 @@ void Tools::openPalringoConnection( QString email, QString password )
                 proxy.setPort( settings.value( "networt/proxy/port" ).toInt() );
                 proxy.setUser( settings.value( "networt/proxy/username" ).toString() );
                 proxy.setPassword( settings.value( "networt/proxy/password" ).toString() );
-                this->connection->setProxy( proxy );
+                QNetworkProxy::setApplicationProxy( proxy );
             }
         }
 
