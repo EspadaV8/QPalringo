@@ -28,6 +28,7 @@
 #include <QPushButton>
 #include <QSplitter>
 #include <QDateTime>
+#include <QNetworkAccessManager>
 #include "palringowindow.h"
 #include "libQPalringo/targets/target.h"
 #include "messagelist.h"
@@ -50,6 +51,7 @@ Q_OBJECT
         void askForHistory();
         void loadImageFile();
         void getMessages();
+        void handleNetworkData( QNetworkReply *networkReply );
 
     private:
         PalringoWindow *parent;
@@ -60,6 +62,7 @@ Q_OBJECT
         QPushButton *imageButton;
         MessageList *messageList;
         ChatTextEdit *multiLineInput;
+        QNetworkAccessManager networkAccessManager;
         
         void sendImageMessage( QImage image );
         void sendTextMessage( QString message );
@@ -67,6 +70,9 @@ Q_OBJECT
 
     protected:
         virtual void keyPressEvent( QKeyEvent *event );
+        virtual void dragEnterEvent( QDragEnterEvent *event );
+        virtual void dropEvent( QDropEvent *event );
 };
 
 #endif
+

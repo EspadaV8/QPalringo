@@ -28,6 +28,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     : QWidget ( parent )
 {
     this->setWindowFlags ( Qt::Window );
+    this->setAcceptDrops(true);
     this->parent = parent;
     this->target = target;
 
@@ -95,6 +96,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     }
 
     connect( this->target, SIGNAL( pendingMessage() ), this, SLOT( getMessages() ) );
+    connect( &this->networkAccessManager, SIGNAL( finished( QNetworkReply* ) ), this, SLOT( handleNetworkData( QNetworkReply* ) ) );
 
     this->multiLineInput->setFocus();
 }
@@ -217,4 +219,55 @@ void ChatWindow::keyPressEvent( QKeyEvent *event )
     {
         QWidget::keyPressEvent( event );
     }
+}
+
+void ChatWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void ChatWindow::dropEvent(QDropEvent *event)
+{
+    QList<QUrl> urls = event->mimeData()->urls();
+    if( urls.count() )
+    {
+        QUrl url = urls[0];
+        if( event->mimeData()->hasImage() )
+        {
+            QImage image = qvariant_cast<QImage>( event->mimeData()->imageData() );
+            this->sendImageMessage( image );
+        }
+        else
+        {
+            networkAccessManager.get( QNetworkRequest( url ) );
+        }
+        event->acceptProposedAction();
+    }
+    else if( event->mimeData()->hasText() )
+    {
+        this->sendTextMessage( event->mimeData()->text() );
+        event->acceptProposedAction();
+    }
+}
+
+void ChatWindow::handleNetworkData( QNetworkReply *networkReply )
+{
+    if( networkReply->error() )
+    {
+        qDebug() << "Can't download" << networkReply->url().toString() << ":" << networkReply->errorString();
+    }
+    else
+    {
+        QByteArray ba = networkReply->readAll();
+        QImage image;
+        if( image.loadFromData( ba, 0 ) )
+        {
+            this->sendImageMessage( image );
+        }
+        else
+        {
+            this->sendTextMessage( networkReply->url().toString() );
+        }
+    }
+    networkReply->deleteLater();
 }
