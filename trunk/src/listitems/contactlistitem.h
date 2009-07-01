@@ -37,7 +37,7 @@ class ContactListItem : public TargetListItem
 {
     Q_OBJECT
     public:
-        ContactListItem( QWidget *parent = 0, Contact *contact = NULL );
+        ContactListItem( QWidget *parent = 0, Contact *contact = NULL, qint32 capabilities = 0 );
         ~ContactListItem();
 
         Contact* getContact();
@@ -54,6 +54,7 @@ class ContactListItem : public TargetListItem
         void resetDetails();
 
         void updateNickname();
+        void updateExtraDetails();
         void updateStatusLine();
         void setContactOnlineStatus();
 
@@ -64,6 +65,7 @@ class ContactListItem : public TargetListItem
 
     private:
         Contact *contact;
+        qint32 capabilities;
         
         QAction *chatMenuAction;
         QAction *propertiesMenuAction;

@@ -21,13 +21,16 @@
  ***************************************************************************/
 #include "contactlistitem.h"
 #include "tools.h"
+#include "libQPalringo/qpgroupcapabilities.h"
+#include <QDebug>
 
-ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
+ContactListItem::ContactListItem( QWidget *parent, Contact *contact, qint32 capabilities )
     : TargetListItem( parent, contact )
 {
     this->contact = contact;
     this->type = ListItem::CONTACT;
     this->setMenu();
+    this->capabilities = capabilities;
 
     if( this->contact->getPendingMessages().size() > 0 )
     {
@@ -48,6 +51,30 @@ ContactListItem::ContactListItem( QWidget *parent, Contact *contact )
 void ContactListItem::updateNickname()
 {
     this->setFirstLine( this->contact->getNickname() );
+}
+
+void ContactListItem::updateExtraDetails()
+{
+    switch( this->capabilities )
+    {
+        case qpGroupCapabilities::ADMIN:
+            this->setExtraDetails( "<font color=\"red\">(Admin)</span>" );
+            break;
+        case qpGroupCapabilities::MOD:
+            this->setExtraDetails( "<font color=\"green\">(Mod)</span>" );
+            break;
+        case qpGroupCapabilities::BANNED:
+            this->setExtraDetails( "<font color=\"grey\">(Banned)</span>" );
+            break;
+        case qpGroupCapabilities::SILENCED:
+            this->setExtraDetails( "<font color=\"grey\">(Silenced)</span>" );
+            break;
+        case qpGroupCapabilities::HIDDEN:
+            this->setExtraDetails( "<font color=\"grey\">(Hidden)</span>" );
+            break;
+        default:
+            break;
+    }
 }
 
 void ContactListItem::updateStatusLine()
@@ -126,13 +153,14 @@ void ContactListItem::pendingMessage()
 {
     int number_of_messages = this->contact->getPendingMessages().size();
     this->setIcon( ":/svg/text.svg" );
-    this->setFirstLine( this->contact->getNickname() );
+    this->updateNickname();
     this->setSecondLine( QString::number( number_of_messages ) + " private message(s)" );
 }
 
 void ContactListItem::resetDetails()
 {
-    this->setFirstLine( this->contact->getNickname() );
-    this->setSecondLine( this->contact->getStatusline() );
+    this->updateNickname();
+    this->updateStatusLine();
+    this->updateExtraDetails();
     this->setIcon( tools_->getTargetIcon( this->contact ) );
 }
