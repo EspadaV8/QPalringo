@@ -71,6 +71,11 @@ void ListItem::setSecondLine( QString text )
     this->secondLine->setText( text );
 }
 
+void ListItem::setExtraDetails( QString text )
+{
+    this->extraDetails->setText( text );
+}
+
 void ListItem::setIcon( QString iconFilename )
 {
     this->svgIcon->load( iconFilename );

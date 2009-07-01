@@ -61,6 +61,7 @@ class ListItem : public QFrame
     public slots:
         void setFirstLine( QString text );
         void setSecondLine( QString text );
+        void setExtraDetails( QString text );
         void setIcon( QString iconFilename );
         void removeSelf();
 
