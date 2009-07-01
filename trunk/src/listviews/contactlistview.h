@@ -44,7 +44,7 @@ class ContactListView : public PalringoListView
         QHash<quint64, Contact*> contacts;
 
     protected slots:
-        void contactReceived( Contact *contact );
+        void contactReceived( Contact *contact, qint32 capabilities = 0 );
         void bridgeContactReceived( BridgeContact *contact );
         void getContacts( quint64 groupID = 0 );
         void checkContainerGroups( ListItem* );

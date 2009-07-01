@@ -53,9 +53,9 @@ void ContactListView::setupContainers()
     this->addLayoutsToSelf();
 }
 
-void ContactListView::contactReceived( Contact *contact )
+void ContactListView::contactReceived( Contact *contact, qint32 capabilities )
 {
-    ContactListItem *pc = new ContactListItem( this, contact );
+    ContactListItem *pc = new ContactListItem( this, contact, capabilities );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
@@ -87,7 +87,10 @@ void ContactListView::getContacts( quint64 groupID )
         {
             foreach( Contact *contact, this->contacts )
             {
-                this->contactReceived( contact );
+                qint32 capabilities = 0;
+                if( groupID > 0 )
+                    capabilities = tools_->getGroup( groupID )->getContacts().value( contact->getID(), 0 );
+                this->contactReceived( contact, capabilities );
             }
         }
         this->setUpdatesEnabled( true );
