@@ -561,7 +561,6 @@ QHash<quint64, Contact*> QPalringoConnection::getGroupContacts( quint64 groupID 
 
     Group *group = this->getGroup( groupID );
     QHash<quint64, qint32> groupContactIDs = group->getContacts();
-qDebug() << groupContactIDs;
     this->contactLock.lockForRead();
     QHashIterator<quint64, qint32> i(groupContactIDs);
     while( i.hasNext() )
