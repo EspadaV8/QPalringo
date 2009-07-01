@@ -41,7 +41,8 @@ HEADERS += qpalringoconnection.h \
     bridgetype.h \
     bridge.h \
     targets/bridgecontact.h \
-    qpsubprofilesections.h
+    qpsubprofilesections.h \
+    qpgroupcapabilities.h
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
