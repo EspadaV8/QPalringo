@@ -41,7 +41,7 @@ ListItem::ListItem( QWidget *parent )
 
     this->extraDetails = new QLabel;
     this->extraDetails->setTextFormat( Qt::RichText );
-    this->extraDetails->setObjectName( "poi" );
+    this->extraDetails->setObjectName( "extraDetails" );
     this->extraDetails->setAlignment(Qt::AlignRight);
     this->extraDetails->setIndent(5);
 
