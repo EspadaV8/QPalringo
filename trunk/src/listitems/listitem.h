@@ -76,6 +76,7 @@ class ListItem : public QFrame
 
         QLabel *firstLine;
         QLabel *secondLine;
+        QLabel *extraDetails;
         QSvgWidget *svgIcon;
         QMenu *popupMenu;
         int type;

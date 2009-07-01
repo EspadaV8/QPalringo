@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "listitem.h"
+#include <QGridLayout>
 
 ListItem::ListItem( QWidget *parent )
     : QFrame( parent )
@@ -28,29 +29,31 @@ ListItem::ListItem( QWidget *parent )
 
     this->type = ListItem::UNDEFINED;
 
-    QHBoxLayout *hbox = new QHBoxLayout;
-    hbox->setContentsMargins( 0, 0, 0, 0 );
+    QGridLayout *layout = new QGridLayout( this );
+    layout->setContentsMargins( 0, 0, 0, 0 );
 
     this->svgIcon = new QSvgWidget;
     this->svgIcon->setFixedSize( 24, 24 );
 
-    QVBoxLayout *vbox = new QVBoxLayout;
-    vbox->setContentsMargins( 0, 0, 0, 0 );
-
     this->firstLine = new QLabel;
+    this->firstLine->setTextFormat( Qt::RichText );
     this->firstLine->setObjectName( "firstLine" );
+
+    this->extraDetails = new QLabel;
+    this->extraDetails->setTextFormat( Qt::RichText );
+    this->extraDetails->setObjectName( "poi" );
+    this->extraDetails->setAlignment(Qt::AlignRight);
+    this->extraDetails->setIndent(5);
 
     this->secondLine = new QLabel;
     this->secondLine->setObjectName( "secondLine" );
 
-    vbox->addWidget( this->firstLine );
-    vbox->addWidget( this->secondLine );
-
-    hbox->addWidget( this->svgIcon );
-    hbox->addLayout( vbox, 1 );
+    layout->addWidget( this->svgIcon, 0, 0, 2, 1 );
+    layout->addWidget( this->firstLine, 0, 1, 1, 1 );
+    layout->addWidget( this->extraDetails, 0, 2, 1, 1 );
+    layout->addWidget( this->secondLine, 1, 1, 1, 2 );
 
     setAutoFillBackground( false );
-    setLayout( hbox );
     
     this->popupMenu = new QMenu;
 
