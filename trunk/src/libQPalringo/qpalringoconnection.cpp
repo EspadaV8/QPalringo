@@ -560,13 +560,15 @@ QHash<quint64, Contact*> QPalringoConnection::getGroupContacts( quint64 groupID 
     QHash<quint64, Contact*> groupContacts;
 
     Group *group = this->getGroup( groupID );
-    QSet<quint64> groupContactIDs = group->getContacts();
-
+    QHash<quint64, qint32> groupContactIDs = group->getContacts();
+qDebug() << groupContactIDs;
     this->contactLock.lockForRead();
-    foreach( quint64 contactID, groupContactIDs )
+    QHashIterator<quint64, qint32> i(groupContactIDs);
+    while( i.hasNext() )
     {
-        Contact* contact = this->contacts.value( contactID );
-        groupContacts.insert( contactID, contact );
+        i.next();
+        Contact* contact = this->contacts.value( i.key() );
+        groupContacts.insert( contact->getID(), contact );
     }
     this->contactLock.unlock();
 

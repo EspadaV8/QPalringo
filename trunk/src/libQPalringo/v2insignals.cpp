@@ -119,7 +119,7 @@ void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
         groupsIterator.next();
         qpDataMap groupDataMap( groupsIterator.value() );
 
-        QSet<quint64> groupContacts;
+        QHash<quint64, qint32> groupContacts;
         QMapIterator<QString, QByteArray> groupsContactIterator( groupDataMap );
         while( groupsContactIterator.hasNext() )
         {
@@ -128,7 +128,11 @@ void QPalringoConnection::onGroupDataMapReceived( const QByteArray& data )
 
             bool ok;
             int contactId = groupsContactIterator.key().toInt( &ok );
-            if( ok ) groupContacts.insert( contactId );
+            if( ok )
+            {
+                qint32 capabilities = groupContactDataMap.value( qpHeaderAttribute::CAPABILITIES, 0 ).toInt();
+                groupContacts.insert( contactId, capabilities );
+            }
         }
 
         Group *group = new Group;

@@ -42,7 +42,7 @@ QString         Group::getDescription() const
 }
 
 
-QSet<quint64>  Group::getContacts() const
+QHash<quint64, qint32>  Group::getContacts() const
 {
     return this->contacts;
 }
@@ -74,7 +74,7 @@ void            Group::setDescription( QString description )
     }
 }
 
-void            Group::setContacts( QSet<quint64> contacts )
+void            Group::setContacts( QHash<quint64, qint32> contacts )
 {
     this->contacts = contacts;
 }

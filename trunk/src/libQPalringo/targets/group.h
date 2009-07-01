@@ -37,18 +37,18 @@ class Group : public Target
 
         QString                     getName() const;
         QString                     getDescription() const;
-        QSet<quint64>    getContacts() const;
+        QHash<quint64, qint32>    getContacts() const;
         bool                        hasContact( quint64 id ) const;
         virtual QString getTitle() const;
 
         void            setName( QString name );
         void            setDescription( QString description );
-        void            setContacts( QSet<quint64> );
+        void            setContacts( QHash<quint64, qint32> );
 
     private:
         QString         name;
         QString         description;
-        QSet<quint64>  contacts;
+        QHash<quint64, qint32>  contacts;
 };
 
 #endif
