@@ -73,6 +73,7 @@ void ContactListItem::updateExtraDetails()
             this->setExtraDetails( "<font color=\"grey\">(Hidden)</span>" );
             break;
         default:
+            this->setExtraDetails( "" );
             break;
     }
 }
