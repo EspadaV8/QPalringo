@@ -254,7 +254,7 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
     qpGroupData groupData;
     groupData.getData( headers, body );
 
-    QSet<quint64> groupContacts;
+    QHash<quint64, qint32> groupContacts;
 
     for( qint32 i = 0; i < ( body.size() / 8 ); ++i )
     {
@@ -270,7 +270,7 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
             char c = t1.at( j );
             temp |= ( c & 0xff ) ;
         }
-        groupContacts.insert( temp );
+        groupContacts.insert( temp, 0 );
     }
 
     Group *group = new Group;
