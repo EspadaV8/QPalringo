@@ -1,8 +1,8 @@
 #include "bridgecontactlistitem.h"
 #include "tools.h"
 
-BridgeContactListItem::BridgeContactListItem( QWidget *parent, BridgeContact *contact )
-    : TargetListItem( parent, contact )
+BridgeContactListItem::BridgeContactListItem( BridgeContact *contact, QWidget *parent )
+    : TargetListItem( contact, parent )
 {
     this->type = ListItem::BRIDGECONTACT;
     this->contact = contact;

@@ -37,7 +37,7 @@ class ContactListItem : public TargetListItem
 {
     Q_OBJECT
     public:
-        ContactListItem( QWidget *parent = 0, Contact *contact = NULL, qint32 capabilities = 0 );
+        ContactListItem( Contact *contact = NULL, qint32 capabilities = 0, QWidget *parent = 0 );
         ~ContactListItem();
 
         Contact* getContact();

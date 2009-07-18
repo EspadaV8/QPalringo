@@ -8,7 +8,7 @@ class TargetListItem : public ListItem
 {
     Q_OBJECT
     public:
-        TargetListItem( QWidget* parent = 0, Target* target = NULL );
+        TargetListItem( Target* target = NULL, QWidget* parent = 0 );
         Target* getTarget();
 
     protected:

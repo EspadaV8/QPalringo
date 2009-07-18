@@ -24,8 +24,8 @@
 #include "libQPalringo/qpgroupcapabilities.h"
 #include <QDebug>
 
-ContactListItem::ContactListItem( QWidget *parent, Contact *contact, qint32 capabilities )
-    : TargetListItem( parent, contact )
+ContactListItem::ContactListItem( Contact *contact, qint32 capabilities, QWidget *parent )
+    : TargetListItem( contact, parent )
 {
     this->contact = contact;
     this->type = ListItem::CONTACT;

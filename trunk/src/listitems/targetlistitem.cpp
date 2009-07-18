@@ -1,6 +1,6 @@
 #include "targetlistitem.h"
 
-TargetListItem::TargetListItem( QWidget *parent, Target* target )
+TargetListItem::TargetListItem( Target* target, QWidget *parent )
     : ListItem( parent )
 {
     this->target = target;

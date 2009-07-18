@@ -22,7 +22,7 @@
 #include "serviceitem.h"
 #include "tools.h"
 
-ServiceItem::ServiceItem( QWidget *parent, Service *service, bool isPalringoService )
+ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *parent )
  : ListItem( parent )
 {
     this->service = service;

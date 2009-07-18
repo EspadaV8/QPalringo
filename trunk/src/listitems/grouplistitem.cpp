@@ -22,8 +22,8 @@
 #include "grouplistitem.h"
 #include "tools.h"
 
-GroupListItem::GroupListItem( QWidget *parent, Group *group )
-    : TargetListItem( parent, group )
+GroupListItem::GroupListItem( Group *group, QWidget *parent )
+    : TargetListItem( group, parent )
 {
     this->group = group;
     this->type = ListItem::GROUP;

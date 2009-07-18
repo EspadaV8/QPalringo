@@ -33,7 +33,7 @@ class ServiceItem : public ListItem
 {
     Q_OBJECT
     public:
-        ServiceItem( QWidget *parent = 0, Service *service = NULL, bool isPalringoService = false );
+        ServiceItem( Service *service = NULL, bool isPalringoService = false, QWidget *parent = 0 );
         ~ServiceItem();
     
     private slots:

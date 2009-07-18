@@ -8,7 +8,7 @@ class BridgeContactListItem : public TargetListItem
 {
     Q_OBJECT
     public:
-        BridgeContactListItem( QWidget *parent, BridgeContact *contact );
+        BridgeContactListItem( BridgeContact *contact, QWidget *parent = 0 );
         QString getContainerGroup();
 
     signals:

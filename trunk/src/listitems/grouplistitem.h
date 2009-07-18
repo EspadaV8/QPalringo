@@ -33,7 +33,7 @@ class GroupListItem : public TargetListItem
 {
     Q_OBJECT
     public:
-        GroupListItem( QWidget *parent = 0, Group *group = NULL );
+        GroupListItem( Group *group = NULL, QWidget *parent = 0 );
         ~GroupListItem();
 
         Group* getGroup();
