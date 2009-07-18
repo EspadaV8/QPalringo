@@ -55,7 +55,7 @@ void ContactListView::setupContainers()
 
 void ContactListView::contactReceived( Contact *contact, qint32 capabilities )
 {
-    ContactListItem *pc = new ContactListItem( this, contact, capabilities );
+    ContactListItem *pc = new ContactListItem( contact, capabilities );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );
@@ -63,7 +63,7 @@ void ContactListView::contactReceived( Contact *contact, qint32 capabilities )
 
 void ContactListView::bridgeContactReceived( BridgeContact *contact )
 {
-    BridgeContactListItem *pc = new BridgeContactListItem( this, contact );
+    BridgeContactListItem *pc = new BridgeContactListItem( contact );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     this->listItems.append( pc );
     this->addWidgetToView( pc );

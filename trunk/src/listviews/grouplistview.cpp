@@ -36,7 +36,7 @@ void GroupListView::setupContainers()
     this->addContainer( tr( "Online" ) );
     this->addContainer( tr( "Offline" ) );
 
-    GroupListItem *gli = new GroupListItem( 0, this->group );
+    GroupListItem *gli = new GroupListItem( this->group );
     this->addWidgetToView( gli );
 
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );

@@ -76,7 +76,7 @@ void OverviewListView::newBridge( Bridge* bridge )
 
 void OverviewListView::serviceReceived( Service *service )
 {
-    ServiceItem *si = new ServiceItem( 0, service, true );
+    ServiceItem *si = new ServiceItem( service, true );
     this->listItems.append( si );
     this->addWidgetToView( si, "Services" );
 }
@@ -104,13 +104,13 @@ void OverviewListView::newPendingMessage( Target* target )
             switch( targetType )
             {
                 case Target::CONTACT:
-                    li = new ContactListItem( this, (Contact*)target );
+                    li = new ContactListItem( (Contact*)target );
                     break;
                 case Target::GROUP:
-                    li = new GroupListItem( this, (Group*)target );
+                    li = new GroupListItem( (Group*)target );
                     break;
                 case Target::BRIDGECONTACT:
-                    li = new BridgeContactListItem( this, (BridgeContact*)target );
+                    li = new BridgeContactListItem( (BridgeContact*)target );
                     break;
                 default:
                     return;
