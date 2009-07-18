@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include "tools.h"
 #include "palringolistview.h"
+#include "defaultlistviewcontainer.h"
 
 PalringoListView::PalringoListView( QWidget *parent )
     : QScrollArea( parent )
@@ -42,7 +43,7 @@ void PalringoListView::inFocus() { }
 
 void PalringoListView::addContainer( QString containerName )
 {
-    this->listViewContainers.append( new ListViewContainer( this, containerName ) );
+    this->listViewContainers.append( new DefaultListViewContainer( this, containerName ) );
 }
 
 void PalringoListView::setupContainers()
