@@ -23,7 +23,6 @@
 #define LISTVIEWCONTAINER_H
 
 #include <QtGui>
-#include <QWidget>
 #include "../listitems/listitem.h"
 
 /**
@@ -31,34 +30,18 @@
 */
 class ListViewContainer : public QWidget
 {
-Q_OBJECT
-public:
-    ListViewContainer( QWidget *parent = 0, QString name = "" );
+    Q_OBJECT
+    public:
+        ListViewContainer( QWidget *parent = 0, QString name = "" );
 
-    ~ListViewContainer();
-
-    void appendWidget( ListItem *widget, bool sorted = true );
-    void removeWidget( ListItem *widget );
-    int hasWidget( ListItem *widget );
-    QString getName();
-
-    private slots:
-        void buttonClicked();
+        virtual void appendWidget( ListItem *widget, bool sorted = true );
+        virtual void removeWidget( ListItem *widget );
+        virtual int hasWidget( ListItem *widget );
+        QString getName();
 
     protected:
-        void paintEvent( QPaintEvent *event );
-
-    private:
-        QVBoxLayout *outerLayout;
-        QVBoxLayout *innerLayout;
-
-        QWidget *layoutContainer;
-
         QPixmap downarrow;
         QPixmap rightarrow;
-
-        QPushButton *button;
-
         QString name;
 };
 
