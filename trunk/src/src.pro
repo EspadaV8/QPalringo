@@ -1,28 +1,29 @@
-SOURCES += main.cpp \
-    palringowindow.cpp \
-    listviews/palringolistview.cpp \
-    listviews/listviewcontainer.cpp \
-    tools.cpp \
+SOURCES += chattextedit.cpp \
     chatwindow.cpp \
-    chattextedit.cpp \
+    contactpropertieswindow.cpp \
+    main.cpp \
     messagelist.cpp \
     messageitem.cpp \
-    signinwindow.cpp \
+    palringowindow.cpp \
     settingswindow.cpp \
+    signinwindow.cpp \
+    speexdecoder.cpp \
+    tools.cpp \
+    listitems/bridgecontactlistitem.cpp \
     listitems/contactlistitem.cpp \
+    listitems/grouplistitem.cpp \
     listitems/listitem.cpp \
     listitems/serviceitem.cpp \
-    listitems/grouplistitem.cpp \
-    speexdecoder.cpp \
-    services/service.cpp \
-    services/palringoservice.cpp \
-    contactpropertieswindow.cpp \
+    listitems/targetlistitem.cpp \
     listviews/contactlistview.cpp \
+    listviews/defaultlistviewcontainer.cpp \
     listviews/grouplistview.cpp \
+    listviews/listviewcontainer.cpp \
     listviews/overviewlistview.cpp \
+    listviews/palringolistview.cpp \
     services/bridgeservice.cpp \
-    listitems/bridgecontactlistitem.cpp \
-    listitems/targetlistitem.cpp
+    services/palringoservice.cpp \
+    services/service.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -35,30 +36,31 @@ FORMS = ui/signinwindow.ui \
 QT += gui \
     svg \
     network
-HEADERS += palringowindow.h \
-    listviews/palringolistview.h \
-    listviews/listviewcontainer.h \
-    tools.h \
+HEADERS += chattextedit.h \
     chatwindow.h \
-    chattextedit.h \
+    contactpropertieswindow.h \
     messagelist.h \
     messageitem.h \
-    signinwindow.h \
+    palringowindow.h \
     settingswindow.h \
+    signinwindow.h \
+    speexdecoder.h \
+    tools.h \
+    listitems/bridgecontactlistitem.h \
     listitems/contactlistitem.h \
+    listitems/grouplistitem.h \
     listitems/listitem.h \
     listitems/serviceitem.h \
-    listitems/grouplistitem.h \
-    speexdecoder.h \
-    services/service.h \
-    services/palringoservice.h \
-    contactpropertieswindow.h \
+    listitems/targetlistitem.h \
     listviews/contactlistview.h \
+    listviews/defaultlistviewcontainer.h \
     listviews/grouplistview.h \
+    listviews/listviewcontainer.h \
     listviews/overviewlistview.h \
+    listviews/palringolistview.h \
     services/bridgeservice.h \
-    listitems/bridgecontactlistitem.h \
-    listitems/targetlistitem.h
+    services/palringoservice.h \
+    services/service.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \
