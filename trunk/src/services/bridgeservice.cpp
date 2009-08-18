@@ -1,5 +1,6 @@
 #include "bridgeservice.h"
 #include "tools.h"
+#include <QDebug>
 
 BridgeService::BridgeService()
     : Service()
@@ -25,7 +26,10 @@ qpOnlineStatus::OnlineStatus BridgeService::getOnlineStatus() const
 
 QString BridgeService::getNickname() const
 {
-    return this->bridge->getNickname();
+    if( this->bridge->getNickname() != "" )
+        return this->bridge->getNickname();
+    else
+        return this->bridge->getUsername();
 }
 
 QString BridgeService::getStatus() const
