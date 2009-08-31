@@ -3,7 +3,7 @@
 # -------------------------------------------------
 QT += network
 QT -= gui
-TARGET = ../../bin/QPalringo
+TARGET = ../bin/QPalringo
 TEMPLATE = lib
 CONFIG += warn_on \
     debug
@@ -43,6 +43,6 @@ HEADERS += qpalringoconnection.h \
     targets/bridgecontact.h \
     qpsubprofilesections.h \
     qpgroupcapabilities.h
-MOC_DIR = ../../tmp
-OBJECTS_DIR = ../../tmp
-RCC_DIR = ../../tmp
+MOC_DIR = ../tmp
+OBJECTS_DIR = ../tmp
+RCC_DIR = ../tmp

@@ -1,4 +1,4 @@
-SUBDIRS += src/libQPalringo \
+SUBDIRS += libQPalringo \
     src
 TEMPLATE = subdirs
 CONFIG += warn_on \
