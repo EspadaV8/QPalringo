@@ -29,7 +29,7 @@
 #include "tools.h"
 
 #include "services/bridgeservice.h"
-#include "libQPalringo/onlinestatus.h"
+#include "onlinestatus.h"
 
 OverviewListView::OverviewListView(QWidget *parent)
  : PalringoListView(parent)

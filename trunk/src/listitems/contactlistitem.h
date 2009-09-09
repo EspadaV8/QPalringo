@@ -30,8 +30,8 @@
 #include <QAction>
 #include <QList>
 #include "targetlistitem.h"
-#include "libQPalringo/message.h"
-#include "libQPalringo/targets/contact.h"
+#include "message.h"
+#include "targets/contact.h"
 
 class ContactListItem : public TargetListItem
 {

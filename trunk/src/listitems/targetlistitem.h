@@ -2,7 +2,7 @@
 #define TARGETLISTITEM_H
 
 #include "listitem.h"
-#include "libQPalringo/targets/target.h"
+#include "targets/target.h"
 
 class TargetListItem : public ListItem
 {

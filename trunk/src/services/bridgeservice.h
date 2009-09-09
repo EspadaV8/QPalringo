@@ -2,7 +2,7 @@
 #define BRIDGESERVICE_H
 
 #include "service.h"
-#include "libQPalringo/bridge.h"
+#include "bridge.h"
 
 class BridgeService : public Service
 {
