@@ -24,10 +24,10 @@
 
 #include <QList>
 #include "services/service.h"
-#include "libQPalringo/message.h"
-#include "libQPalringo/bridge.h"
+#include "message.h"
+#include "bridge.h"
 #include "palringolistview.h"
-#include "libQPalringo/targets/target.h"
+#include "targets/target.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

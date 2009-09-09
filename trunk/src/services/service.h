@@ -23,8 +23,8 @@
 #define SERVICE_H
 
 #include <QObject>
-#include "libQPalringo/bridgetype.h"
-#include "libQPalringo/onlinestatus.h"
+#include "bridgetype.h"
+#include "onlinestatus.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>

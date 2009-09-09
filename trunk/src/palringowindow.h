@@ -27,9 +27,9 @@
 #include <QStackedWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
-#include "libQPalringo/targets/contact.h"
-#include "libQPalringo/targets/group.h"
-#include "libQPalringo/targets/target.h"
+#include "targets/contact.h"
+#include "targets/group.h"
+#include "targets/target.h"
 #include "signinwindow.h"
 #include "messageitem.h"
 #include "listitems/listitem.h"

@@ -21,7 +21,7 @@
  ***************************************************************************/
 #include "contactlistitem.h"
 #include "tools.h"
-#include "libQPalringo/qpgroupcapabilities.h"
+#include "qpgroupcapabilities.h"
 #include <QDebug>
 
 ContactListItem::ContactListItem( Contact *contact, qint32 capabilities, QWidget *parent )

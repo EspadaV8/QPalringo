@@ -2,7 +2,7 @@
 #define BRIDGECONTACTLISTITEM_H
 
 #include "targetlistitem.h"
-#include "libQPalringo/targets/bridgecontact.h"
+#include "targets/bridgecontact.h"
 
 class BridgeContactListItem : public TargetListItem
 {
