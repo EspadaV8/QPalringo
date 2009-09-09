@@ -60,7 +60,8 @@ HEADERS += chattextedit.h \
     listviews/palringolistview.h \
     services/bridgeservice.h \
     services/palringoservice.h \
-    services/service.h
+    services/service.h \
+    uiplugininterface.h
 LIBS += -L../bin \
     -lQPalringo \
     -lssl \

@@ -96,6 +96,8 @@ class PalringoWindow : public QMainWindow
         QStackedWidget *pages;
 
         void setupUi();
+        void loadUi();
+        void initUiPlugin( QObject* plugin );
         void CreateTrayIcon();
         void SetupTabs();
         void setupButtonLayout();

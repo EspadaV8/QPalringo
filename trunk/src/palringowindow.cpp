@@ -20,20 +20,69 @@
  *                                                                         *
  ***************************************************************************/
 #include <QtGui>
+#include <QDebug>
 #include "palringowindow.h"
 #include "tools.h"
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
 #include "listviews/overviewlistview.h"
+#include "uiplugininterface.h"
+
+// Q_IMPORT_PLUGIN(qpdefaultui)
 
 PalringoWindow::PalringoWindow()
  : QMainWindow()
 {
     tools_ = new Tools( this );
     this->settingsWindow = NULL;
-    setupUi();
+    //setupUi();
     readSettings();
+    loadUi();
 }
+
+void PalringoWindow::loadUi()
+{
+    foreach (QObject *plugin, QPluginLoader::staticInstances())
+    {
+        qDebug( "Trying to load plugin" );
+        this->initUiPlugin( plugin );
+    }
+
+    QDir pluginsDir = QDir(qApp->applicationDirPath());
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files))
+    {
+        qDebug( "Trying to load plugin - %s", qPrintable( fileName ) );
+        QPluginLoader loader( pluginsDir.absoluteFilePath(fileName) );
+        QObject *plugin = loader.instance();
+
+        if( plugin )
+        {
+            this->initUiPlugin( plugin );
+        }
+        else
+        {
+            qDebug() << loader.errorString();
+        }
+    }
+}
+
+void PalringoWindow::initUiPlugin( QObject* plugin )
+{
+    UiPluginInterface* uiPlugin = qobject_cast<UiPluginInterface *>(plugin);
+    if( uiPlugin )
+    {
+        //uiPlugin->setUp();
+        qDebug( "%s", qPrintable( uiPlugin->getName() ) );
+        QWidget *w = uiPlugin->getCentralWidget();
+        setCentralWidget( w );
+        /*
+        connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
+        connect( tools_, SIGNAL( groupLeft( quint64 )), uiPlugin, SLOT( removeGroup( quint64 ) ) );
+        */
+    }
+}
+
 
 void PalringoWindow::setupUi()
 {
