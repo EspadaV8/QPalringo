@@ -19,15 +19,15 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "tools.h"
+//#include "tools.h"
 #include "listviewcontainer.h"
 
 ListViewContainer::ListViewContainer( QWidget *parent, QString name )
  : QWidget(parent)
 {
     this->name = name;
-    this->downarrow = tools_->getPixmap( ":/misc/downarrow.png" );
-    this->rightarrow = tools_->getPixmap( ":/misc/rightarrow.png" );
+    //this->downarrow = tools_->getPixmap( ":/misc/downarrow.png" );
+    //this->rightarrow = tools_->getPixmap( ":/misc/rightarrow.png" );
 }
 
 void ListViewContainer::appendWidget( ListItem*, bool )

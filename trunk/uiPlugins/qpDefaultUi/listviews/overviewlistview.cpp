@@ -26,7 +26,7 @@
 #include "listitems/bridgecontactlistitem.h"
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
-#include "tools.h"
+//#include "tools.h"
 
 #include "services/bridgeservice.h"
 #include "onlinestatus.h"
@@ -46,10 +46,10 @@ void OverviewListView::setupContainers()
     s->setNickname( "Palringo" );
     s->setStatus( "Offline" );
     s->setOnlineStatus( qpOnlineStatus::OFFLINE );
-
+/*
     connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
-
+*/
     this->serviceReceived( s );
     this->addLayoutsToSelf();
 }
@@ -83,6 +83,7 @@ void OverviewListView::serviceReceived( Service *service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
+/*
     if( !tools_->checkChatWindowOpen( target ) )
     {
         if( this->knownTargets.contains( target ) )
@@ -124,6 +125,7 @@ void OverviewListView::newPendingMessage( Target* target )
             connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
         }
     }
+*/
 }
 
 OverviewListView::~OverviewListView()

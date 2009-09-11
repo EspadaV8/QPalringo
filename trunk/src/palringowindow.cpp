@@ -214,7 +214,7 @@ void PalringoWindow::SetupTabs()
 {
     mainTabs = new QTabWidget();
     connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
-
+/*
     OverviewListView *overviewList = new OverviewListView( mainTabs );
     overviewList->setupContainers();
 
@@ -223,7 +223,7 @@ void PalringoWindow::SetupTabs()
 
     mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
     mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
-
+*/
     setCentralWidget( mainTabs );
 
     connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
@@ -266,7 +266,7 @@ void PalringoWindow::setupButtonLayout()
     buttonsLayout->addWidget( groupsButton );
     buttonsLayout->addStretch(1);
     buttons->setLayout( buttonsLayout );
-
+/*
     OverviewListView *overviewList = new OverviewListView( this );
     overviewList->setupContainers();
 
@@ -275,7 +275,7 @@ void PalringoWindow::setupButtonLayout()
 
     pages->addWidget( overviewList );
     pages->addWidget( contactList );
-
+*/
     QWidget *w = new QWidget;
     QVBoxLayout *vb = new QVBoxLayout;
     vb->setContentsMargins( 0, 0, 0, 0 );
@@ -360,9 +360,11 @@ void PalringoWindow::showTrayMessage( Target* target )
 
 void PalringoWindow::newGroupAdded( Group *group )
 {
+    /*
     GroupListView *groupTab = new GroupListView( mainTabs, group );
     groupTab->setupContainers();
     mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
+    */
 }
 
 void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )

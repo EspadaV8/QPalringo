@@ -19,7 +19,7 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "tools.h"
+// #include "tools.h"
 #include "grouplistview.h"
 #include "../listitems/grouplistitem.h"
 
@@ -27,7 +27,7 @@ GroupListView::GroupListView(QWidget *parent, Group *group)
  : ContactListView(parent)
 {
     this->group = group;
-    this->disconnect( tools_, SIGNAL( cleanUp() ), this, 0 );
+    //this->disconnect( tools_, SIGNAL( cleanUp() ), this, 0 );
 }
 
 void GroupListView::setupContainers()
@@ -39,7 +39,7 @@ void GroupListView::setupContainers()
     GroupListItem *gli = new GroupListItem( this->group );
     this->addWidgetToView( gli );
 
-    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    //connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
     
     this->addLayoutsToSelf();
 }

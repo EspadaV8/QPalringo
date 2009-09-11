@@ -19,7 +19,6 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "tools.h"
 #include "palringolistview.h"
 #include "defaultlistviewcontainer.h"
 

@@ -14,7 +14,7 @@ class QPDefaultUi : public QObject, UiPluginInterface
         QString getName();
 
     private:
-        QWidget* w;
+        QTabWidget* mainTabs;
 };
 
 #endif // QPDEFAULTUI_H

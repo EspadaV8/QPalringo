@@ -8,22 +8,7 @@ SOURCES += chattextedit.cpp \
     settingswindow.cpp \
     signinwindow.cpp \
     speexdecoder.cpp \
-    tools.cpp \
-    listitems/bridgecontactlistitem.cpp \
-    listitems/contactlistitem.cpp \
-    listitems/grouplistitem.cpp \
-    listitems/listitem.cpp \
-    listitems/serviceitem.cpp \
-    listitems/targetlistitem.cpp \
-    listviews/contactlistview.cpp \
-    listviews/defaultlistviewcontainer.cpp \
-    listviews/grouplistview.cpp \
-    listviews/listviewcontainer.cpp \
-    listviews/overviewlistview.cpp \
-    listviews/palringolistview.cpp \
-    services/bridgeservice.cpp \
-    services/palringoservice.cpp \
-    services/service.cpp
+    tools.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
@@ -46,21 +31,6 @@ HEADERS += chattextedit.h \
     signinwindow.h \
     speexdecoder.h \
     tools.h \
-    listitems/bridgecontactlistitem.h \
-    listitems/contactlistitem.h \
-    listitems/grouplistitem.h \
-    listitems/listitem.h \
-    listitems/serviceitem.h \
-    listitems/targetlistitem.h \
-    listviews/contactlistview.h \
-    listviews/defaultlistviewcontainer.h \
-    listviews/grouplistview.h \
-    listviews/listviewcontainer.h \
-    listviews/overviewlistview.h \
-    listviews/palringolistview.h \
-    services/bridgeservice.h \
-    services/palringoservice.h \
-    services/service.h \
     uiplugininterface.h
 LIBS += -L../bin \
     -lQPalringo \

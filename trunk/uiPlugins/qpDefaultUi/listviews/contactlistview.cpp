@@ -19,13 +19,13 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include "tools.h"
+//#include "tools.h"
 #include "contactlistview.h"
 
 ContactListView::ContactListView( QWidget *parent )
  : PalringoListView( parent )
 {
-    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( removeContacts() ) );
+    //connect( tools_, SIGNAL( cleanUp() ), this, SLOT( removeContacts() ) );
 }
 
 ContactListView::~ContactListView()
@@ -47,8 +47,8 @@ void ContactListView::setupContainers()
     this->addContainer( tr( "Online" ) );
     this->addContainer( tr( "Offline" ) );
 
-    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
-    connect( tools_, SIGNAL( gotBridgeContact( BridgeContact* ) ), this, SLOT( bridgeContactReceived( BridgeContact* ) ) );
+    //connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    //connect( tools_, SIGNAL( gotBridgeContact( BridgeContact* ) ), this, SLOT( bridgeContactReceived( BridgeContact* ) ) );
 
     this->addLayoutsToSelf();
 }
@@ -71,6 +71,7 @@ void ContactListView::bridgeContactReceived( BridgeContact *contact )
 
 void ContactListView::getContacts( quint64 groupID )
 {
+/*
     if( tools_->isLoggedIn() )
     {
         if( groupID == 0 )
@@ -95,6 +96,7 @@ void ContactListView::getContacts( quint64 groupID )
         }
         this->setUpdatesEnabled( true );
     }
+*/
 }
 
 void ContactListView::inFocus()
