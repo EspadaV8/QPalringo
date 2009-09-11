@@ -32,7 +32,7 @@
 
 #include "palringowindow.h"
 #include "messageitem.h"
-#include "chatwindow.h"
+//#include "chatwindow.h"
 
 class Tools;
 extern Tools *tools_;
@@ -115,7 +115,7 @@ class Tools : public QObject
         PalringoWindow *mainWindow ;
         QPalringoConnection *connection;
 
-        QHash<Target*, ChatWindow *> openWindows;
+        //QHash<Target*, ChatWindow *> openWindows;
 
         // TODO: We need a map of contacts and messages that haven't been read yet
         QMultiMap<Contact*, Message> unreadMessages;

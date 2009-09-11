@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "serviceitem.h"
-#include "tools.h"
+//#include "tools.h"
 
 ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *parent )
  : ListItem( parent )

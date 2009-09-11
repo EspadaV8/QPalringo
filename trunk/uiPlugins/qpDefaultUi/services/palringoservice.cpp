@@ -20,25 +20,26 @@
  *                                                                         *
  ***************************************************************************/
 #include "palringoservice.h"
-#include "tools.h"
+// #include "tools.h"
 
 PalringoService::PalringoService()
  : Service()
 {
-    this->signinWindow = NULL;
-    connect( tools_, SIGNAL( connected() ), this, SLOT( loggedOn() ) );
+    //this->signinWindow = NULL;
+    //connect( tools_, SIGNAL( connected() ), this, SLOT( loggedOn() ) );
 }
 
 void PalringoService::loggedOn()
 {
-    this->nickname = tools_->getUser().nickname;
-    this->status = tools_->getUser().status;
+    //this->nickname = tools_->getUser().nickname;
+    //this->status = tools_->getUser().status;
     this->onlineStatus = qpOnlineStatus::ONLINE;
     emit serviceUpdated();
 }
 
 void PalringoService::loginService()
 {
+    /*
     if( this->onlineStatus == qpOnlineStatus::OFFLINE )
     {
         if( this->signinWindow == NULL )
@@ -47,10 +48,12 @@ void PalringoService::loginService()
         }
         this->signinWindow->show();
     }
+    */
 }
 
 void PalringoService::changeOnlineStatus()
 {
+    /*
     QObject* sender = QObject::sender();
     QAction* action = qobject_cast<QAction *>(sender);
 
@@ -83,6 +86,7 @@ void PalringoService::changeOnlineStatus()
             this->loginService();
         }
     }
+    */
 }
 
 PalringoService::~PalringoService()

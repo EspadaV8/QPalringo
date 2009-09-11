@@ -1,6 +1,4 @@
-SOURCES += chattextedit.cpp \
-    chatwindow.cpp \
-    contactpropertieswindow.cpp \
+SOURCES += contactpropertieswindow.cpp \
     main.cpp \
     messagelist.cpp \
     messageitem.cpp \
@@ -21,9 +19,7 @@ FORMS = ui/signinwindow.ui \
 QT += gui \
     svg \
     network
-HEADERS += chattextedit.h \
-    chatwindow.h \
-    contactpropertieswindow.h \
+HEADERS += contactpropertieswindow.h \
     messagelist.h \
     messageitem.h \
     palringowindow.h \

@@ -1,5 +1,5 @@
 #include "bridgeservice.h"
-#include "tools.h"
+//#include "tools.h"
 #include <QDebug>
 
 BridgeService::BridgeService()
@@ -16,7 +16,7 @@ BridgeService::BridgeService( Bridge* bridge )
 
 void BridgeService::loginService()
 {
-    tools_->setBridgeStatus( this->bridge->getId(), qpOnlineStatus::ONLINE );
+    //tools_->setBridgeStatus( this->bridge->getId(), qpOnlineStatus::ONLINE );
 }
 
 qpOnlineStatus::OnlineStatus BridgeService::getOnlineStatus() const

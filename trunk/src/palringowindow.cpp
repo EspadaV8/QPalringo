@@ -23,9 +23,9 @@
 #include <QDebug>
 #include "palringowindow.h"
 #include "tools.h"
-#include "listviews/contactlistview.h"
-#include "listviews/grouplistview.h"
-#include "listviews/overviewlistview.h"
+//#include "listviews/contactlistview.h"
+//#include "listviews/grouplistview.h"
+//#include "listviews/overviewlistview.h"
 #include "uiplugininterface.h"
 
 // Q_IMPORT_PLUGIN(qpdefaultui)
@@ -305,8 +305,8 @@ void PalringoWindow::showGroup( quint64 groupID )
 
 void PalringoWindow::tabFocusChanged(int tabIndex )
 {
-    PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
-    emit( p->inFocus() );
+    //PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
+    //emit( p->inFocus() );
 }
 
 PalringoWindow::~PalringoWindow()

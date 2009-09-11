@@ -45,11 +45,13 @@ Tools::~Tools() { }
 
 bool Tools::checkChatWindowOpen( Target *target )
 {
-    return ( this->openWindows.value( target ) != NULL );
+    //return ( this->openWindows.value( target ) != NULL );
+    return false;
 }
 
 void Tools::openChatWindow( Target *target )
 {
+    /*
     if ( this->checkChatWindowOpen( target ) )
     {
         ChatWindow *w = this->openWindows.value( target );
@@ -62,15 +64,17 @@ void Tools::openChatWindow( Target *target )
         this->openWindows[ target ] = w;
         w->show();
     }
+    */
 }
 
 void Tools::removeChatWindow( Target *target )
 {
-    this->openWindows.remove( target );
+    //this->openWindows.remove( target );
 }
 
 void Tools::historyMessageReceived( Message message )
 {
+    /*
     if( this->gettingHistory )
     {
         ChatWindow *w = this->openWindows.value( this->historyTarget );
@@ -79,6 +83,7 @@ void Tools::historyMessageReceived( Message message )
         this->gettingHistory = false;
         this->historyTarget = NULL;
     }
+    */
 }
 
 void Tools::messageReceived( Message message )

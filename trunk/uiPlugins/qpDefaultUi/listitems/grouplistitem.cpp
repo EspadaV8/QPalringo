@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "grouplistitem.h"
-#include "tools.h"
+//#include "tools.h"
 
 GroupListItem::GroupListItem( Group *group, QWidget *parent )
     : TargetListItem( group, parent )
@@ -61,7 +61,7 @@ void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )
 
 void GroupListItem::startChat()
 {
-    tools_->openChatWindow( this->group );
+    //tools_->openChatWindow( this->group );
 }
 
 void GroupListItem::setMenu()
@@ -80,7 +80,7 @@ void GroupListItem::setMenu()
 
 void GroupListItem::leaveGroup()
 {
-    tools_->leaveGroup( this->group->getID() );
+    //tools_->leaveGroup( this->group->getID() );
 }
 
 GroupListItem::~GroupListItem()
@@ -99,7 +99,7 @@ void GroupListItem::pendingMessage()
 
 void GroupListItem::resetDetails()
 {
-    this->setIcon( tools_->getTargetIcon( this->group ) );
+    //this->setIcon( tools_->getTargetIcon( this->group ) );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
 }

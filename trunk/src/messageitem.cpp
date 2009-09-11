@@ -173,7 +173,7 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
     }
 
     emit( doubleClick() );
-    event->accept();
+    //event->accept();
 }
 
 void MessageItem::handleAudioClip()

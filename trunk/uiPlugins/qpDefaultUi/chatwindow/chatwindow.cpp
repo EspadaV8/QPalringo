@@ -21,19 +21,21 @@
  ***************************************************************************/
 #include <QFileDialog>
 #include <QBuffer>
+#include <QtNetwork>
 #include "chatwindow.h"
-#include "tools.h"
+#include "targets/bridgecontact.h"
+//#include "tools.h"
 
-ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
+ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     : QWidget ( parent )
 {
     this->setWindowFlags ( Qt::Window );
     this->setAcceptDrops(true);
-    this->parent = parent;
+    //this->parent = parent;
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
-    this->setWindowIcon ( tools_->getPixmap( tools_->getTargetIcon( this->target ) ) );
+    //this->setWindowIcon ( tools_->getPixmap( tools_->getTargetIcon( this->target ) ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
@@ -61,10 +63,10 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
     connect( this->multiLineInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
 
     // add the icons to the buttons
-    this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
+    //this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
     this->voiceButton->setEnabled( false );
-    this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
+    //this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
     this->imageButton->setToolTip( "Browse to send an image message" );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
@@ -103,7 +105,7 @@ ChatWindow::ChatWindow ( PalringoWindow *parent, Target *target )
 
 ChatWindow::~ChatWindow()
 {
-    tools_->removeChatWindow ( this->target );
+    //tools_->removeChatWindow ( this->target );
     delete this->historyButton;
     delete this->voiceButton;
     delete this->imageButton;
@@ -161,11 +163,11 @@ void ChatWindow::sendMessage( Message message )
     else
     {
         message.setBridgeID( 0 );
-        message.setSenderID ( tools_->getUser().userID );
+        //message.setSenderID ( tools_->getUser().userID );
     }
     message.setHist( false );
 
-    tools_->sendMessage( this->target, message );
+    //tools_->sendMessage( this->target, message );
     this->messageList->addMessage( message );
 }
 
@@ -197,7 +199,7 @@ void ChatWindow::askForHistory()
     {
         timestamp = QString::number( QDateTime::currentDateTime().toTime_t() ) + ".0";
     }
-    tools_->getHistoryMessage( this->target, timestamp );
+    //tools_->getHistoryMessage( this->target, timestamp );
 }
 
 void ChatWindow::getMessages()

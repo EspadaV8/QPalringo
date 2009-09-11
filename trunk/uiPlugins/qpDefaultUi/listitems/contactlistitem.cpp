@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "contactlistitem.h"
-#include "tools.h"
+//#include "tools.h"
 #include "qpgroupcapabilities.h"
 #include <QDebug>
 
@@ -85,7 +85,7 @@ void ContactListItem::updateStatusLine()
 
 void ContactListItem::setContactOnlineStatus()
 {
-    this->setIcon( tools_->getTargetIcon( this->contact ) );
+    //this->setIcon( tools_->getTargetIcon( this->contact ) );
     emit( containerGroupChanged( this ) );
 }
 
@@ -114,12 +114,12 @@ void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 
 void ContactListItem::startChat()
 {
-    tools_->openChatWindow( this->contact );
+    //tools_->openChatWindow( this->contact );
 }
 
 void ContactListItem::showContactProperties()
 {
-    tools_->showContactProperties( this->contact );
+    //tools_->showContactProperties( this->contact );
 }
 
 void ContactListItem::paintEvent(QPaintEvent *)
@@ -163,5 +163,5 @@ void ContactListItem::resetDetails()
     this->updateNickname();
     this->updateStatusLine();
     this->updateExtraDetails();
-    this->setIcon( tools_->getTargetIcon( this->contact ) );
+    // this->setIcon( tools_->getTargetIcon( this->contact ) );
 }

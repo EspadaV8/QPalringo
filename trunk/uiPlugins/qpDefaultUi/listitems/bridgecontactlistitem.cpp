@@ -1,5 +1,5 @@
 #include "bridgecontactlistitem.h"
-#include "tools.h"
+//#include "tools.h"
 
 BridgeContactListItem::BridgeContactListItem( BridgeContact *contact, QWidget *parent )
     : TargetListItem( contact, parent )
@@ -45,7 +45,7 @@ void BridgeContactListItem::updateDetails()
 
     this->setFirstLine( firstLine );
     this->setSecondLine( secondLine );
-    this->setIcon( tools_->getTargetIcon( this->contact ) );
+    //this->setIcon( tools_->getTargetIcon( this->contact ) );
 }
 
 QString BridgeContactListItem::getContainerGroup()
@@ -74,5 +74,5 @@ void BridgeContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 
 void BridgeContactListItem::startChat()
 {
-    tools_->openChatWindow( this->contact );
+    // tools_->openChatWindow( this->contact );
 }

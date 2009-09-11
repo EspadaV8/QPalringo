@@ -30,9 +30,9 @@
 #include "targets/contact.h"
 #include "targets/group.h"
 #include "targets/target.h"
-#include "signinwindow.h"
+//#include "signinwindow.h"
 #include "messageitem.h"
-#include "listitems/listitem.h"
+//#include "listitems/listitem.h"
 #include "settingswindow.h"
 
 class Connection;
@@ -102,8 +102,8 @@ class PalringoWindow : public QMainWindow
         void SetupTabs();
         void setupButtonLayout();
 
-        QList<ListItem *> usersContacts;
-        QList<ListItem *> userServices;
+        //QList<ListItem *> usersContacts;
+        //QList<ListItem *> userServices;
 
         SettingsWindow* settingsWindow;
 
