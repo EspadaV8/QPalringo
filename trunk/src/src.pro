@@ -1,7 +1,5 @@
 SOURCES += contactpropertieswindow.cpp \
     main.cpp \
-    messagelist.cpp \
-    messageitem.cpp \
     palringowindow.cpp \
     settingswindow.cpp \
     signinwindow.cpp \
@@ -20,8 +18,6 @@ QT += gui \
     svg \
     network
 HEADERS += contactpropertieswindow.h \
-    messagelist.h \
-    messageitem.h \
     palringowindow.h \
     settingswindow.h \
     signinwindow.h \

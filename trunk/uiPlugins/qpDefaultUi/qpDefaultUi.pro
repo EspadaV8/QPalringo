@@ -1,7 +1,8 @@
 # -------------------------------------------------
 # Project created by QtCreator 2009-09-09T20:42:14
 # -------------------------------------------------
-QT += svg network
+QT += svg \
+    network
 TARGET = ../../bin/$$qtLibraryTarget(qpdefaultui)
 TEMPLATE = lib
 CONFIG += plugin \
@@ -19,11 +20,10 @@ SOURCES += qpdefaultui.cpp \
     listitems/grouplistitem.cpp \
     listitems/contactlistitem.cpp \
     listitems/bridgecontactlistitem.cpp \
-    services/service.cpp \
-    services/palringoservice.cpp \
-    services/bridgeservice.cpp \
     chatwindow/chatwindow.cpp \
-    chatwindow/chattextedit.cpp
+    chatwindow/chattextedit.cpp \
+    chatwindow/messagelist.cpp \
+    chatwindow/messageitem.cpp
 HEADERS += qpdefaultui.h \
     listviews/palringolistview.h \
     listviews/overviewlistview.h \
@@ -37,11 +37,10 @@ HEADERS += qpdefaultui.h \
     listitems/grouplistitem.h \
     listitems/contactlistitem.h \
     listitems/bridgecontactlistitem.h \
-    services/service.h \
-    services/palringoservice.h \
-    services/bridgeservice.h \
     chatwindow/chatwindow.h \
-    chatwindow/chattextedit.h
+    chatwindow/chattextedit.h \
+    chatwindow/messagelist.h \
+    chatwindow/messageitem.h
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
