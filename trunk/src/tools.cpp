@@ -26,9 +26,8 @@
 #include "contactpropertieswindow.h"
 Tools *tools_;
 
-Tools::Tools( PalringoWindow *mainWindow )
+Tools::Tools( QObject *parent )
 {
-    this->mainWindow = mainWindow;
     this->loggedIn = false;
     this->connection = NULL;
 
@@ -60,7 +59,7 @@ void Tools::openChatWindow( Target *target )
     }
     else
     {
-        ChatWindow *w = new ChatWindow( this->mainWindow, target );
+        ChatWindow *w = new ChatWindow( this->parent(), target );
         this->openWindows[ target ] = w;
         w->show();
     }
