@@ -23,7 +23,8 @@ SOURCES += qpdefaultui.cpp \
     chatwindow/chatwindow.cpp \
     chatwindow/chattextedit.cpp \
     chatwindow/messagelist.cpp \
-    chatwindow/messageitem.cpp
+    chatwindow/messageitem.cpp \
+    signinwindow.cpp
 HEADERS += qpdefaultui.h \
     listviews/palringolistview.h \
     listviews/overviewlistview.h \
@@ -40,9 +41,12 @@ HEADERS += qpdefaultui.h \
     chatwindow/chatwindow.h \
     chatwindow/chattextedit.h \
     chatwindow/messagelist.h \
-    chatwindow/messageitem.h
+    chatwindow/messageitem.h \
+    signinwindow.h
+FORMS += ui/signinwindow.ui
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
+UI_DIR = ../../tmp
 INCLUDEPATH = ../../libQPalringo \
     ../../src

@@ -2,7 +2,6 @@ SOURCES += contactpropertieswindow.cpp \
     main.cpp \
     palringowindow.cpp \
     settingswindow.cpp \
-    signinwindow.cpp \
     speexdecoder.cpp \
     tools.cpp
 TEMPLATE = app
@@ -11,8 +10,7 @@ CONFIG += warn_on \
     qt \
     debug
 TARGET = ../bin/qpalringo
-FORMS = ui/signinwindow.ui \
-    ui/contactProperties.ui \
+FORMS = ui/contactProperties.ui \
     ui/settingswindow.ui
 QT += gui \
     svg \
@@ -20,7 +18,6 @@ QT += gui \
 HEADERS += contactpropertieswindow.h \
     palringowindow.h \
     settingswindow.h \
-    signinwindow.h \
     speexdecoder.h \
     tools.h \
     uiplugininterface.h
