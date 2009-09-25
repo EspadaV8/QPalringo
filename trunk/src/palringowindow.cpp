@@ -60,10 +60,6 @@ void PalringoWindow::loadUi()
         {
             this->initUiPlugin( plugin );
         }
-        else
-        {
-            qDebug() << loader.errorString();
-        }
     }
 }
 
