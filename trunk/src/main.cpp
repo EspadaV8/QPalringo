@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include <QApplication>
+#include <QFile>
 #include "palringowindow.h"
 
 int main ( int argc, char *argv[] )
