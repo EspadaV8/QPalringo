@@ -35,7 +35,7 @@ PalringoWindow::PalringoWindow()
 {
     tools_ = new Tools( this );
     this->settingsWindow = NULL;
-    //setupUi();
+    setupUi();
     readSettings();
     loadUi();
 }
@@ -89,7 +89,7 @@ void PalringoWindow::setupUi()
     CreateTrayIcon();
     SetupActions();
     CreateMenuBar();
-
+/*
     QSettings settings;
     int uiLayout = settings.value( "gui/layout" ).toInt();
 
@@ -103,7 +103,7 @@ void PalringoWindow::setupUi()
             SetupTabs();
             break;
     }
-
+*/
     setWindowTitle( tr( "QPalringo" ) );
     setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
 }
