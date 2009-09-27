@@ -34,14 +34,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 {
     QSettings settings;
 
-/*
-    if( message.bridgeID() > 0 )
-        this->contact = tools_->getBridgeContact( message.bridgeID(), message.senderID() );
-    else
-        this->contact = tools_->getContact( message.senderID() );
-*/
     this->message = message;
-
 /*
     if( ( this->message.senderID() == tools_->getUser().userID ) ||
         ( message.bridgeID() > 0 && message.senderID() == 0 ) )
@@ -65,8 +58,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->messageText->setOpenExternalLinks( true );
     this->messageText->setFont( font );
 
-    if( this->contact )
-        this->sender = new QLabel( this->contact->getNickname() );
+    if( this->message.sender() )
+        this->sender = new QLabel( this->message.sender()->getTitle() );
     else
         this->sender = new QLabel( this->message.name() );
     this->sender->setObjectName( "senderNickname" );
