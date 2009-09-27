@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "grouplistitem.h"
-//#include "tools.h"
+#include "tools.h"
 
 GroupListItem::GroupListItem( Group *group, QWidget *parent )
     : TargetListItem( group, parent )
@@ -99,7 +99,7 @@ void GroupListItem::pendingMessage()
 
 void GroupListItem::resetDetails()
 {
-    //this->setIcon( tools_->getTargetIcon( this->group ) );
+    this->setIcon( Tools::getTargetIcon( this->group ) );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
 }

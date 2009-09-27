@@ -20,7 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "contactlistitem.h"
-//#include "tools.h"
+#include "tools.h"
 #include "qpgroupcapabilities.h"
 #include <QDebug>
 
@@ -85,7 +85,7 @@ void ContactListItem::updateStatusLine()
 
 void ContactListItem::setContactOnlineStatus()
 {
-    //this->setIcon( tools_->getTargetIcon( this->contact ) );
+    this->setIcon( Tools::getTargetIcon( this->contact ) );
     emit( containerGroupChanged( this ) );
 }
 
@@ -163,5 +163,5 @@ void ContactListItem::resetDetails()
     this->updateNickname();
     this->updateStatusLine();
     this->updateExtraDetails();
-    // this->setIcon( tools_->getTargetIcon( this->contact ) );
+    this->setIcon( Tools::getTargetIcon( this->contact ) );
 }
