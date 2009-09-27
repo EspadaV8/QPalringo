@@ -69,6 +69,8 @@ void PalringoWindow::initUiPlugin( QObject* plugin )
     if( uiPlugin )
     {
         //uiPlugin->setUp();
+        uiPlugin->setPalringoWindow( this );
+        uiPlugin->setTools( tools_ );
         qDebug( "%s", qPrintable( uiPlugin->getName() ) );
         QWidget *w = uiPlugin->getCentralWidget();
         setCentralWidget( w );
