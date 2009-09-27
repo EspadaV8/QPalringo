@@ -31,12 +31,13 @@
 #include <QList>
 #include "listviewcontainer.h"
 #include "../listitems/listitem.h"
+#include "tools.h"
 
 class PalringoListView : public QScrollArea
 {
     Q_OBJECT
     public:
-        PalringoListView( QWidget *parent = 0 );
+        PalringoListView( QWidget *parent = 0, Tools* tools_ = 0 );
         ~PalringoListView();
 
         virtual void setupContainers();
@@ -51,6 +52,7 @@ class PalringoListView : public QScrollArea
         bool addWidgetToView( ListItem *item, QString containerName );
 
         QVBoxLayout *listLayout;
+        Tools* tools_;
 
         QList<ListItem *> listItems;
         QList<ListViewContainer *> listViewContainers;

@@ -22,9 +22,11 @@
 #include "palringolistview.h"
 #include "defaultlistviewcontainer.h"
 
-PalringoListView::PalringoListView( QWidget *parent )
+PalringoListView::PalringoListView( QWidget *parent, Tools* tools_ )
     : QScrollArea( parent )
 {
+    this->tools_ = tools_;
+
     QWidget *w = new QWidget;
     w->setObjectName( "ListViewBackground" );
 
