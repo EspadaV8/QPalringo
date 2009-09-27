@@ -23,8 +23,8 @@
 #include "grouplistview.h"
 #include "../listitems/grouplistitem.h"
 
-GroupListView::GroupListView(QWidget *parent, Group *group)
- : ContactListView(parent)
+GroupListView::GroupListView(QWidget *parent, Tools* tools_, Group *group)
+ : ContactListView( parent, tools_ )
 {
     this->group = group;
     //this->disconnect( tools_, SIGNAL( cleanUp() ), this, 0 );
@@ -39,7 +39,7 @@ void GroupListView::setupContainers()
     GroupListItem *gli = new GroupListItem( this->group );
     this->addWidgetToView( gli );
 
-    //connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
     
     this->addLayoutsToSelf();
 }

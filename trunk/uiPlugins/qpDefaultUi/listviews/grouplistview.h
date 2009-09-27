@@ -23,7 +23,8 @@
 #define GROUPLISTVIEW_H
 
 #include "contactlistview.h"
-#include "../libQPalringo/targets/group.h"
+#include "targets/group.h"
+#include "tools.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -32,7 +33,7 @@ class GroupListView : public ContactListView
 {
     Q_OBJECT
     public:
-        GroupListView(QWidget *parent = 0, Group *group = 0);
+        GroupListView(QWidget *parent = 0, Tools* tools_ = 0, Group *group = 0);
         ~GroupListView();
 
         virtual void setupContainers();
