@@ -22,8 +22,9 @@
 #include <QFile>
 #include <QStringList>
 #include <QBuffer>
+#include <QSettings>
 #include "messageitem.h"
-#include "tools.h"
+//#include "tools.h"
 #include "speexdecoder.h"
 
 #define FONT_SIZE 10
@@ -33,12 +34,15 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
 {
     QSettings settings;
 
+/*
     if( message.bridgeID() > 0 )
         this->contact = tools_->getBridgeContact( message.bridgeID(), message.senderID() );
     else
         this->contact = tools_->getContact( message.senderID() );
+*/
     this->message = message;
 
+/*
     if( ( this->message.senderID() == tools_->getUser().userID ) ||
         ( message.bridgeID() > 0 && message.senderID() == 0 ) )
     {
@@ -48,6 +52,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     {
         this->setProperty( "originator", false );
     }
+*/
 
     QFont font = this->font();
     font.setPixelSize( FONT_SIZE );
@@ -68,7 +73,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->sender->setAlignment( Qt::AlignLeft );
     this->sender->setFont( font );
 
-    this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
+    //this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
+    this->timestamp = new QLabel( QString::number( this->message.seconds() ) );
     this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
     this->timestamp->setFont( font );
@@ -76,7 +82,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     QString messageTypeIcon;
     if( this->message.type() == "text/plain" )
     {
-        QString formattedText = tools_->formatMessageText( this->message.payload() );
+        //QString formattedText = tools_->formatMessageText( this->message.payload() );
+        QString formattedText = this->message.payload();
         this->messageText->setText( formattedText );
         messageTypeIcon = ":/svg/text.svg";
     }
