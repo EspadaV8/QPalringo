@@ -38,6 +38,9 @@ Q_OBJECT
         QString getEmailAddress();
         QString getPassword();
 
+    signals:
+        void signin( QString emailAddress, QString password );
+
     private slots:
         void openPalringoConnection();
         void setFeildValues();

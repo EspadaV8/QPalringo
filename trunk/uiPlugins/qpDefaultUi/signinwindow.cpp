@@ -21,7 +21,6 @@
  ***************************************************************************/
 #include <QSettings>
 #include "signinwindow.h"
-#include "tools.h"
 
 SigninWindow::SigninWindow(QWidget *parent)
  : QDialog(parent), QPalringoSigninWindow()
@@ -66,7 +65,7 @@ void SigninWindow::openPalringoConnection()
         settings.setValue( "signin/rememberme", this->RememberMe->isChecked() );
         // settings.setValue( "signin/autosignin", this->AutoSignin->isChecked() );
     }
-    tools_->openPalringoConnection( this->getEmailAddress(), this->getPassword() );
+    emit signin( this->getEmailAddress(), this->getPassword() );
 }
 
 SigninWindow::~SigninWindow() { }
