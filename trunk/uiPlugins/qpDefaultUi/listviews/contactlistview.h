@@ -23,10 +23,11 @@
 #define CONTACTLISTVIEW_H
 
 #include "palringolistview.h"
-#include "../libQPalringo/targets/contact.h"
-#include "../libQPalringo/targets/bridgecontact.h"
+#include "targets/contact.h"
+#include "targets/bridgecontact.h"
 #include "../listitems/contactlistitem.h"
 #include "../listitems/bridgecontactlistitem.h"
+#include "tools.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -35,7 +36,7 @@ class ContactListView : public PalringoListView
 {
     Q_OBJECT
     public:
-        ContactListView( QWidget *parent = 0 );
+        ContactListView( QWidget *parent = 0, Tools* tools_ = 0 );
         ~ContactListView();
 
         virtual void setupContainers();
