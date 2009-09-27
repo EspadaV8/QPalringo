@@ -91,33 +91,19 @@ void Tools::messageReceived( Message message )
 
     this->playSound( ":/sounds/new-message.wav" );
     Target* t = NULL;
-    if( message.bridgeID() > 0 )
+    if( message.groupID() != 0 )
     {
-        t = this->connection->getBridgeContact( message.bridgeID(), message.senderID() );
-    }
-    else if( message.groupID() == 0 )
-    {
-        t = this->connection->getContact( message.senderID() );
+        t = this->connection->getGroup( message.groupID() );
     }
     else
     {
-        t = this->connection->getGroup( message.groupID() );
+        t = message.sender();
     }
 
     if( t != NULL )
     {
         t->addMessage( message );
-
-        if( ( ( t->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
-              ( t->getType() == Target::GROUP   && settings.value( "alerts/groupAutoOpen" ).toBool() ) ) &&
-              !tools_->checkChatWindowOpen( t ) )
-        {
-            this->openChatWindow( t );
-        }
-        else
-        {
-            emit newPendingMessage( t );
-        }
+        emit newPendingMessage( t );
     }
 }
 
