@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "uiplugininterface.h"
+#include "targets/group.h"
 
 class QPDefaultUi : public QObject, UiPluginInterface
 {
@@ -12,6 +13,10 @@ class QPDefaultUi : public QObject, UiPluginInterface
     public:
         QWidget* getCentralWidget();
         QString getName();
+
+    private slots:
+        void newGroupAdded( Group *group );
+        void tabFocusChanged(int tabIndex );
 
     private:
         QTabWidget* mainTabs;

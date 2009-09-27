@@ -2,6 +2,7 @@
 #include "qpdefaultui.h"
 #include "listviews/overviewlistview.h"
 #include "listviews/contactlistview.h"
+#include "listviews/grouplistview.h"
 #include "tools.h"
 
 QWidget* QPDefaultUi::getCentralWidget()
@@ -24,9 +25,10 @@ QWidget* QPDefaultUi::getCentralWidget()
     connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
     */
 
+    connect( tools(), SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( overviewList, SIGNAL(signinPalringo(QString, QString )), tools(), SLOT( openPalringoConnection( QString, QString ) ));
 
-    //connect( tools_, SIGNAL( gotBridgeContact( BridgeContact* ) ), this, SLOT( bridgeContactReceived( BridgeContact* ) ) );
+    connect( this->mainTabs, SIGNAL( currentChanged( int ) ), this, SLOT( tabFocusChanged( int ) ) );
 
     return this->mainTabs;
 }
@@ -34,6 +36,22 @@ QWidget* QPDefaultUi::getCentralWidget()
 QString QPDefaultUi::getName()
 {
     return "Default plugin";
+}
+
+void QPDefaultUi::newGroupAdded( Group *group )
+{
+    GroupListView *groupTab = new GroupListView( mainTabs, tools(), group );
+    groupTab->setupContainers();
+    this->mainTabs->addTab( groupTab, Tools::getPixmap( ":/svg/group.svg" ), group->getName() );
+}
+
+void QPDefaultUi::tabFocusChanged( int tabIndex )
+{
+    PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
+    if( p )
+    {
+        emit p->inFocus();
+    }
 }
 
 Q_EXPORT_PLUGIN2(qpdefaultui, QPDefaultUi)
