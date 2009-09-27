@@ -297,16 +297,6 @@ void PalringoWindow::showContacts()
     pages->setCurrentIndex( 1 );
 }
 
-void PalringoWindow::showGroup( quint64 groupID )
-{
-}
-
-void PalringoWindow::tabFocusChanged(int tabIndex )
-{
-    //PalringoListView *p = (PalringoListView*)this->mainTabs->widget(tabIndex);
-    //emit( p->inFocus() );
-}
-
 PalringoWindow::~PalringoWindow()
 {
     delete this->settingsWindow;
@@ -365,15 +355,6 @@ void PalringoWindow::showTrayMessage( Target* target )
 
         this->systrayicon->showMessage( sender, text );
     }
-}
-
-void PalringoWindow::newGroupAdded( Group *group )
-{
-    /*
-    GroupListView *groupTab = new GroupListView( mainTabs, group );
-    groupTab->setupContainers();
-    mainTabs->addTab( groupTab, tools_->getPixmap( ":/svg/group.svg" ), group->getName() );
-    */
 }
 
 void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )

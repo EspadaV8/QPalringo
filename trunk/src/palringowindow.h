@@ -47,19 +47,16 @@ class PalringoWindow : public QMainWindow
         void sendMessage( Contact *contact, Message *message );
 
     public slots:
-        void newGroupAdded( Group *group );
         void groupLeft( quint64 groupID );
         
     private slots:
         void joinAGroup();
         void createAGroup();
-        void tabFocusChanged( int tabIndex );
         void showSettingsWindow();
         void cleanUp();
         void showTrayMessage( Target* target );
         void showOverview();
         void showContacts();
-        void showGroup( quint64 groupID );
 
     private:
         QMenu *fileMenu;
