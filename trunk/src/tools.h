@@ -47,8 +47,6 @@ class Tools : public QObject
         void openChatWindow( Target *target );
         void removeChatWindow( Target *target );
 
-        void openPalringoConnection( QString email = "", QString password = "");
-
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
@@ -60,8 +58,6 @@ class Tools : public QObject
         QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
         QDateTime getMessageTimestamp( Message message );
         quint32 getTimestampDifference();
-        
-        QPixmap getPixmap( QString iconFilename );
         
         void showContactProperties( Contact *contact );
         
@@ -81,7 +77,9 @@ class Tools : public QObject
         Group* getGroup( quint64 groupID );
         Bridge* getBridge( quint32 bridgeID );
         BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
-        QString getTargetIcon( Target* target );
+
+        static QString getTargetIcon( Target* target );
+        static QPixmap getPixmap( QString iconFilename );
 
     public slots:
         void logonSuccessful();
@@ -91,6 +89,7 @@ class Tools : public QObject
         void historyMessageReceived( Message message );
         void disconnected();
         bool updateContactDetail( QString detail, QString value );
+        void openPalringoConnection( QString email = "", QString password = "" );
 
     signals:
         void connected();
