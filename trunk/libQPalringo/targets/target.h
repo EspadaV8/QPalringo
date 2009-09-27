@@ -28,6 +28,8 @@
 /**
 	@author Andrew Smith <espadav8@gmail.com>
 */
+class Message;
+
 class Target : public QObject
 {
     Q_OBJECT

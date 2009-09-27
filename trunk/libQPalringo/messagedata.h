@@ -28,6 +28,7 @@
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
+class Target;
 
 class MessageData : public QSharedData
 {
@@ -43,7 +44,8 @@ class MessageData : public QSharedData
                 useconds( other.useconds ),
                 bridgeID( other.bridgeID ),
                 hist( other.hist ),
-                name( other.name ) { }
+                name( other.name ),
+                sender( other.sender ) { }
         ~MessageData() { }
 
         QString type;
@@ -55,6 +57,7 @@ class MessageData : public QSharedData
         quint32 bridgeID;
         bool hist;
         QString name;
+        Target* sender;
 };
 
 #endif // MESSAGEDATA_H

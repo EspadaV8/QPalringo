@@ -27,6 +27,8 @@
 #include <QString>
 #include <QByteArray>
 #include "messagedata.h"
+#include "targets/target.h"
+
 /**
     @author Andrew Smith <espadav8@gmail.com>
 */
@@ -37,7 +39,7 @@ class Message
         Message();
         Message( QString type, QByteArray payload, quint64 senderID, quint64 groupID,
                     quint32 seconds, quint32 useconds, quint32 bridgeID, bool hist,
-                    QString name );
+                    QString name, Target* sender );
         Message( const Message &other );
         ~Message();
 
@@ -50,6 +52,7 @@ class Message
         void setBridgeID( quint32 bridgeID );
         void setHist( bool hist );
         void setName( QString name );
+        void setSender( Target* sender );
 
         QString type() const;
         QByteArray payload() const;
@@ -60,6 +63,7 @@ class Message
         quint32 bridgeID() const;
         bool hist() const;
         QString name() const;
+        Target* sender() const;
 
         bool operator< ( const Message &other );
         bool operator<= ( const Message &other );
