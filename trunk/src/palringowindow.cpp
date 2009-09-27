@@ -342,14 +342,25 @@ void PalringoWindow::showTrayMessage( Target* target )
         {
             sender = "Private message from " + tools_->getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
         }
-        else if( message.groupID() == 0 )
-        {
-            sender = "Private message from " + tools_->getContact( message.senderID() )->getNickname();
-        }
         else
         {
-            sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
-            text = tools_->getContact( message.senderID() )->getNickname() + ": " + text;
+            Contact* contact = qobject_cast<Contact*>( message.sender() );
+            if( contact )
+            {
+                if( message.groupID() == 0 )
+                {
+                    sender = "Private message from - " + contact->getNickname();
+                }
+                else
+                {
+                    sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
+                    text = contact->getNickname() + ": " + text;
+                }
+            }
+            else
+            {
+                return;
+            }
         }
 
         this->systrayicon->showMessage( sender, text );
