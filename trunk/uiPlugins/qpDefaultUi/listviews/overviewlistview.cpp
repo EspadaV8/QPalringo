@@ -49,7 +49,6 @@ void OverviewListView::setupContainers()
     s->setOnlineStatus( qpOnlineStatus::OFFLINE );
 
     connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
-    connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
 
     this->serviceReceived( s );
     this->addLayoutsToSelf();
@@ -93,46 +92,43 @@ void OverviewListView::handleServiceDoubleClick( Service* service )
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-    if( !tools_->checkChatWindowOpen( target ) )
+    if( this->knownTargets.contains( target ) )
     {
-        if( this->knownTargets.contains( target ) )
+        foreach( ListItem* li, this->listItems )
         {
-            foreach( ListItem* li, this->listItems )
+            TargetListItem* tli = qobject_cast<TargetListItem*>( li );
+            if( tli && tli->getTarget() == target )
             {
-                TargetListItem* tli = qobject_cast<TargetListItem*>( li );
-                if( tli && tli->getTarget() == target )
-                {
-                    li->show();
-                    break;
-                }
+                li->show();
+                break;
             }
         }
-        else
+    }
+    else
+    {
+        ListItem* li;
+        int targetType = target->getType();
+        switch( targetType )
         {
-            ListItem* li;
-            int targetType = target->getType();
-            switch( targetType )
-            {
-                case Target::CONTACT:
-                    li = new ContactListItem( (Contact*)target );
-                    break;
-                case Target::GROUP:
-                    li = new GroupListItem( (Group*)target );
-                    break;
-                case Target::BRIDGECONTACT:
-                    li = new BridgeContactListItem( (BridgeContact*)target );
-                    break;
-                default:
-                    return;
-            }
-
-            this->listItems.append( li );
-            this->addWidgetToView( li, "Messages" );
-            this->knownTargets.append( target );
-
-            connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
-            connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
+            case Target::CONTACT:
+                li = new ContactListItem( (Contact*)target );
+                break;
+            case Target::GROUP:
+                li = new GroupListItem( (Group*)target );
+                break;
+            case Target::BRIDGECONTACT:
+                li = new BridgeContactListItem( (BridgeContact*)target );
+                break;
+            default:
+                return;
         }
+
+        this->listItems.append( li );
+        this->addWidgetToView( li, "Messages" );
+        this->knownTargets.append( target );
+
+        connect( target, SIGNAL( clearedPendingMessages() ), li, SLOT( removeSelf() ) );
+        connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
     }
 }
 
