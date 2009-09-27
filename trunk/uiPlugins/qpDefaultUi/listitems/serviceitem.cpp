@@ -20,7 +20,6 @@
  *                                                                         *
  ***************************************************************************/
 #include "serviceitem.h"
-//#include "tools.h"
 
 ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *parent )
  : ListItem( parent )
@@ -32,7 +31,6 @@ ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *par
     setSecondLine( qpOnlineStatus::OnlineStatusText[ this->service->getOnlineStatus() ] );
     setIcon( this->service->getIcon() );
     
-    connect( this, SIGNAL( doubleClick() ), service, SLOT( loginService() ) );
     connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
     
     this->setMenu();
@@ -47,7 +45,7 @@ void ServiceItem::updateDetails()
 
 void ServiceItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
-    emit( doubleClick() );
+    emit doubleClick( this->service );
     event->accept();
 }
 
