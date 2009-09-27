@@ -24,7 +24,7 @@
 #include <QtNetwork>
 #include "chatwindow.h"
 #include "targets/bridgecontact.h"
-//#include "tools.h"
+#include "tools.h"
 
 ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     : QWidget ( parent )
@@ -35,7 +35,7 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
-    //this->setWindowIcon ( tools_->getPixmap( tools_->getTargetIcon( this->target ) ) );
+    this->setWindowIcon ( Tools::getPixmap( Tools::getTargetIcon( this->target ) ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
@@ -63,10 +63,10 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     connect( this->multiLineInput, SIGNAL( returnPressed() ), this, SLOT(checkMessageInput()) );
 
     // add the icons to the buttons
-    //this->voiceButton->setIcon( tools_->getPixmap( ":/svg/voice.svg" ) );
+    this->voiceButton->setIcon( Tools::getPixmap( ":/svg/voice.svg" ) );
     this->voiceButton->setToolTip( "Press and hold to record voice message" );
     this->voiceButton->setEnabled( false );
-    //this->imageButton->setIcon( tools_->getPixmap( ":/svg/image.svg" ) );
+    this->imageButton->setIcon( Tools::getPixmap( ":/svg/image.svg" ) );
     this->imageButton->setToolTip( "Browse to send an image message" );
     connect( this->imageButton, SIGNAL( clicked() ), this, SLOT( loadImageFile() ) );
 
