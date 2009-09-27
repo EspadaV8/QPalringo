@@ -54,6 +54,9 @@ class ContactListView : public PalringoListView
     public slots:
         virtual void inFocus();
 
+    signals:
+        void focusChatWindow( Target* contact );
+
 };
 
 #endif

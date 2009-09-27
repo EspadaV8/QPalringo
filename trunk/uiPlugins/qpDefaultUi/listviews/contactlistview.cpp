@@ -56,6 +56,8 @@ void ContactListView::contactReceived( Contact *contact, qint32 capabilities )
 {
     ContactListItem *pc = new ContactListItem( contact, capabilities );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
+    connect( pc, SIGNAL( focusChatWindow( Target* ) ), this, SIGNAL( focusChatWindow( Target* ) ) );
+
     this->listItems.append( pc );
     this->addWidgetToView( pc );
 }

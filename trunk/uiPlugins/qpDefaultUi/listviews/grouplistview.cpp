@@ -39,6 +39,8 @@ void GroupListView::setupContainers()
     GroupListItem *gli = new GroupListItem( this->group );
     this->addWidgetToView( gli );
 
+    connect( gli, SIGNAL( focusChatWindow( Target* ) ), this, SIGNAL( focusChatWindow( Target* ) ) );
+
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
     
     this->addLayoutsToSelf();
