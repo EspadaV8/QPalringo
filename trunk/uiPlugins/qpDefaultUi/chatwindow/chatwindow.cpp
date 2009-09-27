@@ -35,7 +35,8 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
-    this->setWindowIcon ( Tools::getPixmap( Tools::getTargetIcon( this->target ) ) );
+    QString icon = Tools::getTargetIcon( this->target );
+    this->setWindowIcon( Tools::getPixmap( icon ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 
     // Create all the layouts
