@@ -43,10 +43,6 @@ class Tools : public QObject
         Tools( QObject *parent = 0 );
         ~Tools();
 
-        bool checkChatWindowOpen( Target *target );
-        void openChatWindow( Target *target );
-        void removeChatWindow( Target *target );
-
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 

@@ -42,35 +42,6 @@ Tools::Tools( QObject *parent )
 
 Tools::~Tools() { }
 
-bool Tools::checkChatWindowOpen( Target *target )
-{
-    //return ( this->openWindows.value( target ) != NULL );
-    return false;
-}
-
-void Tools::openChatWindow( Target *target )
-{
-    /*
-    if ( this->checkChatWindowOpen( target ) )
-    {
-        ChatWindow *w = this->openWindows.value( target );
-        w->raise();
-        w->activateWindow();
-    }
-    else
-    {
-        ChatWindow *w = new ChatWindow( this->parent(), target );
-        this->openWindows[ target ] = w;
-        w->show();
-    }
-    */
-}
-
-void Tools::removeChatWindow( Target *target )
-{
-    //this->openWindows.remove( target );
-}
-
 void Tools::historyMessageReceived( Message message )
 {
     /*
