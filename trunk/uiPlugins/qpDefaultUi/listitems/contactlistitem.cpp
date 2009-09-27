@@ -109,12 +109,7 @@ QString ContactListItem::getContainerGroup()
 void ContactListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     event->accept();
-    this->startChat();
-}
-
-void ContactListItem::startChat()
-{
-    //tools_->openChatWindow( this->contact );
+    emit focusChatWindow( this->contact );
 }
 
 void ContactListItem::showContactProperties()

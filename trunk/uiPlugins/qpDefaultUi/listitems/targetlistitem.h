@@ -13,6 +13,9 @@ class TargetListItem : public ListItem
 
     protected:
         Target* target;
+
+    signals:
+        void focusChatWindow( Target* target );
 };
 
 #endif // TARGETLISTITEM_H

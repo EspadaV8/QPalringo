@@ -56,12 +56,7 @@ Group* GroupListItem::getGroup()
 void GroupListItem::mouseDoubleClickEvent( QMouseEvent *event )
 {
     event->accept();
-    this->startChat();
-}
-
-void GroupListItem::startChat()
-{
-    //tools_->openChatWindow( this->group );
+    emit focusChatWindow( this->group );
 }
 
 void GroupListItem::setMenu()
