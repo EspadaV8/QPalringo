@@ -52,12 +52,12 @@ void PalringoWindow::loadUi()
 
     foreach (QString fileName, pluginsDir.entryList(QDir::Files))
     {
-        qDebug( "Trying to load plugin - %s", qPrintable( fileName ) );
         QPluginLoader loader( pluginsDir.absoluteFilePath(fileName) );
         QObject *plugin = loader.instance();
 
         if( plugin )
         {
+            qDebug( "Loaded - %s", qPrintable( fileName ) );
             this->initUiPlugin( plugin );
         }
     }
