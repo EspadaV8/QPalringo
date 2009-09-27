@@ -26,14 +26,15 @@
 #include "listitems/bridgecontactlistitem.h"
 #include "overviewlistview.h"
 #include "services/palringoservice.h"
-//#include "tools.h"
 
 #include "services/bridgeservice.h"
 #include "onlinestatus.h"
 
-OverviewListView::OverviewListView(QWidget *parent)
- : PalringoListView(parent)
+OverviewListView::OverviewListView(QWidget *parent, Tools* tools_ )
+ : PalringoListView(parent, tools_)
 {
+    this->signinWindow = new SigninWindow( this );
+    connect( signinWindow, SIGNAL(signin(QString,QString)), this, SIGNAL(signinPalringo(QString,QString)));
 }
 
 void OverviewListView::setupContainers()
@@ -46,10 +47,10 @@ void OverviewListView::setupContainers()
     s->setNickname( "Palringo" );
     s->setStatus( "Offline" );
     s->setOnlineStatus( qpOnlineStatus::OFFLINE );
-/*
+
     connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
-*/
+
     this->serviceReceived( s );
     this->addLayoutsToSelf();
 }
@@ -79,11 +80,19 @@ void OverviewListView::serviceReceived( Service *service )
     ServiceItem *si = new ServiceItem( service, true );
     this->listItems.append( si );
     this->addWidgetToView( si, "Services" );
+    connect( si, SIGNAL( doubleClick( Service* ) ), this, SLOT( handleServiceDoubleClick( Service* ) ) );
+}
+
+void OverviewListView::handleServiceDoubleClick( Service* service )
+{
+    if( service->getType() == qpBridgeType::PALRINGO )
+    {
+        this->signinWindow->show();
+    }
 }
 
 void OverviewListView::newPendingMessage( Target* target )
 {
-/*
     if( !tools_->checkChatWindowOpen( target ) )
     {
         if( this->knownTargets.contains( target ) )
@@ -125,9 +134,9 @@ void OverviewListView::newPendingMessage( Target* target )
             connect( li, SIGNAL( removeListItem( ListItem* ) ), this, SLOT( removeListItem( ListItem* ) ) );
         }
     }
-*/
 }
 
 OverviewListView::~OverviewListView()
 {
+    delete this->signinWindow;
 }

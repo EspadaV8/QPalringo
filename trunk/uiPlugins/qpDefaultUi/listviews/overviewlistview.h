@@ -28,6 +28,8 @@
 #include "bridge.h"
 #include "palringolistview.h"
 #include "targets/target.h"
+#include "signinwindow.h"
+#include "tools.h"
 
 /**
 	@author Andrew Smith <espadav8@gmail.com>
@@ -36,7 +38,7 @@ class OverviewListView : public PalringoListView
 {
     Q_OBJECT
     public:
-        OverviewListView(QWidget *parent = 0);
+        OverviewListView(QWidget *parent = 0, Tools* tools_ = 0 );
         ~OverviewListView();
 
         virtual void setupContainers();
@@ -44,12 +46,17 @@ class OverviewListView : public PalringoListView
     public slots:
         void serviceReceived( Service *service );
 
+    signals:
+        void signinPalringo( QString emailAddress, QString password );
+
     private:
         QList<Target*> knownTargets;
+        SigninWindow* signinWindow;
 
     private slots:
         void newPendingMessage( Target* target );
         void newBridge( Bridge* bridge );
+        void handleServiceDoubleClick( Service* service );
 };
 
 #endif
