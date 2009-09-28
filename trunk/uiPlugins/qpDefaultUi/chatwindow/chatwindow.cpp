@@ -165,7 +165,7 @@ void ChatWindow::sendMessage( Message message )
     }
     message.setHist( false );
 
-    emit sendMessage( this->target, message );
+    emit sendMessage( this, this->target, message );
 }
 
 void ChatWindow::checkMessageInput()
