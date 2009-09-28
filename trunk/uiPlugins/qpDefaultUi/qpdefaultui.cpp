@@ -18,8 +18,6 @@ QWidget* QPDefaultUi::getCentralWidget()
 
     mainTabs->addTab( contactList, Tools::getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
     /*
-    connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
-    connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
     connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
     */
