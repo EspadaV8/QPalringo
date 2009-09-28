@@ -54,7 +54,6 @@ Q_OBJECT
         void handleNetworkData( QNetworkReply *networkReply );
 
     private:
-        //PalringoWindow *parent;
         Target *target;
 
         QPushButton *historyButton;
@@ -72,6 +71,9 @@ Q_OBJECT
         virtual void keyPressEvent( QKeyEvent *event );
         virtual void dragEnterEvent( QDragEnterEvent *event );
         virtual void dropEvent( QDropEvent *event );
+
+    signals:
+        void chatWindowClosed( Target* target );
 };
 
 #endif

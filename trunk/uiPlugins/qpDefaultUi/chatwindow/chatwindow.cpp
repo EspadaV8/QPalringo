@@ -106,7 +106,7 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
 
 ChatWindow::~ChatWindow()
 {
-    //tools_->removeChatWindow ( this->target );
+    emit chatWindowClosed( this->target );
     delete this->historyButton;
     delete this->voiceButton;
     delete this->imageButton;
