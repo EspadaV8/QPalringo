@@ -76,6 +76,7 @@ void QPDefaultUi::focusChatWindow( Target* target )
         this->openWindows[ target ] = w;
         w->show();
 
+        connect( w, SIGNAL( sendMessage( ChatWindow*, Target*,Message ) ), this, SLOT( sendMessage( ChatWindow*, Target*,Message ) ) );
         connect( w, SIGNAL( chatWindowClosed( Target* ) ), this, SLOT( removeChatWindow( Target* ) ) );
     }
 }
@@ -100,6 +101,21 @@ void QPDefaultUi::newPendingMessage( Target* target )
         {
             this->overviewList->newPendingMessage( target );
         }
+    }
+}
+
+void QPDefaultUi::sendMessage( ChatWindow* chatwindow, Target* target, Message message )
+{
+    if( message.senderID() == 0 )
+    {
+        quint64 userId = tools()->getUser().userID;
+        message.setSenderID( userId );
+        message.setSender( tools()->getContact( userId ) );
+    }
+    tools()->sendMessage( target, message );
+    if( true ) // TODO: Tools::sendMessage() should return a bool so we can tell if it's been sent or not
+    {
+        chatwindow->appendMessage( message );
     }
 }
 

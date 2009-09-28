@@ -24,6 +24,7 @@ class QPDefaultUi : public QObject, UiPluginInterface
         void focusChatWindow( Target* target );
         void removeChatWindow( Target *target );
         void newPendingMessage( Target* target );
+        void sendMessage( ChatWindow* chatwindow, Target* target, Message message );
 
     private:
         QTabWidget* mainTabs;
