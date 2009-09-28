@@ -1,6 +1,5 @@
 #include <QtGui>
 #include "qpdefaultui.h"
-#include "listviews/overviewlistview.h"
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
 #include "tools.h"
@@ -9,7 +8,7 @@ QWidget* QPDefaultUi::getCentralWidget()
 {
     this->mainTabs = new QTabWidget();
 
-    OverviewListView* overviewList = new OverviewListView( mainTabs, tools() );
+    overviewList = new OverviewListView( mainTabs, tools() );
     overviewList->setupContainers();
 
     mainTabs->addTab( overviewList, Tools::getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
@@ -26,9 +25,13 @@ QWidget* QPDefaultUi::getCentralWidget()
     */
 
     connect( tools(), SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
+    connect( tools(), SIGNAL( newPendingMessage( Target* ) ), this, SLOT( newPendingMessage( Target* ) ) );
     connect( overviewList, SIGNAL(signinPalringo(QString, QString )), tools(), SLOT( openPalringoConnection( QString, QString ) ));
 
     connect( this->mainTabs, SIGNAL( currentChanged( int ) ), this, SLOT( tabFocusChanged( int ) ) );
+
+    //connect( overviewList, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
+    connect( contactList, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
 
     return this->mainTabs;
 }
@@ -43,6 +46,8 @@ void QPDefaultUi::newGroupAdded( Group *group )
     GroupListView *groupTab = new GroupListView( mainTabs, tools(), group );
     groupTab->setupContainers();
     this->mainTabs->addTab( groupTab, Tools::getPixmap( ":/svg/group.svg" ), group->getName() );
+
+    connect( groupTab, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
 }
 
 void QPDefaultUi::tabFocusChanged( int tabIndex )
@@ -51,6 +56,52 @@ void QPDefaultUi::tabFocusChanged( int tabIndex )
     if( p )
     {
         emit p->inFocus();
+    }
+}
+
+bool QPDefaultUi::checkChatWindowOpen( Target *target )
+{
+    return ( this->openWindows.value( target ) != NULL );
+}
+
+void QPDefaultUi::focusChatWindow( Target* target )
+{
+    if ( this->checkChatWindowOpen( target ) )
+    {
+        ChatWindow *w = this->openWindows.value( target );
+        w->raise();
+        w->activateWindow();
+    }
+    else
+    {
+        ChatWindow *w = new ChatWindow( this->mainTabs, target );
+        this->openWindows[ target ] = w;
+        w->show();
+
+        connect( w, SIGNAL( chatWindowClosed( Target* ) ), this, SLOT( removeChatWindow( Target* ) ) );
+    }
+}
+
+void QPDefaultUi::removeChatWindow( Target *target )
+{
+    this->openWindows.remove( target );
+}
+
+void QPDefaultUi::newPendingMessage( Target* target )
+{
+    QSettings settings;
+
+    if( !this->checkChatWindowOpen( target ) )
+    {
+        if( ( target->getType() == Target::CONTACT && settings.value( "alerts/privateAutoOpen" ).toBool() ) ||
+            ( target->getType() == Target::GROUP && settings.value( "alerts/groupAutoOpen" ).toBool() ) )
+        {
+            this->focusChatWindow( target );
+        }
+        else
+        {
+            this->overviewList->newPendingMessage( target );
+        }
     }
 }
 
