@@ -31,7 +31,6 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
 {
     this->setWindowFlags ( Qt::Window );
     this->setAcceptDrops(true);
-    //this->parent = parent;
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
@@ -159,17 +158,14 @@ void ChatWindow::sendMessage( Message message )
     {
         BridgeContact *b = qobject_cast<BridgeContact*>( this->target );
         message.setBridgeID( b->getBridgeId() );
-        message.setSenderID ( 0 );
     }
     else
     {
         message.setBridgeID( 0 );
-        //message.setSenderID ( tools_->getUser().userID );
     }
     message.setHist( false );
 
-    //tools_->sendMessage( this->target, message );
-    this->messageList->addMessage( message );
+    emit sendMessage( this->target, message );
 }
 
 void ChatWindow::checkMessageInput()

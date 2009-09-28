@@ -74,6 +74,7 @@ Q_OBJECT
 
     signals:
         void chatWindowClosed( Target* target );
+        void sendMessage( Target* target, Message message );
 };
 
 #endif
