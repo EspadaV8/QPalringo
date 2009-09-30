@@ -42,20 +42,6 @@ Tools::Tools( QObject *parent )
 
 Tools::~Tools() { }
 
-void Tools::historyMessageReceived( Message message )
-{
-    /*
-    if( this->gettingHistory )
-    {
-        ChatWindow *w = this->openWindows.value( this->historyTarget );
-        w->appendMessage( message );
-
-        this->gettingHistory = false;
-        this->historyTarget = NULL;
-    }
-    */
-}
-
 void Tools::messageReceived( Message message )
 {
     QSettings settings;
@@ -130,7 +116,7 @@ void Tools::openPalringoConnection( QString email, QString password )
             connect( connection, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SIGNAL( gotBridgeDetails( Bridge* ) ) );
             connect( connection, SIGNAL( gotBridgeContact( BridgeContact* ) ), this, SIGNAL( gotBridgeContact( BridgeContact* ) ) );
             connect( connection, SIGNAL( messageReceived( Message ) ), this, SLOT( messageReceived( Message ) ) );
-            connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SLOT( historyMessageReceived( Message ) ) );
+            connect( connection, SIGNAL( historyMessageReceived( Message ) ), this, SIGNAL( historyMessageReceived( Message ) ) );
             connect( connection, SIGNAL( disconnected() ), tools_, SLOT( disconnected() ) );
         }
     }

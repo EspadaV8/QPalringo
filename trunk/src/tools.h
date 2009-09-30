@@ -82,7 +82,6 @@ class Tools : public QObject
         void logonSuccessful( QString timestamp );
         void addContact( Contact *contact );
         void messageReceived( Message message );
-        void historyMessageReceived( Message message );
         void disconnected();
         bool updateContactDetail( QString detail, QString value );
         void openPalringoConnection( QString email = "", QString password = "" );
@@ -100,6 +99,7 @@ class Tools : public QObject
         void groupLeft( quint64 groupID );
 
         void newPendingMessage( Target* target );
+        void historyMessageReceived( Message message );
 
     private:
         bool loggedIn;
