@@ -154,7 +154,7 @@ MessageItem::~MessageItem()
     delete this->layout;
 }
 
-void MessageItem::mouseDoubleClickEvent( QMouseEvent *event )
+void MessageItem::mouseDoubleClickEvent( QMouseEvent* /* event */ )
 {
     if( this->message.type().startsWith( "image" ) )
     {
