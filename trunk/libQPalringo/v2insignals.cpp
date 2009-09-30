@@ -187,7 +187,7 @@ void QPalringoConnection::onBridgeDataMapReceived( const QByteArray& data )
     }
 }
 
-void QPalringoConnection::onBridgeContactV2Received( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onBridgeContactV2Received( const Headers& /* headers */, const QByteArray& body )
 {
     qpDataMap bridgeContacts( body );
 
