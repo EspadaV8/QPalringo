@@ -1,6 +1,6 @@
 #include "qpalringoconnection.h"
 
-void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onAuthRecieved( const Headers headers, const QByteArray body )
 {
     qpAuthData authData;
     authData.getData(headers, body);
@@ -130,7 +130,7 @@ void QPalringoConnection::onAuthRecieved( const Headers& headers, const QByteArr
     sendCmd( qpCommand::AUTH, newHeaders, newBody );
 }
 
-void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onMesgReceived( const Headers headers, const QByteArray body )
 {
     qpMsgData msgData;
     msgData.getData( headers, body );
@@ -191,7 +191,7 @@ void QPalringoConnection::onMesgReceived( const Headers& headers, const QByteArr
     }
 }
 
-void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onLogonSuccessfulReceived( const Headers headers, const QByteArray body )
 {
     qpLogonData logonData;
     logonData.getData( headers, body );
@@ -209,7 +209,7 @@ void QPalringoConnection::onLogonSuccessfulReceived( const Headers& headers, con
     emit logonSuccessful( serverTimestamp );
 }
 
-void QPalringoConnection::onContactDetailReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onContactDetailReceived( const Headers headers, const QByteArray body )
 {
     qpContactData contactData;
     contactData.getData( headers, body );
@@ -257,7 +257,7 @@ void QPalringoConnection::onContactDetailReceived( const Headers& headers, const
     }
 }
 
-void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onGroupDetailReceived( const Headers headers, const QByteArray body )
 {
     qpGroupData groupData;
     groupData.getData( headers, body );
@@ -295,7 +295,7 @@ void QPalringoConnection::onGroupDetailReceived( const Headers& headers, const Q
     emit gotGroupDetails( group );
 }
 
-void QPalringoConnection::onPingReceived( const Headers&, const QByteArray& )
+void QPalringoConnection::onPingReceived( const Headers, const QByteArray /* body */ )
 {
     Headers h;
     if( protocolVersion_ == 2 )
@@ -306,7 +306,7 @@ void QPalringoConnection::onPingReceived( const Headers&, const QByteArray& )
     sendCmd( qpCommand::PING, h, "");
 }
 
-void QPalringoConnection::onResponseReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onResponseReceived( const Headers headers, const QByteArray body )
 {
     qpResponseData responseData;
     responseData.getData(headers, body);
@@ -325,7 +325,7 @@ void QPalringoConnection::onResponseReceived( const Headers& headers, const QByt
 #endif
 }
 
-void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onBridgeReceived( const Headers headers, const QByteArray body )
 {
     qpBridgeData bridgeData;
     bridgeData.getData(headers, body);
@@ -354,7 +354,7 @@ void QPalringoConnection::onBridgeReceived( const Headers& headers, const QByteA
     emit gotBridgeDetails( bridge );
 }
 
-void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onBridgeContactReceived( const Headers headers, const QByteArray body )
 {
     qpBridgeContactData bridgeContactData;
     bridgeContactData.getData(headers, body);
@@ -405,7 +405,7 @@ void QPalringoConnection::onBridgeContactReceived( const Headers& headers, const
     }
 }
 
-void QPalringoConnection::onBridgeOnReceived( const Headers& headers, const QByteArray& )
+void QPalringoConnection::onBridgeOnReceived( const Headers headers, const QByteArray /* body */ )
 {
     qpBridgeOnData bridgeOnData;
     bridgeOnData.getData( headers );

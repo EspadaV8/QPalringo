@@ -1,6 +1,6 @@
 #include "qpalringoconnection.h"
 
-void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QByteArray& body )
+void QPalringoConnection::onSubProfileReceived( const Headers headers, const QByteArray body )
 {
     if( body.size() )
     {
@@ -35,7 +35,7 @@ void QPalringoConnection::onSubProfileReceived( const Headers& headers, const QB
                 qDebug( "emitting signal - %s", qPrintable( i.value() ) );
 #endif
                 QMetaObject::invokeMethod( this, i.value().toAscii(), Qt::DirectConnection,
-                                           Q_ARG( const QByteArray&, logonData.dataMap_->value( i.key() ) ) );
+                                           Q_ARG( const QByteArray, logonData.dataMap_->value( i.key() ) ) );
             }
         }
 
@@ -187,7 +187,7 @@ void QPalringoConnection::onBridgeDataMapReceived( const QByteArray& data )
     }
 }
 
-void QPalringoConnection::onBridgeContactV2Received( const Headers& /* headers */, const QByteArray& body )
+void QPalringoConnection::onBridgeContactV2Received( const Headers /* headers */, const QByteArray body )
 {
     qpDataMap bridgeContacts( body );
 
