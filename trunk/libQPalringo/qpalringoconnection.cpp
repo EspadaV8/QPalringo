@@ -77,36 +77,36 @@ void QPalringoConnection::initOutSignals()
     outSignals.insert( qpCommand::MESG_HIST, "mesgHistSent" );
     outSignals.insert( qpCommand::REG, "regSent" );
 
-    connect( this, SIGNAL( pingSent( Headers&, QByteArray& ) ),
-             this, SLOT( onPingSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( logonSent( Headers&, QByteArray& ) ),
-             this, SLOT( onLogonSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( byeSent( Headers&, QByteArray& ) ),
-             this, SLOT( onByeSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( authSent( Headers&, QByteArray& ) ),
-             this, SLOT( onAuthSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( contactUpdateSent( Headers&, QByteArray& ) ),
-             this, SLOT( onContactUpdateSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( contactAddRespSent( Headers&, QByteArray& ) ),
-             this, SLOT( onContactAddRespSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( groupSubscribeSent( Headers&, QByteArray& ) ),
-             this, SLOT( onGroupSubscribeSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( groupUnsubSent( Headers&, QByteArray& ) ),
-             this, SLOT( onGroupUnsubSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( groupCreateSent( Headers&, QByteArray& ) ),
-             this, SLOT( onGroupCreateSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( groupInviteSent( Headers&, QByteArray& ) ),
-             this, SLOT( onGroupInviteSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( groupAdminSent( Headers&, QByteArray& ) ),
-             this, SLOT( onGroupAdminSent ( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( mesgSent( Headers&, QByteArray& ) ),
-             this, SLOT( onMesgSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( mesgStoredSent( Headers&, QByteArray& ) ),
-             this, SLOT( onMesgStoredSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( mesgHistSent( Headers&, QByteArray& ) ),
-             this, SLOT( onMesgHistSent( Headers&, QByteArray& ) ) );
-    connect( this, SIGNAL( regSent( Headers&, QByteArray& ) ),
-             this, SLOT( onRegSent( Headers&, QByteArray& ) ) );
+    connect( this, SIGNAL( pingSent( Headers, QByteArray ) ),
+             this, SLOT( onPingSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( logonSent( Headers, QByteArray ) ),
+             this, SLOT( onLogonSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( byeSent( Headers, QByteArray ) ),
+             this, SLOT( onByeSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( authSent( Headers, QByteArray ) ),
+             this, SLOT( onAuthSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( contactUpdateSent( Headers, QByteArray ) ),
+             this, SLOT( onContactUpdateSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( contactAddRespSent( Headers, QByteArray ) ),
+             this, SLOT( onContactAddRespSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( groupSubscribeSent( Headers, QByteArray ) ),
+             this, SLOT( onGroupSubscribeSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( groupUnsubSent( Headers, QByteArray ) ),
+             this, SLOT( onGroupUnsubSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( groupCreateSent( Headers, QByteArray ) ),
+             this, SLOT( onGroupCreateSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( groupInviteSent( Headers, QByteArray ) ),
+             this, SLOT( onGroupInviteSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( groupAdminSent( Headers, QByteArray ) ),
+             this, SLOT( onGroupAdminSent ( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( mesgSent( Headers, QByteArray ) ),
+             this, SLOT( onMesgSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( mesgStoredSent( Headers, QByteArray ) ),
+             this, SLOT( onMesgStoredSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( mesgHistSent( Headers, QByteArray ) ),
+             this, SLOT( onMesgHistSent( Headers, QByteArray ) ) );
+    connect( this, SIGNAL( regSent( Headers, QByteArray ) ),
+             this, SLOT( onRegSent( Headers, QByteArray ) ) );
 }
 
 void QPalringoConnection::initInSignals()
@@ -122,20 +122,20 @@ void QPalringoConnection::initInSignals()
     inSignals.insert( qpCommand::BRIDGE_ON, "bridgeOnRecieved" );
 
 
-    connect( this, SIGNAL( authRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onAuthRecieved( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( logonSuccessfulRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onLogonSuccessfulReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( mesgRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( pingRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onPingReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( responseRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onResponseReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( bridgeMesgRecieved( const Headers&, const QByteArray& ) ),
-             this, SLOT( onMesgReceived( const Headers&, const QByteArray& ) ) );
-    connect( this, SIGNAL( bridgeOnRecieved( const Headers&, const QByteArray& ) ),
-            this, SLOT( onBridgeOnReceived( const Headers&, const QByteArray& ) ) );
+    connect( this, SIGNAL( authRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onAuthRecieved( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( logonSuccessfulRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onLogonSuccessfulReceived( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( mesgRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onMesgReceived( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( pingRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onPingReceived( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( responseRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onResponseReceived( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( bridgeMesgRecieved( const Headers, const QByteArray ) ),
+             this, SLOT( onMesgReceived( const Headers, const QByteArray ) ) );
+    connect( this, SIGNAL( bridgeOnRecieved( const Headers, const QByteArray ) ),
+            this, SLOT( onBridgeOnReceived( const Headers, const QByteArray ) ) );
 
     if( this->protocolVersion_ == 1 )
     {
@@ -143,23 +143,23 @@ void QPalringoConnection::initInSignals()
         inSignals.insert( qpCommand::GROUP_DETAIL, "groupDetailRecieved" );
         inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
 
-        connect( this, SIGNAL( contactDetailRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onContactDetailReceived( const Headers&, const QByteArray& ) ) );
-        connect( this, SIGNAL( groupDetailRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onGroupDetailReceived( const Headers&, const QByteArray& ) ) );
-        connect( this, SIGNAL( bridgeRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onBridgeReceived( const Headers&, const QByteArray& ) ) );
-        connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onBridgeContactReceived( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( contactDetailRecieved( const Headers, const QByteArray ) ),
+                 this, SLOT( onContactDetailReceived( const Headers, const QByteArray ) ) );
+        connect( this, SIGNAL( groupDetailRecieved( const Headers, const QByteArray ) ),
+                 this, SLOT( onGroupDetailReceived( const Headers, const QByteArray ) ) );
+        connect( this, SIGNAL( bridgeRecieved( const Headers, const QByteArray ) ),
+                 this, SLOT( onBridgeReceived( const Headers, const QByteArray ) ) );
+        connect( this, SIGNAL( bridgeContactRecieved( const Headers, const QByteArray ) ),
+                 this, SLOT( onBridgeContactReceived( const Headers, const QByteArray ) ) );
     }
     else if( this->protocolVersion_ == 2 )
     {
         inSignals.insert( qpCommand::SUB_PROFILE, "subProfileReceived" );
         inSignals.insert( qpCommand::BRIDGE_CONTACT, "bridgeContactRecieved" );
-        connect( this, SIGNAL( subProfileReceived( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onSubProfileReceived( const Headers&, const QByteArray& ) ) );
-        connect( this, SIGNAL( bridgeContactRecieved( const Headers&, const QByteArray& ) ),
-                 this, SLOT( onBridgeContactV2Received( const Headers&, const QByteArray& ) ) );
+        connect( this, SIGNAL( subProfileReceived( const Headers, const QByteArray ) ),
+                 this, SLOT( onSubProfileReceived( const Headers, const QByteArray ) ) );
+        connect( this, SIGNAL( bridgeContactRecieved( const Headers, const QByteArray ) ),
+                 this, SLOT( onBridgeContactV2Received( const Headers, const QByteArray ) ) );
 
         subProfileSignals.insert( qpSubProfileSection::BRIDGE, "bridgeDataMapReceived" );
         subProfileSignals.insert( qpSubProfileSection::CONTACTS, "contactDataMapReceived" );
@@ -272,8 +272,8 @@ void QPalringoConnection::pollRead()
                 qDebug( "emitting signal - %s", qPrintable( inSignals.value( ic.command ) ) );
 #endif
                 QMetaObject::invokeMethod( this, inSignals.value( ic.command ).toAscii().constData(), Qt::DirectConnection,
-                                           Q_ARG( const Headers&, ic.headers ),
-                                           Q_ARG( const QByteArray&, ic.body ) );
+                                           Q_ARG( const Headers, ic.headers ),
+                                           Q_ARG( const QByteArray, ic.body ) );
             }
         }
     }
@@ -469,7 +469,7 @@ bool QPalringoConnection::sendCmd( QString command, Headers headers, QByteArray 
 #endif
         QMetaObject::invokeMethod( this, outSignals.value( command ).toAscii().constData(), Qt::DirectConnection,
                                    Q_ARG( Headers, headers ),
-                                   Q_ARG( QByteArray&, body ) );
+                                   Q_ARG( QByteArray, body ) );
     }
 
     return true;
