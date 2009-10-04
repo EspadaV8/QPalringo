@@ -42,17 +42,12 @@ class PalringoWindow : public QMainWindow
         PalringoWindow();
         ~PalringoWindow();
 
-    public slots:
-        void groupLeft( quint64 groupID );
-        
     private slots:
         void joinAGroup();
         void createAGroup();
         void showSettingsWindow();
         void cleanUp();
         void showTrayMessage( Target* target );
-        void showOverview();
-        void showContacts();
 
     private:
         QMenu *fileMenu;
@@ -89,11 +84,7 @@ class PalringoWindow : public QMainWindow
         void loadUi();
         void initUiPlugin( QObject* plugin );
         void CreateTrayIcon();
-        void SetupTabs();
         void setupButtonLayout();
-
-        //QList<ListItem *> usersContacts;
-        //QList<ListItem *> userServices;
 
         SettingsWindow* settingsWindow;
 

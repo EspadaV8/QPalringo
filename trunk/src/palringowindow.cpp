@@ -23,9 +23,6 @@
 #include <QDebug>
 #include "palringowindow.h"
 #include "tools.h"
-//#include "listviews/contactlistview.h"
-//#include "listviews/grouplistview.h"
-//#include "listviews/overviewlistview.h"
 #include "uiplugininterface.h"
 
 // Q_IMPORT_PLUGIN(qpdefaultui)
@@ -68,16 +65,10 @@ void PalringoWindow::initUiPlugin( QObject* plugin )
     UiPluginInterface* uiPlugin = qobject_cast<UiPluginInterface *>(plugin);
     if( uiPlugin )
     {
-        //uiPlugin->setUp();
-        uiPlugin->setPalringoWindow( this );
         uiPlugin->setTools( tools_ );
         qDebug( "%s", qPrintable( uiPlugin->getName() ) );
         QWidget *w = uiPlugin->getCentralWidget();
         setCentralWidget( w );
-        /*
-        connect( tools_, SIGNAL( newGroupAdded( Group* )), uiPlugin, SLOT( addGroup( Group* ) ) );
-        connect( tools_, SIGNAL( groupLeft( quint64 )), uiPlugin, SLOT( removeGroup( quint64 ) ) );
-        */
     }
 }
 
@@ -95,10 +86,6 @@ void PalringoWindow::setupUi()
     {
         case 1:
             setupButtonLayout();
-            break;
-        case 0:
-        default:
-            SetupTabs();
             break;
     }
 */
@@ -208,27 +195,6 @@ void PalringoWindow::CreateMenuBar()
     groupMenu->addAction( createGroup );
 }
 
-void PalringoWindow::SetupTabs()
-{
-    mainTabs = new QTabWidget();
-    connect(mainTabs, SIGNAL(currentChanged(int)), this, SLOT(tabFocusChanged(int)));
-/*
-    OverviewListView *overviewList = new OverviewListView( mainTabs );
-    overviewList->setupContainers();
-
-    ContactListView *contactList = new ContactListView( mainTabs );
-    contactList->setupContainers();
-
-    mainTabs->addTab( overviewList, tools_->getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
-    mainTabs->addTab( contactList, tools_->getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
-*/
-    setCentralWidget( mainTabs );
-
-    connect( tools_, SIGNAL( newGroupAdded( Group* )), this, SLOT( newGroupAdded( Group* ) ) );
-    connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
-    connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
-}
-
 void PalringoWindow::setupButtonLayout()
 {
     pages = new QStackedWidget;
@@ -285,16 +251,6 @@ void PalringoWindow::setupButtonLayout()
     w->setLayout( vb );
 
     this->setCentralWidget( w );
-}
-
-void PalringoWindow::showOverview()
-{
-    pages->setCurrentIndex( 0 );
-}
-
-void PalringoWindow::showContacts()
-{
-    pages->setCurrentIndex( 1 );
 }
 
 PalringoWindow::~PalringoWindow()
@@ -355,14 +311,6 @@ void PalringoWindow::showTrayMessage( Target* target )
 
         this->systrayicon->showMessage( sender, text );
     }
-}
-
-void PalringoWindow::groupLeft( quint64 groupID __attribute__ ((unused)) )
-{
-    QWidget *w = mainTabs->currentWidget();
-    mainTabs->setCurrentIndex( 0 );
-    mainTabs->removeTab( mainTabs->indexOf( w ) );
-    w->deleteLater();
 }
 
 void PalringoWindow::joinAGroup()
