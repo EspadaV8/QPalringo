@@ -46,13 +46,9 @@ class Tools : public QObject
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
-        static QString formatMessageText( QByteArray messagePayload );
-        static QString tagURLs( QString text );
-
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
         QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
-        static QDateTime getMessageTimestamp( Message message );
         quint32 getTimestampDifference();
 
         // void showContactProperties( Contact *contact );
@@ -76,6 +72,9 @@ class Tools : public QObject
         static QString getTargetIcon( Target* target );
         static QPixmap getPixmap( QString iconFilename );
         static User getUser();
+        static QString formatMessageText( QByteArray messagePayload );
+        static QString tagURLs( QString text );
+        static QDateTime getMessageTimestamp( Message message );
 
     public slots:
         void logonSuccessful();
