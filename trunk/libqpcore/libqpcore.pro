@@ -11,7 +11,8 @@ LIBS += -L../bin \
 INCLUDEPATH = ../libQPalringo
 DEFINES += LIBQPCORE_LIBRARY
 SOURCES += tools.cpp
-HEADERS += tools.h
+HEADERS += tools.h \
+    uiplugininterface.h
 MOC_DIR = ../tmp
 OBJECTS_DIR = ../tmp
 RCC_DIR = ../tmp

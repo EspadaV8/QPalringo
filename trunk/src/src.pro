@@ -17,8 +17,7 @@ QT += gui \
 HEADERS += contactpropertieswindow.h \
     palringowindow.h \
     settingswindow.h \
-    speexdecoder.h \
-    uiplugininterface.h
+    speexdecoder.h
 LIBS += -L../bin \
     -lqpcore \
     -lssl \

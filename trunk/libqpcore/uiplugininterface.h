@@ -3,7 +3,7 @@
 
 #include <QtGui>
 
-class PalringoWindow;
+//class PalringoWindow;
 class Tools;
 
 class UiPluginInterface
@@ -13,14 +13,14 @@ class UiPluginInterface
         virtual QWidget* getCentralWidget() = 0;
         virtual QString getName() = 0;
 
-        void setPalringoWindow(PalringoWindow* w) {palringoWindow_ = w;}
+//        void setPalringoWindow(PalringoWindow* w) {palringoWindow_ = w;}
         void setTools(Tools* t) {tools_ = t;}
 
-        PalringoWindow* palringoWindow() { return this->palringoWindow_; }
+//        PalringoWindow* palringoWindow() { return this->palringoWindow_; }
         Tools* tools() { return this->tools_; }
 
     private:
-        PalringoWindow *palringoWindow_;
+//        PalringoWindow *palringoWindow_;
         Tools *tools_;
 };
 
