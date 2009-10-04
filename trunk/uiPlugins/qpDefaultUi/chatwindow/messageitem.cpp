@@ -65,8 +65,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->sender->setAlignment( Qt::AlignLeft );
     this->sender->setFont( font );
 
-    //this->timestamp = new QLabel( tools_->getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
-    this->timestamp = new QLabel( QString::number( this->message.seconds() ) );
+    this->timestamp = new QLabel( Tools::getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
     this->timestamp->setFont( font );
@@ -74,8 +73,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     QString messageTypeIcon;
     if( this->message.type() == "text/plain" )
     {
-        //QString formattedText = tools_->formatMessageText( this->message.payload() );
-        QString formattedText = this->message.payload();
+        QString formattedText = Tools::formatMessageText( this->message.payload() );
         this->messageText->setText( formattedText );
         messageTypeIcon = ":/svg/text.svg";
     }
