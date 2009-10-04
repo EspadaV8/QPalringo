@@ -24,7 +24,7 @@
 #include <QBuffer>
 #include <QSettings>
 #include "messageitem.h"
-//#include "tools.h"
+#include "tools.h"
 #include "speexdecoder.h"
 
 #define FONT_SIZE 10
@@ -35,8 +35,8 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     QSettings settings;
 
     this->message = message;
-/*
-    if( ( this->message.senderID() == tools_->getUser().userID ) ||
+
+    if( ( this->message.senderID() == Tools::getUser().userID ) ||
         ( message.bridgeID() > 0 && message.senderID() == 0 ) )
     {
         this->setProperty( "originator", true );
@@ -45,7 +45,6 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     {
         this->setProperty( "originator", false );
     }
-*/
 
     QFont font = this->font();
     font.setPixelSize( FONT_SIZE );
