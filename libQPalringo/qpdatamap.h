@@ -18,10 +18,6 @@ public:
     qpDataMap();
     ~qpDataMap();
 
-    static void appendData(QString       &data,
-                           const QString &attr,
-                           const QString &value);
-
     QByteArray getData();
     QString toString();
 };
