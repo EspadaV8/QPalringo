@@ -9,7 +9,8 @@ CONFIG += warn_on \
     qt \
     debug
 TARGET = ../bin/qpalringo
-FORMS = ui/settingswindow.ui
+FORMS = ui/contactProperties.ui \
+    ui/settingswindow.ui
 QT += gui \
     svg \
     network
