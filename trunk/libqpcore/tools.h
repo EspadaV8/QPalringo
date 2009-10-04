@@ -66,7 +66,6 @@ class Tools : public QObject
 
         void playSound( QString filename );
 
-        User getUser();
         Contact* getContact( quint64 contactID );
         QHash<quint64, Contact*> getContactListContacts();
         QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
@@ -76,6 +75,7 @@ class Tools : public QObject
 
         static QString getTargetIcon( Target* target );
         static QPixmap getPixmap( QString iconFilename );
+        static User getUser();
 
     public slots:
         void logonSuccessful();
@@ -103,7 +103,7 @@ class Tools : public QObject
 
     private:
         bool loggedIn;
-        QPalringoConnection *connection;
+        static QPalringoConnection *connection;
 
         //QHash<Target*, ChatWindow *> openWindows;
 

@@ -24,12 +24,12 @@
 #include <QMessageBox>
 #include "tools.h"
 Tools *tools_;
+QPalringoConnection* Tools::connection = NULL;
 
 Tools::Tools( QObject *parent )
     : QObject( parent )
 {
     this->loggedIn = false;
-    this->connection = NULL;
 
     // used for tracking history requests
     this->gettingHistory = false;
@@ -455,7 +455,7 @@ void Tools::playSound( QString fileName __attribute__ ((unused)) )
 
 User Tools::getUser()
 {
-    return this->connection->getUser();
+    return Tools::connection->getUser();
 }
 
 Contact* Tools::getContact( quint64 contactID )
