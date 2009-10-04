@@ -20,7 +20,10 @@ namespace qpErrorCodes
         NOT_ALLOWED,
         NOT_AVAILABLE,
         THROTTLE,
-        SUB_ALREADY_EXISTS
+        SUB_ALREADY_EXISTS,
+        GROUP_FULL,
+        BANNED,
+        PAY_GROUP
     };
 }
 #endif // ERRORCODES_H

@@ -22,7 +22,11 @@ namespace qpWhat
         BRIDGING_MESG,
         BRI,
         PLS,
-        GROUP_ADMIN
+        SUB_QUERY,
+        GROUP_ADMIN,
+        URL_REQUEST,
+        URL_ERROR,
+        IGNORE
     };
 }
 #endif // WHAT_H
