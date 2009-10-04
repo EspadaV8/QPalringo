@@ -1,5 +1,6 @@
 #ifndef QPCOMMANDS_H
 #define QPCOMMANDS_H
+#include <QString>
 
 namespace qpCommand
 {
@@ -29,6 +30,7 @@ namespace qpCommand
     static const QString MESG_HIST = "MESG HIST";
     static const QString MESG_STORED = "MESG STORED";
     static const QString PING = "P";
+    static const QString PLS_LOC = "PLS_LOC";
     static const QString REG = "REG";
     static const QString RESPONSE = "RESPONSE";
     static const QString SESSION_END = "SESSION END";
