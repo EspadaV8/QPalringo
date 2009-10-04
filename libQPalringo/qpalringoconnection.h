@@ -139,7 +139,7 @@ class QPalringoConnection : public QObject
         QMap<QString, QString> inSignals;
         QMap<QString, QString> subProfileSignals;
 
-        QMap<quint64, Message> unfinishedMessages;
+        QMap< QPair<quint64, quint32>, Message> unfinishedMessages;
         QHash<quint64, Contact* > contacts;
         QHash<quint64, Group* > groups;
         QHash<quint64, Bridge* > bridges;

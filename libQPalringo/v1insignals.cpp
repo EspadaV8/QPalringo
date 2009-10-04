@@ -135,15 +135,22 @@ void QPalringoConnection::onMesgReceived( const Headers headers, const QByteArra
     qpMsgData msgData;
     msgData.getData( headers, body );
 
+    QPair<quint64, quint32> index;
+    index.first = msgData.sourceId_;
+
     Message message;
     if( msgData.correlationId_ > 0 )
     {
-        message = unfinishedMessages.value( msgData.correlationId_ );
+        index.second = msgData.correlationId_;
+
+        message = unfinishedMessages.value( index );
         message.setPayload( message.payload().append( body ) );
-        unfinishedMessages.insert( msgData.correlationId_, message );
+        unfinishedMessages.insert( index, message );
     }
     else
     {
+        index.second = msgData.mesgId_;
+
         message.setType( msgData.contentType_ );
         message.setSenderID( msgData.sourceId_ );
         message.setGroupID( msgData.targetId_ | 0 );
@@ -154,6 +161,7 @@ void QPalringoConnection::onMesgReceived( const Headers headers, const QByteArra
         message.setHist( msgData.hist_ );
         message.setName( msgData.name_ );
         message.setPayload( body );
+
         if( message.bridgeID() > 0 )
         {
             message.setSender( this->getBridgeContact( msgData.bridgeId_, msgData.sourceId_ ) );
@@ -162,9 +170,9 @@ void QPalringoConnection::onMesgReceived( const Headers headers, const QByteArra
         {
             message.setSender( this->getContact( msgData.sourceId_ ) );
         }
-        if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( msgData.mesgId_ ) ) )
+        if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( index ) ) )
         {
-            unfinishedMessages.insert( msgData.mesgId_, message );
+            unfinishedMessages.insert( index, message );
         }
     }
 
