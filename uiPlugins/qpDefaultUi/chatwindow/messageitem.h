@@ -33,7 +33,6 @@
 #include <QFile>
 #include <QSvgWidget>
 #include "message.h"
-#include "targets/contact.h"
 
 class MessageItem : public QFrame
 {
@@ -46,7 +45,6 @@ class MessageItem : public QFrame
 
     private:
         Message message;
-        Contact* contact;
 
         QSvgWidget *messageIcon;
         QLabel *sender;

@@ -155,7 +155,7 @@ void MessageItem::mouseDoubleClickEvent( QMouseEvent* /* event */ )
 {
     if( this->message.type().startsWith( "image" ) )
     {
-        QString t = "Image from " + this->contact->getNickname();
+        QString t = "Image from " + this->message.sender()->getTitle();
         QPixmap p;
         p.loadFromData( this->message.payload() );
 
