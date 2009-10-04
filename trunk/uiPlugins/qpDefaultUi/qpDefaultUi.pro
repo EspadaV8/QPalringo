@@ -49,4 +49,7 @@ OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
 UI_DIR = ../../tmp
 INCLUDEPATH = ../../libQPalringo \
+    ../../libqpcore \
     ../../src
+LIBS += -L../../bin \
+    -lqpcore
