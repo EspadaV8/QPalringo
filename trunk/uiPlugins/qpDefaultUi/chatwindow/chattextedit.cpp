@@ -34,12 +34,21 @@ ChatTextEdit::ChatTextEdit( QWidget *parent )
 
 void ChatTextEdit::keyPressEvent( QKeyEvent* event )
 {
-    if( ( event->modifiers() == Qt::NoModifier ) && ( event->key() == Qt::Key_Return ) )
+#ifdef Q_WS_HILDON
+    if( ( event->modifiers() == Qt::KeypadModifier ) && ( event->key() == Qt::Key_Enter ) )
+#else
+    if( ( event->modifiers() == Qt::NoModifier ) && ( event->key() == Qt::Key_Return  ) )
+#endif
     {
-        emit( returnPressed() );
+        emit returnPressed();
     }
     else
     {
         QPlainTextEdit::keyPressEvent(event);
     }
 }
+
+/*
+  Enter         = Enter +   0x20000000 ( Qt::KeypadModifier )
+  Shift-Enter   =           0x02200000
+*/
