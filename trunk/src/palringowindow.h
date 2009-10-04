@@ -27,8 +27,6 @@
 #include <QStackedWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
-#include "targets/contact.h"
-#include "targets/group.h"
 #include "targets/target.h"
 #include "settingswindow.h"
 
@@ -43,8 +41,6 @@ class PalringoWindow : public QMainWindow
     public:
         PalringoWindow();
         ~PalringoWindow();
-
-        void sendMessage( Contact *contact, Message *message );
 
     public slots:
         void groupLeft( quint64 groupID );
