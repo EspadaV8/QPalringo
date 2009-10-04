@@ -46,13 +46,13 @@ class Tools : public QObject
         void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
-        QString formatMessageText( QByteArray messagePayload );
-        QString tagURLs( QString text );
+        static QString formatMessageText( QByteArray messagePayload );
+        static QString tagURLs( QString text );
 
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
 
         QDateTime convertTimestampToQDateTime( QString timestamp = "0", bool receivedMessage = false );
-        QDateTime getMessageTimestamp( Message message );
+        static QDateTime getMessageTimestamp( Message message );
         quint32 getTimestampDifference();
 
         // void showContactProperties( Contact *contact );

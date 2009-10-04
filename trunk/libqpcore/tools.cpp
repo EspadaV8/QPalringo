@@ -268,7 +268,7 @@ QString Tools::formatMessageText( QByteArray messagePayload )
     }
 
     message.replace(QRegExp("(\r\n)|(\n)|(\r)"), "<br />");
-    message = this->tagURLs( message );
+    message = Tools::tagURLs( message );
 
     return message;
 }
@@ -356,8 +356,7 @@ QDateTime Tools::convertTimestampToQDateTime( QString timestamp, bool receivedMe
 
 QDateTime Tools::getMessageTimestamp( Message message )
 {
-    QDateTime msgTimestamp = QDateTime::fromTime_t( message.seconds() );
-    return msgTimestamp;
+    return QDateTime::fromTime_t( message.seconds() );
 }
 
 void Tools::calcServerTimestampDifference( QString timestamp )
