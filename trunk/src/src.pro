@@ -2,16 +2,14 @@ SOURCES += contactpropertieswindow.cpp \
     main.cpp \
     palringowindow.cpp \
     settingswindow.cpp \
-    speexdecoder.cpp \
-    tools.cpp
+    speexdecoder.cpp
 TEMPLATE = app
 CONFIG += warn_on \
     thread \
     qt \
     debug
 TARGET = ../bin/qpalringo
-FORMS = ui/contactProperties.ui \
-    ui/settingswindow.ui
+FORMS = ui/settingswindow.ui
 QT += gui \
     svg \
     network
@@ -19,10 +17,9 @@ HEADERS += contactpropertieswindow.h \
     palringowindow.h \
     settingswindow.h \
     speexdecoder.h \
-    tools.h \
     uiplugininterface.h
 LIBS += -L../bin \
-    -lQPalringo \
+    -lqpcore \
     -lssl \
     -lspeex \
     -lz
@@ -34,5 +31,6 @@ MOC_DIR = ../tmp
 OBJECTS_DIR = ../tmp
 RCC_DIR = ../tmp
 UI_DIR = ../tmp
-INCLUDEPATH = ../libQPalringo
-QMAKE_LFLAGS += -rdynamic
+INCLUDEPATH = ../libqpcore \
+    ../libQPalringo
+QMAKE_LFLAGS += -Wl,-rpath=../bin
