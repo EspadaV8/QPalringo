@@ -19,45 +19,34 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef PALRINGOSERVICE_H
+#define PALRINGOSERVICE_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
+#include "service.h"
+//#include "signinwindow.h"
+
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
-
-class MessageData : public QSharedData
+class PalringoService : public Service
 {
+    Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+        PalringoService();
+        ~PalringoService();
+        
+    signals:
+        virtual void serviceUpdated();
+        
+    private:
+        //SigninWindow *signinWindow;
+        
+    protected slots:
+        virtual void loginService();
+        virtual void loggedOn();
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+    public slots:
+        virtual void changeOnlineStatus();
 };
 
-#endif // MESSAGEDATA_H
+#endif

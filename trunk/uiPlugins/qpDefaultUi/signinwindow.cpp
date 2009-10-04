@@ -19,45 +19,53 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#include <QSettings>
+#include "signinwindow.h"
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
-/**
-    @author Andrew Smith <espadav8@gmail.com>
-*/
-class Target;
-
-class MessageData : public QSharedData
+SigninWindow::SigninWindow(QWidget *parent)
+ : QDialog(parent), QPalringoSigninWindow()
 {
-    public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+    setupUi(this);
+    this->setFeildValues();
+    this->AutoSignin->setEnabled( false );
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
-};
+    connect( this->OkButton, SIGNAL(clicked()), this, SLOT(openPalringoConnection()));
+    connect( this->OkButton, SIGNAL(clicked()), this, SLOT(close()));
+    connect( this->CancelButton, SIGNAL(clicked()), this, SLOT(close()));
+}
 
-#endif // MESSAGEDATA_H
+void SigninWindow::setFeildValues()
+{
+    QSettings settings;
+    
+    this->EmailEdit->setText( settings.value( "signin/emailaddress" ).toString() );
+    this->PasswordEdit->setText( settings.value( "signin/password" ).toString() );
+    this->RememberMe->setChecked( settings.value( "signin/rememberme" ).toBool() );
+    // this->AutoSignin->setChecked( settings.value( "signin/autosignin" ).toBool() );
+}
+
+QString SigninWindow::getEmailAddress()
+{
+    return this->EmailEdit->text();
+}
+
+QString SigninWindow::getPassword()
+{
+    return this->PasswordEdit->text();
+}
+
+void SigninWindow::openPalringoConnection()
+{
+    if( this->RememberMe->isChecked() )
+    {
+        QSettings settings;
+        
+        settings.setValue( "signin/emailaddress", this->EmailEdit->text() );
+        settings.setValue( "signin/password", this->PasswordEdit->text() );
+        settings.setValue( "signin/rememberme", this->RememberMe->isChecked() );
+        // settings.setValue( "signin/autosignin", this->AutoSignin->isChecked() );
+    }
+    emit signin( this->getEmailAddress(), this->getPassword() );
+}
+
+SigninWindow::~SigninWindow() { }

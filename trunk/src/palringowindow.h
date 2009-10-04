@@ -27,12 +27,7 @@
 #include <QStackedWidget>
 #include <QSystemTrayIcon>
 #include <QScrollArea>
-#include "targets/contact.h"
-#include "targets/group.h"
 #include "targets/target.h"
-#include "signinwindow.h"
-#include "messageitem.h"
-#include "listitems/listitem.h"
 #include "settingswindow.h"
 
 class Connection;
@@ -47,22 +42,12 @@ class PalringoWindow : public QMainWindow
         PalringoWindow();
         ~PalringoWindow();
 
-        void sendMessage( Contact *contact, Message *message );
-
-    public slots:
-        void newGroupAdded( Group *group );
-        void groupLeft( quint64 groupID );
-        
     private slots:
         void joinAGroup();
         void createAGroup();
-        void tabFocusChanged( int tabIndex );
         void showSettingsWindow();
         void cleanUp();
         void showTrayMessage( Target* target );
-        void showOverview();
-        void showContacts();
-        void showGroup( quint64 groupID );
 
     private:
         QMenu *fileMenu;
@@ -96,12 +81,10 @@ class PalringoWindow : public QMainWindow
         QStackedWidget *pages;
 
         void setupUi();
+        void loadUi();
+        void initUiPlugin( QObject* plugin );
         void CreateTrayIcon();
-        void SetupTabs();
         void setupButtonLayout();
-
-        QList<ListItem *> usersContacts;
-        QList<ListItem *> userServices;
 
         SettingsWindow* settingsWindow;
 

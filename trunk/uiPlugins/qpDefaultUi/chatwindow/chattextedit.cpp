@@ -19,45 +19,36 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#include "chattextedit.h"
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
-/**
-    @author Andrew Smith <espadav8@gmail.com>
-*/
-class Target;
-
-class MessageData : public QSharedData
+ChatTextEdit::ChatTextEdit( QWidget *parent )
+    : QPlainTextEdit ( parent )
 {
-    public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+    QFont font = this->font();
+    font.setPixelSize( 10 );
+    this->setFont( font );
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
-};
+    this->setMinimumHeight( this->fontMetrics().height() * 4 );
+    this->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Minimum );
+}
 
-#endif // MESSAGEDATA_H
+void ChatTextEdit::keyPressEvent( QKeyEvent* event )
+{
+#ifdef Q_WS_HILDON
+    if( ( event->modifiers() == Qt::KeypadModifier ) && ( event->key() == Qt::Key_Enter ) )
+#else
+    if( ( event->modifiers() == Qt::NoModifier ) && ( event->key() == Qt::Key_Return  ) )
+#endif
+    {
+        emit returnPressed();
+    }
+    else
+    {
+        QPlainTextEdit::keyPressEvent(event);
+    }
+}
+
+/*
+  Enter         = Enter +   0x20000000 ( Qt::KeypadModifier )
+  Shift-Enter   =           0x02200000
+*/

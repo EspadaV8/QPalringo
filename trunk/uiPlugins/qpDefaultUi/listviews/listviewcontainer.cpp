@@ -19,45 +19,34 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#include "tools.h"
+#include "listviewcontainer.h"
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
-/**
-    @author Andrew Smith <espadav8@gmail.com>
-*/
-class Target;
-
-class MessageData : public QSharedData
+ListViewContainer::ListViewContainer( QWidget *parent, QString name )
+ : QWidget(parent)
 {
-    public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+    this->name = name;
+    this->downarrow = Tools::getPixmap( ":/misc/downarrow.png" );
+    this->rightarrow = Tools::getPixmap( ":/misc/rightarrow.png" );
+}
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
-};
+void ListViewContainer::appendWidget( ListItem*, bool )
+{
+    qDebug( "ListViewContainer::appendWidget - unimplemented" );
+}
 
-#endif // MESSAGEDATA_H
+int ListViewContainer::hasWidget( ListItem* )
+{
+    qDebug( "ListViewContainer::hasWidget - unimplemented" );
+    return 0;
+}
+
+void ListViewContainer::removeWidget( ListItem* )
+{
+    qDebug( "ListViewContainer::removeWidget - unimplemented" );
+}
+
+QString ListViewContainer::getName()
+{
+    return this->name;
+}

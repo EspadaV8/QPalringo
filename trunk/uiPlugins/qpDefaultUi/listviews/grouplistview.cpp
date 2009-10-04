@@ -19,45 +19,48 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+// #include "tools.h"
+#include "grouplistview.h"
+#include "../listitems/grouplistitem.h"
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
-/**
-    @author Andrew Smith <espadav8@gmail.com>
-*/
-class Target;
-
-class MessageData : public QSharedData
+GroupListView::GroupListView(QWidget *parent, Tools* tools_, Group *group)
+ : ContactListView( parent, tools_ )
 {
-    public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+    this->group = group;
+    //this->disconnect( tools_, SIGNAL( cleanUp() ), this, 0 );
+}
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
-};
+void GroupListView::setupContainers()
+{
+    this->addContainer( tr( "Group Chat" ) );
+    this->addContainer( tr( "Online" ) );
+    this->addContainer( tr( "Offline" ) );
 
-#endif // MESSAGEDATA_H
+    GroupListItem *gli = new GroupListItem( this->group );
+    this->addWidgetToView( gli );
+
+    connect( gli, SIGNAL( focusChatWindow( Target* ) ), this, SIGNAL( focusChatWindow( Target* ) ) );
+
+    connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
+    
+    this->addLayoutsToSelf();
+}
+
+void GroupListView::getContacts()
+{
+    quint64 groupID = this->group->getID();
+    ContactListView::getContacts( groupID );
+}
+
+void GroupListView::inFocus()
+{
+    if( this->contacts.size() == 0 )
+    {
+        this->getContacts();
+    }
+}
+
+GroupListView::~GroupListView()
+{
+}
+

@@ -106,6 +106,7 @@ MessageItem
 
 MessageItem QLabel
 {
+    color: #000;
     background: transparent;
 }
 

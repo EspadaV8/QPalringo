@@ -19,45 +19,43 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef SERVICEITEM_H
+#define SERVICEITEM_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
+#include "listitem.h"
+#include "services/service.h"
+
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
 
-class MessageData : public QSharedData
+class ServiceItem : public ListItem
 {
+    Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
-
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+        ServiceItem( Service *service = NULL, bool isPalringoService = false, QWidget *parent = 0 );
+        ~ServiceItem();
+    
+    private slots:
+        void updateDetails();
+        
+    signals:
+        void doubleClick( Service* );
+        
+    protected:
+        void mouseDoubleClickEvent( QMouseEvent *event );
+        virtual void setMenu();
+        
+    private:
+        Service *service;
+        bool isPalringoService;
+        
+        QAction *editServiceMenuAction;
+        QAction *signonMenuAction;
+        QAction *onlineStatus;
+        QAction *awayStatus;
+        QAction *busyStatus;
+        QAction *invisibleStatus;
 };
 
-#endif // MESSAGEDATA_H
+#endif

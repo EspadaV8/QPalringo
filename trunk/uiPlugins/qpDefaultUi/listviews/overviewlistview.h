@@ -19,45 +19,44 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef OVERVIEWLISTVIEW_H
+#define OVERVIEWLISTVIEW_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
+#include <QList>
+#include "services/service.h"
+#include "message.h"
+#include "bridge.h"
+#include "palringolistview.h"
+#include "targets/target.h"
+#include "signinwindow.h"
+#include "tools.h"
+
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
-
-class MessageData : public QSharedData
+class OverviewListView : public PalringoListView
 {
+    Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+        OverviewListView(QWidget *parent = 0, Tools* tools_ = 0 );
+        ~OverviewListView();
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+        virtual void setupContainers();
+        void newPendingMessage( Target* target );
+        
+    public slots:
+        void serviceReceived( Service *service );
+
+    signals:
+        void signinPalringo( QString emailAddress, QString password );
+
+    private:
+        QList<Target*> knownTargets;
+        SigninWindow* signinWindow;
+
+    private slots:
+        void newBridge( Bridge* bridge );
+        void handleServiceDoubleClick( Service* service );
 };
 
-#endif // MESSAGEDATA_H
+#endif

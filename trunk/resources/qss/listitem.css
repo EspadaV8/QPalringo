@@ -18,3 +18,8 @@ ListItem[selected="true"]
                     stop:0 rgba( 255, 255, 255, 0% ),
                     stop:1 rgba( 187, 205, 225, 100% ) );
 }
+
+ListItem QLabel
+{
+    color: #000;
+}

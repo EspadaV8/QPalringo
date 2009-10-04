@@ -1,5 +1,7 @@
 SUBDIRS += libQPalringo \
-    src
+    libqpcore \
+    src \
+    uiPlugins
 TEMPLATE = subdirs
 CONFIG += warn_on \
     qt \

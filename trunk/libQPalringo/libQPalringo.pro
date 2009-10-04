@@ -20,7 +20,10 @@ SOURCES += qpalringoconnection.cpp \
     bridge.cpp \
     targets/bridgecontact.cpp \
     v2insignals.cpp \
-    v1insignals.cpp
+    v1insignals.cpp \
+    services/service.cpp \
+    services/palringoservice.cpp \
+    services/bridgeservice.cpp
 HEADERS += qpalringoconnection.h \
     targets/target.h \
     targets/contact.h \
@@ -42,7 +45,10 @@ HEADERS += qpalringoconnection.h \
     bridge.h \
     targets/bridgecontact.h \
     qpsubprofilesections.h \
-    qpgroupcapabilities.h
+    qpgroupcapabilities.h \
+    services/service.h \
+    services/palringoservice.h \
+    services/bridgeservice.h
 MOC_DIR = ../tmp
 OBJECTS_DIR = ../tmp
 RCC_DIR = ../tmp

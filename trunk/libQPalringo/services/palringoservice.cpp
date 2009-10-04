@@ -19,31 +19,76 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#include <QApplication>
-#include <QFile>
-#include "palringowindow.h"
+#include "palringoservice.h"
+// #include "tools.h"
 
-int main ( int argc, char *argv[] )
+PalringoService::PalringoService()
+ : Service()
 {
-    QApplication app ( argc, argv );
-    app.setApplicationName( "QPalringo" );
-    QFile sheet ( ":/styles/QPalringo.css" );
-
-    if ( ! sheet.open ( QIODevice::ReadOnly ) )
-    {
-        qCritical( "failed to read the stylesheet resource: %s", qPrintable( sheet.fileName() ) );
-        exit ( EXIT_FAILURE );
-    }
-
-    app.setStyleSheet ( sheet.readAll() );
-    
-    QApplication::setOrganizationName( "Palringo" );
-    QApplication::setOrganizationDomain( "palringo.com" );
-    QApplication::setApplicationName( "QPalringo" );
-
-    PalringoWindow *mw = new PalringoWindow();
-
-    mw->show();
-    return app.exec();
+    //this->signinWindow = NULL;
+    //connect( tools_, SIGNAL( connected() ), this, SLOT( loggedOn() ) );
 }
 
+void PalringoService::loggedOn()
+{
+    //this->nickname = tools_->getUser().nickname;
+    //this->status = tools_->getUser().status;
+    this->onlineStatus = qpOnlineStatus::ONLINE;
+    emit serviceUpdated();
+}
+
+void PalringoService::loginService()
+{
+    /*
+    if( this->onlineStatus == qpOnlineStatus::OFFLINE )
+    {
+        if( this->signinWindow == NULL )
+        {
+            this->signinWindow = new SigninWindow();
+        }
+        this->signinWindow->show();
+    }
+    */
+}
+
+void PalringoService::changeOnlineStatus()
+{
+    /*
+    QObject* sender = QObject::sender();
+    QAction* action = qobject_cast<QAction *>(sender);
+
+    if( action != 0 )
+    {
+        QString status;
+        if( action->text() == "Online" )
+        {
+            status = QString::number(qpOnlineStatus::ONLINE);
+        }
+        else if( action->text() == "Away" )
+        {
+            status = QString::number(qpOnlineStatus::AWAY);
+        }
+        else if( action->text() == "Invisible" )
+        {
+            status = QString::number(qpOnlineStatus::INVISIBLE);
+        }
+        else if( action->text() == "Busy" )
+        {
+            status = QString::number(qpOnlineStatus::BUSY);
+        }
+
+        if( tools_->isLoggedIn() )
+        {
+            tools_->updateContactDetail( "ONLINE-STATUS", status );
+        }
+        else
+        {
+            this->loginService();
+        }
+    }
+    */
+}
+
+PalringoService::~PalringoService()
+{
+}

@@ -296,14 +296,10 @@ bool QPalringoConnection::sendMessage( Target* target, Message message )
     data.mesgId_ = ++mesg_id_;
     data.contentType_ = message.type();
 
-    if( target->getType() == Target::BRIDGECONTACT )
+    if( message.bridgeID() != 0 )
     {
-        BridgeContact* bc = qobject_cast<BridgeContact*>( target );
-        if( bc )
-        {
-            data.bridgeId_ = bc->getBridgeId();
-            command = qpCommand::BRIDGE_MESG;
-        }
+        data.bridgeId_ = message.bridgeID();
+        command = qpCommand::BRIDGE_MESG;
     }
 
     // if the message is too big to go in 1 block

@@ -19,45 +19,62 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef CHATWINDOW_H
+#define CHATWINDOW_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
+#include <QPushButton>
+#include <QSplitter>
+#include <QDateTime>
+#include <QNetworkAccessManager>
+#include "targets/target.h"
+#include "messagelist.h"
+#include "chattextedit.h"
+
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
-
-class MessageData : public QSharedData
+class ChatWindow : public QWidget
 {
+Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+        ChatWindow(QWidget *parent = 0, Target *target = NULL );
+        ~ChatWindow();
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+        void appendMessage( Message message );
+
+    private slots:
+        void checkMessageInput();
+        void askForHistory();
+        void loadImageFile();
+        void getMessages();
+        void handleNetworkData( QNetworkReply *networkReply );
+
+    private:
+        Target *target;
+
+        QPushButton *historyButton;
+        QPushButton *voiceButton;
+        QPushButton *imageButton;
+        MessageList *messageList;
+        ChatTextEdit *multiLineInput;
+        QNetworkAccessManager networkAccessManager;
+        
+        void sendImageMessage( QImage image );
+        void sendTextMessage( QString message );
+        void sendMessage( Message message );
+
+    protected:
+        virtual void keyPressEvent( QKeyEvent *event );
+        virtual void dragEnterEvent( QDragEnterEvent *event );
+        virtual void dropEvent( QDropEvent *event );
+
+    signals:
+        void chatWindowClosed( Target* target );
+        void sendMessage( ChatWindow* chatwindow, Target* target, Message message );
 };
 
-#endif // MESSAGEDATA_H
+#endif
+

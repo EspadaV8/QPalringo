@@ -154,6 +154,14 @@ void QPalringoConnection::onMesgReceived( const Headers headers, const QByteArra
         message.setHist( msgData.hist_ );
         message.setName( msgData.name_ );
         message.setPayload( body );
+        if( message.bridgeID() > 0 )
+        {
+            message.setSender( this->getBridgeContact( msgData.bridgeId_, msgData.sourceId_ ) );
+        }
+        else
+        {
+            message.setSender( this->getContact( msgData.sourceId_ ) );
+        }
         if( ( !msgData.last_ ) && ( !unfinishedMessages.contains( msgData.mesgId_ ) ) )
         {
             unfinishedMessages.insert( msgData.mesgId_, message );

@@ -19,45 +19,47 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef PALRINGOLISTVIEW_H
+#define PALRINGOLISTVIEW_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
 
-class MessageData : public QSharedData
+#include <QtGui>
+#include <QWidget>
+#include <QList>
+#include "listviewcontainer.h"
+#include "../listitems/listitem.h"
+#include "tools.h"
+
+class PalringoListView : public QScrollArea
 {
+    Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+        PalringoListView( QWidget *parent = 0, Tools* tools_ = 0 );
+        ~PalringoListView();
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+        virtual void setupContainers();
+
+    protected:
+        void mousePressEvent( QMouseEvent *event );
+        void addContainer( QString containerName );
+
+        void addLayoutsToSelf();
+        int  getContainerPosition( QString containerName );
+        bool addWidgetToView( ListItem *item );
+        bool addWidgetToView( ListItem *item, QString containerName );
+
+        QVBoxLayout *listLayout;
+        Tools* tools_;
+
+        QList<ListItem *> listItems;
+        QList<ListViewContainer *> listViewContainers;
+
+    public slots:
+        virtual void inFocus();
+        void removeListItem( ListItem *item );
 };
 
-#endif // MESSAGEDATA_H
+#endif

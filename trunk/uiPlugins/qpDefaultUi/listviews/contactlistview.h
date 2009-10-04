@@ -19,45 +19,44 @@
  *  <http://www.gnu.org/licenses/>                                         *
  *                                                                         *
  ***************************************************************************/
-#ifndef MESSAGEDATA_H
-#define MESSAGEDATA_H
+#ifndef CONTACTLISTVIEW_H
+#define CONTACTLISTVIEW_H
 
-#include <QSharedData>
-#include <QString>
-#include <QByteArray>
+#include "palringolistview.h"
+#include "targets/contact.h"
+#include "targets/bridgecontact.h"
+#include "../listitems/contactlistitem.h"
+#include "../listitems/bridgecontactlistitem.h"
+#include "tools.h"
+
 /**
-    @author Andrew Smith <espadav8@gmail.com>
+	@author Andrew Smith <espadav8@gmail.com>
 */
-class Target;
-
-class MessageData : public QSharedData
+class ContactListView : public PalringoListView
 {
+    Q_OBJECT
     public:
-        MessageData() {}
-        MessageData( const MessageData &other )
-            : QSharedData( other ),
-                type( other.type ),
-                payload( other.payload ),
-                senderID( other.senderID ),
-                groupID( other.groupID ),
-                seconds( other.seconds ),
-                useconds( other.useconds ),
-                bridgeID( other.bridgeID ),
-                hist( other.hist ),
-                name( other.name ),
-                sender( other.sender ) { }
-        ~MessageData() { }
+        ContactListView( QWidget *parent = 0, Tools* tools_ = 0 );
+        ~ContactListView();
 
-        QString type;
-        QByteArray payload;
-        quint64 senderID;
-        quint64 groupID;
-        quint32 seconds;
-        quint32 useconds;
-        quint32 bridgeID;
-        bool hist;
-        QString name;
-        Target* sender;
+        virtual void setupContainers();
+
+    protected:
+        QHash<quint64, Contact*> contacts;
+
+    protected slots:
+        void contactReceived( Contact *contact, qint32 capabilities = 0 );
+        void bridgeContactReceived( BridgeContact *contact );
+        void getContacts( quint64 groupID = 0 );
+        void checkContainerGroups( ListItem* );
+        void removeContacts();
+
+    public slots:
+        virtual void inFocus();
+
+    signals:
+        void focusChatWindow( Target* contact );
+
 };
 
-#endif // MESSAGEDATA_H
+#endif
