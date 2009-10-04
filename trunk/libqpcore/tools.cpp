@@ -26,7 +26,7 @@
 Tools *tools_;
 
 Tools::Tools( QObject *parent )
-    : QObject( parent );
+    : QObject( parent )
 {
     this->loggedIn = false;
     this->connection = NULL;
