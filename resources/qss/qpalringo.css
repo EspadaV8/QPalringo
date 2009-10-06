@@ -14,12 +14,6 @@ PalringoListView
     border: none;
 }
 
-#firstLine,
-#secondLine
-{
-    font-size: 10px;
-}
-
 #firstLine
 {
     font-weight: bold;
@@ -36,7 +30,6 @@ PalringoListView
     text-align: left;
     background: #bfcfe3;
     color: #406593;
-    font-size: 10px;
 }
 
 /***** Buttons *****/
@@ -65,7 +58,6 @@ PalringoListView
     padding: 2px 4px 1px 3px;
     margin: 3px 0 0 0;
     color: #fff;
-    font-size: 10px;
 }
 
 #overviewButton:checked,
