@@ -27,5 +27,5 @@ namespace QPTools
     QString tagURLs( QString text );
     QString formatMessageText( QByteArray messagePayload );
     QDateTime getMessageTimestamp( Message message );
-    QPixmap getPixmap( QString iconFilename, quint32 size = 24 );
+    QPixmap getPixmap( QString iconFilename, quint32 size = 0 );
 }

@@ -140,7 +140,10 @@ namespace QPTools
         if( !QPixmapCache::find( key, p ) )
         {
             p.load( iconFilename );
-            p = p.scaledToWidth( size, Qt::SmoothTransformation );
+            if( size != 0 )
+            {
+                p = p.scaledToWidth( size, Qt::SmoothTransformation );
+            }
             QPixmapCache::insert( key, p );
         }
         return p;
