@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "listitem.h"
+#include "qptools.h"
 #include <QGridLayout>
 
 ListItem::ListItem( QWidget *parent )
@@ -32,8 +33,9 @@ ListItem::ListItem( QWidget *parent )
     QGridLayout *layout = new QGridLayout( this );
     layout->setContentsMargins( 0, 0, 0, 0 );
 
-    this->svgIcon = new QSvgWidget;
-    this->svgIcon->setFixedSize( 24, 24 );
+    this->iconLabel = new QLabel;
+    this->iconLabel->setObjectName( "iconLabel" );
+    this->iconLabel->setMaximumWidth( 24 );
 
     this->firstLine = new QLabel;
     this->firstLine->setTextFormat( Qt::RichText );
@@ -48,7 +50,7 @@ ListItem::ListItem( QWidget *parent )
     this->secondLine = new QLabel;
     this->secondLine->setObjectName( "secondLine" );
 
-    layout->addWidget( this->svgIcon, 0, 0, 2, 1 );
+    layout->addWidget( this->iconLabel, 0, 0, 2, 1 );
     layout->addWidget( this->firstLine, 0, 1, 1, 1 );
     layout->addWidget( this->extraDetails, 0, 2, 1, 1 );
     layout->addWidget( this->secondLine, 1, 1, 1, 2 );
@@ -78,7 +80,7 @@ void ListItem::setExtraDetails( QString text )
 
 void ListItem::setIcon( QString iconFilename )
 {
-    this->svgIcon->load( iconFilename );
+    this->iconLabel->setPixmap( QPTools::getPixmap( iconFilename, 24 ) );
 }
 
 QString ListItem::getFirstLine()

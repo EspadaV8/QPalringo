@@ -34,7 +34,6 @@
 #include <QPainter>
 #include <QFile>
 #include <QMouseEvent>
-#include <QSvgWidget>
 #include <QMenu>
 
 class ListItem : public QFrame
@@ -75,10 +74,10 @@ class ListItem : public QFrame
         void mouseDoubleClickEvent( QMouseEvent *event );
         void contextMenuEvent( QContextMenuEvent *event );
 
+        QLabel* iconLabel;
         QLabel *firstLine;
         QLabel *secondLine;
         QLabel *extraDetails;
-        QSvgWidget *svgIcon;
         QMenu *popupMenu;
         int type;
 
