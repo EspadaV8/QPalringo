@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "tools.h"
+#include "qptools.h"
 #include "contactpropertieswindow.h"
 
 ContactPropertiesWindow* ContactPropertiesWindow::pinstance = 0;
@@ -41,7 +42,7 @@ ContactPropertiesWindow* ContactPropertiesWindow::getInstance()
 
 void ContactPropertiesWindow::update( Contact *contact )
 {
-    this->setWindowIcon( Tools::getPixmap( tools_->getTargetIcon( contact ) ) );
+    this->setWindowIcon( QPTools::getPixmap( tools_->getTargetIcon( contact ) ) );
     this->setWindowTitle( contact->getNickname() );
     this->nicknameLabel->setText( contact->getNickname() );
     this->statuslineLabel->setText( contact->getStatusline() );

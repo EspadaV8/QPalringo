@@ -23,6 +23,7 @@
 #include <QDebug>
 #include "palringowindow.h"
 #include "tools.h"
+#include "qptools.h"
 #include "uiplugininterface.h"
 
 // Q_IMPORT_PLUGIN(qpdefaultui)
@@ -90,7 +91,7 @@ void PalringoWindow::setupUi()
     }
 */
     setWindowTitle( tr( "QPalringo" ) );
-    setWindowIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
+    setWindowIcon( QPTools::getPixmap( ":/svg/logo.svg" ) );
 }
 
 void PalringoWindow::SetupActions()
@@ -197,6 +198,7 @@ void PalringoWindow::CreateMenuBar()
 
 void PalringoWindow::setupButtonLayout()
 {
+/*
     pages = new QStackedWidget;
 
     QWidget *buttons = new QWidget;
@@ -230,7 +232,7 @@ void PalringoWindow::setupButtonLayout()
     buttonsLayout->addWidget( groupsButton );
     buttonsLayout->addStretch(1);
     buttons->setLayout( buttonsLayout );
-/*
+
     OverviewListView *overviewList = new OverviewListView( this );
     overviewList->setupContainers();
 
@@ -239,7 +241,7 @@ void PalringoWindow::setupButtonLayout()
 
     pages->addWidget( overviewList );
     pages->addWidget( contactList );
-*/
+
     QWidget *w = new QWidget;
     QVBoxLayout *vb = new QVBoxLayout;
     vb->setContentsMargins( 0, 0, 0, 0 );
@@ -251,6 +253,7 @@ void PalringoWindow::setupButtonLayout()
     w->setLayout( vb );
 
     this->setCentralWidget( w );
+*/
 }
 
 PalringoWindow::~PalringoWindow()
@@ -261,7 +264,7 @@ PalringoWindow::~PalringoWindow()
 void PalringoWindow::CreateTrayIcon()
 {
     this->systrayicon = new QSystemTrayIcon();
-    this->systrayicon->setIcon( tools_->getPixmap( ":/svg/logo.svg" ) );
+    this->systrayicon->setIcon( QPTools::getPixmap( ":/svg/logo.svg" ) );
     this->systrayicon->show();
 
     connect( tools_, SIGNAL( newPendingMessage( Target* ) ), this, SLOT( showTrayMessage( Target* ) ) );

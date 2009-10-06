@@ -25,6 +25,7 @@
 #include <QSettings>
 #include "messageitem.h"
 #include "tools.h"
+#include "qptools.h"
 #include "speexdecoder.h"
 
 #define FONT_SIZE 10
@@ -65,7 +66,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->sender->setAlignment( Qt::AlignLeft );
     this->sender->setFont( font );
 
-    this->timestamp = new QLabel( Tools::getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
+    this->timestamp = new QLabel( QPTools::getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
     this->timestamp->setFont( font );
@@ -73,7 +74,7 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     QString messageTypeIcon;
     if( this->message.type() == "text/plain" )
     {
-        QString formattedText = Tools::formatMessageText( this->message.payload() );
+        QString formattedText = QPTools::formatMessageText( this->message.payload() );
         this->messageText->setText( formattedText );
         messageTypeIcon = ":/svg/text.svg";
     }

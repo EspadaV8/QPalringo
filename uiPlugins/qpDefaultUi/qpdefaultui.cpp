@@ -3,6 +3,7 @@
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
 #include "tools.h"
+#include "qptools.h"
 
 QWidget* QPDefaultUi::getCentralWidget()
 {
@@ -11,12 +12,12 @@ QWidget* QPDefaultUi::getCentralWidget()
     overviewList = new OverviewListView( mainTabs, tools() );
     overviewList->setupContainers();
 
-    mainTabs->addTab( overviewList, Tools::getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
+    mainTabs->addTab( overviewList, QPTools::getPixmap( ":/svg/palringoService.svg" ), tr( "Overview" ) );
 
     ContactListView* contactList = new ContactListView( mainTabs, tools() );
     contactList->setupContainers();
 
-    mainTabs->addTab( contactList, Tools::getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
+    mainTabs->addTab( contactList, QPTools::getPixmap( ":/svg/onlineContact.svg" ), tr( "&Contacts" ) );
     /*
     connect( tools_, SIGNAL( groupLeft( quint64 ) ), this, SLOT( groupLeft( quint64 ) ) );
     connect( tools_, SIGNAL( cleanUp() ), this, SLOT( cleanUp() ) );
@@ -43,7 +44,7 @@ void QPDefaultUi::newGroupAdded( Group *group )
 {
     GroupListView *groupTab = new GroupListView( mainTabs, tools(), group );
     groupTab->setupContainers();
-    this->mainTabs->addTab( groupTab, Tools::getPixmap( ":/svg/group.svg" ), group->getName() );
+    this->mainTabs->addTab( groupTab, QPTools::getPixmap( ":/svg/group.svg" ), group->getName() );
 
     connect( groupTab, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
 }

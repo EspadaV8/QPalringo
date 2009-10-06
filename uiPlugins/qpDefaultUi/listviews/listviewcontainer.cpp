@@ -20,14 +20,15 @@
  *                                                                         *
  ***************************************************************************/
 #include "tools.h"
+#include "qptools.h"
 #include "listviewcontainer.h"
 
 ListViewContainer::ListViewContainer( QWidget *parent, QString name )
  : QWidget(parent)
 {
     this->name = name;
-    this->downarrow = Tools::getPixmap( ":/misc/downarrow.png" );
-    this->rightarrow = Tools::getPixmap( ":/misc/rightarrow.png" );
+    this->downarrow = QPTools::getPixmap( ":/misc/downarrow.png" );
+    this->rightarrow = QPTools::getPixmap( ":/misc/rightarrow.png" );
 }
 
 void ListViewContainer::appendWidget( ListItem*, bool )
