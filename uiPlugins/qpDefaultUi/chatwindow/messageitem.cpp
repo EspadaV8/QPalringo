@@ -110,10 +110,11 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
     this->rightside->addWidget( this->messageText );
     this->rightside->addStretch( 1 );
 
-    this->messageIcon = new QSvgWidget;
-    this->leftside = new QVBoxLayout;
     if( settings.value( "gui/showMessageIcons", true ).toBool() == true )
     {
+        this->messageIcon = new QSvgWidget;
+        this->leftside = new QVBoxLayout;
+
         this->messageIcon->setObjectName( "messageIcon" );
         this->messageIcon->setFixedSize( 18, 18 );
         this->messageIcon->load( messageTypeIcon );
@@ -125,6 +126,11 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         this->leftside->addStretch( 1 );
 
         this->layout->addLayout( this->leftside );
+    }
+    else
+    {
+        this->messageIcon = NULL;
+        this->leftside = NULL;
     }
 
     this->layout->addWidget( w, 1 );
