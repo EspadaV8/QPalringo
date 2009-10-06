@@ -165,7 +165,7 @@ int ListItem::getType()
 
 ListItem::~ListItem()
 {
-    delete this->svgIcon;
+    delete this->iconLabel;
     delete this->firstLine;
     delete this->secondLine;
     delete this->popupMenu;
