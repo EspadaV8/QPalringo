@@ -28,8 +28,6 @@
 #include "qptools.h"
 #include "speexdecoder.h"
 
-#define FONT_SIZE 10
-
 MessageItem::MessageItem( QWidget *parent, Message message ) :
         QFrame( parent )
 {
@@ -47,16 +45,12 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         this->setProperty( "originator", false );
     }
 
-    QFont font = this->font();
-    font.setPixelSize( FONT_SIZE );
-
     this->messageText = new QLabel;
     this->messageText->setObjectName( "messageText" );
     this->messageText->setWordWrap( true );
     this->messageText->setTextFormat( Qt::RichText );
     this->messageText->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->messageText->setOpenExternalLinks( true );
-    this->messageText->setFont( font );
 
     if( this->message.sender() )
         this->sender = new QLabel( this->message.sender()->getTitle() );
@@ -64,12 +58,10 @@ MessageItem::MessageItem( QWidget *parent, Message message ) :
         this->sender = new QLabel( this->message.name() );
     this->sender->setObjectName( "senderNickname" );
     this->sender->setAlignment( Qt::AlignLeft );
-    this->sender->setFont( font );
 
     this->timestamp = new QLabel( QPTools::getMessageTimestamp( this->message ).toString( "dd-MM-yy hh:mm:ss" ) );
     this->timestamp->setObjectName( "timestamp" );
     this->timestamp->setAlignment( Qt::AlignRight );
-    this->timestamp->setFont( font );
 
     QString messageTypeIcon;
     if( this->message.type() == "text/plain" )
