@@ -8,30 +8,31 @@
 #include "chatwindow/chatwindow.h"
 #include "listviews/overviewlistview.h"
 
-class QPDefaultUi : public QObject, UiPluginInterface
+class QPDefaultUi : public QObject, protected UiPluginInterface
 {
     Q_OBJECT
     Q_INTERFACES(UiPluginInterface)
 
     public:
-        QWidget* getCentralWidget();
-        QString getName();
+        virtual void setup();
+        virtual QWidget* getCentralWidget();
+        virtual QString getName();
 
-    private slots:
-        void newGroupAdded( Group *group );
-        void tabFocusChanged( int tabIndex );
+    protected slots:
+        virtual void newGroupAdded( Group *group );
+        virtual void tabFocusChanged( int tabIndex );
 
-        void focusChatWindow( Target* target );
-        void removeChatWindow( Target *target );
-        void newPendingMessage( Target* target );
-        void sendMessage( ChatWindow* chatwindow, Target* target, Message message );
+        virtual void focusChatWindow( Target* target );
+        virtual void removeChatWindow( Target *target );
+        virtual void newPendingMessage( Target* target );
+        virtual void sendMessage( ChatWindow* chatwindow, Target* target, Message message );
 
-    private:
+    protected:
         QTabWidget* mainTabs;
         OverviewListView* overviewList;
         QHash<Target*, ChatWindow *> openWindows;
 
-        bool checkChatWindowOpen( Target *target );
+        virtual bool checkChatWindowOpen( Target *target );
 };
 
 #endif // QPDEFAULTUI_H

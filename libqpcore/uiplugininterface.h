@@ -10,6 +10,7 @@ class UiPluginInterface
 {
     public:
         virtual ~UiPluginInterface() {}
+        virtual void setup() = 0;
         virtual QWidget* getCentralWidget() = 0;
         virtual QString getName() = 0;
 

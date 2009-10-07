@@ -5,7 +5,7 @@
 #include "tools.h"
 #include "qptools.h"
 
-QWidget* QPDefaultUi::getCentralWidget()
+void QPDefaultUi::setup()
 {
     this->mainTabs = new QTabWidget();
 
@@ -31,7 +31,10 @@ QWidget* QPDefaultUi::getCentralWidget()
 
     //connect( overviewList, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
     connect( contactList, SIGNAL(focusChatWindow(Target*)), this, SLOT(focusChatWindow(Target*)));
+}
 
+QWidget* QPDefaultUi::getCentralWidget()
+{
     return this->mainTabs;
 }
 

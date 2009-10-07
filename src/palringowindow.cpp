@@ -57,6 +57,11 @@ void PalringoWindow::loadUi()
         {
             qDebug( "Loaded - %s", qPrintable( fileName ) );
             this->initUiPlugin( plugin );
+            break;
+        }
+        else
+        {
+            qDebug() << "Failed loading " << fileName << " - " << loader.errorString();
         }
     }
 }
@@ -66,8 +71,9 @@ void PalringoWindow::initUiPlugin( QObject* plugin )
     UiPluginInterface* uiPlugin = qobject_cast<UiPluginInterface *>(plugin);
     if( uiPlugin )
     {
+        qDebug() << uiPlugin->getName();
         uiPlugin->setTools( tools_ );
-        qDebug( "%s", qPrintable( uiPlugin->getName() ) );
+        uiPlugin->setup();
         QWidget *w = uiPlugin->getCentralWidget();
         setCentralWidget( w );
     }
