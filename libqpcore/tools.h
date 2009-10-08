@@ -70,11 +70,7 @@ class Tools : public QObject
         BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
 
         static QString getTargetIcon( Target* target );
-        //static QPixmap getPixmap( QString iconFilename );
         static User getUser();
-        //static QString formatMessageText( QByteArray messagePayload );
-        //static QString tagURLs( QString text );
-        //static QDateTime getMessageTimestamp( Message message );
 
     public slots:
         void logonSuccessful();
@@ -90,7 +86,7 @@ class Tools : public QObject
         void cleanUp();
         void newGroupAdded( Group *group );
         void newContact( Contact *contact );
-        void gotBridgeDetails( Bridge* bridge );
+        void gotServiceDetails( Service* service );
         void gotBridgeContact( BridgeContact* contact );
 
         void userContactReceived( Contact *contact );
