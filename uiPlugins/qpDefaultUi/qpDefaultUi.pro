@@ -53,3 +53,4 @@ INCLUDEPATH = ../../libQPalringo \
     ../../src
 LIBS += -L../../bin \
     -lqpcore
+QMAKE_LFLAGS += -Wl,-rpath=. -Wl,-rpath-link=../../bin

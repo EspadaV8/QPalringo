@@ -30,7 +30,7 @@ RCC_DIR = ../tmp
 UI_DIR = ../tmp
 INCLUDEPATH = ../libqpcore \
     ../libQPalringo
-QMAKE_LFLAGS += -Wl,-rpath=../bin
+QMAKE_LFLAGS += -Wl,-rpath=. -Wl,-rpath-link=../bin
 
 # SOURCES += speexdecoder.cpp
 # HEADERS += speexdecoder.h
