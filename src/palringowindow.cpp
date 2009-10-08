@@ -36,6 +36,7 @@ PalringoWindow::PalringoWindow()
     setupUi();
     readSettings();
     loadUi();
+    tools_->addInitialPalringoService();
 }
 
 void PalringoWindow::loadUi()
