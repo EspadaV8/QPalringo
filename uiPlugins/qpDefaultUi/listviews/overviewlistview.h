@@ -44,9 +44,6 @@ class OverviewListView : public PalringoListView
         virtual void setupContainers();
         void newPendingMessage( Target* target );
         
-    public slots:
-        void serviceReceived( Service *service );
-
     signals:
         void signinPalringo( QString emailAddress, QString password );
 
@@ -55,7 +52,7 @@ class OverviewListView : public PalringoListView
         SigninWindow* signinWindow;
 
     private slots:
-        void newBridge( Bridge* bridge );
+        void serviceReceived( Service *service );
         void handleServiceDoubleClick( Service* service );
 };
 

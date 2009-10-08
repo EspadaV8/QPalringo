@@ -42,36 +42,9 @@ void OverviewListView::setupContainers()
     this->addContainer( tr( "Services" ) );
     this->addContainer( tr( "Messages" ) );
 
-    PalringoService *s = new PalringoService;
-    s->setType( qpBridgeType::PALRINGO );
-    s->setNickname( "Palringo" );
-    s->setStatus( "Offline" );
-    s->setOnlineStatus( qpOnlineStatus::OFFLINE );
+    connect( tools_, SIGNAL( gotServiceDetails( Service* ) ), this, SLOT( serviceReceived( Service* ) ) );
 
-    connect( tools_, SIGNAL( gotBridgeDetails( Bridge* ) ), this, SLOT( newBridge( Bridge* ) ) );
-
-    this->serviceReceived( s );
     this->addLayoutsToSelf();
-}
-
-void OverviewListView::newBridge( Bridge* bridge )
-{
-    Service *s;
-    switch( bridge->getType() )
-    {
-        case qpBridgeType::PALRINGO:
-            s = new Service();
-            break;
-        default:
-            s = new BridgeService( bridge );
-            break;
-    }
-    s->setNickname( bridge->getNickname() );
-    s->setStatus( bridge->getUsername() );
-    s->setOnlineStatus( qpOnlineStatus::OFFLINE );
-    s->setType( bridge->getType() );
-
-   this->serviceReceived( s );
 }
 
 void OverviewListView::serviceReceived( Service *service )
