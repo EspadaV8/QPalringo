@@ -11,18 +11,6 @@ void Bridge::setId( quint32 id )
     emit bridgeUpdated();
 }
 
-void Bridge::setType( qpBridgeType::Type type )
-{
-    this->type = type;
-    emit bridgeUpdated();
-}
-
-void Bridge::setNickname( QString nickname )
-{
-    this->nickname = nickname;
-    emit bridgeUpdated();
-}
-
 void Bridge::setUsername( QString username )
 {
     this->username = username;
@@ -58,25 +46,9 @@ void Bridge::addContact( BridgeContact* contact )
     this->contacts.insert( contact->getID(), contact );
 }
 
-void Bridge::setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus )
-{
-    this->onlineStatus = onlineStatus;
-    emit bridgeUpdated();
-}
-
 quint32 Bridge::getId()
 {
     return this->id;
-}
-
-qpBridgeType::Type Bridge::getType()
-{
-    return this->type;
-}
-
-QString Bridge::getNickname()
-{
-    return this->nickname;
 }
 
 QString Bridge::getUsername()
@@ -107,9 +79,4 @@ bool Bridge::isDisabled()
 QHash<quint64, BridgeContact*> Bridge::getContacts()
 {
     return this->contacts;
-}
-
-qpOnlineStatus::OnlineStatus Bridge::getOnlineStatus()
-{
-    return this->onlineStatus;
 }
