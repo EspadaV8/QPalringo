@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include <QtGui>
 #include "message.h"
+#include "services/service.h"
 
 namespace QPTools
 {
@@ -28,4 +29,5 @@ namespace QPTools
     QString formatMessageText( QByteArray messagePayload );
     QDateTime getMessageTimestamp( Message message );
     QPixmap getPixmap( QString iconFilename, quint32 size = 0 );
+    QString getServiceIcon( Service* service );
 }

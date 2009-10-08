@@ -148,4 +148,60 @@ namespace QPTools
         }
         return p;
     }
+
+    QString getServiceIcon( Service* service )
+    {
+        if( service->getOnlineStatus() == qpOnlineStatus::OFFLINE )
+        {
+            switch( service->getType() )
+            {
+                case qpBridgeType::PALRINGO:
+                    return ":/svg/palringoService.svg";
+                case qpBridgeType::MSN:
+                    return ":/services/msn_offline.svg";
+                case qpBridgeType::YAHOO:
+                    return ":/services/yahoo_offline.svg";
+                case qpBridgeType::AIM:
+                    return ":/services/aim_offline.svg";
+                case qpBridgeType::GADUGADU:
+                    return ":/services/gaduGadu_offline.svg";
+                case qpBridgeType::ICQ:
+                    return ":/services/icq_offline.svg";
+                case qpBridgeType::XMPP:
+                    return ":/services/jabber_offline.svg";
+                case qpBridgeType::QQ:
+                    return ":/services/qq_offline.svg";
+                case qpBridgeType::FACEBOOK:
+                    return ":/services/facebook_offline.svg";
+                default:
+                    return ":/svg/logo_offline.svg";
+            }
+        }
+        else
+        {
+            switch( service->getType() )
+            {
+                case qpBridgeType::PALRINGO:
+                    return ":/svg/palringoService.svg";
+                case qpBridgeType::MSN:
+                    return ":/services/msn.svg";
+                case qpBridgeType::YAHOO:
+                    return ":/services/yahoo.svg";
+                case qpBridgeType::AIM:
+                    return ":/services/aim.svg";
+                case qpBridgeType::GADUGADU:
+                    return ":/services/gaduGadu.svg";
+                case qpBridgeType::ICQ:
+                    return ":/services/icq.svg";
+                case qpBridgeType::XMPP:
+                    return ":/services/jabber.svg";
+                case qpBridgeType::QQ:
+                    return ":/services/qq.svg";
+                case qpBridgeType::FACEBOOK:
+                    return ":/services/facebook.svg";
+                default:
+                    return ":/svg/logo.svg";
+            }
+        }
+    }
 }
