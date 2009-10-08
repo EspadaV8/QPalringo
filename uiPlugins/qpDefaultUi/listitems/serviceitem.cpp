@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "serviceitem.h"
+#include "qptools.h"
 
 ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *parent )
  : ListItem( parent )
@@ -29,7 +30,7 @@ ServiceItem::ServiceItem( Service *service, bool isPalringoService, QWidget *par
 
     setFirstLine( this->service->getNickname() + " - " + this->service->getStatus() );
     setSecondLine( qpOnlineStatus::OnlineStatusText[ this->service->getOnlineStatus() ] );
-    setIcon( this->service->getIcon() );
+    setIcon( QPTools::getServiceIcon( this->service ) );
     
     connect( service, SIGNAL( serviceUpdated() ), this, SLOT( updateDetails() ) );
     
