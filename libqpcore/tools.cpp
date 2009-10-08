@@ -23,6 +23,8 @@
 #include <QTextDocument>
 #include <QMessageBox>
 #include "tools.h"
+#include "services/palringoservice.h"
+
 Tools *tools_;
 QPalringoConnection* Tools::connection = NULL;
 
@@ -463,4 +465,15 @@ QString Tools::getTargetIcon( Target* target )
     }
 
     return ":/svg/logo.svg";
+}
+
+void Tools::addInitialPalringoService()
+{
+    PalringoService *s = new PalringoService;
+    s->setType( qpBridgeType::PALRINGO );
+    s->setNickname( "Palringo" );
+    s->setStatus( "Offline" );
+    s->setOnlineStatus( qpOnlineStatus::OFFLINE );
+
+    emit gotServiceDetails( s );
 }

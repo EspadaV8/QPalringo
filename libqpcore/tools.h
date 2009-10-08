@@ -72,6 +72,8 @@ class Tools : public QObject
         static QString getTargetIcon( Target* target );
         static User getUser();
 
+        void addInitialPalringoService();
+
     public slots:
         void logonSuccessful();
         void logonSuccessful( QString timestamp );
