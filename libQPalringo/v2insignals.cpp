@@ -183,7 +183,7 @@ void QPalringoConnection::onBridgeDataMapReceived( const QByteArray& data )
 #if SIGNALS
         qDebug( "emitting onBridgeReceived( Bridge* )" );
 #endif
-        emit gotBridgeDetails( bridge );
+        emit gotServiceDetails( bridge );
     }
 }
 

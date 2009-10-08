@@ -359,7 +359,7 @@ void QPalringoConnection::onBridgeReceived( const Headers headers, const QByteAr
 #if SIGNALS
     qDebug( "emitting onBridgeReceived( Bridge* )" );
 #endif
-    emit gotBridgeDetails( bridge );
+    emit gotServiceDetails( bridge );
 }
 
 void QPalringoConnection::onBridgeContactReceived( const Headers headers, const QByteArray body )

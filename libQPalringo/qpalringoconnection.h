@@ -179,7 +179,7 @@ class QPalringoConnection : public QObject
         void historyMessageReceived( Message message );
         void gotContactDetails( Contact *contact );
         void gotGroupDetails( Group *group );
-        void gotBridgeDetails( Bridge *bridge );
+        void gotServiceDetails( Service *service );
         void gotBridgeContact( BridgeContact *contact );
 
         /** out going message signals **/
