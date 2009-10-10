@@ -1,5 +1,7 @@
 #ifndef ONLINESTATUS_H
 #define ONLINESTATUS_H
+#include <QString>
+
 namespace qpOnlineStatus
 {
     enum OnlineStatus
