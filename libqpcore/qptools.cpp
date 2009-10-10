@@ -20,6 +20,10 @@
  *                                                                         *
  ***************************************************************************/
 #include "qptools.h"
+#include "tools.h"
+#include "targets/contact.h"
+#include "targets/bridgecontact.h"
+#include "bridge.h"
 
 namespace QPTools
 {
@@ -203,5 +207,140 @@ namespace QPTools
                     return ":/svg/logo.svg";
             }
         }
+    }
+
+    QString getTargetIcon( Target* target )
+    {
+        if( target->getType() == Target::GROUP )
+        {
+            return ":/svg/group.svg";
+        }
+        else if( target->getType() == Target::CONTACT )
+        {
+            Contact* contact = qobject_cast<Contact*>(target);
+            if( contact )
+            {
+                QString iconName;
+                if ( contact->getOnlineStatus() != qpOnlineStatus::OFFLINE )
+                {
+                    switch( contact->getDeviceType() )
+                    {
+                        //case 1:
+                        //    iconName = ":/svg/botContact.svg";
+                        //    break;
+                        case 2:
+                            iconName = ":/svg/pcContact.svg";
+                            break;
+                        //case 3:
+                        //    iconName = ":/svg/mobileContact.svg";
+                        //    break;
+                        case 4:
+                            iconName = ":/svg/macContact.svg";
+                            break;
+                        case 5:
+                            iconName = ":/svg/iPhoneContact.svg";
+                            break;
+                        default:
+                            iconName = ":/svg/onlineContact.svg";
+                            break;
+                    }
+                }
+                else
+                {
+                    iconName = ":/svg/offlineContact.svg";
+                }
+                return iconName;
+            }
+        }
+        else if( target->getType() ==  Target::BRIDGECONTACT )
+        {
+            BridgeContact* contact = qobject_cast<BridgeContact*>(target);
+            if( contact )
+            {
+                QString icon = ":/services/";
+                Bridge* b = Tools::getBridge( contact->getBridgeId() );
+                if( b != NULL )
+                {
+                    switch( b->getType() )
+                    {
+                        case qpBridgeType::AIM:
+                            icon += "aim";
+                            break;
+                        case qpBridgeType::FACEBOOK:
+                            icon += "facebook";
+                            break;
+                        case qpBridgeType::GADUGADU:
+                            icon += "gaduGadu";
+                            break;
+                        case qpBridgeType::ICQ:
+                            icon += "icq";
+                            break;
+                        case qpBridgeType::MSN:
+                            icon += "msn";
+                            break;
+                        case qpBridgeType::QQ:
+                            icon += "qq";
+                            break;
+                        case qpBridgeType::XMPP:
+                            icon += "jabber";
+                            break;
+                        case qpBridgeType::YAHOO:
+                            icon += "yahoo";
+                            break;
+                        default:
+                            icon = ":/svg/logo";
+                            break;
+                    }
+                }
+                else
+                {
+                    icon = ":/svg/logo";
+                }
+                if( contact->getOnlineStatus() == qpOnlineStatus::OFFLINE )
+                {
+                    icon += "_offline";
+                }
+                icon += ".svg";
+                return icon;
+            }
+        }
+
+        return ":/svg/logo.svg";
+    }
+
+
+    Message createImageMessage( QString filename )
+    {
+        Message message = QPTools::createMessageOutline();
+        message.setType( "image/jpeg" );
+
+        QImage image( filename );
+        if( image.isNull() )
+        {
+            QBuffer buffer;
+            buffer.open( QIODevice::WriteOnly );
+            image.save(&buffer, "jpg");
+            message.setPayload( buffer.data() );
+        }
+        return message;
+    }
+
+    Message createTextMessage( QString text )
+    {
+        Message message = QPTools::createMessageOutline();
+        message.setType( "text/plain" );
+        message.setPayload( text.toUtf8() );
+
+        return message;
+    }
+
+    Message createMessageOutline()
+    {
+        Message message;
+        message.setSeconds( QDateTime::currentDateTime().toTime_t() );
+        message.setUseconds( 0 );
+        message.setHist( false );
+
+        return message;
     }
 }

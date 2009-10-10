@@ -22,6 +22,7 @@
 #include <QtGui>
 #include "message.h"
 #include "services/service.h"
+#include "targets/target.h"
 
 namespace QPTools
 {
@@ -30,4 +31,9 @@ namespace QPTools
     QDateTime getMessageTimestamp( Message message );
     QPixmap getPixmap( QString iconFilename, quint32 size = 0 );
     QString getServiceIcon( Service* service );
+    QString getTargetIcon( Target* target );
+
+    Message createImageMessage( QString filename );
+    Message createTextMessage( QString text );
+    Message createMessageOutline();
 }
