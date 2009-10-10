@@ -42,7 +42,7 @@ ContactPropertiesWindow* ContactPropertiesWindow::getInstance()
 
 void ContactPropertiesWindow::update( Contact *contact )
 {
-    this->setWindowIcon( QPTools::getPixmap( tools_->getTargetIcon( contact ) ) );
+    this->setWindowIcon( QPTools::getPixmap( QPTools::getTargetIcon( contact ) ) );
     this->setWindowTitle( contact->getNickname() );
     this->nicknameLabel->setText( contact->getNickname() );
     this->statuslineLabel->setText( contact->getStatusline() );
