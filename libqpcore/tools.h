@@ -43,7 +43,7 @@ class Tools : public QObject
         Tools( QObject *parent = 0 );
         ~Tools();
 
-        void sendMessage( Target *target, Message message );
+        static void sendMessage( Target *target, Message message );
         void getHistoryMessage( Target *target, QString timestamp );
 
         void HeaderWrite( QByteArray* data, bool stereo, short bitsPerSample, int numberOfSamples, int sampleRate );
@@ -62,15 +62,15 @@ class Tools : public QObject
 
         void playSound( QString filename );
 
-        Contact* getContact( quint64 contactID );
-        QHash<quint64, Contact*> getContactListContacts();
-        QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
         Group* getGroup( quint64 groupID );
-        Bridge* getBridge( quint32 bridgeID );
+        static Contact* getContact( quint64 contactID );
+        QHash<quint64, Contact*> getContactListContacts();
         BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
 
         static QString getTargetIcon( Target* target );
         static User getUser();
+        static Bridge* getBridge( quint32 bridgeID );
+        static QHash<quint64, Contact*> getGroupContacts( quint64 groupID );
 
         void addInitialPalringoService();
 
