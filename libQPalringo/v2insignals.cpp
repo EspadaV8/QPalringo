@@ -77,7 +77,11 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
             Contact* contact = this->contacts.value( contactsIterator.key().toInt() );
 
             if( contactDataMap.contains( qpHeaderAttribute::NICKNAME ) )
-                contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME) );
+            {
+                QString n = contactDataMap.value( qpHeaderAttribute::NICKNAME );
+                n = QString::fromUtf8( n.toAscii(), n.size() );
+                contact->setNickname( n );
+            }
 
             if( contactDataMap.contains( qpHeaderAttribute::STATUS ) )
                 contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
@@ -91,7 +95,10 @@ void QPalringoConnection::onContactDataMapReceived( const QByteArray& data )
             qDebug( "New contact recieved" );
 #endif
             Contact *contact = new Contact;
-            contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
+            QString n = contactDataMap.value( qpHeaderAttribute::NICKNAME );
+            n = QString::fromUtf8( n.toAscii(), n.size() );
+            contact->setNickname( n );
+            //contact->setNickname( contactDataMap.value( qpHeaderAttribute::NICKNAME ) );
             contact->setStatusline( contactDataMap.value( qpHeaderAttribute::STATUS ) );
             contact->setOnlineStatus( contactDataMap.value( qpHeaderAttribute::ONLINE_STATUS ).toInt() );
             contact->setIsContact( contactDataMap.contains( qpHeaderAttribute::CONTACT ) );
