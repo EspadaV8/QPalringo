@@ -1,5 +1,6 @@
 #ifndef BRIDGETYPE_H
 #define BRIDGETYPE_H
+#include <QString>
 
 namespace qpBridgeType
 {
@@ -14,6 +15,19 @@ namespace qpBridgeType
         XMPP,       // 6
         QQ,         // 7
         FACEBOOK    // 8
+    };
+
+    const QString TypeText[] =
+    {
+        "Palringo",
+        "MSN",
+        "Yahoo!",
+        "AIM",
+        "Gadu-Gadu",
+        "ICQ",
+        "XMPP",
+        "QQ",
+        "Facebook"
     };
 }
 
