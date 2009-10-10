@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include "contactlistitem.h"
 #include "tools.h"
+#include "qptools.h"
 #include "qpgroupcapabilities.h"
 #include <QDebug>
 
@@ -85,7 +86,7 @@ void ContactListItem::updateStatusLine()
 
 void ContactListItem::setContactOnlineStatus()
 {
-    this->setIcon( Tools::getTargetIcon( this->contact ) );
+    this->setIcon( QPTools::getTargetIcon( this->contact ) );
     emit( containerGroupChanged( this ) );
 }
 
@@ -130,11 +131,11 @@ void ContactListItem::setMenu()
     this->chatMenuAction = new QAction( tr( "Private Chat" ), this );
     this->chatMenuAction->setStatusTip( tr( "Start a private chat" ) );
     connect( this->chatMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( startChat() ) );
-    
+
     this->propertiesMenuAction = new QAction( tr( "Properties" ), this );
     this->propertiesMenuAction->setStatusTip( tr( "View users properties" ) );
     connect( this->propertiesMenuAction, SIGNAL( triggered( bool ) ), this, SLOT( showContactProperties() ) );
-    
+
     this->popupMenu->addAction( this->chatMenuAction );
     this->popupMenu->addAction( this->propertiesMenuAction );
 }
@@ -158,5 +159,5 @@ void ContactListItem::resetDetails()
     this->updateNickname();
     this->updateStatusLine();
     this->updateExtraDetails();
-    this->setIcon( Tools::getTargetIcon( this->contact ) );
+    this->setIcon( QPTools::getTargetIcon( this->contact ) );
 }

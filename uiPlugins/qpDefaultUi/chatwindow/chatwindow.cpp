@@ -35,7 +35,7 @@ ChatWindow::ChatWindow ( QWidget *parent, Target *target )
     this->target = target;
 
     this->setWindowTitle( this->target->getTitle() );
-    QString icon = Tools::getTargetIcon( this->target );
+    QString icon = QPTools::getTargetIcon( this->target );
     this->setWindowIcon( QPTools::getPixmap( icon ) );
     this->setAttribute ( Qt::WA_DeleteOnClose, true );
 

@@ -21,6 +21,7 @@
  ***************************************************************************/
 #include "grouplistitem.h"
 #include "tools.h"
+#include "qptools.h"
 
 GroupListItem::GroupListItem( Group *group, QWidget *parent )
     : TargetListItem( group, parent )
@@ -36,7 +37,7 @@ GroupListItem::GroupListItem( Group *group, QWidget *parent )
     {
         this->resetDetails();
     }
-    
+
     this->setMenu();
 
     connect( group, SIGNAL( pendingMessage() ), this, SLOT( pendingMessage() ) );
@@ -64,11 +65,11 @@ void GroupListItem::setMenu()
     this->groupChatAction = new QAction( tr( "Group Chat" ), this );
     this->groupChatAction->setStatusTip( tr( "Start a group chat" ) );
     connect( this->groupChatAction, SIGNAL( triggered( bool ) ), this, SLOT( startChat() ) );
-    
+
     this->leaveGroupAction = new QAction( tr( "Leave Group" ), this );
     this->leaveGroupAction->setStatusTip( tr( "Leave the selected group" ) );
     connect( this->leaveGroupAction, SIGNAL( triggered( bool ) ), this, SLOT( leaveGroup() ) );
-    
+
     this->popupMenu->addAction( this->groupChatAction );
     this->popupMenu->addAction( this->leaveGroupAction );
 }
@@ -94,7 +95,7 @@ void GroupListItem::pendingMessage()
 
 void GroupListItem::resetDetails()
 {
-    this->setIcon( Tools::getTargetIcon( this->group ) );
+    this->setIcon( QPTools::getTargetIcon( this->group ) );
     this->setFirstLine( this->group->getName() );
     this->setSecondLine( this->group->getDescription() );
 }

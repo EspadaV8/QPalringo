@@ -1,5 +1,6 @@
 #include "bridgecontactlistitem.h"
 #include "tools.h"
+#include "qptools.h"
 
 BridgeContactListItem::BridgeContactListItem( BridgeContact *contact, QWidget *parent )
     : TargetListItem( contact, parent )
@@ -45,7 +46,7 @@ void BridgeContactListItem::updateDetails()
 
     this->setFirstLine( firstLine );
     this->setSecondLine( secondLine );
-    this->setIcon( Tools::getTargetIcon( this->contact ) );
+    this->setIcon( QPTools::getTargetIcon( this->contact ) );
 }
 
 QString BridgeContactListItem::getContainerGroup()
