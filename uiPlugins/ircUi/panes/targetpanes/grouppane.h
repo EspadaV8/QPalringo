@@ -23,7 +23,9 @@ class GroupPane : public TargetPane
         QHash<quint64, Contact*> groupContacts;
         QVBoxLayout* layout;
         QSplitter* splitter;
-        QListWidget* groupContactsList;
+        QTreeWidget* groupContactsList;
+        QTreeWidgetItem* offlineContacts;
+        QTreeWidgetItem* onlineContacts;
 
         void insertMessages();
 

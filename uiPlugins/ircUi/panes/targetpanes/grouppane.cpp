@@ -9,7 +9,17 @@ GroupPane::GroupPane( Group* group, QWidget* parent )
 
     this->layout = new QVBoxLayout( this );
     this->splitter = new QSplitter();
-    this->groupContactsList = new QListWidget();
+    this->groupContactsList = new QTreeWidget();
+    this->groupContactsList->setHeaderHidden( true );
+
+    this->onlineContacts = new QTreeWidgetItem( this->groupContactsList );
+    this->onlineContacts->setText( 0, "Online" );
+    this->onlineContacts->setExpanded( true );
+
+    this->offlineContacts = new QTreeWidgetItem( this->groupContactsList, this->onlineContacts );
+    this->offlineContacts->setText( 0, "Offline" );
+    this->offlineContacts->setExpanded( false );
+
 
     this->chatView->setTitle( this->group->getDescription() );
     this->chatView->setIcon( ":/svg/group.svg" );
@@ -72,9 +82,21 @@ void GroupPane::showEvent( QShowEvent* /* event */ )
         foreach( Contact* user, this->groupContacts )
         {
             QPixmap p = QPTools::getPixmap( QPTools::getTargetIcon( user ) );
-            new QListWidgetItem( p, user->getNickname(), this->groupContactsList );
+            QTreeWidgetItem* twi = new QTreeWidgetItem();
+            twi->setText( 0, user->getNickname() );
+            twi->setIcon( 0, p );
+
+            if( user->getOnlineStatus() == qpOnlineStatus::OFFLINE )
+            {
+                this->offlineContacts->addChild( twi );
+            }
+            else
+            {
+                this->onlineContacts->addChild( twi );
+            }
         }
-        this->groupContactsList->sortItems( Qt::AscendingOrder );
+        this->onlineContacts->sortChildren( 0, Qt::AscendingOrder );
+        this->offlineContacts->sortChildren( 0, Qt::AscendingOrder );
     }
 }
 
