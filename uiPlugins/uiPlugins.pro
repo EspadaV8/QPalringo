@@ -1,4 +1,4 @@
-SUBDIRS += qpDefaultUi
+SUBDIRS += qpDefaultUi ircUi
 TEMPLATE = subdirs
 CONFIG += warn_on \
     qt \
