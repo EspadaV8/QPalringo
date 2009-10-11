@@ -4,6 +4,14 @@ ServicePane::ServicePane( Service* service, QWidget* parent )
     : QPalPane( parent )
 {
     this->service = service;
+    this->layout = new QVBoxLayout( this );
+    this->splitter = new QSplitter;
+
+    this->contactList = new QTreeWidget;
+
+    this->splitter->addWidget( this->contactList );
+
+    this->layout->addWidget( this->splitter );
 }
 
 QString ServicePane::getTitle() const
