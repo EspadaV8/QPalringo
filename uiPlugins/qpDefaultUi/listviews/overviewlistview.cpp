@@ -25,9 +25,6 @@
 #include "listitems/grouplistitem.h"
 #include "listitems/bridgecontactlistitem.h"
 #include "overviewlistview.h"
-#include "services/palringoservice.h"
-
-#include "services/bridgeservice.h"
 #include "onlinestatus.h"
 
 OverviewListView::OverviewListView(QWidget *parent, Tools* tools_ )
