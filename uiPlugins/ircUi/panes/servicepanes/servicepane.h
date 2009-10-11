@@ -20,6 +20,8 @@ class ServicePane : public QPalPane
         QVBoxLayout* layout;
         QSplitter* splitter;
         QTreeWidget* contactList;
+        QTreeWidgetItem* onlineContactList;
+        QTreeWidgetItem* offlineContactList;
 };
 
 #endif // SERVICEPANE_H
