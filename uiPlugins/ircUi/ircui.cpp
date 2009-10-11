@@ -5,6 +5,7 @@
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
 #include "panes/targetpanes/grouppane.h"
+#include "panes/servicepanes/servicepane.h"
 #include <QDebug>
 
 OverviewPane* IrcUi::overviewPane = NULL;
@@ -61,6 +62,9 @@ void IrcUi::gotService( Service* service )
     twi->setIcon( 0, p );
 
     this->treeWidgetToService.insert( twi, service );
+
+    ServicePane* sp = new ServicePane( service );
+    this->insertPane( twi, sp );
 }
 
 void IrcUi::gotGroup( Group* group )
@@ -102,7 +106,6 @@ void IrcUi::itemDoubleClicked( QTreeWidgetItem* item, int /* column */ )
     if( this->treeWidgetToService.contains( item ) )
     {
         Service* service = this->treeWidgetToService.value( item );
-        qDebug() << service->getType();
         if( service->getType() == qpBridgeType::PALRINGO )
         {
             SigninWindow* sw = new SigninWindow();
@@ -113,7 +116,7 @@ void IrcUi::itemDoubleClicked( QTreeWidgetItem* item, int /* column */ )
         }
         else
         {
-            //
+            tools()->setBridgeStatus( service->getId(), qpOnlineStatus::ONLINE );
         }
     }
 }
