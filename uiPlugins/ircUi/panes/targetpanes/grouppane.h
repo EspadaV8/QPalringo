@@ -24,8 +24,8 @@ class GroupPane : public TargetPane
         QVBoxLayout* layout;
         QSplitter* splitter;
         QTreeWidget* groupContactsList;
-        QTreeWidgetItem* offlineContacts;
-        QTreeWidgetItem* onlineContacts;
+        QTreeWidgetItem* onlineContactList;
+        QTreeWidgetItem* offlineContactList;
 
         void insertMessages();
 

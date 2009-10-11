@@ -13,14 +13,13 @@ GroupPane::GroupPane( Group* group, QWidget* parent )
     this->groupContactsList = new QTreeWidget();
     this->groupContactsList->setHeaderHidden( true );
 
-    this->onlineContacts = new QTreeWidgetItem( this->groupContactsList );
-    this->onlineContacts->setText( 0, "Online" );
-    this->onlineContacts->setExpanded( true );
+    this->onlineContactList = new QTreeWidgetItem( this->groupContactsList );
+    this->onlineContactList->setText( 0, "Online" );
+    this->onlineContactList->setExpanded( true );
 
-    this->offlineContacts = new QTreeWidgetItem( this->groupContactsList, this->onlineContacts );
-    this->offlineContacts->setText( 0, "Offline" );
-    this->offlineContacts->setExpanded( false );
-
+    this->offlineContactList = new QTreeWidgetItem( this->groupContactsList, this->onlineContactList );
+    this->offlineContactList->setText( 0, "Offline" );
+    this->offlineContactList->setExpanded( false );
 
     this->chatView->setTitle( this->group->getDescription() );
     this->chatView->setIcon( ":/svg/group.svg" );
@@ -91,18 +90,18 @@ void GroupPane::showEvent( QShowEvent* /* event */ )
 
             if( user->getOnlineStatus() == qpOnlineStatus::OFFLINE )
             {
-                this->offlineContacts->addChild( twi );
+                this->offlineContactList->addChild( twi );
             }
             else
             {
-                this->onlineContacts->addChild( twi );
+                this->onlineContactList->addChild( twi );
             }
         }
-        this->onlineContacts->sortChildren( 0, Qt::AscendingOrder );
-        this->offlineContacts->sortChildren( 0, Qt::AscendingOrder );
+        this->onlineContactList->sortChildren( 0, Qt::AscendingOrder );
+        this->offlineContactList->sortChildren( 0, Qt::AscendingOrder );
 
-        this->onlineContacts->setText( 0, "Online (" + QString::number( this->onlineContacts->childCount() ) + ")" );
-        this->offlineContacts->setText( 0, "Online (" + QString::number( this->offlineContacts->childCount() ) + ")" );
+        this->onlineContactList->setText( 0, "Online (" + QString::number( this->onlineContactList->childCount() ) + ")" );
+        this->offlineContactList->setText( 0, "Online (" + QString::number( this->offlineContactList->childCount() ) + ")" );
 
         this->groupContactsList->setUpdatesEnabled( true );
     }
