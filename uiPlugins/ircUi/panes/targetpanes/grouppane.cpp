@@ -79,6 +79,8 @@ void GroupPane::showEvent( QShowEvent* /* event */ )
     this->insertMessages();
     if( this->groupContacts.isEmpty() )
     {
+        this->groupContactsList->setUpdatesEnabled( false );
+
         this->groupContacts = Tools::getGroupContacts( this->group->getID() );
         foreach( Contact* user, this->groupContacts )
         {
@@ -98,6 +100,11 @@ void GroupPane::showEvent( QShowEvent* /* event */ )
         }
         this->onlineContacts->sortChildren( 0, Qt::AscendingOrder );
         this->offlineContacts->sortChildren( 0, Qt::AscendingOrder );
+
+        this->onlineContacts->setText( 0, "Online (" + QString::number( this->onlineContacts->childCount() ) + ")" );
+        this->offlineContacts->setText( 0, "Online (" + QString::number( this->offlineContacts->childCount() ) + ")" );
+
+        this->groupContactsList->setUpdatesEnabled( true );
     }
 }
 
