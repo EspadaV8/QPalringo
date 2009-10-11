@@ -1,14 +1,13 @@
 #ifndef PALRINGOSERVICEPANE_H
 #define PALRINGOSERVICEPANE_H
 
-#include "qpalpane.h"
+#include "servicepane.h"
 #include "services/service.h"
 
-class PalringoServicePane : public QPalPane
+class PalringoServicePane : public ServicePane
 {
     public:
         PalringoServicePane( Service* service, QWidget* parent = 0 );
-        virtual QString getTitle() const;
 
     private:
         Service* service;
