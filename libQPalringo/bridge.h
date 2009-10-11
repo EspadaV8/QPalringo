@@ -13,7 +13,6 @@ class Bridge : public Service
     public:
         Bridge();
 
-        void setId( quint32 id );
         void setUsername( QString username );
         void setResource( QString resource );
         void setVendor( QString vendor );
@@ -21,7 +20,6 @@ class Bridge : public Service
         void setDisabled( bool disabled );
         void addContact( BridgeContact* contact );
 
-        quint32 getId();
         QString getUsername();
         QString getResource();
         QString getVendor();
@@ -33,7 +31,6 @@ class Bridge : public Service
         void bridgeUpdated();
 
     private:
-        quint32 id;
         QString username;
         QString resource;
         QString vendor;

@@ -5,12 +5,6 @@ Bridge::Bridge()
 }
 
 
-void Bridge::setId( quint32 id )
-{
-    this->id = id;
-    emit bridgeUpdated();
-}
-
 void Bridge::setUsername( QString username )
 {
     this->username = username;
@@ -44,11 +38,6 @@ void Bridge::setDisabled( bool disabled )
 void Bridge::addContact( BridgeContact* contact )
 {
     this->contacts.insert( contact->getID(), contact );
-}
-
-quint32 Bridge::getId()
-{
-    return this->id;
 }
 
 QString Bridge::getUsername()
