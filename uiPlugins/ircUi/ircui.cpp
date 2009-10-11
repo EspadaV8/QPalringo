@@ -7,6 +7,7 @@
 #include "panes/targetpanes/grouppane.h"
 #include "panes/servicepanes/servicepane.h"
 #include "panes/servicepanes/palringoservicepane.h"
+#include "panes/servicepanes/bridgeservicepane.h"
 #include <QDebug>
 
 OverviewPane* IrcUi::overviewPane = NULL;
@@ -64,18 +65,21 @@ void IrcUi::gotService( Service* service )
 
     this->treeWidgetToService.insert( twi, service );
 
+    ServicePane* sp;
     if( service->getType() == qpBridgeType::PALRINGO )
     {
-        ServicePane* sp;
         sp = new PalringoServicePane( service );
-        this->insertPane( twi, sp );
         connect( tools(), SIGNAL(connected()), sp, SLOT(updateContacts()));
     }
     else
     {
-        //sp = new ServicePane( service );
+        Bridge* b = qobject_cast<Bridge*>( service );
+        if( b )
+        {
+            sp = new BridgeServicePane( b );
+        }
     }
-
+    this->insertPane( twi, sp );
 }
 
 void IrcUi::gotGroup( Group* group )
