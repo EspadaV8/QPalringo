@@ -345,7 +345,7 @@ Contact* Tools::getContact( quint64 contactID )
 
 QHash<quint64, Contact*> Tools::getContactListContacts()
 {
-    return this->connection->getContactListContacts();
+    return Tools::connection->getContactListContacts();
 }
 
 QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
@@ -355,7 +355,7 @@ QHash<quint64, Contact*> Tools::getGroupContacts( quint64 groupID )
 
 Group* Tools::getGroup( quint64 groupID )
 {
-    return this->connection->getGroup( groupID );
+    return Tools::connection->getGroup( groupID );
 }
 
 Bridge* Tools::getBridge( quint32 bridgeID )
@@ -365,7 +365,7 @@ Bridge* Tools::getBridge( quint32 bridgeID )
 
 BridgeContact* Tools::getBridgeContact( quint32 bridgeID, quint64 contactID )
 {
-    return this->connection->getBridgeContact( bridgeID, contactID );
+    return Tools::connection->getBridgeContact( bridgeID, contactID );
 }
 
 void Tools::addInitialPalringoService()

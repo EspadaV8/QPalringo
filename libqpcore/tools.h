@@ -62,10 +62,10 @@ class Tools : public QObject
 
         void playSound( QString filename );
 
-        Group* getGroup( quint64 groupID );
+        static Group* getGroup( quint64 groupID );
         static Contact* getContact( quint64 contactID );
-        QHash<quint64, Contact*> getContactListContacts();
-        BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
+        static QHash<quint64, Contact*> getContactListContacts();
+        static BridgeContact* getBridgeContact( quint32 bridgeID, quint64 contactID );
 
         static QString getTargetIcon( Target* target );
         static User getUser();
