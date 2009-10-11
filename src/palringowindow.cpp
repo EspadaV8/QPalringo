@@ -158,7 +158,7 @@ void PalringoWindow::SetupActions()
     exitMenuAction->setShortcut( tr( "Ctrl+Q" ) );
     exitMenuAction->setStatusTip( tr( "Exit Palringo" ) );
     connect(exitMenuAction, SIGNAL( triggered() ), this, SLOT( close() ) );
-    
+
     /**
      * Group menu actions
      */
@@ -166,7 +166,7 @@ void PalringoWindow::SetupActions()
     joinGroup->setShortcut(tr("Ctrl+J"));
     joinGroup->setStatusTip(tr("Join an existing group"));
     connect(joinGroup, SIGNAL(triggered()), this, SLOT(joinAGroup()));
-    
+
     createGroup = new QAction( tr("&Create a group"), this );
     createGroup->setShortcut(tr("Ctrl+C"));
     createGroup->setStatusTip(tr("Create a new group"));
@@ -194,7 +194,7 @@ void PalringoWindow::CreateMenuBar()
     fileMenu->addAction( settingsMenuAction );
     fileMenu->addSeparator();
     fileMenu->addAction( exitMenuAction );
-    
+
     /**
      * Group menu
      */
@@ -296,7 +296,7 @@ void PalringoWindow::showTrayMessage( Target* target )
 
         if( message.bridgeID() > 0 )
         {
-            sender = "Private message from " + tools_->getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
+            sender = "Private message from " + Tools::getBridgeContact( message.bridgeID(), message.senderID() )->getNickname();
         }
         else
         {
@@ -309,7 +309,7 @@ void PalringoWindow::showTrayMessage( Target* target )
                 }
                 else
                 {
-                    sender = "New message in " + tools_->getGroup( message.groupID() )->getName();
+                    sender = "New message in " + Tools::getGroup( message.groupID() )->getName();
                     text = contact->getNickname() + ": " + text;
                 }
             }
@@ -333,7 +333,7 @@ void PalringoWindow::joinAGroup()
                                               "",
                                               &ok,
                                               0);
-    
+
     if( ok && !groupName.isEmpty() )
     {
         tools_->joinGroup( groupName );
@@ -350,7 +350,7 @@ void PalringoWindow::createAGroup()
                                               "",
                                               &ok,
                                               0);
-    
+
     if( ok && !groupName.isEmpty() )
     {
         tools_->createGroup( groupName );
