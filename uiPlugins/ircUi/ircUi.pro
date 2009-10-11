@@ -12,17 +12,19 @@ SOURCES += ircui.cpp \
     accountlist.cpp \
     panes/qpalpane.cpp \
     panes/overviewpane.cpp \
-    panes/palringoservicepane.cpp \
     panes/targetpanes/targetpane.cpp \
-    panes/targetpanes/grouppane.cpp
+    panes/targetpanes/grouppane.cpp \
+    panes/servicepanes/servicepane.cpp \
+    panes/servicepanes/palringoservicepane.cpp
 HEADERS += ircui.h \
     chatview.h \
     accountlist.h \
     panes/qpalpane.h \
     panes/overviewpane.h \
-    panes/palringoservicepane.h \
     panes/targetpanes/targetpane.h \
-    panes/targetpanes/grouppane.h
+    panes/targetpanes/grouppane.h \
+    panes/servicepanes/servicepane.h \
+    panes/servicepanes/palringoservicepane.h
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
