@@ -23,7 +23,7 @@
 #include "tools.h"
 #include "targets/contact.h"
 #include "targets/bridgecontact.h"
-#include "bridge.h"
+#include "services/bridge.h"
 
 namespace QPTools
 {

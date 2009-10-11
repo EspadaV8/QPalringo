@@ -17,11 +17,11 @@ SOURCES += qpalringoconnection.cpp \
     qpdatamap.cpp \
     signals.cpp \
     qpgenericdata.cpp \
-    bridge.cpp \
     targets/bridgecontact.cpp \
     v2insignals.cpp \
     v1insignals.cpp \
     services/service.cpp \
+    services/bridge.cpp \
     services/palringoservice.cpp
 HEADERS += qpalringoconnection.h \
     targets/target.h \
@@ -41,11 +41,11 @@ HEADERS += qpalringoconnection.h \
     devicetype.h \
     groupstatus.h \
     bridgetype.h \
-    bridge.h \
     targets/bridgecontact.h \
     qpsubprofilesections.h \
     qpgroupcapabilities.h \
     services/service.h \
+    services/bridge.h \
     services/palringoservice.h
 MOC_DIR = ../tmp
 OBJECTS_DIR = ../tmp

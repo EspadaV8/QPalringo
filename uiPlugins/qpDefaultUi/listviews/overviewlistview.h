@@ -25,14 +25,14 @@
 #include <QList>
 #include "services/service.h"
 #include "message.h"
-#include "bridge.h"
+#include "services/bridge.h"
 #include "palringolistview.h"
 #include "targets/target.h"
 #include "signinwindow.h"
 #include "tools.h"
 
 /**
-	@author Andrew Smith <espadav8@gmail.com>
+        @author Andrew Smith <espadav8@gmail.com>
 */
 class OverviewListView : public PalringoListView
 {
@@ -43,7 +43,7 @@ class OverviewListView : public PalringoListView
 
         virtual void setupContainers();
         void newPendingMessage( Target* target );
-        
+
     signals:
         void signinPalringo( QString emailAddress, QString password );
 

@@ -32,7 +32,7 @@
 #include "targets/contact.h"
 #include "targets/group.h"
 #include "targets/bridgecontact.h"
-#include "bridge.h"
+#include "services/bridge.h"
 #include "message.h"
 #include "user.h"
 #include "headers.h"
