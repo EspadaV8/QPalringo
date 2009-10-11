@@ -42,14 +42,14 @@ class Service : public QObject
         void setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus );
         void setNickname( QString nickname );
         void setStatus( QString status );
-        void setID( quint32 id );
+        void setId( quint32 id );
 
         qpBridgeType::Type getType() const;
         virtual qpOnlineStatus::OnlineStatus getOnlineStatus() const;
         virtual QString getNickname() const;
         virtual QString getStatus() const;
         virtual QString getIcon() const;
-        virtual quint32 getID() const;
+        virtual quint32 getId() const;
 
     protected:
         qpBridgeType::Type type;

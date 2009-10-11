@@ -60,7 +60,7 @@ void Service::setStatus( QString status )
     this->status = status;
 }
 
-void Service::setID( quint32 id )
+void Service::setId( quint32 id )
 {
     this->id = id;
 }
@@ -91,7 +91,7 @@ QString Service::getIcon() const
     return ":/svg/palringoService.svg";
 }
 
-quint32 Service::getID() const
+quint32 Service::getId() const
 {
     return this->id;
 }
