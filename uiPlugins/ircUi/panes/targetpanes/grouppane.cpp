@@ -8,6 +8,7 @@ GroupPane::GroupPane( Group* group, QWidget* parent )
     this->group = group;
 
     this->layout = new QVBoxLayout( this );
+    this->layout->setContentsMargins( 0, 0, 0, 0 );
     this->splitter = new QSplitter();
     this->groupContactsList = new QTreeWidget();
     this->groupContactsList->setHeaderHidden( true );

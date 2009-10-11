@@ -4,6 +4,7 @@ OverviewPane::OverviewPane( QWidget* parent )
     : QPalPane( parent )
 {
     this->layout = new QHBoxLayout( this );
+    this->layout->setContentsMargins( 0, 0, 0, 0 );
     this->statusView = new ChatView( this, "QPalringo Overview" );
 
     this->layout->addWidget( this->statusView );
