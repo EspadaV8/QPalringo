@@ -60,6 +60,11 @@ void Service::setStatus( QString status )
     this->status = status;
 }
 
+void Service::setID( quint32 id )
+{
+    this->id = id;
+}
+
 
 qpBridgeType::Type Service::getType() const
 {
@@ -84,6 +89,11 @@ QString Service::getStatus() const
 QString Service::getIcon() const
 {
     return ":/svg/palringoService.svg";
+}
+
+quint32 Service::getID() const
+{
+    return this->id;
 }
 
 Service::~Service()

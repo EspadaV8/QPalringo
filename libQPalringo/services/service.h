@@ -27,7 +27,7 @@
 #include "onlinestatus.h"
 
 /**
-	@author Andrew Smith <espadav8@gmail.com>
+        @author Andrew Smith <espadav8@gmail.com>
 */
 class Service : public QObject
 {
@@ -35,29 +35,32 @@ class Service : public QObject
     public:
         Service(QObject *parent = 0);
         ~Service();
-        
+
         void goOnline();
 
         void setType( qpBridgeType::Type type );
         void setOnlineStatus( qpOnlineStatus::OnlineStatus onlineStatus );
         void setNickname( QString nickname );
         void setStatus( QString status );
+        void setID( quint32 id );
 
         qpBridgeType::Type getType() const;
         virtual qpOnlineStatus::OnlineStatus getOnlineStatus() const;
         virtual QString getNickname() const;
         virtual QString getStatus() const;
         virtual QString getIcon() const;
+        virtual quint32 getID() const;
 
     protected:
         qpBridgeType::Type type;
         qpOnlineStatus::OnlineStatus onlineStatus;
         QString nickname;
         QString status;
-        
+        quint32 id;
+
     signals:
         virtual void serviceUpdated();
-        
+
     protected slots:
         virtual void loggedOn();
         virtual void loginService();
