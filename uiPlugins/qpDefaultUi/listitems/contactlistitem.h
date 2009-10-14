@@ -46,9 +46,8 @@ class ContactListItem : public TargetListItem
 
     signals:
         void containerGroupChanged( ListItem* );
-        
+
     private slots:
-        void startChat();
         void showContactProperties();
         void pendingMessage();
         void resetDetails();
@@ -66,7 +65,7 @@ class ContactListItem : public TargetListItem
     private:
         Contact *contact;
         qint32 capabilities;
-        
+
         QAction *chatMenuAction;
         QAction *propertiesMenuAction;
 };

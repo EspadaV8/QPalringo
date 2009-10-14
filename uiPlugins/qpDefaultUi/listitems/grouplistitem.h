@@ -27,7 +27,7 @@
 #include "targets/group.h"
 
 /**
-	@author Andrew Smith <espadav8@gmail.com>
+        @author Andrew Smith <espadav8@gmail.com>
 */
 class GroupListItem : public TargetListItem
 {
@@ -43,9 +43,8 @@ class GroupListItem : public TargetListItem
         Group *group;
         QAction *groupChatAction;
         QAction *leaveGroupAction;
-        
+
     private slots:
-        void startChat();
         void leaveGroup();
         void pendingMessage();
         void resetDetails();
