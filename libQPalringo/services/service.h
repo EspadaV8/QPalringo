@@ -59,7 +59,7 @@ class Service : public QObject
         quint32 id;
 
     signals:
-        virtual void serviceUpdated();
+        void serviceUpdated();
 
     protected slots:
         virtual void loggedOn();
