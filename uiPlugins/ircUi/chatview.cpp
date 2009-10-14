@@ -49,14 +49,13 @@ void ChatView::insertMarker()
 {
     if( this->marker == false )
     {
-        this->addText( "----------------------------------" );
+        this->addText( "-------------------------" );
         this->marker = true;
     }
 }
 
 void ChatView::sendText()
 {
-    qDebug() << "Trying to send a message";
     emit sendMessage( this->textInput->text() );
     this->textInput->clear();
 }
