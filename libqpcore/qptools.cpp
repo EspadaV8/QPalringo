@@ -227,7 +227,7 @@ namespace QPTools
                 Contact* contact = qobject_cast<Contact*>(target);
                 if( contact )
                 {
-                    else if ( contact->getOnlineStatus() != qpOnlineStatus::OFFLINE )
+                    if ( contact->getOnlineStatus() != qpOnlineStatus::OFFLINE )
                     {
                         switch( contact->getDeviceType() )
                         {
@@ -309,7 +309,7 @@ namespace QPTools
                 }
                 return iconName;
             }
-
+        }
         return ":/svg/logo.svg";
     }
 
