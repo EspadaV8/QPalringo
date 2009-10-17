@@ -211,99 +211,104 @@ namespace QPTools
 
     QString getTargetIcon( Target* target )
     {
-        if( target->getType() == Target::GROUP )
+        if( target->getPendingMessages() > 0 )
+        {
+            return ":/svg/text.svg";
+        }
+        else if( target->getType() == Target::GROUP )
         {
             return ":/svg/group.svg";
         }
-        else if( target->getType() == Target::CONTACT )
+        else
         {
-            Contact* contact = qobject_cast<Contact*>(target);
-            if( contact )
+            QString iconName;
+            if( target->getType() == Target::CONTACT )
             {
-                QString iconName;
-                if ( contact->getOnlineStatus() != qpOnlineStatus::OFFLINE )
+                Contact* contact = qobject_cast<Contact*>(target);
+                if( contact )
                 {
-                    switch( contact->getDeviceType() )
+                    else if ( contact->getOnlineStatus() != qpOnlineStatus::OFFLINE )
                     {
-                        //case 1:
-                        //    iconName = ":/svg/botContact.svg";
-                        //    break;
-                        case 2:
-                            iconName = ":/svg/pcContact.svg";
-                            break;
-                        //case 3:
-                        //    iconName = ":/svg/mobileContact.svg";
-                        //    break;
-                        case 4:
-                            iconName = ":/svg/macContact.svg";
-                            break;
-                        case 5:
-                            iconName = ":/svg/iPhoneContact.svg";
-                            break;
-                        default:
-                            iconName = ":/svg/onlineContact.svg";
-                            break;
+                        switch( contact->getDeviceType() )
+                        {
+                            //case 1:
+                            //    iconName = ":/svg/botContact.svg";
+                            //    break;
+                            case 2:
+                                iconName = ":/svg/pcContact.svg";
+                                break;
+                            //case 3:
+                            //    iconName = ":/svg/mobileContact.svg";
+                            //    break;
+                            case 4:
+                                iconName = ":/svg/macContact.svg";
+                                break;
+                            case 5:
+                                iconName = ":/svg/iPhoneContact.svg";
+                                break;
+                            default:
+                                iconName = ":/svg/onlineContact.svg";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        iconName = ":/svg/offlineContact.svg";
                     }
                 }
-                else
+            }
+            else if( target->getType() ==  Target::BRIDGECONTACT )
+            {
+                BridgeContact* contact = qobject_cast<BridgeContact*>(target);
+                if( contact )
                 {
-                    iconName = ":/svg/offlineContact.svg";
+                    iconName += ":/services/";
+                    Bridge* b = Tools::getBridge( contact->getBridgeId() );
+                    if( b != NULL )
+                    {
+                        switch( b->getType() )
+                        {
+                            case qpBridgeType::AIM:
+                                iconName += "aim";
+                                break;
+                            case qpBridgeType::FACEBOOK:
+                                iconName += "facebook";
+                                break;
+                            case qpBridgeType::GADUGADU:
+                                iconName += "gaduGadu";
+                                break;
+                            case qpBridgeType::ICQ:
+                                iconName += "icq";
+                                break;
+                            case qpBridgeType::MSN:
+                                iconName += "msn";
+                                break;
+                            case qpBridgeType::QQ:
+                                iconName += "qq";
+                                break;
+                            case qpBridgeType::XMPP:
+                                iconName += "jabber";
+                                break;
+                            case qpBridgeType::YAHOO:
+                                iconName += "yahoo";
+                                break;
+                            default:
+                                iconName = ":/svg/logo";
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        iconName = ":/svg/logo";
+                    }
+                    if( contact->getOnlineStatus() == qpOnlineStatus::OFFLINE )
+                    {
+                        iconName += "_offline";
+                    }
+                    iconName += ".svg";
                 }
                 return iconName;
             }
-        }
-        else if( target->getType() ==  Target::BRIDGECONTACT )
-        {
-            BridgeContact* contact = qobject_cast<BridgeContact*>(target);
-            if( contact )
-            {
-                QString icon = ":/services/";
-                Bridge* b = Tools::getBridge( contact->getBridgeId() );
-                if( b != NULL )
-                {
-                    switch( b->getType() )
-                    {
-                        case qpBridgeType::AIM:
-                            icon += "aim";
-                            break;
-                        case qpBridgeType::FACEBOOK:
-                            icon += "facebook";
-                            break;
-                        case qpBridgeType::GADUGADU:
-                            icon += "gaduGadu";
-                            break;
-                        case qpBridgeType::ICQ:
-                            icon += "icq";
-                            break;
-                        case qpBridgeType::MSN:
-                            icon += "msn";
-                            break;
-                        case qpBridgeType::QQ:
-                            icon += "qq";
-                            break;
-                        case qpBridgeType::XMPP:
-                            icon += "jabber";
-                            break;
-                        case qpBridgeType::YAHOO:
-                            icon += "yahoo";
-                            break;
-                        default:
-                            icon = ":/svg/logo";
-                            break;
-                    }
-                }
-                else
-                {
-                    icon = ":/svg/logo";
-                }
-                if( contact->getOnlineStatus() == qpOnlineStatus::OFFLINE )
-                {
-                    icon += "_offline";
-                }
-                icon += ".svg";
-                return icon;
-            }
-        }
 
         return ":/svg/logo.svg";
     }
