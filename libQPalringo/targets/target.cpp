@@ -20,6 +20,7 @@
  *                                                                         *
  ***************************************************************************/
 #include "target.h"
+#include <QDebug>
 
 Target::Target(QObject *parent)
  : QObject(parent)
@@ -53,7 +54,7 @@ int Target::getType()
 void Target::addMessage( Message message )
 {
     this->pendingMessages.append( message );
-    emit pendingMessage();
+    emit pendingMessage( this );
 }
 
 void Target::clearPending()

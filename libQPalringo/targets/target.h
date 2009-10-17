@@ -26,7 +26,7 @@
 #include "../message.h"
 
 /**
-	@author Andrew Smith <espadav8@gmail.com>
+        @author Andrew Smith <espadav8@gmail.com>
 */
 class Message;
 
@@ -53,6 +53,7 @@ class Target : public QObject
 
     signals:
         void pendingMessage();
+        void pendingMessage( Target* target );
         void insertMessage();
         void clearedPendingMessages();
 
