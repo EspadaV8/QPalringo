@@ -16,7 +16,8 @@ SOURCES += ircui.cpp \
     panes/targetpanes/grouppane.cpp \
     panes/servicepanes/servicepane.cpp \
     panes/servicepanes/palringoservicepane.cpp \
-    panes/servicepanes/bridgeservicepane.cpp
+    panes/servicepanes/bridgeservicepane.cpp \
+    panes/targetpanes/privatechatpane.cpp
 HEADERS += ircui.h \
     chatview.h \
     accountlist.h \
@@ -26,7 +27,8 @@ HEADERS += ircui.h \
     panes/targetpanes/grouppane.h \
     panes/servicepanes/servicepane.h \
     panes/servicepanes/palringoservicepane.h \
-    panes/servicepanes/bridgeservicepane.h
+    panes/servicepanes/bridgeservicepane.h \
+    panes/targetpanes/privatechatpane.h
 MOC_DIR = ../../tmp
 OBJECTS_DIR = ../../tmp
 RCC_DIR = ../../tmp
