@@ -16,7 +16,6 @@ class GroupPane : public TargetPane
 
     protected:
         void showEvent( QShowEvent* event );
-        void hideEvent( QHideEvent* event );
 
     private:
         Group* group;
@@ -26,12 +25,6 @@ class GroupPane : public TargetPane
         QTreeWidget* groupContactsList;
         QTreeWidgetItem* onlineContactList;
         QTreeWidgetItem* offlineContactList;
-
-        void insertMessages();
-
-    private slots:
-        void handleNewMessage();
-        void sendTextMessage( QString text );
 };
 
 #endif // GROUPPANE_H
