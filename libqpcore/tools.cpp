@@ -140,14 +140,11 @@ void Tools::getHistoryMessage( Target *target, QString timestamp )
 
 void Tools::addContact( Contact *contact )
 {
-    if( this->loggedIn )
+    if( contact->getIsContact() )
     {
-        if( contact->getIsContact() )
-        {
-            emit( userContactReceived( contact ) );
-        }
-        emit( contactDetailReceived( contact ) );
+        emit( userContactReceived( contact ) );
     }
+    emit( contactDetailReceived( contact ) );
 }
 
 void Tools::logonSuccessful()
