@@ -10,6 +10,9 @@ PalringoServicePane::PalringoServicePane( Service* service, QWidget* parent )
 
 void PalringoServicePane::updateContacts()
 {
+    bool onlineExpanded = this->onlineContactList->isExpanded();
+    bool offlineExpanded = this->offlineContactList->isExpanded();
+
     this->contacts = Tools::getContactListContacts();
 
     this->contactList->setUpdatesEnabled( false );
@@ -32,5 +35,8 @@ void PalringoServicePane::updateContacts()
 
     this->onlineContactList->sortChildren( 0, Qt::AscendingOrder );
     this->offlineContactList->sortChildren( 0, Qt::AscendingOrder );
+
+    this->onlineContactList->setExpanded( onlineExpanded );
+    this->offlineContactList->setExpanded( offlineExpanded );
     this->contactList->setUpdatesEnabled( true );
 }

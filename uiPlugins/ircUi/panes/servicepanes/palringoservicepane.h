@@ -17,7 +17,6 @@ class PalringoServicePane : public ServicePane
     private:
         Service* service;
         QHash<quint64, Contact*> contacts;
-
 };
 
 #endif // PALRINGOSERVICEPANE_H
