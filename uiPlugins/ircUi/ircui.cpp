@@ -21,11 +21,15 @@ IrcUi::IrcUi()
 
     this->servicesTreeItem = new QTreeWidgetItem( this->accountList );
     this->servicesTreeItem->setText(0, tr("Services"));
+    QPixmap p = QPTools::getPixmap( ":/svg/logo.svg" );
+    this->servicesTreeItem->setIcon( 0, p );
     this->servicesTreeItem->setExpanded( true );
 
-    groups = new QTreeWidgetItem( this->accountList, this->servicesTreeItem );
-    groups->setText(0, tr("Groups"));
-    groups->setExpanded( true );
+    groupsList = new QTreeWidgetItem( this->accountList, this->openChatsList );
+    groupsList->setText(0, tr("Groups"));
+    p = QPTools::getPixmap( ":/svg/group.svg" );
+    groupsList->setIcon( 0, p );
+    groupsList->setExpanded( true );
 
     this->overviewPane = new OverviewPane();
 }
@@ -84,12 +88,12 @@ void IrcUi::gotService( Service* service )
 
 void IrcUi::gotGroup( Group* group )
 {
-    QTreeWidgetItem* twi = new QTreeWidgetItem( this->groups );
+    QTreeWidgetItem* twi = new QTreeWidgetItem( this->groupsList );
     twi->setText(0, group->getName() );
     QPixmap p( QPTools::getPixmap( ":/svg/group.svg" ) );
     twi->setIcon( 0, p );
 
-    this->groups->sortChildren( 0, Qt::AscendingOrder );
+    this->groupsList->sortChildren( 0, Qt::AscendingOrder );
     this->treeWidgetToTarget.insert( twi, group );
 
     GroupPane* gp = new GroupPane( group );

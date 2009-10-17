@@ -39,7 +39,7 @@ class IrcUi : public QPDefaultUi
         QSplitter* splitter;
         QStackedWidget* panes;
         QTreeWidgetItem* servicesTreeItem;
-        QTreeWidgetItem* groups;
+        QTreeWidgetItem* groupsList;
 
         AccountList* accountList;
         static OverviewPane* overviewPane;
