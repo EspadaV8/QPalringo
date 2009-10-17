@@ -67,7 +67,7 @@ void IrcUi::setup()
              this,          SLOT( gotGroup( Group* ) ) );
 
     connect( this->tools(), SIGNAL(contactDetailReceived(Contact*)),
-             this,          SLOT(newContact(Contact*)));
+             this,          SLOT(gotContact(Contact*)));
 }
 
 void IrcUi::gotService( Service* service )
