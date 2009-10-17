@@ -39,6 +39,7 @@ class IrcUi : public QPDefaultUi
         QSplitter* splitter;
         QStackedWidget* panes;
         QTreeWidgetItem* servicesTreeItem;
+        QTreeWidgetItem* openChatsList;
         QTreeWidgetItem* groupsList;
 
         AccountList* accountList;
@@ -55,6 +56,8 @@ class IrcUi : public QPDefaultUi
         void gotGroup( Group* group );
         void itemDoubleClicked( QTreeWidgetItem* item, int column );
         void updateTargetIcon( Target* target );
+        void openChat( Target* );
+        void gotContact( Contact* contact );
         /*
         QTabWidget* mainTabs;
         OverviewListView* overviewList;

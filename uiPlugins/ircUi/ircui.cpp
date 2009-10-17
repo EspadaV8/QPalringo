@@ -5,6 +5,7 @@
 #include "listviews/contactlistview.h"
 #include "listviews/grouplistview.h"
 #include "panes/targetpanes/grouppane.h"
+#include "panes/targetpanes/privatechatpane.h"
 #include "panes/servicepanes/servicepane.h"
 #include "panes/servicepanes/palringoservicepane.h"
 #include "panes/servicepanes/bridgeservicepane.h"
@@ -24,6 +25,12 @@ IrcUi::IrcUi()
     QPixmap p = QPTools::getPixmap( ":/svg/logo.svg" );
     this->servicesTreeItem->setIcon( 0, p );
     this->servicesTreeItem->setExpanded( true );
+
+    openChatsList = new QTreeWidgetItem( this->accountList, this->servicesTreeItem );
+    openChatsList->setText(0, tr("Private Chats"));
+    p = QPTools::getPixmap( ":/svg/onlineContact.svg" );
+    openChatsList->setIcon( 0, p );
+    openChatsList->setExpanded( true );
 
     groupsList = new QTreeWidgetItem( this->accountList, this->openChatsList );
     groupsList->setText(0, tr("Groups"));
@@ -58,6 +65,9 @@ void IrcUi::setup()
 
     connect( this->tools(), SIGNAL( newGroupAdded( Group* ) ),
              this,          SLOT( gotGroup( Group* ) ) );
+
+    connect( this->tools(), SIGNAL(contactDetailReceived(Contact*)),
+             this,          SLOT(newContact(Contact*)));
 }
 
 void IrcUi::gotService( Service* service )
@@ -102,6 +112,12 @@ void IrcUi::gotGroup( Group* group )
     connect( gp, SIGNAL(updateTargetIcon( Target* )), this, SLOT(updateTargetIcon( Target* )));
 }
 
+void IrcUi::gotContact( Contact* contact )
+{
+    connect( contact,   SIGNAL( pendingMessage( Target* ) ),
+             this,      SLOT( openChat( Target* ) ) );
+}
+
 void IrcUi::updateTargetIcon( Target* target )
 {
     QTreeWidgetItem* item = this->treeWidgetToTarget.key( target );
@@ -117,6 +133,31 @@ void IrcUi::updateTargetIcon( Target* target )
             p = QPTools::getPixmap( QPTools::getTargetIcon( target ) );
         }
         item->setIcon( 0, p );
+    }
+}
+
+void IrcUi::openChat( Target* target )
+{
+    if( target->getType() == Target::CONTACT )
+    {
+        Contact* contact = qobject_cast<Contact*>(target);
+        if( contact )
+        {
+            if( this->treeWidgetToTarget.key( contact ) == false )
+            {
+                QTreeWidgetItem* twi = new QTreeWidgetItem( this->openChatsList );
+                twi->setText(0, contact->getTitle() );
+                QPixmap p = QPTools::getPixmap( QPTools::getTargetIcon( contact ) );
+                twi->setIcon( 0, p );
+
+                this->openChatsList->sortChildren( 0, Qt::AscendingOrder );
+                this->treeWidgetToTarget.insert( twi, contact );
+
+                PrivateChatPane* pcp = new PrivateChatPane( contact );
+                connect( pcp, SIGNAL(updateTargetIcon( Target* )), this, SLOT(updateTargetIcon( Target* )));
+                this->insertPane( twi, pcp );
+            }
+        }
     }
 }
 
