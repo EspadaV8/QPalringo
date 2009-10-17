@@ -307,8 +307,8 @@ namespace QPTools
                     }
                     iconName += ".svg";
                 }
-                return iconName;
             }
+            return iconName;
         }
         return ":/svg/logo.svg";
     }
