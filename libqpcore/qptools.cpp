@@ -211,7 +211,7 @@ namespace QPTools
 
     QString getTargetIcon( Target* target )
     {
-        if( target->getPendingMessages() > 0 )
+        if( target->getPendingMessages().count() > 0 )
         {
             return ":/svg/text.svg";
         }
