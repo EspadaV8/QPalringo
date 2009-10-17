@@ -8,10 +8,13 @@ ServicePane::ServicePane( Service* service, QWidget* parent )
     this->splitter = new QSplitter;
 
     this->contactList = new QTreeWidget;
+    this->contactList->setHeaderHidden( true );
     this->onlineContactList = new QTreeWidgetItem( this->contactList );
     this->onlineContactList->setText( 0, "Online" );
+    this->onlineContactList->setExpanded( true );
     this->offlineContactList = new QTreeWidgetItem( this->contactList, this->onlineContactList );
     this->offlineContactList->setText( 0, "Offline" );
+    this->offlineContactList->setExpanded( false );
 
     this->splitter->addWidget( this->contactList );
 
