@@ -10,6 +10,10 @@ BridgeServicePane::BridgeServicePane( Bridge* bridge, QWidget* parent )
 
 void BridgeServicePane::updateContacts()
 {
+/*
+    this->contactList->setContacts( this->bridge->getContacts() );
+    this->contactList->updateTree();
+
     this->contactList->setUpdatesEnabled( false );
 
     foreach( Contact* contact, this->bridge->getContacts() )
@@ -31,5 +35,6 @@ void BridgeServicePane::updateContacts()
     this->onlineContactList->sortChildren( 0, Qt::AscendingOrder );
     this->offlineContactList->sortChildren( 0, Qt::AscendingOrder );
     this->contactList->setUpdatesEnabled( true );
+*/
 }
 
