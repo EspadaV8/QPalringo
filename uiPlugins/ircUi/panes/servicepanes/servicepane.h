@@ -4,6 +4,7 @@
 #include <QtGui>
 #include "../qpalpane.h"
 #include "services/service.h"
+#include "treewidgets/contacttreewidget.h"
 
 class ServicePane : public QPalPane
 {
@@ -19,9 +20,7 @@ class ServicePane : public QPalPane
         Service* service;
         QVBoxLayout* layout;
         QSplitter* splitter;
-        QTreeWidget* contactList;
-        QTreeWidgetItem* onlineContactList;
-        QTreeWidgetItem* offlineContactList;
+        ContactTreeWidget* contactList;
 };
 
 #endif // SERVICEPANE_H
