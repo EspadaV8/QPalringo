@@ -10,16 +10,7 @@ GroupPane::GroupPane( Group* group, QWidget* parent )
     this->layout = new QVBoxLayout( this );
     this->layout->setContentsMargins( 0, 0, 0, 0 );
     this->splitter = new QSplitter();
-    this->groupContactsList = new QTreeWidget();
-    this->groupContactsList->setHeaderHidden( true );
-
-    this->onlineContactList = new QTreeWidgetItem( this->groupContactsList );
-    this->onlineContactList->setText( 0, "Online" );
-    this->onlineContactList->setExpanded( true );
-
-    this->offlineContactList = new QTreeWidgetItem( this->groupContactsList, this->onlineContactList );
-    this->offlineContactList->setText( 0, "Offline" );
-    this->offlineContactList->setExpanded( false );
+    this->groupContactsList = new ContactTreeWidget();
 
     this->chatView->setTitle( this->group->getDescription() );
     this->chatView->setIcon( ":/svg/group.svg" );
@@ -37,6 +28,10 @@ QString GroupPane::getTitle() const
 void GroupPane::showEvent( QShowEvent* event )
 {
     TargetPane::showEvent( event );
+
+    this->groupContactsList->setContacts( Tools::getGroupContacts( this->group->getID() ) );
+    this->groupContactsList->updateTree();
+    /*
     if( this->groupContacts.isEmpty() )
     {
         this->groupContactsList->setUpdatesEnabled( false );
@@ -66,4 +61,5 @@ void GroupPane::showEvent( QShowEvent* event )
 
         this->groupContactsList->setUpdatesEnabled( true );
     }
+    */
 }

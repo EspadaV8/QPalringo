@@ -6,6 +6,7 @@
 #include "chatview.h"
 #include "targets/group.h"
 #include "targets/contact.h"
+#include "treewidgets/contacttreewidget.h"
 
 class GroupPane : public TargetPane
 {
@@ -22,7 +23,7 @@ class GroupPane : public TargetPane
         QHash<quint64, Contact*> groupContacts;
         QVBoxLayout* layout;
         QSplitter* splitter;
-        QTreeWidget* groupContactsList;
+        ContactTreeWidget* groupContactsList;
         QTreeWidgetItem* onlineContactList;
         QTreeWidgetItem* offlineContactList;
 };
