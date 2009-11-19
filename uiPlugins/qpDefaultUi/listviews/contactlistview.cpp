@@ -46,7 +46,6 @@ void ContactListView::setupContainers()
     this->addContainer( tr( "Online" ) );
     this->addContainer( tr( "Offline" ) );
 
-    connect( tools_, SIGNAL( connected() ), this, SLOT( getContacts() ) );
     connect( tools_, SIGNAL( userContactReceived( Contact* ) ), this, SLOT( contactReceived( Contact* ) ) );
 
     this->addLayoutsToSelf();
@@ -54,6 +53,8 @@ void ContactListView::setupContainers()
 
 void ContactListView::contactReceived( Contact *contact, qint32 capabilities )
 {
+    this->contacts.insert( contact->getID(), contact );
+
     ContactListItem *pc = new ContactListItem( contact, capabilities );
     connect( pc, SIGNAL( containerGroupChanged( ListItem* ) ), this, SLOT( checkContainerGroups( ListItem* ) ) );
     connect( pc, SIGNAL( focusChatWindow( Target* ) ), this, SIGNAL( focusChatWindow( Target* ) ) );
