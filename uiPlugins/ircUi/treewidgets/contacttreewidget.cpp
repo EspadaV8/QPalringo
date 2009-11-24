@@ -19,7 +19,6 @@ void ContactTreeWidget::itemDoubleClicked( QTreeWidgetItem* item, int /* column 
 
     if( c )
     {
-        emit c->chatRequested();
     }
 }
 
