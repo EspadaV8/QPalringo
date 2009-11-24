@@ -9,11 +9,13 @@ ChatView::ChatView( QWidget* parent, QString title, QString iconFilename )
     this->layout = new QVBoxLayout( this );
     this->layout->setSpacing( 0 );
     this->layout->setContentsMargins( 0, 0, 0, 0 );
-
+/*
     this->chatview = new QTextBrowser();
     this->chatview->setReadOnly( true );
     this->chatview->setTextInteractionFlags( Qt::TextBrowserInteraction );
     this->chatview->setOpenExternalLinks( true );
+*/
+    this->messageList = new MessageList( this );
 
     this->titleLayout = new QHBoxLayout;
     this->titleLayout->setSpacing( 0 );
@@ -31,7 +33,8 @@ ChatView::ChatView( QWidget* parent, QString title, QString iconFilename )
     this->textInput = new QLineEdit;
 
     this->layout->addLayout( this->titleLayout );
-    this->layout->addWidget( this->chatview );
+//    this->layout->addWidget( this->chatview );
+    this->layout->addWidget( this->messageList );
     this->layout->addWidget( this->textInput );
 
     this->marker = true;
@@ -41,12 +44,13 @@ ChatView::ChatView( QWidget* parent, QString title, QString iconFilename )
 
 void ChatView::addText( QString text )
 {
-    this->chatview->append( text );
-    this->marker = false;
+    //this->chatview->append( text );
+    //this->marker = false;
 }
 
 void ChatView::insertMarker()
 {
+    return;
     if( this->marker == false )
     {
         this->addText( "-------------------------" );
@@ -76,6 +80,7 @@ void ChatView::setIcon( QString iconFilename )
 
 void ChatView::appendMessage( Message message )
 {
+    /*
     QString colour;
     if( message.senderID() == Tools::getUser().userID )
     {
@@ -100,4 +105,6 @@ void ChatView::appendMessage( Message message )
     }
 
     this->addText( m );
+    */
+    this->messageList->addMessage( message );
 }

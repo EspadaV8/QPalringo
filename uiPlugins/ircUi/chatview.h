@@ -3,6 +3,7 @@
 
 #include <QtGui>
 #include "message.h"
+#include "chatwindow/messagelist.h"
 
 class ChatView : public QWidget
 {
@@ -20,6 +21,7 @@ class ChatView : public QWidget
 
     private:
         QTextBrowser* chatview;
+        MessageList* messageList;
         QVBoxLayout* layout;
 
         QHBoxLayout* titleLayout;
