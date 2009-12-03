@@ -26,6 +26,7 @@ class IrcUi : public QPDefaultUi
     private slots:
         void changeVisiblePane( int paneId );
         void changeVisiblePane( QTreeWidgetItem* current, QTreeWidgetItem* previous );
+        void saveSplitterSize( int index, int pos );
         /*
         void newGroupAdded( Group *group );
         void tabFocusChanged( int tabIndex );

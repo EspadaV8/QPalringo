@@ -16,6 +16,8 @@ OverviewPane* IrcUi::overviewPane = NULL;
 IrcUi::IrcUi()
 {
     this->splitter = new QSplitter();
+    connect( this->splitter, SIGNAL( splitterMoved( int, int ) ), this, SLOT( saveSplitterSize( int, int ) ) );
+
     this->panes = new QStackedWidget();
 
     this->accountList = new AccountList( this->splitter );
@@ -41,6 +43,12 @@ IrcUi::IrcUi()
     this->overviewPane = new OverviewPane();
 }
 
+void IrcUi::saveSplitterSize( int index, int pos )
+{
+    QSettings settings;
+    settings.setValue("accountListSize", this->splitter->saveState());
+}
+
 QString IrcUi::getName()
 {
     return "IRC style plugin";
@@ -53,6 +61,9 @@ void IrcUi::setup()
     this->splitter->setStretchFactor( 1, 1 );
     this->splitter->addWidget( this->accountList );
     this->splitter->addWidget( this->panes );
+
+    QSettings settings;
+    this->splitter->restoreState( settings.value("accountListSize").toByteArray() );
 
     connect( this->accountList, SIGNAL( currentItemChanged( QTreeWidgetItem*, QTreeWidgetItem* )),
              this, SLOT( changeVisiblePane( QTreeWidgetItem*, QTreeWidgetItem* ) ) );
