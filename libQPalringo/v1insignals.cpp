@@ -26,107 +26,11 @@ void QPalringoConnection::onAuthRecieved( const Headers headers, const QByteArra
             outAuthData.encryptionType_ = 0;
             outAuthData.name_ = this->user.email;
             newBody.append( this->user.password );
-//            if( encryption_ )
-//            {
-//                encryption_ = false;
-//            }
         }
-//
-//        // Salsa20/MD5
-//        else if( authData.encryptionType_ == 1 )
-//        {
-//            return;
-//            /*
-//            std::string challenge(body.substr(0, 16));
-//            DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
-//            std::string IV(body.substr(16, 8));
-//            DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
-//            std::string keyBundle(passwordMD5_ + IV);
-//            std::string keyStr(crypto::md5(keyBundle));
-//            DBGOUT << "passwordMD5_:\n" << hexDump(passwordMD5_) << std::endl;
-//            DBGOUT << "passwordMD5_ + IV:\n" << hexDump(keyBundle) << std::endl;
-//            DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
-//
-//            crypto::SalsaCipher salsa(IV, keyStr);
-//            uint32_t randomness[4];
-//            randomness[0] = rand();
-//            randomness[1] = rand();
-//            randomness[2] = rand();
-//            randomness[3] = rand();
-//            std::string randStr(reinterpret_cast<const char*>(randomness), 16);
-//            std::string beforeEncrypt(challenge + randStr);
-//            salsa.encrypt(beforeEncrypt, newBody);
-//
-//            DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
-//            DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
-//
-//            std::string newKey(crypto::md5(passwordMD5_ + randStr));
-//            DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
-//
-//            delete salsa_;
-//            salsa_ = new crypto::SalsaCipher(IV, newKey);
-//            */
-//        }
-//
-//        // Salsa20/oldpassword
-//        else if( authData.encryptionType_ == 2 )
-//        {
-//            return;
-//            /*
-//            std::string challenge(body.substr(0, 16));
-//            DBGOUT << "Challenge:\n" << hexDump(challenge) << std::endl;
-//            std::string IV(body.substr(16, 8));
-//            DBGOUT << "IV:\n" << hexDump(IV) << std::endl;
-//            std::string oldPass(crypto::oldPassword(password_));
-//            std::string keyBundle(oldPass + IV);
-//            std::string keyStr(crypto::md5(keyBundle));
-//            DBGOUT << "oldPass:\n" << hexDump(oldPass) << std::endl;
-//            DBGOUT << "oldPass + IV:\n" << hexDump(keyBundle) << std::endl;
-//            DBGOUT << "keyStr:\n" << hexDump(keyStr) << std::endl;
-//
-//            crypto::SalsaCipher salsa(IV, keyStr);
-//            uint32_t randomness[4];
-//            randomness[0] = rand();
-//            randomness[1] = rand();
-//            randomness[2] = rand();
-//            randomness[3] = rand();
-//            std::string randStr(reinterpret_cast<const char*>(randomness), 16);
-//            std::string beforeEncrypt(challenge +
-//                                      randStr +
-//                                      password_ +
-//                                      std::string(50 - password_.size(), '\0'));
-//            salsa.encrypt(beforeEncrypt, newBody);
-//            DBGOUT << "Plain Body:\n" << hexDump(beforeEncrypt) << std::endl;
-//            DBGOUT << "Encrypted Body:\n" << hexDump(newBody) << std::endl;
-//
-//            std::string newKey(crypto::md5(passwordMD5_ + randStr));
-//            DBGOUT << "newKey:\n" << hexDump(newKey) << std::endl;
-//
-//            delete salsa_;
-//            salsa_ = new crypto::SalsaCipher(IV, newKey);
-//            */
-//        }
-//
+
         newHeaders = outAuthData.setData();
     }
-//
-//    // Reconnection
-//    else
-//    {
-//        /*
-//    std::string reconnectChallenge(RK_);
-//    reconnectChallenge.append(body);
-//    newBody = crypto::md5(reconnectChallenge);
-//    char tmp[64];
-//    sprintf(tmp, "%lu", --packetSeq_);
-//    headers["PS"] = tmp;
-//    loggedOn_ = true;
-//    receivedData_ = 0;
-//    */
-//        return;
-//    }
-//
-//
+
     sendCmd( qpCommand::AUTH, newHeaders, newBody );
 }
 
